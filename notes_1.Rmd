@@ -1,6 +1,6 @@
 ---
 title: "Проектик"
-author: "Ася"
+author: "Пуассон"
 date: '7 марта 2019 г '
 output: html_document
 ---
