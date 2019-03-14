@@ -20,10 +20,34 @@ pre.stata {
 </style> -->
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(texreg)
+library(Statamarkdown)
+library(reticulate)
+stataexe <- find_stata()
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
-Загрузим необходимые пакеты и импортируем данные. В качестве примера рассмотрим набор данных о месячных доходностях акций компаний США.
+Построим простую линейную регрессию в R. 
+```{stata}
+use us-return.dta
+ren A n
+ren B date
+```
+
+```{stata}
+gen y_delta=MOTOR-RKFREE
+drop if n==.
+gen x=MARKET-RKFREE
+```
+
+```{stata}
+reg y_delta x
+
+scatter y x
+```
+
+Загрузим необходимые пакеты и импортируем данные.
 ```{r, results='hide', message=FALSE, warning=FALSE}
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(rio) # для чтения .dta файлов

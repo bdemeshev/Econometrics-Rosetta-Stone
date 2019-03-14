@@ -1,0 +1,193 @@
+--- 
+title: "Розеттский камень"
+author: "Пуассон, фея и два мексиканских негодяя"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Сборник коанов для эконометристов, жаждущих просветления."
+---
+--- 
+title: "Розеттский камень"
+author: "Пуассон, фея и два мексиканских негодяя"
+date: "`r Sys.Date()`"
+site: bookdown::bookdown_site
+documentclass: book
+bibliography: [book.bib, packages.bib]
+biblio-style: apalike
+link-citations: yes
+description: "Сборник коанов для эконометристов, жаждущих просветления."
+---
+
+# Напутственное слово
+
+
+```{r include=FALSE}
+# automatically create a bib database for R packages
+knitr::write_bib(c(
+  .packages(), 'bookdown', 'knitr', 'rmarkdown'
+), 'packages.bib')
+```
+
+<!--chapter:end:index.Rmd-->
+
+#  Установка софта {#installsoft}
+
+
+
+<!--chapter:end:01-installation.Rmd-->
+
+# Коан о простой линейной регрессии {#simplereg}
+
+---
+title: "Коан о простой линейной регрессии"
+author: "Пуассон"
+date: "3/2/2019"
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+
+<!-- Цвета для кусков кода 
+<style>
+pre.r {
+    background-color: #81BEF7 !important;
+}
+pre.stata {
+    background-color: #BDBDBD !important;
+}
+</style> -->
+
+```{r setup, include=FALSE}
+library(knitr)
+library(texreg)
+library(Statamarkdown)
+library(reticulate)
+stataexe <- find_stata()
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+```
+
+Построим простую линейную регрессию в R. 
+```{stata}
+use us-return.dta
+ren A n
+ren B date
+```
+
+```{stata}
+gen y_delta=MOTOR-RKFREE
+drop if n==.
+gen x=MARKET-RKFREE
+```
+
+```{stata}
+reg y_delta x
+
+scatter y x
+```
+
+Загрузим необходимые пакеты и импортируем данные.
+```{r, results='hide', message=FALSE, warning=FALSE}
+library(tidyverse) # для манипуляций с данными и построения графиков
+library(rio) # для чтения .dta файлов
+library(car) # для линейных гипотез
+df <- import(file = "us-return.dta")
+```
+
+Исследуем наш датасет.
+
+```{r, results='hide', message=FALSE, warning=FALSE}
+head(df) # первые 6 наблюдений
+rename(df, n = A, date = B) # дадим столбцам осмысленные названия :)
+sum(is.na(df)) # проверим наличие пропусков
+df <- na.omit(df) # и избавмся от них
+```
+
+Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответсвенно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
+```{r}
+df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE)
+ols <- lm(y ~ x, data = df)
+summary(ols)
+```
+
+
+Визуализируем зависимость регрессора и зависимой переменной на графике.
+```{r}
+ggplot(df, aes(x, y)) +  geom_point(shape=1) + 
+  geom_smooth(method=lm)
+```
+
+```{r}
+linearHypothesis(ols, c("(Intercept) = 0", "x = 1"))
+```
+
+<!--chapter:end:02-simplereg.Rmd-->
+
+# Модели бинарного выбора {#binchoice}
+
+
+<!--chapter:end:03-binchoice.Rmd-->
+
+# Модели упорядоченного выбора {#ordchoice}
+
+<!--chapter:end:04-ordchoice.Rmd-->
+
+# Пуассоновская регрессия {#poisreg}
+
+
+<!--chapter:end:05-poisreg.Rmd-->
+
+# Модели неупорядоченного выбора {#disordered}
+
+<!--chapter:end:06-disordered.Rmd-->
+
+# Интcтрументы для простой регрессии {#instruments}
+
+<!--chapter:end:07-instruments.Rmd-->
+
+# ARMA {#arma}
+
+
+<!--chapter:end:08-arma.Rmd-->
+
+# Панельные данные {#paneldata}
+
+
+<!--chapter:end:09-paneldata.Rmd-->
+
+# Гетероскедастичность в простой регрессии {#heterosked}
+
+
+<!--chapter:end:10-heterosked.Rmd-->
+
+# PCA {#pca}
+
+
+<!--chapter:end:11-pca.Rmd-->
+
+# Динамические панели {#dinpanel}
+
+
+<!--chapter:end:12-dinpanel.Rmd-->
+
+# TOBIT, HECKIT {#tobit_heckit}
+
+
+<!--chapter:end:13-tobit_heckit.Rmd-->
+
+# Treatment effect {#treatment}
+
+<!--chapter:end:14-treatmenteffect.Rmd-->
+
+# Что-то там про совместимость и языки {#compatability}
+
+
+<!--chapter:end:15-compatibility.Rmd-->
+
+# Словарь {#dict}
+
+
+<!--chapter:end:16-dict.Rmd-->
+
