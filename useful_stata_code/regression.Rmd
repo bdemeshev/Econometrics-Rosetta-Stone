@@ -1,0 +1,17 @@
+```{stata "chunk a", eval=FALSE}
+use us-return.dta
+ren A n
+ren B date
+```
+
+```{stata "b", eval=FALSE}
+gen y_delta=MOTOR-RKFREE
+drop if n==.
+gen x=MARKET-RKFREE
+```
+
+```{stata "chunk norris", eval=FALSE}
+reg y_delta x
+
+scatter y x
+```
