@@ -140,29 +140,28 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
             <section class="normal" id="section-">
 <div id="simplereg" class="section level1">
 <h1><span class="header-section-number">Коан 3</span> Коан о простой линейной регрессии</h1>
-<!-- Цвета для кусков кода 
-<style>
-pre.r {
-    background-color: #81BEF7 !important;
-}
-pre.stata {
-    background-color: #BDBDBD !important;
-}
-</style> -->
-<p>Построим простую линейную регрессию в R.</p>
+<p>Построим простую линейную регрессию в R и проведем несложные тесты.</p>
 <p>Загрузим необходимые пакеты и импортируем данные.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co"># для манипуляций с данными и построения графиков</span>
+<span class="kw">library</span>(skimr) <span class="co">#для красивого summary</span>
 <span class="kw">library</span>(rio) <span class="co"># для чтения .dta файлов</span>
 <span class="kw">library</span>(car) <span class="co"># для линейных гипотез</span>
+<span class="kw">library</span>(tseries)<span class="co"># для теста на нормальность</span>
 df =<span class="st"> </span><span class="kw">import</span>(<span class="dt">file =</span> <span class="st">&quot;us-return.dta&quot;</span>)</code></pre></div>
 <p>Исследуем наш датасет.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">head</span>(df) <span class="co"># первые 6 наблюдений</span>
-df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам осмысленные названия :)</span>
-<span class="co"># sum(is.na(df)) # проверим наличие пропусков skimr::skim</span>
-df =<span class="st"> </span><span class="kw">na.omit</span>(df) <span class="co"># и избавмся от них</span></code></pre></div>
-<p>Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответсвенно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE)
-ols &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df)
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#skim_with(numeric = list(hist = NULL))</span>
+<span class="kw">skim</span>(df) <span class="co">#посмотрим на наши данные </span>
+df =<span class="st"> </span><span class="kw">na.omit</span>(df) <span class="co"># избавимся от пропущенных значений</span>
+df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам осмысленные названия :)</span></code></pre></div>
+<p>Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#создаем новые переменные и добавляем их к набору данных</span>
+df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) </code></pre></div>
+<p>Визуализируем зависимость регрессора и зависимой переменной.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm) <span class="op">+</span>
+<span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;risk premium&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;return&quot;</span>)</code></pre></div>
+<p><img src="02-simplereg_files/figure-html/plot-1.png" width="672" /></p>
+<p>Строим нашу модель и проверяем гипотезу об адекватности регрессии.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df) 
 <span class="kw">summary</span>(ols)</code></pre></div>
 <pre><code>
 Call:
@@ -182,10 +181,7 @@ Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&
 Residual standard error: 0.07844 on 118 degrees of freedom
 Multiple R-squared:  0.3569,    Adjusted R-squared:  0.3514 
 F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13</code></pre>
-<p>Визуализируем зависимость регрессора и зависимой переменной на графике.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(x, y)) <span class="op">+</span><span class="st">  </span><span class="kw">geom_point</span>(<span class="dt">shape=</span><span class="dv">1</span>) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm)</code></pre></div>
-<p><img src="02-simplereg_files/figure-html/plot-1.png" width="672" /></p>
+<p>Проверим гипотезу о равенстве коэффициента при регрессии единице.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(ols, <span class="kw">c</span>(<span class="st">&quot;(Intercept) = 0&quot;</span>, <span class="st">&quot;x = 1&quot;</span>))</code></pre></div>
 <pre><code>Linear hypothesis test
 
@@ -199,6 +195,25 @@ Model 2: y ~ x
   Res.Df     RSS Df Sum of Sq      F Pr(&gt;F)
 1    120 0.74108                           
 2    118 0.72608  2  0.014998 1.2187 0.2993</code></pre>
+<p>Сделаем предсказание по выборке.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">u_hat =</span> <span class="kw">resid</span>(ols), 
+             <span class="dt">y_hat =</span> <span class="kw">predict</span>(ols), 
+             <span class="dt">n =</span> <span class="kw">seq</span>(<span class="kw">dim</span>(df)[<span class="dv">1</span>]))</code></pre></div>
+<p>Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(df<span class="op">$</span>u_hat)</code></pre></div>
+<pre><code>
+    Jarque Bera Test
+
+data:  df$u_hat
+X-squared = 1.7803, df = 2, p-value = 0.4106</code></pre>
+<p>И тест Шапиро-Уилка.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(df<span class="op">$</span>u_hat)</code></pre></div>
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  df$u_hat
+W = 0.99021, p-value = 0.5531</code></pre>
+<p>Оба теста указывают на нормальность распределения остатков регрессии.</p>
 
 </div>
             </section>

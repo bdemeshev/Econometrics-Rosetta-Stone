@@ -1,14 +1,5 @@
 # Коан о простой линейной регрессии {#simplereg}
 
-<!-- Цвета для кусков кода 
-<style>
-pre.r {
-    background-color: #81BEF7 !important;
-}
-pre.stata {
-    background-color: #BDBDBD !important;
-}
-</style> -->
 
 ```{r setup, include=FALSE}
 library(knitr)
@@ -19,39 +10,65 @@ stataexe <- find_stata()
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
-Построим простую линейную регрессию в R. 
+Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты и импортируем данные.
-```{r "library chunk", results='hide', message=FALSE, warning=FALSE}
+```{r "library chunk",  message=FALSE, warning=FALSE}
 library(tidyverse) # для манипуляций с данными и построения графиков
+library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(car) # для линейных гипотез
+library(tseries)# для теста на нормальность
 df = import(file = "us-return.dta")
 ```
 
 Исследуем наш датасет.
 
-```{r "rename chunk", results='hide', message=FALSE, warning=FALSE}
-head(df) # первые 6 наблюдений
+```{r "rename chunk", results = 'hide', message=FALSE, warning=FALSE}
+#skim_with(numeric = list(hist = NULL))
+skim(df) #посмотрим на наши данные 
+df = na.omit(df) # избавимся от пропущенных значений
 df = rename(df, n = A, date = B) # дадим столбцам осмысленные названия :)
-# sum(is.na(df)) # проверим наличие пропусков skimr::skim
-df = na.omit(df) # и избавмся от них
 ```
 
-Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответсвенно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
+Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
 ```{r "mutate"}
-df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE)
-ols <- lm(y ~ x, data = df)
+#создаем новые переменные и добавляем их к набору данных
+df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
+```
+
+Визуализируем зависимость регрессора и зависимой переменной.
+```{r "plot"}
+ggplot(df, aes(x = x, y = y)) + geom_point() + geom_smooth(method=lm) +
+labs(x = "risk premium", y = "return")
+```
+
+Строим нашу модель и проверяем гипотезу об адекватности регрессии.
+```{r "model"}
+ols <- lm(y ~ x, data = df) 
 summary(ols)
 ```
 
-
-Визуализируем зависимость регрессора и зависимой переменной на графике.
-```{r "plot"}
-ggplot(df, aes(x, y)) +  geom_point(shape=1) + 
-  geom_smooth(method=lm)
-```
-
+Проверим гипотезу о равенстве коэффициента при регрессии единице. 
 ```{r "lin hyp"}
 linearHypothesis(ols, c("(Intercept) = 0", "x = 1"))
 ```
+
+Сделаем предсказание по выборке.
+```{r "prediction"}
+df <- mutate(df, u_hat = resid(ols), 
+             y_hat = predict(ols), 
+             n = seq(dim(df)[1]))
+```
+
+Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+```{r}
+jarque.bera.test(df$u_hat)
+```
+
+И тест Шапиро-Уилка.
+```{r}
+shapiro.test(df$u_hat)
+```
+
+Оба теста указывают на нормальность распределения остатков регрессии.

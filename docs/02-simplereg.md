@@ -1,25 +1,18 @@
 # Коан о простой линейной регрессии {#simplereg}
 
-<!-- Цвета для кусков кода 
-<style>
-pre.r {
-    background-color: #81BEF7 !important;
-}
-pre.stata {
-    background-color: #BDBDBD !important;
-}
-</style> -->
 
 
 
-Построим простую линейную регрессию в R. 
+Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты и импортируем данные.
 
 ```r
 library(tidyverse) # для манипуляций с данными и построения графиков
+library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(car) # для линейных гипотез
+library(tseries)# для теста на нормальность
 df = import(file = "us-return.dta")
 ```
 
@@ -27,17 +20,32 @@ df = import(file = "us-return.dta")
 
 
 ```r
-head(df) # первые 6 наблюдений
+#skim_with(numeric = list(hist = NULL))
+skim(df) #посмотрим на наши данные 
+df = na.omit(df) # избавимся от пропущенных значений
 df = rename(df, n = A, date = B) # дадим столбцам осмысленные названия :)
-# sum(is.na(df)) # проверим наличие пропусков skimr::skim
-df = na.omit(df) # и избавмся от них
 ```
 
-Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответсвенно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
+Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
 
 ```r
-df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE)
-ols <- lm(y ~ x, data = df)
+#создаем новые переменные и добавляем их к набору данных
+df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
+```
+
+Визуализируем зависимость регрессора и зависимой переменной.
+
+```r
+ggplot(df, aes(x = x, y = y)) + geom_point() + geom_smooth(method=lm) +
+labs(x = "risk premium", y = "return")
+```
+
+<img src="02-simplereg_files/figure-html/plot-1.png" width="672" />
+
+Строим нашу модель и проверяем гипотезу об адекватности регрессии.
+
+```r
+ols <- lm(y ~ x, data = df) 
 summary(ols)
 ```
 
@@ -62,16 +70,7 @@ Multiple R-squared:  0.3569,	Adjusted R-squared:  0.3514
 F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13
 ```
 
-
-Визуализируем зависимость регрессора и зависимой переменной на графике.
-
-```r
-ggplot(df, aes(x, y)) +  geom_point(shape=1) + 
-  geom_smooth(method=lm)
-```
-
-![](02-simplereg_files/figure-epub3/plot-1.png)<!-- -->
-
+Проверим гипотезу о равенстве коэффициента при регрессии единице. 
 
 ```r
 linearHypothesis(ols, c("(Intercept) = 0", "x = 1"))
@@ -91,3 +90,41 @@ Model 2: y ~ x
 1    120 0.74108                           
 2    118 0.72608  2  0.014998 1.2187 0.2993
 ```
+
+Сделаем предсказание по выборке.
+
+```r
+df <- mutate(df, u_hat = resid(ols), 
+             y_hat = predict(ols), 
+             n = seq(dim(df)[1]))
+```
+
+Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+
+```r
+jarque.bera.test(df$u_hat)
+```
+
+```
+
+	Jarque Bera Test
+
+data:  df$u_hat
+X-squared = 1.7803, df = 2, p-value = 0.4106
+```
+
+И тест Шапиро-Уилка.
+
+```r
+shapiro.test(df$u_hat)
+```
+
+```
+
+	Shapiro-Wilk normality test
+
+data:  df$u_hat
+W = 0.99021, p-value = 0.5531
+```
+
+Оба теста указывают на нормальность распределения остатков регрессии.
