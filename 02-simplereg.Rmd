@@ -7,18 +7,22 @@ library(texreg)
 library(Statamarkdown)
 library(reticulate)
 stataexe <- find_stata()
-knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE, eval = TRUE)
 ```
 
 Построим простую линейную регрессию в R и проведем несложные тесты. 
 
-Загрузим необходимые пакеты и импортируем данные.
+Загрузим необходимые пакеты.
 ```{r "library chunk",  message=FALSE, warning=FALSE}
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(car) # для линейных гипотез
 library(tseries)# для теста на нормальность
+```
+
+Импортируем данные.
+```{r "import data"}
 df = import(file = "us-return.dta")
 ```
 
@@ -28,7 +32,7 @@ df = import(file = "us-return.dta")
 #skim_with(numeric = list(hist = NULL))
 skim(df) #посмотрим на наши данные 
 df = na.omit(df) # избавимся от пропущенных значений
-df = rename(df, n = A, date = B) # дадим столбцам осмысленные названия :)
+df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия :)
 ```
 
 Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
@@ -63,7 +67,7 @@ df <- mutate(df, u_hat = resid(ols),
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 ```{r}
-jarque.bera.test(df$u_hat)
+jarque.bera.test(df$u_hat) ##в R нет поправки на размер выборки
 ```
 
 И тест Шапиро-Уилка.
@@ -72,3 +76,52 @@ shapiro.test(df$u_hat)
 ```
 
 Оба теста указывают на нормальность распределения остатков регрессии.
+
+
+#### То же самое в стате
+
+Загружаем данные, любуемся и даем новые названия столбцам.
+```{stata}
+use us-return.dta
+summarize
+ren A n
+ren B date
+```
+
+Убраем пропущенные значения и создаем новые переменные.
+```{stata "new var", eval=TRUE}
+drop if n==.
+gen y=MOTOR-RKFREE
+gen x=MARKET-RKFREE
+```
+
+Визуализируем зависимость.
+```{r "plot_stata", eval=FALSE}
+graph twoway (lfit y x) (scatter y x)
+```
+
+Строим модель и проверяем гипотезу об адекватности регрессии.
+```{r "model_stata", eval = FALSE}
+reg y x
+```
+
+Проверим гипотезу ....
+```{r "lin hyp_stata", eval=FALSE}
+test _cons=0 x=1
+```
+
+Сделаем предсказание по выборке.
+```{r "prediction_stata", eval=FALSE}
+predict u_hat, resid
+predict y_hat
+```
+
+Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+```{r "Jarque–Bera", eval=FALSE}
+sktest u_hat, noadjust #но все равно не как в R
+```
+
+И тест Шапиро-Уилка.
+```{r "Shapiro-Wilk", eval=FALSE}
+swilk u_hat
+```

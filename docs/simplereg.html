@@ -152,7 +152,7 @@ df =<span class="st"> </span><span class="kw">import</span>(<span class="dt">fil
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#skim_with(numeric = list(hist = NULL))</span>
 <span class="kw">skim</span>(df) <span class="co">#посмотрим на наши данные </span>
 df =<span class="st"> </span><span class="kw">na.omit</span>(df) <span class="co"># избавимся от пропущенных значений</span>
-df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам осмысленные названия :)</span></code></pre></div>
+df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам более осмысленные названия :)</span></code></pre></div>
 <p>Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#создаем новые переменные и добавляем их к набору данных</span>
 df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) </code></pre></div>
@@ -200,7 +200,7 @@ Model 2: y ~ x
              <span class="dt">y_hat =</span> <span class="kw">predict</span>(ols), 
              <span class="dt">n =</span> <span class="kw">seq</span>(<span class="kw">dim</span>(df)[<span class="dv">1</span>]))</code></pre></div>
 <p>Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(df<span class="op">$</span>u_hat)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(df<span class="op">$</span>u_hat) ##в R нет поправки на размер выборки</code></pre></div>
 <pre><code>
     Jarque Bera Test
 
@@ -214,7 +214,32 @@ X-squared = 1.7803, df = 2, p-value = 0.4106</code></pre>
 data:  df$u_hat
 W = 0.99021, p-value = 0.5531</code></pre>
 <p>Оба теста указывают на нормальность распределения остатков регрессии.</p>
+<div id="----" class="section level4">
+<h4><span class="header-section-number">3.0.0.1</span> То же самое в стате</h4>
+<p>Загружаем данные, любуемся и даем новые названия столбцам.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">use us<span class="op">-</span>return.dta
+summarize
+ren A n
+ren B date</code></pre></div>
+<p>Убраем пропущенные значения и создаем новые переменные.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">drop <span class="cf">if</span> n<span class="op">==</span>.
+gen y=MOTOR<span class="op">-</span>RKFREE
+gen x=MARKET<span class="op">-</span>RKFREE</code></pre></div>
+<p>Визуализируем зависимость.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">graph <span class="kw">twoway</span> (lfit y x) (scatter y x)</code></pre></div>
+<p>Строим модель и проверяем гипотезу об адекватности регрессии.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">reg y x</code></pre></div>
+<p>Проверим гипотезу ….</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">test _cons=<span class="dv">0</span> x=<span class="dv">1</span></code></pre></div>
+<p>Сделаем предсказание по выборке.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">predict u_hat, resid
+predict y_hat</code></pre></div>
+<p>Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sktest u_hat, noadjust <span class="co">#но все равно не как в R</span></code></pre></div>
+<p>И тест Шапиро-Уилка.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swilk u_hat</code></pre></div>
 
+</div>
 </div>
             </section>
 

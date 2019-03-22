@@ -134,7 +134,7 @@ W = 0.99021, p-value = 0.5531
 
 Загружаем данные, любуемся и даем новые названия столбцам.
 
-```r
+```stata
 use us-return.dta
 summarize
 ren A n
@@ -143,7 +143,7 @@ ren B date
 
 Убраем пропущенные значения и создаем новые переменные.
 
-```r
+```stata
 drop if n==.
 gen y=MOTOR-RKFREE
 gen x=MARKET-RKFREE
