@@ -7,13 +7,14 @@ library(texreg)
 library(Statamarkdown)
 library(reticulate)
 stataexe <- find_stata()
-knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE, eval = TRUE)
+stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
 Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты.
-```{r "library chunk",  message=FALSE, warning=FALSE}
+```{r "library chunk", results='hide', message=FALSE, warning=FALSE}
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
@@ -28,10 +29,9 @@ df = import(file = "us-return.dta")
 
 Исследуем наш датасет.
 
-```{r "rename chunk", results = 'hide', message=FALSE, warning=FALSE}
+```{r "rename chunk",  message=FALSE, warning=FALSE}
 #skim_with(numeric = list(hist = NULL))
 skim(df) #посмотрим на наши данные 
-df = na.omit(df) # избавимся от пропущенных значений
 df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия :)
 ```
 
@@ -89,7 +89,7 @@ ren B date
 ```
 
 Убраем пропущенные значения и создаем новые переменные.
-```{stata "new var", eval=TRUE}
+```{r "new var", eval=FALSE}
 drop if n==.
 gen y=MOTOR-RKFREE
 gen x=MARKET-RKFREE

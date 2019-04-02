@@ -1,2 +1,22 @@
 # Пуассоновская регрессия {#poisreg}
 
+```{r setup, include=FALSE}
+library(ggplot2)
+library(sandwich)
+library(msm)
+library(datasets)
+```
+
+
+```{r setup, include=FALSE}
+data = warpbreaks
+df = data.frame(data)
+skimr::skim(df)
+```
+
+Строим модель.
+```{r setup, include=FALSE}
+poisson.model=glm(breaks~wool+tension, data, family = poisson(link = "log"))
+
+poisson.model
+```
