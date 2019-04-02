@@ -1,0 +1,18 @@
+# Simple regression
+
+```{r setup, include=FALSE}
+library(knitr)
+library(texreg)
+library(Statamarkdown)
+stataexe <- find_stata()
+stataexe = "C:/Program Files (x86)/Stata13/StataMP.exe"
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+```
+
+
+```{stata}
+use http://www.stata-press.com/data/r15/lifeexp
+
+reg lexp popgrowth
+```
+
