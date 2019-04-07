@@ -20,37 +20,43 @@ library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(car) # для линейных гипотез
 library(tseries)# для теста на нормальность
+library(sjPlot)
 ```
 
 Импортируем данные.
-```{r "import data"}
+```{r "import data", message=FALSE, warning=FALSE}
 df = import(file = "us-return.dta")
 ```
 
 Исследуем наш датасет.
 
+```{r "skim",  message=FALSE, warning=FALSE}
+skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) #посмотрим на данные
+skim(df)
+```
+
 ```{r "rename chunk",  message=FALSE, warning=FALSE}
-#skim_with(numeric = list(hist = NULL))
-skim(df) #посмотрим на наши данные 
-df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия :)
+df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия
 ```
 
 Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
-```{r "mutate"}
+```{r "mutate", warning=FALSE}
 #создаем новые переменные и добавляем их к набору данных
-df <- mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
-```
-
-Визуализируем зависимость регрессора и зависимой переменной.
-```{r "plot"}
-ggplot(df, aes(x = x, y = y)) + geom_point() + geom_smooth(method=lm) +
-labs(x = "risk premium", y = "return")
+df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
 ```
 
 Строим нашу модель и проверяем гипотезу об адекватности регрессии.
-```{r "model"}
-ols <- lm(y ~ x, data = df) 
+```{r "model", message=FALSE, warning=FALSE}
+ols <- lm(y ~ x, data = df)
+plot_residuals(ols, geom.size = 2,
+  show.lines = TRUE, show.resid = TRUE, show.pred = TRUE,
+  show.ci = TRUE)
 summary(ols)
+```
+
+Строим доверительный интервал для параметров модели.
+```{r "ci", warning=FALSE}
+est = cbind(Estimate = coef(ols), confint(ols))
 ```
 
 Проверим гипотезу о равенстве коэффициента при регрессии единице. 
@@ -58,31 +64,40 @@ summary(ols)
 linearHypothesis(ols, c("(Intercept) = 0", "x = 1"))
 ```
 
-Сделаем предсказание по выборке.
-```{r "prediction"}
-df <- mutate(df, u_hat = resid(ols), 
-             y_hat = predict(ols), 
-             n = seq(dim(df)[1]))
-```
-
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+
+$H_{0}: S = 0, K = 3$
+
 ```{r}
-jarque.bera.test(df$u_hat) ##в R нет поправки на размер выборки
+jarque.bera.test(resid(ols)) ##в R нет поправки на размер выборки
 ```
 
 И тест Шапиро-Уилка.
+$H_{0}: \epsilon_{i} ~ N(\mu,\sigma^2)$
 ```{r}
-shapiro.test(df$u_hat)
+shapiro.test(resid(ols))
 ```
 
 Оба теста указывают на нормальность распределения остатков регрессии.
 
+Сделаем прогноз модели по данным вне обучаемо выборки.
+```{r "prediction"}
+newData = data.frame(x_new = df$x+0.5*rnorm(length(df$x)))
+skim(newData)
+yhat=predict(ols, newdata = newData, type = "response", se = TRUE)
+```
+
 
 #### То же самое в стате
 
-Загружаем данные, любуемся и даем новые названия столбцам.
+Загружаем данные. 
 ```{stata}
 use us-return.dta
+```
+
+
+Любуемся и даем новые названия столбцам.
+```{stata}
 summarize
 ren A n
 ren B date
@@ -125,3 +140,8 @@ sktest u_hat, noadjust #но все равно не как в R
 ```{r "Shapiro-Wilk", eval=FALSE}
 swilk u_hat
 ```
+
+регрессор - uhat
+регрессор - uhat^2
+uhat^(n-1) - uhat^(n)
+дигональные элементы матрицы шляпницы - для выбросов

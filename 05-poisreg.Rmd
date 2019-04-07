@@ -1,22 +1,144 @@
-# Пуассоновская регрессия {#poisreg}
-
-```{r setup, include=FALSE}
-library(ggplot2)
-library(sandwich)
-library(msm)
-library(datasets)
-```
+---
+output: html_document
+editor_options: 
+  chunk_output_type: console
+---
+# Модели счетных данных {#poisreg}
 
 
 ```{r setup, include=FALSE}
-data = warpbreaks
-df = data.frame(data)
-skimr::skim(df)
+library(knitr)
+library(texreg)
+library(Statamarkdown)
+library(reticulate)
+stataexe <- find_stata()
+stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
-Строим модель.
-```{r setup, include=FALSE}
-poisson.model=glm(breaks~wool+tension, data, family = poisson(link = "log"))
-
-poisson.model
+Загрузим необходимые пакеты.
+```{r "packages", results='hide', message=FALSE, warning=FALSE}
+library(tidyverse) #работа с данными и графики
+library(skimr) #красивое summary
+library(rio) #чтение .dta файлов
+library(vcd) #еще графики
+library(MASS) #отрицательное биномиальное
 ```
+
+Импортируем данные. Данные содержат информацию о количестве рыбы, пойманной людьми находящимися на отдыхе. 
+
+Camper - наличие/отсутсвие палатки.
+Child - количество детей, которых взяли на рыбалку.
+Persons - количество людей в группе.
+Count - количество пойманной рыбы
+
+```{r "import data"}
+df = import(file = "fish.dta")
+```
+
+Посмотрим нам описательные статистики. Переменная camper принимает всего два значения, поэтому превратим ее в факторную переменную.
+```{r "skim"}
+skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL))
+skim(df)
+df = mutate(df, camper = factor(camper))
+```
+
+
+Наша задача - по имеющимся данным предсказать улов. Для начала посмотрим на распределение объясняемой переменной `count`.
+```{r "hist"}
+ggplot(df, aes(x = count)) + geom_histogram(binwidth = 1) + labs(x = 'count', y = 'frequency')
+```
+
+Предположим, что переменная имеет распределение Пуассона. Будем использовать пуассоновскую регрессию. 
+\[
+P(y=k)=exp(-\lambda) \lambda^k / k!
+\]
+где $\lambda=\exp(b_1 +b_2*x)$
+
+```{r "poisson"}
+poisson = glm(count ~ child + camper +  persons, family = "poisson", data = df)
+summary(poisson)
+```
+
+Однако, заметим, что дисперсия и среднее значение объясняемой переменной не равны, как это предполагает распределение Пуассона.
+```{r "with"}
+#with(df, tapply(count, camper, mean)) 
+#with(df, tapply(count, camper, var))
+df %>% group_by(camper) %>% summarize(var = var(count), mean = mean(count))
+```
+
+Оценим регрессию, предполагая отрицательное биномиальное распределение остатков. В этом случае, дисперсия распределения зависит от некоторого параметра и не равна среднему.
+
+(zero-inflated)
+(выписать формулы моделей)
+```{r "nb"}
+nb1 = glm.nb(count ~ child + camper +  persons, data = df)
+summary(nb1)
+```
+
+
+
+
+Попробуем исключить из модели переменную `camper` и сравним качество двух моделей.
+```{r "excl"}
+nb2 = update(nb1, . ~ . - camper)
+waldtest(nb1, nb2) #lmtest
+```
+
+С помошью теста отношения правдоподобия сравним оценки пуассоновской и отрицательной биномиальной регрессий.
+
+(как сравнить две модели)
+(графички)
+```{r "lr"}
+lr = 2*(logLik(nb1) - logLik(poisson))
+2*pchisq(lr, df = 1, lower.tail = FALSE)
+
+library(lmtest)
+
+```
+
+
+
+#### То же самое в стате
+
+Загружаем данные и смотрим описательные статистики.
+```{stata}
+use fish.dta
+summarize
+```
+
+
+
+```{stata}
+use fish.dta
+summarize
+```
+
+```{stata}
+hist count
+```
+
+Строим Пуассоновскую регрессию.
+$AIC = -2log(L) + 2k$
+$AIC = -2log(L) + klog(N)$
+```{stata}
+glm count camper child persons, family(poisson)
+```
+
+
+Можем посчитать AIC и BIC по другой формуле, аналогично выводу R.
+$AIC = \frac {-2log(L) + 2k}{N}$
+```{stata}                
+estat ic
+```
+
+#предсказание
+newData = data.frame(camper = factor(0:1, levels = 0:1), child = sample(0:6, 100, replace = TRUE), persons = sample(0:4, 100, replace = TRUE))
+skim(newData)
+G <- predict(poisson, newdata = newData, type = "link", se = TRUE)
+newData$fit <- exp(G$fit)
+newData$ciup <- exp(G$fit + 1.96*G$se.fit)
+newData$cilow <- exp(G$fit - 1.96*G$se.fit)
+head(newData)
+hist(newData$fit, breaks = 100)
+

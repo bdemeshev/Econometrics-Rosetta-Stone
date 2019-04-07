@@ -106,7 +106,7 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a></li>
 <li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модели бинарного выбора</a></li>
 <li class="chapter" data-level="5" data-path="ordchoice.html"><a href="ordchoice.html"><i class="fa fa-check"></i><b>5</b> Модели упорядоченного выбора</a></li>
-<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Пуассоновская регрессия</a></li>
+<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a></li>
 <li class="chapter" data-level="7" data-path="disordered.html"><a href="disordered.html"><i class="fa fa-check"></i><b>7</b> Модели неупорядоченного выбора</a></li>
 <li class="chapter" data-level="8" data-path="instruments.html"><a href="instruments.html"><i class="fa fa-check"></i><b>8</b> Интcтрументы для простой регрессии</a></li>
 <li class="chapter" data-level="9" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>9</b> ARMA</a></li>
@@ -147,78 +147,54 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 <span class="kw">library</span>(rio) <span class="co"># для чтения .dta файлов</span>
 <span class="kw">library</span>(car) <span class="co"># для линейных гипотез</span>
 <span class="kw">library</span>(tseries)<span class="co"># для теста на нормальность</span>
-df =<span class="st"> </span><span class="kw">import</span>(<span class="dt">file =</span> <span class="st">&quot;us-return.dta&quot;</span>)</code></pre></div>
+<span class="kw">library</span>(sjPlot)</code></pre></div>
 <p>Импортируем данные.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">import</span>(<span class="dt">file =</span> <span class="st">&quot;us-return.dta&quot;</span>)</code></pre></div>
 <p>Исследуем наш датасет.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#skim_with(numeric = list(hist = NULL))</span>
-<span class="kw">skim</span>(df) <span class="co">#посмотрим на наши данные </span></code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">skim_with</span>(<span class="dt">numeric =</span> <span class="kw">list</span>(<span class="dt">hist =</span> <span class="ot">NULL</span>, <span class="dt">p25 =</span> <span class="ot">NULL</span>, <span class="dt">p75 =</span> <span class="ot">NULL</span>)) <span class="co">#посмотрим на данные</span>
+<span class="kw">skim</span>(df)</code></pre></div>
 <pre><code>Skim summary statistics
  n obs: 2664 
  n variables: 22 
 
--- Variable type:character -----------------------------------------------------------------------------
+-- Variable type:character ------------------------------------------------------------------------------------------------------------------
  variable missing complete    n min max empty n_unique
         B       0     2664 2664   0   6  2544       31
 
--- Variable type:numeric -------------------------------------------------------------------------------
- variable missing complete    n    mean      sd      p0     p25     p50
-        A    2544      120 2664 60.5    34.79    1      30.75   60.5   
-    BOISE    2544      120 2664  0.017   0.097  -0.27   -0.045   0.015 
-   CITCRP    2544      120 2664  0.012   0.081  -0.28   -0.037   0.011 
-    CONED    2544      120 2664  0.019   0.05   -0.14   -0.012   0.019 
-   CONTIL    2544      120 2664 -0.0011  0.15   -0.6    -0.051   0     
-   DATGEN    2544      120 2664  0.0075  0.13   -0.34   -0.072   0.017 
-      DEC    2544      120 2664  0.02    0.099  -0.36   -0.05    0.024 
-    DELTA    2544      120 2664  0.012   0.096  -0.26   -0.053   0.013 
-   GENMIL    2544      120 2664  0.017   0.065  -0.15   -0.026   0.011 
-   GERBER    2544      120 2664  0.016   0.088  -0.29   -0.036   0.015 
-      IBM    2544      120 2664  0.0096  0.059  -0.19   -0.029   0.002 
-   MARKET    2544      120 2664  0.014   0.068  -0.26   -0.013   0.012 
-    MOBIL    2544      120 2664  0.016   0.08   -0.18   -0.032   0.012 
-    MOTOR    2544      120 2664  0.018   0.097  -0.33   -0.053   0.016 
-    PANAM    2544      120 2664  0.0035  0.13   -0.31   -0.065   0     
-     PSNH    2544      120 2664 -0.0042  0.11   -0.48   -0.048   0     
-   rkfree    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
-   RKFREE    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
-    TANDY    2544      120 2664  0.025   0.13   -0.25   -0.058   0.022 
-   TEXACO    2544      120 2664  0.012   0.08   -0.19   -0.037   0.01  
-    WEYER    2544      120 2664  0.0096  0.085  -0.27   -0.048  -0.002 
-     p75    p100     hist
- 90.25   120     &lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;
-  0.07     0.38  &lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.064    0.32  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.045    0.15  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2582&gt;
-  0.058    0.97  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.078    0.53  &lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.075    0.38  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.063    0.29  &lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2581&gt;
-  0.06     0.19  &lt;U+2581&gt;&lt;U+2583&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2581&gt;
-  0.065    0.23  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2581&gt;
-  0.05     0.15  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2586&gt;&lt;U+2583&gt;&lt;U+2582&gt;
-  0.062    0.15  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2582&gt;
-  0.057    0.37  &lt;U+2581&gt;&lt;U+2583&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.084    0.27  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;
-  0.074    0.41  &lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.043    0.32  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2586&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.0078   0.013 &lt;U+2581&gt;&lt;U+2583&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2582&gt;&lt;U+2582&gt;
-  0.0078   0.013 &lt;U+2581&gt;&lt;U+2583&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2582&gt;&lt;U+2582&gt;
-  0.094    0.45  &lt;U+2582&gt;&lt;U+2583&gt;&lt;U+2586&gt;&lt;U+2587&gt;&lt;U+2582&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.048    0.4   &lt;U+2581&gt;&lt;U+2583&gt;&lt;U+2587&gt;&lt;U+2586&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
-  0.06     0.27  &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2586&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2581&gt;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам более осмысленные названия :)</span></code></pre></div>
+-- Variable type:numeric --------------------------------------------------------------------------------------------------------------------
+ variable missing complete    n    mean      sd      p0     p50    p100
+        A    2544      120 2664 60.5    34.79    1      60.5    120    
+    BOISE    2544      120 2664  0.017   0.097  -0.27    0.015    0.38 
+   CITCRP    2544      120 2664  0.012   0.081  -0.28    0.011    0.32 
+    CONED    2544      120 2664  0.019   0.05   -0.14    0.019    0.15 
+   CONTIL    2544      120 2664 -0.0011  0.15   -0.6     0        0.97 
+   DATGEN    2544      120 2664  0.0075  0.13   -0.34    0.017    0.53 
+      DEC    2544      120 2664  0.02    0.099  -0.36    0.024    0.38 
+    DELTA    2544      120 2664  0.012   0.096  -0.26    0.013    0.29 
+   GENMIL    2544      120 2664  0.017   0.065  -0.15    0.011    0.19 
+   GERBER    2544      120 2664  0.016   0.088  -0.29    0.015    0.23 
+      IBM    2544      120 2664  0.0096  0.059  -0.19    0.002    0.15 
+   MARKET    2544      120 2664  0.014   0.068  -0.26    0.012    0.15 
+    MOBIL    2544      120 2664  0.016   0.08   -0.18    0.012    0.37 
+    MOTOR    2544      120 2664  0.018   0.097  -0.33    0.016    0.27 
+    PANAM    2544      120 2664  0.0035  0.13   -0.31    0        0.41 
+     PSNH    2544      120 2664 -0.0042  0.11   -0.48    0        0.32 
+   rkfree    2544      120 2664  0.0068  0.0022  0.0021  0.0066   0.013
+   RKFREE    2544      120 2664  0.0068  0.0022  0.0021  0.0066   0.013
+    TANDY    2544      120 2664  0.025   0.13   -0.25    0.022    0.45 
+   TEXACO    2544      120 2664  0.012   0.08   -0.19    0.01     0.4  
+    WEYER    2544      120 2664  0.0096  0.085  -0.27   -0.002    0.27 </code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам более осмысленные названия</span></code></pre></div>
 <p>Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#создаем новые переменные и добавляем их к набору данных</span>
-df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) </code></pre></div>
-<p>Визуализируем зависимость регрессора и зависимой переменной.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggplot</span>(df, <span class="kw">aes</span>(<span class="dt">x =</span> x, <span class="dt">y =</span> y)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span><span class="kw">geom_smooth</span>(<span class="dt">method=</span>lm) <span class="op">+</span>
-<span class="kw">labs</span>(<span class="dt">x =</span> <span class="st">&quot;risk premium&quot;</span>, <span class="dt">y =</span> <span class="st">&quot;return&quot;</span>)</code></pre></div>
-<pre><code>Warning: Removed 2544 rows containing non-finite values (stat_smooth).</code></pre>
-<pre><code>Warning: Removed 2544 rows containing missing values (geom_point).</code></pre>
-<p><img src="02-simplereg_files/figure-html/plot-1.png" width="672" /></p>
+df =<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) </code></pre></div>
 <p>Строим нашу модель и проверяем гипотезу об адекватности регрессии.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df) 
-<span class="kw">summary</span>(ols)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">ols &lt;-<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df)
+<span class="kw">plot_residuals</span>(ols, <span class="dt">geom.size =</span> <span class="dv">2</span>,
+  <span class="dt">show.lines =</span> <span class="ot">TRUE</span>, <span class="dt">show.resid =</span> <span class="ot">TRUE</span>, <span class="dt">show.pred =</span> <span class="ot">TRUE</span>,
+  <span class="dt">show.ci =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<p><img src="02-simplereg_files/figure-html/model-1.png" width="672" /></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ols)</code></pre></div>
 <pre><code>
 Call:
 lm(formula = y ~ x, data = df)
@@ -238,6 +214,8 @@ Residual standard error: 0.07844 on 118 degrees of freedom
   (2544 observations deleted due to missingness)
 Multiple R-squared:  0.3569,    Adjusted R-squared:  0.3514 
 F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13</code></pre>
+<p>Строим доверительный интервал для параметров модели.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">est =<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Estimate =</span> <span class="kw">coef</span>(ols), <span class="kw">confint</span>(ols))</code></pre></div>
 <p>Проверим гипотезу о равенстве коэффициента при регрессии единице.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(ols, <span class="kw">c</span>(<span class="st">&quot;(Intercept) = 0&quot;</span>, <span class="st">&quot;x = 1&quot;</span>))</code></pre></div>
 <pre><code>Linear hypothesis test
@@ -252,27 +230,41 @@ Model 2: y ~ x
   Res.Df     RSS Df Sum of Sq      F Pr(&gt;F)
 1    120 0.74108                           
 2    118 0.72608  2  0.014998 1.2187 0.2993</code></pre>
-<p>Сделаем предсказание по выборке.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">df &lt;-<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">u_hat =</span> <span class="kw">resid</span>(ols), 
-             <span class="dt">y_hat =</span> <span class="kw">predict</span>(ols), 
-             <span class="dt">n =</span> <span class="kw">seq</span>(<span class="kw">dim</span>(df)[<span class="dv">1</span>]))</code></pre></div>
-<pre><code>Error in mutate_impl(.data, dots): Column `u_hat` must be length 2664 (the number of rows) or one, not 120</code></pre>
 <p>Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(df<span class="op">$</span>u_hat) ##в R нет поправки на размер выборки</code></pre></div>
+<p><span class="math inline">\(H_{0}: S = 0, K = 3\)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(<span class="kw">resid</span>(ols)) ##в R нет поправки на размер выборки</code></pre></div>
 <pre><code>
     Jarque Bera Test
 
-data:  df$u_hat
-X-squared = NaN, df = 2, p-value = NA</code></pre>
-<p>И тест Шапиро-Уилка.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(df<span class="op">$</span>u_hat)</code></pre></div>
-<pre><code>Error in shapiro.test(df$u_hat): is.numeric(x) не TRUE</code></pre>
+data:  resid(ols)
+X-squared = 1.7803, df = 2, p-value = 0.4106</code></pre>
+<p>И тест Шапиро-Уилка. <span class="math inline">\(H_{0}: \epsilon_{i} ~ N(\mu,\sigma^2)\)</span></p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">resid</span>(ols))</code></pre></div>
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  resid(ols)
+W = 0.99021, p-value = 0.5531</code></pre>
 <p>Оба теста указывают на нормальность распределения остатков регрессии.</p>
+<p>Сделаем прогноз модели по данным вне обучаемо выборки.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">newData =<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">x_new =</span> df<span class="op">$</span>x<span class="op">+</span><span class="fl">0.5</span><span class="op">*</span><span class="kw">rnorm</span>(<span class="kw">length</span>(df<span class="op">$</span>x)))
+<span class="kw">skim</span>(newData)</code></pre></div>
+<pre><code>Skim summary statistics
+ n obs: 2664 
+ n variables: 1 
+
+-- Variable type:numeric --------------------------------------------------------------------------------------------------------------------
+ variable missing complete    n    mean  sd    p0   p50 p100
+    x_new    2544      120 2664 -0.0024 0.5 -1.07 0.046 1.22</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">yhat=<span class="kw">predict</span>(ols, <span class="dt">newdata =</span> newData, <span class="dt">type =</span> <span class="st">&quot;response&quot;</span>, <span class="dt">se =</span> <span class="ot">TRUE</span>)</code></pre></div>
+<pre><code>Error in eval(predvars, data, env): объект &#39;x&#39; не найден</code></pre>
 <div id="----" class="section level4">
 <h4><span class="header-section-number">3.0.0.1</span> То же самое в стате</h4>
-<p>Загружаем данные, любуемся и даем новые названия столбцам.</p>
-<pre class="stata"><code>use us-return.dta
-summarize
+<p>Загружаем данные.</p>
+<pre class="stata"><code>use us-return.dta</code></pre>
+<p>``````</p>
+<p>Любуемся и даем новые названия столбцам.</p>
+<pre class="stata"><code>summarize
 ren A n
 ren B date</code></pre>
 <pre><code>    Variable |       Obs        Mean    Std. Dev.       Min        Max
@@ -321,6 +313,7 @@ predict y_hat</code></pre></div>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sktest u_hat, noadjust <span class="co">#но все равно не как в R</span></code></pre></div>
 <p>И тест Шапиро-Уилка.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">swilk u_hat</code></pre></div>
+<p>регрессор - uhat регрессор - uhat<sup>2 uhat</sup>(n-1) - uhat^(n) дигональные элементы матрицы шляпницы - для выбросов</p>
 
 </div>
 </div>
@@ -375,6 +368,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

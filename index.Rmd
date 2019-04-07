@@ -1,6 +1,6 @@
 --- 
 title: "Розеттский камень"
-author: "Пуассон, фея и два мексиканских негодяя"
+author: "Пуассон, фея и три мексиканских негодяя"
 date: "`r Sys.Date()`"
 site: bookdown::bookdown_site
 documentclass: book
