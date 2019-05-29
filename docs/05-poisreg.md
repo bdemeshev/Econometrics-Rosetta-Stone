@@ -11,9 +11,18 @@ library(skimr) #красивое summary
 library(rio) #чтение .dta файлов
 library(vcd) #еще графики
 library(MASS) #отрицательное биномиальное
+library(lmtest) #для проверки гипотез
+library(pscl) #zero-inflation function
+library(margins) #для подсчета предельных эффектов
 ```
 
-Импортируем данные. Данные содержат информацию о количестве рыбы, пойманной людьми находящимися на отдыхе. 
+Импортируем данные.
+
+
+```r
+df = import(file = "fish.dta")
+```
+Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 
 Camper - наличие/отсутсвие палатки.
 Child - количество детей, которых взяли на рыбалку.
@@ -21,11 +30,7 @@ Persons - количество людей в группе.
 Count - количество пойманной рыбы
 
 
-```r
-df = import(file = "fish.dta")
-```
-
-Посмотрим нам описательные статистики. Переменная camper принимает всего два значения, поэтому превратим ее в факторную переменную.
+Посмотрим нам описательные статистики. 
 
 ```r
 skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL))
@@ -37,7 +42,7 @@ Skim summary statistics
  n obs: 250 
  n variables: 4 
 
--- Variable type:numeric --------------------------------------------------------------------------------------------------------------------
+-- Variable type:numeric -----------------------------------------------------------------
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -45,20 +50,27 @@ Skim summary statistics
   persons       0      250 250 2.53  1.11  1   2    4
 ```
 
-```r
-df$camper = factor(df$camper)
-```
+Переменная `camper` принимает всего два значения, поэтому превратим ее в факторную переменную.
 
+
+```r
+df = mutate(df, camper = factor(camper))
+```
 
 Наша задача - по имеющимся данным предсказать улов. Для начала посмотрим на распределение объясняемой переменной `count`.
 
 ```r
-ggplot(df, aes(x = count)) + geom_histogram(binwidth = 1) + labs(x = 'count', y = 'frequency')
+ggplot(df, aes(x = count)) + geom_histogram(binwidth = 1) + labs(x = 'count', y = 'frequency', title = 'Distribution of count variable')
 ```
 
 <img src="05-poisreg_files/figure-html/hist-1.png" width="672" />
 
-Предположим, что переменная имеет распределение Пуассона. Будем использовать пуассоновскую регрессию.
+Предположим, что переменная имеет распределение Пуассона. Будем использовать пуассоновскую регрессию. 
+\[
+P(y=k)=exp(-\lambda) \lambda^k / k!
+\]
+где $\lambda=\exp(b_1 +b_2*x)$
+
 
 ```r
 poisson = glm(count ~ child + camper +  persons, family = "poisson", data = df)
@@ -96,24 +108,19 @@ Number of Fisher Scoring iterations: 6
 Однако, заметим, что дисперсия и среднее значение объясняемой переменной не равны, как это предполагает распределение Пуассона.
 
 ```r
-with(df, tapply(count, camper, mean))
+df %>% group_by(camper) %>% summarize(var = var(count), mean = mean(count))
 ```
 
 ```
-       0        1 
-1.524272 4.537415 
-```
-
-```r
-with(df, tapply(count, camper, var))
-```
-
-```
-        0         1 
- 21.05578 212.40099 
+# A tibble: 2 x 3
+  camper   var  mean
+  <fct>  <dbl> <dbl>
+1 0       21.1  1.52
+2 1      212.   4.54
 ```
 
 Оценим регрессию, предполагая отрицательное биномиальное распределение остатков. В этом случае, дисперсия распределения зависит от некоторого параметра и не равна среднему.
+
 
 ```r
 nb1 = glm.nb(count ~ child + camper +  persons, data = df)
@@ -153,61 +160,97 @@ Number of Fisher Scoring iterations: 1
  2 x log-likelihood:  -810.4440 
 ```
 
-В summary видим, что для nb модели значение AIC меньше, чем для модели с пуассоновским распределением остатков.
-
-
 Попробуем исключить из модели переменную `camper` и сравним качество двух моделей.
 
 ```r
 nb2 = update(nb1, . ~ . - camper)
-anova(nb1, nb2)
+waldtest(nb1, nb2)
 ```
 
 ```
-Likelihood ratio tests of Negative Binomial Models
+Wald test
 
-Response: count
-                     Model     theta Resid. df    2 x log-lik.   Test
-1          child + persons 0.4348425       247       -817.0372       
-2 child + camper + persons 0.4635288       246       -810.4440 1 vs 2
-     df LR stat.    Pr(Chi)
-1                          
-2     1 6.593172 0.01023706
+Model 1: count ~ child + camper + persons
+Model 2: count ~ child + persons
+  Res.Df Df      F   Pr(>F)   
+1    246                      
+2    247 -1 6.9979 0.008686 **
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
-С помошью теста отношения правдоподобия сравним оценки пуассоновской и отрицательной биномиальной регрессий.
+Посчитаем предельный эффект в какой-нибудь точке.
+
+```r
+marginal_effects(poisson, variables = 'camper', data = df[250,])
+```
+
+```
+  dydx_camper1
+1     0.346628
+```
+
+Тест отношения правдоподобия для вложенных моделей.
 
 
 ```r
-lr = 2*(logLik(nb1) - logLik(poisson))
-2*pchisq(lr, df = 1, lower.tail = FALSE)
+lrtest(poisson, nb1)
 ```
 
 ```
-'log Lik.' 1.527587e-189 (df=5)
+Likelihood ratio test
+
+Model 1: count ~ child + camper + persons
+Model 2: count ~ child + camper + persons
+  #Df  LogLik Df Chisq Pr(>Chisq)    
+1   4 -837.07                        
+2   5 -405.22  1 863.7  < 2.2e-16 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
+Можем посмотреть на результаты модели с "раздутыми нулями" (zero-inflated). Они предполагают большую частоту нулевых наблюдений.
+
+```r
+zero_infl = zeroinfl(count ~ . | ., data = df, dist = 'negbin')
+summary(zero_infl)
+```
+
+```
+
+Call:
+zeroinfl(formula = count ~ . | ., data = df, dist = "negbin")
+
+Pearson residuals:
+     Min       1Q   Median       3Q      Max 
+-0.71806 -0.56103 -0.38168  0.04398 16.16367 
+
+Count model coefficients (negbin with log link):
+            Estimate Std. Error z value Pr(>|z|)    
+(Intercept)  -1.6177     0.3202  -5.052 4.37e-07 ***
+camper1       0.3856     0.2461   1.567 0.117128    
+child        -1.2613     0.2473  -5.100 3.40e-07 ***
+persons       1.0901     0.1117   9.761  < 2e-16 ***
+Log(theta)   -0.5929     0.1580  -3.753 0.000174 ***
+
+Zero-inflation model coefficients (binomial with logit link):
+            Estimate Std. Error z value Pr(>|z|)
+(Intercept) -11.9920    64.4408  -0.186    0.852
+camper1     -10.7704    64.3725  -0.167    0.867
+child        10.9517    64.3569   0.170    0.865
+persons       0.2902     0.7314   0.397    0.692
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
+
+Theta = 0.5527 
+Number of iterations in BFGS optimization: 68 
+Log-likelihood: -395.5 on 9 Df
+```
 
 
 #### То же самое в стате
 
 Загружаем данные и смотрим описательные статистики.
-
-```stata
-use fish.dta
-summarize
-```
-
-```
-    Variable |       Obs        Mean    Std. Dev.       Min        Max
--------------+--------------------------------------------------------
-      camper |       250        .588    .4931824          0          1
-       child |       250        .684    .8503153          0          3
-       count |       250       3.296    11.63503          0        149
-     persons |       250       2.528     1.11273          1          4
-```
-
-
 
 
 ```stata
@@ -233,9 +276,12 @@ hist count
 (bin=15, start=0, width=9.9333333)
 ```
 
-Строим Пуассоновскую регрессию.
+Строим Пуассоновскую регрессию. 
+В описательных статистиках:
 $AIC = -2log(L) + 2k$
 $AIC = -2log(L) + klog(N)$
+
+
 
 ```stata
 glm count camper child persons, family(poisson)
@@ -248,44 +294,28 @@ Iteration 2:   log likelihood = -837.07307
 Iteration 3:   log likelihood = -837.07248  
 Iteration 4:   log likelihood = -837.07248  
 
-Generalized linear models                          No. of obs      =      
->  250
-Optimization     : ML                              Residual df     =      
->  246
-                                                   Scale parameter =      
->    1
-Deviance         =  1337.079644                    (1/df) Deviance =  5.43
-> 5283
-Pearson          =  2910.627049                    (1/df) Pearson  =  11.8
-> 3182
+Generalized linear models                          No. of obs      =       250
+Optimization     : ML                              Residual df     =       246
+                                                   Scale parameter =         1
+Deviance         =  1337.079644                    (1/df) Deviance =  5.435283
+Pearson          =  2910.627049                    (1/df) Pearson  =  11.83182
 
 Variance function: V(u) = u                        [Poisson]
 Link function    : g(u) = ln(u)                    [Log]
 
-                                                   AIC             =   6.7
-> 2858
-Log likelihood   = -837.0724803                    BIC             = -21.1
-> 9974
+                                                   AIC             =   6.72858
+Log likelihood   = -837.0724803                    BIC             = -21.19974
 
---------------------------------------------------------------------------
-> ----
+------------------------------------------------------------------------------
              |                 OIM
-       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Inter
-> val]
--------------+------------------------------------------------------------
-> ----
-      camper |   .9309359   .0890869    10.45   0.000     .7563289    1.10
-> 5543
-       child |  -1.689957   .0809922   -20.87   0.000    -1.848699   -1.53
-> 1215
-     persons |   1.091262   .0392553    27.80   0.000     1.014323    1.16
-> 8201
-       _cons |  -1.981827    .152263   -13.02   0.000    -2.280257   -1.68
-> 3397
---------------------------------------------------------------------------
-> ----
+       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      camper |   .9309359   .0890869    10.45   0.000     .7563289    1.105543
+       child |  -1.689957   .0809922   -20.87   0.000    -1.848699   -1.531215
+     persons |   1.091262   .0392553    27.80   0.000     1.014323    1.168201
+       _cons |  -1.981827    .152263   -13.02   0.000    -2.280257   -1.683397
+------------------------------------------------------------------------------
 ```
-
 
 Можем посчитать AIC и BIC по другой формуле, аналогично выводу R.
 $AIC = \frac {-2log(L) + 2k}{N}$
@@ -297,26 +327,112 @@ estat ic
 ```
 Akaike's information criterion and Bayesian information criterion
 
---------------------------------------------------------------------------
-> ---
-       Model |    Obs    ll(null)   ll(model)     df          AIC         
-> BIC
--------------+------------------------------------------------------------
-> ---
-           . |    250           .   -837.0725      4     1682.145    1696.
-> 231
---------------------------------------------------------------------------
-> ---
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |    250           .   -837.0725      4     1682.145    1696.231
+-----------------------------------------------------------------------------
                Note:  N=Obs used in calculating BIC; see [R] BIC note
 ```
 
-#предсказание
-newData = data.frame(camper = factor(0:1, levels = 0:1), child = sample(0:6, 100, replace = TRUE), persons = sample(0:4, 100, replace = TRUE))
-skim(newData)
-G <- predict(poisson, newdata = newData, type = "link", se = TRUE)
-newData$fit <- exp(G$fit)
-newData$ciup <- exp(G$fit + 1.96*G$se.fit)
-newData$cilow <- exp(G$fit - 1.96*G$se.fit)
-head(newData)
-hist(newData$fit, breaks = 100)
+Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
 
+```stata
+tabstat count, by(camper) stat(mean, variance) nototal
+```
+
+```
+Summary for variables: count
+     by categories of: camper (CAMPER)
+
+  camper |      mean  variance
+---------+--------------------
+       0 |  1.524272  21.05578
+       1 |  4.537415   212.401
+------------------------------
+```
+
+Предположим, что остатки имеют отрицательное биномиальное распределение.
+
+```stata
+nbreg count child camper persons
+```
+
+```
+Fitting Poisson model:
+
+Iteration 0:   log likelihood = -841.58831  
+Iteration 1:   log likelihood = -837.07386  
+Iteration 2:   log likelihood = -837.07248  
+Iteration 3:   log likelihood = -837.07248  
+
+Fitting constant-only model:
+
+Iteration 0:   log likelihood = -582.76028  
+Iteration 1:   log likelihood = -464.44518  
+Iteration 2:   log likelihood = -464.43931  
+Iteration 3:   log likelihood = -464.43931  
+
+Fitting full model:
+
+Iteration 0:   log likelihood = -438.02759  
+Iteration 1:   log likelihood = -409.71171  
+Iteration 2:   log likelihood = -405.34765  
+Iteration 3:   log likelihood = -405.22204  
+Iteration 4:   log likelihood =   -405.222  
+Iteration 5:   log likelihood =   -405.222  
+
+Negative binomial regression                      Number of obs   =        250
+                                                  LR chi2(3)      =     118.43
+Dispersion     = mean                             Prob > chi2     =     0.0000
+Log likelihood = -405.222                         Pseudo R2       =     0.1275
+
+------------------------------------------------------------------------------
+       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+       child |   -1.78052   .1920379    -9.27   0.000    -2.156907   -1.404132
+      camper |   .6211286   .2358072     2.63   0.008      .158955    1.083302
+     persons |     1.0608   .1174733     9.03   0.000     .8305564    1.291043
+       _cons |   -1.62499   .3294006    -4.93   0.000    -2.270603   -.9793765
+-------------+----------------------------------------------------------------
+    /lnalpha |   .7688868   .1538497                      .4673469    1.070427
+-------------+----------------------------------------------------------------
+       alpha |   2.157363   .3319098                      1.595755    2.916624
+------------------------------------------------------------------------------
+Likelihood-ratio test of alpha=0:  chibar2(01) =  863.70 Prob>=chibar2 = 0.000
+```
+ 
+Првоерим гипотезу о равенстве 0 коэффицинта при переменной `camper`. Проведем тест Вальда.
+
+```stata
+quietly: nbreg count child i.camper persons #скрыть вывод регрессии
+test camper 
+```
+
+```
+# invalid name
+r(198);
+
+end of do-file
+r(198);
+```
+
+Проведем lr-тест для вложенных моделей. Для него мы уже сохранили значения функций правдоподобия интересующих нас моделей.
+
+```stata
+estat ic
+```
+
+```
+# invalid name
+r(19. estat ic
+
+Akaike's information criterion and Bayesian information criterion
+
+-----------------------------------------------------------------------------
+       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+-------------+---------------------------------------------------------------
+           . |    250   -464.4393    -405.222      5      820.444    838.0513
+-----------------------------------------------------------------------------
+               Note:  N=Obs used in calculating BIC; see [R] BIC note
+```
