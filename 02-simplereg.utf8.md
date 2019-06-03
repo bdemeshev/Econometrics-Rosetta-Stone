@@ -35,11 +35,11 @@ Skim summary statistics
  n obs: 2664 
  n variables: 22 
 
--- Variable type:character -------------------------------------------------------------------
+-- Variable type:character -----------------------
  variable missing complete    n min max empty n_unique
         B       0     2664 2664   0   6  2544       31
 
--- Variable type:numeric ---------------------------------------------------------------------
+-- Variable type:numeric -------------------------
  variable missing complete    n    mean      sd      p0     p50    p100
         A    2544      120 2664 60.5    34.79    1      60.5    120    
     BOISE    2544      120 2664  0.017   0.097  -0.27    0.015    0.38 
@@ -197,7 +197,9 @@ yhat = predict(ols, newdata = newData, se = TRUE)
 use us-return.dta
 ```
 
-``````
+```
+
+```
 
 
 Любуемся и даем новые названия столбцам.

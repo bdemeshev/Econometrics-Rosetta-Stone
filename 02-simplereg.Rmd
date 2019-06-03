@@ -2,13 +2,37 @@
 
 
 ```{r setup, include=FALSE}
+Sys.setenv(language = "russian")
+
+Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
-stataexe <- find_stata()
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+use_condaenv("base")
 use_python("C:/Users/DNS/Anaconda3/python.exe")
+
+
+pandas = reticulate::import("pandas")
+
+# stataexe <- find_stata()
+stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+# use_python("Users/DNS/Anaconda3/python.exe")
+# use_python("C:/Users/DNS/Anaconda3/envs/tensorflow/python.exe")
+# use_python("C:/Users/DNS/ANACON~1/python.exe")
+
+# use_python("C:/Users/DNS/Anaconda3/envs/venv/python.exe")
+# use_condaenv("ANACON~1")
+# use_condaenv("venv")
+# py_config()
+# reticulate::conda_list()
+# py_config()
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 
 ```
@@ -27,13 +51,13 @@ library(sjPlot) # еще графики
 
 Импортируем данные.
 ```{r "import data", message=FALSE, warning=FALSE}
-df = import("us-return.dta")
+df = rio::import("us-return.dta")
 ```
 
 Исследуем наш датасет.
 
 ```{r "skim",  message=FALSE, warning=FALSE}
-skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные характеристики
+# skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные характеристики
 skim(df) # посмотрим на данные
 ```
 
@@ -92,9 +116,9 @@ shapiro.test(resid(ols))
 
 Сделаем прогноз модели по данным вне обучаемой выборки.
 ```{r "prediction"}
-newData = data.frame(x = df$x+0.5*rnorm(length(df$x))) #пошумим
-skim(newData)
+set.seed(7)
 
+newData = data.frame(x = df$x+0.5*rnorm(length(df$x))) #пошумим
 yhat = predict(ols, newdata = newData, se = TRUE)
 ```
 
@@ -115,24 +139,24 @@ ren B date
 ```
 
 Убираем пропущенные значения и создаем новые переменные.
-```{r "new var"}
+```{stata "new var"}
 drop if n == .
-gen y = MOTOR-RKFREE
-gen x = MARKET-RKFREE
+gen y = MOTOR - RKFREE
+gen x = MARKET - RKFREE
 ```
 
 Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.
-```{r "model_stata"}
+```{stata "model_stata"}
 reg y x
 ```
 
 Проверим гипотезу о равенстве коэффициента при регрессоре единице. 
-```{r "lin hyp_stata"}
-test x=1
+```{stata "lin hyp_stata"}
+test x = 1
 ```
 
 Сделаем предсказание по выборке и сохраним остатки.
-```{r "prediction_stata"}
+```{stata "prediction_stata"}
 predict u_hat, resid
 predict y_hat
 ```
@@ -140,24 +164,24 @@ predict y_hat
 Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 На самом деле, это не совсем тест Харке-Бера. Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки. В Stata есть. Подробнее здесь https://www.stata.com/manuals13/rsktest.pdf
 
-```{r "Jarque–Bera"}
+```{stata "Jarque–Bera"}
 sktest u_hat
 ```
 
 И тест Шапиро-Уилка. Тут все аналогично R.
-```{r "Shapiro-Wilk"}
+```{stata "Shapiro-Wilk"}
 swilk u_hat
 ```
 
 Гипотеза о нормальности остатков не отвергается.
 
 QQ - график
-```{r "qq-plot"}
+```{stata "qq-plot"}
 qnorm u_hat 
 ```
 
 График предсказанных значений против остатков.
-```{r "res_vs_fit"}
+```{stata "res_vs_fit"}
 rvfplot, yline(0)
 ```
 
@@ -176,6 +200,13 @@ graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)
 ```
 
 
+```{stata "x_new"}
+set seed 7
+
+set obs 120
+gen x_new = x+ 0.5 *rnormal()
+gen y_hat_new =  .8481496 * x_new+ .0052529
+```
 #### То же самое в python
 
 Много хорошихх функций для статистических расчетов можно найти в пакете Statsmodels. 
@@ -260,13 +291,16 @@ regr.f_test(r_matrix = hypotheses)
 Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.
 ```{python}
 W, p_value = shapiro(regr.resid)
-pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
+#pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
 ```
 
 
 Генерируем новые данные и строим предсказание.
 ```{python}
-newData = df['x'] + np.random.normal(len(df))
+import random
+random.seed(7)
+
+newData = df['x'] + 0.5*np.random.normal(len(df))
 prediction = regr.predict(newData)
 ```
 

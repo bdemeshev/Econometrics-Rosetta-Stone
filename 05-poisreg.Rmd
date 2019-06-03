@@ -2,11 +2,12 @@
 
 
 ```{r setup, include=FALSE}
+Sys.setenv(language = "russian")
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
-stataexe <- find_stata()
+
 stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
@@ -25,7 +26,7 @@ library(margins) #для подсчета предельных эффектов
 
 Импортируем данные.
 ```{r "import data"}
-df = import(file = "fish.dta")
+df = rio::import(file = "fish.dta")
 ```
 Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 
@@ -63,7 +64,7 @@ poisson = glm(count ~ child + camper +  persons, family = "poisson", data = df)
 summary(poisson)
 ```
 
-Посчитаем средний предельный эффект для каждоый переменной.
+Посчитаем средний предельный эффект для каждой переменной.
 ```{r "mef"}
 colMeans(marginal_effects(poisson))
 ```
@@ -86,10 +87,6 @@ nb2 = update(nb1, . ~ . - camper)
 waldtest(nb1, nb2)
 ```
 
-Посчитаем предельный эффект в какой-нибудь точке.
-```{r "mf"}
-marginal_effects(poisson)
-```
 
 Можем посмотреть на результаты модели с "раздутыми нулями" (zero-inflated). Они предполагают большую частоту нулевых наблюдений.
 ```{r "zero_infl"}
@@ -152,3 +149,83 @@ margins, dydx(*)
 ```{stata}  
 zinb count child i.camper, inflate(persons)
 ```
+
+
+#### То же самое в python
+
+Нужные пакетики:
+```{python}
+import seaborn as sns
+import matplotlib.pyplot as plt
+import numpy as np
+library(reticulate)
+pandas = reticulate::import("pandas")
+
+plt.style.use('ggplot')
+```
+
+Загружаем данные и смотрим описательные статистики.
+```{python}
+df_fish = pd.read_stata('fish.dta')
+```
+
+```{python}
+sns.distplot(df_fish['count'])
+plt.show()
+```
+
+Превращаем переменную `camper` в категориальную.
+```{python}
+df_fish['camper']=df_fish['camper'].astype('category')
+```
+
+Строим Пуассоновскую регрессию.
+```{python}
+regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
+                    family=sm.families.Poisson(link=sm.families.links.log)).fit()
+regr_pois.summary()
+```
+
+Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
+```{python}
+(df_fish
+ .filter(['count', 'camper'])
+ .groupby('camper')
+ .agg(['mean', 'var']))
+```
+
+И регрессию с остатками, имеющими отрицательное биномиальное распределение.
+```{python}                
+regr_bin = smf.glm('count ~ child + camper +  persons', data=df_fish,
+              family=sm.families.NegativeBinomial(link=sm.families.links.log)).fit()
+```
+ 
+Проверим гипотезу о равенстве 0 коэффициента при переменной `camper`. Проведем тест Вальда.
+```{python}
+hyp = '(camper = 0)'
+regr_bin.wald_test(hyp)
+```
+
+Посчитаем средний предельный эффект для каждой переменной.
+```{python}                
+pred = regr_pois.fittedvalues
+mean_mef_child = np.mean([regr_pois.params[1] * p for p in pred])
+mean_mef_camper = np.mean([regr_pois.params[2] * p for p in pred])
+
+data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
+data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
+mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
+                            for i in range(len(df_fish))])
+```
+
+И модель с раздутыми нулями.
+```{python} 
+1
+```
+
+
+Проблемы:
+
+2) предельные эффекты в Питоне
+3) clogit ВООБЩЕ НЕ ПОЛУЧАЕТСЯ
+
