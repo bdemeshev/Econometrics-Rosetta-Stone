@@ -2,13 +2,14 @@
 
 
 ```{r setup, include=FALSE}
-Sys.setenv(language = "russian")
+# Sys.setenv(language = "russian")
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
 
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+stataexe <- find_stata()
+# stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
@@ -26,7 +27,7 @@ library(margins) #для подсчета предельных эффектов
 
 Импортируем данные.
 ```{r "import data"}
-df = rio::import(file = "fish.dta")
+df = import(file = "fish.dta")
 ```
 Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 
@@ -158,9 +159,7 @@ zinb count child i.camper, inflate(persons)
 import seaborn as sns
 import matplotlib.pyplot as plt
 import numpy as np
-library(reticulate)
-pandas = reticulate::import("pandas")
-
+import pandas as pd
 plt.style.use('ggplot')
 ```
 

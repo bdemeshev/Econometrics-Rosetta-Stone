@@ -13,13 +13,24 @@ library(vcd) #еще графики
 library(MASS) #отрицательное биномиальное
 library(lmtest) #для проверки гипотез
 library(pscl) #zero-inflation function
+```
+
+```
+Error in library(pscl): there is no package called 'pscl'
+```
+
+```r
 library(margins) #для подсчета предельных эффектов
+```
+
+```
+Error in library(margins): there is no package called 'margins'
 ```
 
 Импортируем данные.
 
 ```r
-df = rio::import(file = "fish.dta")
+df = import(file = "fish.dta")
 ```
 Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 
@@ -41,7 +52,7 @@ Skim summary statistics
  n obs: 250 
  n variables: 4 
 
--- Variable type:numeric ---------------------------------------------------------------------
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -111,8 +122,7 @@ colMeans(marginal_effects(poisson))
 ```
 
 ```
-  dydx_child dydx_persons dydx_camper1 
-   -5.570100     3.596801     2.581478 
+Error in marginal_effects(poisson): could not find function "marginal_effects"
 ```
 
 Однако, заметим, что дисперсия и среднее значение объясняемой переменной не равны, как это предполагает распределение Пуассона.
@@ -194,36 +204,18 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 
 ```r
 zero_infl = zeroinfl(count ~ child + camper | persons, data = df, dist = 'negbin')
+```
+
+```
+Error in zeroinfl(count ~ child + camper | persons, data = df, dist = "negbin"): could not find function "zeroinfl"
+```
+
+```r
 summary(zero_infl)
 ```
 
 ```
-
-Call:
-zeroinfl(formula = count ~ child + camper | persons, data = df, 
-    dist = "negbin")
-
-Pearson residuals:
-    Min      1Q  Median      3Q     Max 
--0.5861 -0.4617 -0.3886 -0.1974 18.0135 
-
-Count model coefficients (negbin with log link):
-            Estimate Std. Error z value Pr(>|z|)    
-(Intercept)   1.3710     0.2561   5.353 8.64e-08 ***
-child        -1.5153     0.1956  -7.747 9.41e-15 ***
-camper1       0.8791     0.2693   3.265   0.0011 ** 
-Log(theta)   -0.9854     0.1760  -5.600 2.14e-08 ***
-
-Zero-inflation model coefficients (binomial with logit link):
-            Estimate Std. Error z value Pr(>|z|)  
-(Intercept)   1.6031     0.8365   1.916   0.0553 .
-persons      -1.6666     0.6793  -2.453   0.0142 *
----
-Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1 
-
-Theta = 0.3733 
-Number of iterations in BFGS optimization: 22 
-Log-likelihood: -432.9 on 6 Df
+Error in summary(zero_infl): object 'zero_infl' not found
 ```
 
 
@@ -238,12 +230,11 @@ summarize
 ```
 
 ```
-    Variable |       Obs        Mean    Std. Dev.       Min        Max
--------------+--------------------------------------------------------
-      camper |       250        .588    .4931824          0          1
-       child |       250        .684    .8503153          0          3
-       count |       250       3.296    11.63503          0        149
-     persons |       250       2.528     1.11273          1          4
+no; data in memory would be lost
+r(4);
+
+end of do-file
+r(4);
 ```
 
 
@@ -252,7 +243,15 @@ hist count
 ```
 
 ```
-(bin=15, start=0, width=9.9333333)
+ no; data in memory would be lost
+r(4);
+
+
+variable count not found
+r(111);
+
+end of do-file
+r(111);
 ```
 
 Строим Пуассоновскую регрессию. 
@@ -267,33 +266,15 @@ glm count camper child persons, family(poisson)
 ```
 
 ```
-Iteration 0:   log likelihood = -965.92815  
-Iteration 1:   log likelihood = -837.97093  
-Iteration 2:   log likelihood = -837.07307  
-Iteration 3:   log likelihood = -837.07248  
-Iteration 4:   log likelihood = -837.07248  
+ no; data in memory would be lost
+r(4);
 
-Generalized linear models                          No. of obs      =       250
-Optimization     : ML                              Residual df     =       246
-                                                   Scale parameter =         1
-Deviance         =  1337.079644                    (1/df) Deviance =  5.435283
-Pearson          =  2910.627049                    (1/df) Pearson  =  11.83182
 
-Variance function: V(u) = u                        [Poisson]
-Link function    : g(u) = ln(u)                    [Log]
+variable count not found
+r(111);
 
-                                                   AIC             =   6.72858
-Log likelihood   = -837.0724803                    BIC             = -21.19974
-
-------------------------------------------------------------------------------
-             |                 OIM
-       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      camper |   .9309359   .0890869    10.45   0.000     .7563289    1.105543
-       child |  -1.689957   .0809922   -20.87   0.000    -1.848699   -1.531215
-     persons |   1.091262   .0392553    27.80   0.000     1.014323    1.168201
-       _cons |  -1.981827    .152263   -13.02   0.000    -2.280257   -1.683397
-------------------------------------------------------------------------------
+end of do-file
+r(111);
 ```
 
 Можем посчитать AIC и BIC по другой формуле, аналогично выводу R.
@@ -304,14 +285,19 @@ estat ic
 ```
 
 ```
+ no; data in memory would be lost
+r(4);
+
+
+
 Akaike's information criterion and Bayesian information criterion
 
 -----------------------------------------------------------------------------
-       Model |    Obs    ll(null)   ll(model)     df          AIC         BIC
+       Model |        Obs  ll(null)  ll(model)      df         AIC        BIC
 -------------+---------------------------------------------------------------
-           . |    250           .   -837.0725      4     1682.145    1696.231
+           . |        120  109.6972   136.1825       2   -268.3649  -262.7899
 -----------------------------------------------------------------------------
-               Note:  N=Obs used in calculating BIC; see [R] BIC note
+               Note: N=Obs used in calculating BIC; see [R] BIC note.
 ```
 
 Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
@@ -321,14 +307,15 @@ tabstat count, by(camper) stat(mean, variance) nototal
 ```
 
 ```
-Summary for variables: count
-     by categories of: camper (CAMPER)
+ no; data in memory would be lost
+r(4);
 
-  camper |      mean  variance
----------+--------------------
-       0 |  1.524272  21.05578
-       1 |  4.537415   212.401
-------------------------------
+
+variable count not found
+r(111);
+
+end of do-file
+r(111);
 ```
 
 Предположим, что остатки имеют отрицательное биномиальное распределение.
@@ -338,47 +325,15 @@ nbreg count child camper persons
 ```
 
 ```
-Fitting Poisson model:
+ no; data in memory would be lost
+r(4);
 
-Iteration 0:   log likelihood = -841.58831  
-Iteration 1:   log likelihood = -837.07386  
-Iteration 2:   log likelihood = -837.07248  
-Iteration 3:   log likelihood = -837.07248  
 
-Fitting constant-only model:
+variable count not found
+r(111);
 
-Iteration 0:   log likelihood = -582.76028  
-Iteration 1:   log likelihood = -464.44518  
-Iteration 2:   log likelihood = -464.43931  
-Iteration 3:   log likelihood = -464.43931  
-
-Fitting full model:
-
-Iteration 0:   log likelihood = -438.02759  
-Iteration 1:   log likelihood = -409.71171  
-Iteration 2:   log likelihood = -405.34765  
-Iteration 3:   log likelihood = -405.22204  
-Iteration 4:   log likelihood =   -405.222  
-Iteration 5:   log likelihood =   -405.222  
-
-Negative binomial regression                      Number of obs   =        250
-                                                  LR chi2(3)      =     118.43
-Dispersion     = mean                             Prob > chi2     =     0.0000
-Log likelihood = -405.222                         Pseudo R2       =     0.1275
-
-------------------------------------------------------------------------------
-       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-       child |   -1.78052   .1920379    -9.27   0.000    -2.156907   -1.404132
-      camper |   .6211286   .2358072     2.63   0.008      .158955    1.083302
-     persons |     1.0608   .1174733     9.03   0.000     .8305564    1.291043
-       _cons |   -1.62499   .3294006    -4.93   0.000    -2.270603   -.9793765
--------------+----------------------------------------------------------------
-    /lnalpha |   .7688868   .1538497                      .4673469    1.070427
--------------+----------------------------------------------------------------
-       alpha |   2.157363   .3319098                      1.595755    2.916624
-------------------------------------------------------------------------------
-Likelihood-ratio test of alpha=0:  chibar2(01) =  863.70 Prob>=chibar2 = 0.000
+end of do-file
+r(111);
 ```
  
 Проверим гипотезу о равенстве 0 коэффицинта при переменной `camper`. Проведем тест Вальда.
@@ -389,11 +344,15 @@ test i.camper
 ```
 
 ```
-# invalid name
-r(198);
+ no; data in memory would be lost
+r(4);
+
+
+variable count not found
+r(111);
 
 end of do-file
-r(198);
+r(111);
 ```
 
 Посчитаем средний предельный эффект для каждоый переменной.
@@ -403,22 +362,22 @@ margins, dydx(*)
 ```
 
 ```
-# invalid name
-r(19. margins, dydx(*)
+ no; data in memory would be lost
+r(4);
 
-Average marginal effects                          Number of obs   =        250
-Model VCE    : OIM
 
-Expression   : Predicted number of events, predict()
-dy/dx w.r.t. : child camper persons
+
+Average marginal effects                        Number of obs     =        120
+Model VCE    : OLS
+
+Expression   : Linear prediction, predict()
+dy/dx w.r.t. : x
 
 ------------------------------------------------------------------------------
              |            Delta-method
-             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
+             |      dy/dx   Std. Err.      t    P>|t|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-       child |  -5.842234   1.494053    -3.91   0.000    -8.770524   -2.913943
-      camper |   2.038045   .8917015     2.29   0.022     .2903418    3.785748
-     persons |   3.480692   .9200607     3.78   0.000     1.677406    5.283978
+           x |   .8481496   .1048138     8.09   0.000     .6405898    1.055709
 ------------------------------------------------------------------------------
 ```
 
@@ -429,55 +388,15 @@ zinb count child i.camper, inflate(persons)
 ```
 
 ```
-# invalid name
-r(19. zinb count child i.camper, inflate(persons)
+ no; data in memory would be lost
+r(4);
 
-Fitting constant-only model:
 
-Iteration 0:   log likelihood = -519.33992  
-Iteration 1:   log likelihood = -471.96077  
-Iteration 2:   log likelihood = -465.38193  
-Iteration 3:   log likelihood = -464.39882  
-Iteration 4:   log likelihood = -463.92704  
-Iteration 5:   log likelihood = -463.79248  
-Iteration 6:   log likelihood = -463.75773  
-Iteration 7:   log likelihood =  -463.7518  
-Iteration 8:   log likelihood = -463.75119  
-Iteration 9:   log likelihood = -463.75118  
+variable count not found
+r(111);
 
-Fitting full model:
-
-Iteration 0:   log likelihood = -463.75118  (not concave)
-Iteration 1:   log likelihood = -440.43162  
-Iteration 2:   log likelihood = -434.96651  
-Iteration 3:   log likelihood = -433.49903  
-Iteration 4:   log likelihood = -432.89949  
-Iteration 5:   log likelihood = -432.89091  
-Iteration 6:   log likelihood = -432.89091  
-
-Zero-inflated negative binomial regression        Number of obs   =        250
-                                                  Nonzero obs     =        108
-                                                  Zero obs        =        142
-
-Inflation model = logit                           LR chi2(2)      =      61.72
-Log likelihood  = -432.8909                       Prob > chi2     =     0.0000
-
-------------------------------------------------------------------------------
-       count |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-count        |
-       child |  -1.515255   .1955912    -7.75   0.000    -1.898606   -1.131903
-    1.camper |   .8790514   .2692731     3.26   0.001     .3512857    1.406817
-       _cons |   1.371048   .2561131     5.35   0.000     .8690758    1.873021
--------------+----------------------------------------------------------------
-inflate      |
-     persons |  -1.666563   .6792833    -2.45   0.014    -2.997934   -.3351922
-       _cons |   1.603104   .8365065     1.92   0.055     -.036419    3.242626
--------------+----------------------------------------------------------------
-    /lnalpha |   .9853533     .17595     5.60   0.000     .6404975    1.330209
--------------+----------------------------------------------------------------
-       alpha |   2.678758   .4713275                      1.897425    3.781834
-------------------------------------------------------------------------------
+end of do-file
+r(111);
 ```
 
 
@@ -487,29 +406,9 @@ inflate      |
 
 ```python
 import seaborn as sns
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ImportError: No module named 'seaborn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ImportError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.style.use('ggplot')
 ```
 
@@ -519,26 +418,9 @@ plt.style.use('ggplot')
 df_fish = pd.read_stata('fish.dta')
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
 
 ```python
 sns.distplot(df_fish['count'])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
@@ -548,13 +430,6 @@ plt.show()
 
 ```python
 df_fish['camper']=df_fish['camper'].astype('category')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 
 Строим Пуассоновскую регрессию.
@@ -592,10 +467,11 @@ Detailed traceback:
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+           count            
+            mean         var
+camper                      
+0       1.524272   21.055778
+1       4.537415  212.400988
 ```
 
 И регрессию с остатками, имеющими отрицательное биномиальное распределение.
@@ -663,36 +539,17 @@ Detailed traceback:
 
 ```python
 data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
                             for i in range(len(df_fish))])
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
 
 Detailed traceback: 
   File "<string>", line 2, in <module>
+  File "<string>", line 2, in <listcomp>
 ```
 
 И модель с раздутыми нулями.

@@ -2,27 +2,27 @@
 
 
 ```{r setup, include=FALSE}
-Sys.setenv(language = "russian")
+# Sys.setenv(language = "russian")
 
-Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
-                       Sys.getenv()["PATH"], sep = ";"))
-Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
-                       Sys.getenv()["PATH"], sep = ";"))
-Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
-                       Sys.getenv()["PATH"], sep = ";"))
+# Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+#                       Sys.getenv()["PATH"], sep = ";"))
+# Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+#                       Sys.getenv()["PATH"], sep = ";"))
+# Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+#                       Sys.getenv()["PATH"], sep = ";"))
 
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
-use_condaenv("base")
-use_python("C:/Users/DNS/Anaconda3/python.exe")
+# use_condaenv("base")
+# use_python("C:/Users/DNS/Anaconda3/python.exe")
 
 
-pandas = reticulate::import("pandas")
+# pandas = reticulate::import("pandas")
 
-# stataexe <- find_stata()
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+stataexe <- find_stata()
+# stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 # use_python("Users/DNS/Anaconda3/python.exe")
 # use_python("C:/Users/DNS/Anaconda3/envs/tensorflow/python.exe")
 # use_python("C:/Users/DNS/ANACON~1/python.exe")
@@ -51,7 +51,7 @@ library(sjPlot) # еще графики
 
 Импортируем данные.
 ```{r "import data", message=FALSE, warning=FALSE}
-df = rio::import("us-return.dta")
+df = import("us-return.dta")
 ```
 
 Исследуем наш датасет.
@@ -66,7 +66,7 @@ df = rename(df, n = A, date = B) # дадим столбцам более осм
 ```
 
 ```{r "omit missings",  message=FALSE, warning=FALSE}
-df = na.omit(df) # уберем пустые строки
+df = na.omit(df) # уберем строки с пропущенными наблюдениями
 ```
 
 Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
