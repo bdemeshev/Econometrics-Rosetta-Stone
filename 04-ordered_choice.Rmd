@@ -2,13 +2,14 @@
 
 
 ```{r setup, include=FALSE}
-Sys.setenv(language = "russian")
+# Sys.setenv(language = "russian")
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+# stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 py_config()
+stataexe = find_stata()
 #use_python("C:/Users/DNS/Anaconda3/python.exe")
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
@@ -25,7 +26,7 @@ library(questionr)
 library(MASS)
 library(survival)
 
-log(6)
+# log(6)
 ```
 
 Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений.   
@@ -64,7 +65,8 @@ head(fit_values)
 
 \[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу
+\] 
+показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу
 ```{r "or",  message=FALSE, warning=FALSE}
 odds.ratio(multmodel) # отношение шансов в stata называется relative-risk ratio
 ```
