@@ -478,7 +478,7 @@ Dep. Variable:                      y   R-squared:                       0.357
 Model:                            OLS   Adj. R-squared:                  0.351
 Method:                 Least Squares   F-statistic:                     65.48
 Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        11:15:29   Log-Likelihood:                 136.18
+Time:                        16:00:02   Log-Likelihood:                 136.18
 No. Observations:                 120   AIC:                            -268.4
 Df Residuals:                     118   BIC:                            -262.8
 Df Model:                           1                                         
