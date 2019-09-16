@@ -137,7 +137,7 @@ F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13
 plot(ols)
 ```
 
-<img src="02-simplereg_files/figure-html/plot-1.png" width="672" /><img src="02-simplereg_files/figure-html/plot-2.png" width="672" /><img src="02-simplereg_files/figure-html/plot-3.png" width="672" /><img src="02-simplereg_files/figure-html/plot-4.png" width="672" />
+![](02-simplereg_files/figure-epub3/plot-1.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-2.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-3.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-4.png)<!-- -->
 
 Строим доверительный интервал для параметров модели.
 
@@ -167,8 +167,10 @@ Model 2: y ~ x
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 
-\[H_{0}: S = 0, K = 3,\\
-\text{где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)}\]
+\[
+H_{0}: S = 0, K = 3,
+\]
+где $S$ — коэффициент асимметрии (Skewness), $K$ — коэффициент эксцесса (Kurtosis)
 
 
 ```r
@@ -205,8 +207,8 @@ W = 0.99021, p-value = 0.5531
 
 ```r
 set.seed(7)
-
-newData = data.frame(x = df$x+0.5*rnorm(length(df$x))) #пошумим
+newData = df
+newData = mutate(newData, x = x + rnorm(n = n())) # пошумим
 yhat = predict(ols, newdata = newData, se = TRUE)
 ```
 
@@ -220,11 +222,7 @@ use us-return.dta
 ```
 
 ```
-no; data in memory would be lost
-r(4);
-
 end of do-file
-r(4);
 ```
 
 
@@ -237,13 +235,10 @@ ren B date
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
     Variable |        Obs        Mean    Std. Dev.       Min        Max
 -------------+---------------------------------------------------------
-           n |        120        60.5    34.78505          1        120
-        date |          0
+           A |        120        60.5    34.78505          1        120
+           B |          0
        MOBIL |        120    .0161917    .0803075      -.178       .366
       TEXACO |        120    .0119417    .0797036      -.194       .399
          IBM |        120    .0096167     .059024      -.187        .15
@@ -268,21 +263,7 @@ r(4);
 -------------+---------------------------------------------------------
       RKFREE |        120    .0068386    .0021869     .00207     .01255
       rkfree |        120    .0068386    .0021869     .00207     .01255
-           y |        120    .0113198     .097403    -.33458     .26546
-           x |        120    .0071531    .0686057    -.26358     .14346
-       u_hat |        120   -1.10e-10    .0781123  -.1684213   .1829908
--------------+---------------------------------------------------------
-       y_hat |        120    .0113198    .0581879  -.2183024   .1269284
-           D |        120    .0119369    .0322197   6.17e-08   .2454579
-    standard |        120    .0012055    1.007062   -2.15696   2.354051
-       x_new |        120    -.009492    .4879379  -1.270409   1.178539
-   y_hat_new |        120   -.0027978    .4138443  -1.072244    1.00483
 
-variable A not found
-r(111);
-
-end of do-file
-r(111);
 ```
 
 Убираем пропущенные значения и создаем новые переменные.
@@ -294,17 +275,8 @@ gen x = MARKET - RKFREE
 ```
 
 ```
- no; data in memory would be lost
-r(4);
+(2,544 observations deleted)
 
-
-(0 observations deleted)
-
-variable y already defined
-r(110);
-
-end of do-file
-r(110);
 ```
 
 Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.
@@ -314,9 +286,6 @@ reg y x
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
       Source |       SS           df       MS      Number of obs   =       120
 -------------+----------------------------------   F(1, 118)       =     65.48
        Model |  .402913404         1  .402913404   Prob > F        =    0.0000
@@ -339,11 +308,6 @@ test x = 1
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
-
-
  ( 1)  x = 1
 
        F(  1,   118) =    2.10
@@ -358,15 +322,7 @@ predict y_hat
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
-
-variable u_hat already defined
-r(110);
-
-end of do-file
-r(110);
+(option xb assumed; fitted values)
 ```
 
 Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
@@ -378,9 +334,6 @@ sktest u_hat
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
                     Skewness/Kurtosis tests for Normality
                                                           ------ joint ------
     Variable |        Obs  Pr(Skewness)  Pr(Kurtosis) adj chi2(2)   Prob>chi2
@@ -395,9 +348,6 @@ swilk u_hat
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
                    Shapiro-Wilk W test for normal data
 
     Variable |        Obs       W           V         z       Prob>z
@@ -413,11 +363,7 @@ QQ - график
 qnorm u_hat 
 ```
 
-```
- no; data in memory would be lost
-r(4);
-
-```
+``````
 
 График предсказанных значений против остатков.
 
@@ -425,11 +371,7 @@ r(4);
 rvfplot, yline(0)
 ```
 
-```
- no; data in memory would be lost
-r(4);
-
-```
+``````
 
 
 График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).
@@ -438,11 +380,7 @@ r(4);
 lvr2plot
 ```
 
-```
- no; data in memory would be lost
-r(4);
-
-```
+``````
 
 График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.
 
@@ -454,15 +392,7 @@ graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)
 ```
 
 ```
- no; data in memory would be lost
-r(4);
 
-
-variable D already defined
-r(110);
-
-end of do-file
-r(110);
 ```
 
 
@@ -476,18 +406,8 @@ gen y_hat_new =  .8481496 * x_new+ .0052529
 ```
 
 ```
- no; data in memory would be lost
-r(4);
-
-
-
 number of observations (_N) was 120, now 120
 
-variable x_new already defined
-r(110);
-
-end of do-file
-r(110);
 ```
 #### То же самое в python
 
@@ -557,8 +477,8 @@ regr.summary()
 Dep. Variable:                      y   R-squared:                       0.357
 Model:                            OLS   Adj. R-squared:                  0.351
 Method:                 Least Squares   F-statistic:                     65.48
-Date:                 Вс, 15 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        20:15:54   Log-Likelihood:                 136.18
+Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
+Time:                        10:46:43   Log-Likelihood:                 136.18
 No. Observations:                 120   AIC:                            -268.4
 Df Residuals:                     118   BIC:                            -262.8
 Df Model:                           1                                         
@@ -599,7 +519,7 @@ plt.ylabel('MARKET')
 plt.show()
 ```
 
-<img src="02-simplereg_files/figure-html/unnamed-chunk-13-1.png" width="672" />
+<img src="02-simplereg_files/figure-epub3/unnamed-chunk-13-1.png" width="480" />
 
 Строим доверительный интервал.
 
@@ -669,7 +589,7 @@ for i in abs_resid_top3.index:
                                    regr.resid[i]))
 ```
 
-<img src="02-simplereg_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+<img src="02-simplereg_files/figure-epub3/unnamed-chunk-18-1.png" width="480" />
 
 
 
@@ -695,7 +615,7 @@ for r, i in enumerate(abs_norm_resid_top3):
                                    norm_residuals[i]))
 ```
 
-<img src="02-simplereg_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+<img src="02-simplereg_files/figure-epub3/unnamed-chunk-19-1.png" width="480" />
 
 
 
@@ -722,7 +642,7 @@ for i in abs_sq_norm_resid_top3:
                                    np.sqrt(abs(norm_residuals)[i])))
 ```
 
-<img src="02-simplereg_files/figure-html/unnamed-chunk-20-1.png" width="672" />
+<img src="02-simplereg_files/figure-epub3/unnamed-chunk-20-1.png" width="480" />
 
 
 ```python
@@ -768,5 +688,5 @@ for i in leverage_top3:
 plt.show()
 ```
 
-<img src="02-simplereg_files/figure-html/unnamed-chunk-21-1.png" width="672" />
+<img src="02-simplereg_files/figure-epub3/unnamed-chunk-21-1.png" width="480" />
 

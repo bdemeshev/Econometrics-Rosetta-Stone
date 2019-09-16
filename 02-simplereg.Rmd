@@ -98,8 +98,10 @@ linearHypothesis(ols, c("x = 1"))
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 
-\[H_{0}: S = 0, K = 3,\\
-\text{где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)}\]
+\[
+H_{0}: S = 0, K = 3,
+\]
+где $S$ — коэффициент асимметрии (Skewness), $K$ — коэффициент эксцесса (Kurtosis)
 
 ```{r}
 jarque.bera.test(resid(ols)) 
@@ -117,8 +119,8 @@ shapiro.test(resid(ols))
 Сделаем прогноз модели по данным вне обучаемой выборки.
 ```{r "prediction"}
 set.seed(7)
-
-newData = data.frame(x = df$x+0.5*rnorm(length(df$x))) #пошумим
+newData = df
+newData = mutate(newData, x = x + rnorm(n = n())) # пошумим
 yhat = predict(ols, newdata = newData, se = TRUE)
 ```
 

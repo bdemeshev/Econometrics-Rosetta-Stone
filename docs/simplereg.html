@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Коан 2 Коан о простой линейной регрессии | Розеттский камень</title>
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Коан 2 Коан о простой линейной регрессии | Розеттский камень" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Коан 2 Коан о простой линейной регрессии | Розеттский камень" />
+  
+  <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  
+
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
+
+
+<meta name="date" content="2019-09-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="index.html"/>
+
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installsoft"><i class="fa fa-check"></i><b>1.1</b> Коан об установке софта</a></li>
+</ul></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Розеттский камень</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simplereg" class="section level1">
+<h1><span class="header-section-number">Коан 2</span> Коан о простой линейной регрессии</h1>
+<p>Построим простую линейную регрессию в R и проведем несложные тесты.</p>
+<p>Загрузим необходимые пакеты.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># для манипуляций с данными и построения графиков</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="kw">library</span>(skimr) <span class="co"># для красивого summary</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">library</span>(rio) <span class="co"># для чтения .dta файлов</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">library</span>(car) <span class="co"># для линейных гипотез</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="kw">library</span>(tseries) <span class="co"># для теста на нормальность</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">library</span>(sjPlot) <span class="co"># еще графики</span></a></code></pre></div>
+<p>Импортируем данные.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1">df =<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;us-return.dta&quot;</span>)</a></code></pre></div>
+<p>Исследуем наш датасет.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co"># skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные характеристики</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">skim</span>(df) <span class="co"># посмотрим на данные</span></a></code></pre></div>
+<pre><code>Skim summary statistics
+ n obs: 2664 
+ n variables: 22 
+
+── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ variable missing complete    n min max empty n_unique
+        B       0     2664 2664   0   6  2544       31
+
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+ variable missing complete    n    mean      sd      p0     p25     p50
+        A    2544      120 2664 60.5    34.79    1      30.75   60.5   
+    BOISE    2544      120 2664  0.017   0.097  -0.27   -0.045   0.015 
+   CITCRP    2544      120 2664  0.012   0.081  -0.28   -0.037   0.011 
+    CONED    2544      120 2664  0.019   0.05   -0.14   -0.012   0.019 
+   CONTIL    2544      120 2664 -0.0011  0.15   -0.6    -0.051   0     
+   DATGEN    2544      120 2664  0.0075  0.13   -0.34   -0.072   0.017 
+      DEC    2544      120 2664  0.02    0.099  -0.36   -0.051   0.024 
+    DELTA    2544      120 2664  0.012   0.096  -0.26   -0.053   0.013 
+   GENMIL    2544      120 2664  0.017   0.065  -0.15   -0.026   0.011 
+   GERBER    2544      120 2664  0.016   0.088  -0.29   -0.036   0.015 
+      IBM    2544      120 2664  0.0096  0.059  -0.19   -0.029   0.002 
+   MARKET    2544      120 2664  0.014   0.068  -0.26   -0.013   0.012 
+    MOBIL    2544      120 2664  0.016   0.08   -0.18   -0.032   0.013 
+    MOTOR    2544      120 2664  0.018   0.097  -0.33   -0.053   0.017 
+    PANAM    2544      120 2664  0.0035  0.13   -0.31   -0.065   0     
+     PSNH    2544      120 2664 -0.0042  0.11   -0.48   -0.049   0     
+   rkfree    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
+   RKFREE    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
+    TANDY    2544      120 2664  0.025   0.13   -0.25   -0.058   0.022 
+   TEXACO    2544      120 2664  0.012   0.08   -0.19   -0.037   0.01  
+    WEYER    2544      120 2664  0.0096  0.085  -0.27   -0.049  -0.002 
+     p75    p100     hist
+ 90.25   120     ▇▇▇▇▇▇▇▇
+  0.07     0.38  ▁▂▆▇▇▂▁▁
+  0.064    0.32  ▁▁▅▇▇▃▁▁
+  0.045    0.15  ▁▁▂▇▇▅▂▂
+  0.058    0.97  ▁▁▇▇▁▁▁▁
+  0.078    0.53  ▁▂▅▇▃▁▁▁
+  0.075    0.39  ▁▁▂▇▇▂▁▁
+  0.063    0.29  ▁▂▅▇▇▃▂▁
+  0.06     0.19  ▁▃▅▇▅▃▂▁
+  0.065    0.23  ▁▁▁▅▇▅▂▁
+  0.05     0.15  ▁▁▂▇▇▆▃▂
+  0.062    0.15  ▁▁▁▂▅▇▇▂
+  0.057    0.37  ▁▃▇▇▂▁▁▁
+  0.084    0.27  ▁▁▂▇▇▇▃▁
+  0.074    0.41  ▁▂▅▇▃▁▁▁
+  0.043    0.32  ▁▁▁▁▇▆▁▁
+  0.0078   0.013 ▁▃▆▇▅▂▂▂
+  0.0078   0.013 ▁▃▆▇▅▂▂▂
+  0.094    0.45  ▂▃▆▇▂▂▁▁
+  0.048    0.4   ▁▃▇▆▂▁▁▁
+  0.06     0.27  ▁▁▅▇▆▃▂▁</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1">df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) <span class="co"># дадим столбцам более осмысленные названия</span></a></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb6-1" data-line-number="1">df =<span class="st"> </span><span class="kw">na.omit</span>(df) <span class="co"># уберем строки с пропущенными наблюдениями</span></a></code></pre></div>
+<p>Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co">#создаем новые переменные и добавляем их к набору данных</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">df =<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) </a></code></pre></div>
+<p>Строим нашу модель и проверяем гипотезу об адекватности регрессии.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb8-1" data-line-number="1">ols =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df)</a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="kw">summary</span>(ols)</a></code></pre></div>
+<pre><code>
+Call:
+lm(formula = y ~ x, data = df)
+
+Residuals:
+      Min        1Q    Median        3Q       Max 
+-0.168421 -0.059381 -0.003399  0.061373  0.182991 
+
+Coefficients:
+            Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) 0.005253   0.007200   0.730    0.467    
+x           0.848150   0.104814   8.092 5.91e-13 ***
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+
+Residual standard error: 0.07844 on 118 degrees of freedom
+Multiple R-squared:  0.3569,    Adjusted R-squared:  0.3514 
+F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13</code></pre>
+<p>Вызовом одной функции получаем кучу полезных графиков. Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="kw">plot</span>(ols)</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/plot-1.png" width="672" /><img src="02-simplereg_files/figure-html/plot-2.png" width="672" /><img src="02-simplereg_files/figure-html/plot-3.png" width="672" /><img src="02-simplereg_files/figure-html/plot-4.png" width="672" /></p>
+<p>Строим доверительный интервал для параметров модели.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" data-line-number="1">est =<span class="st"> </span><span class="kw">cbind</span>(<span class="dt">Estimate =</span> <span class="kw">coef</span>(ols), <span class="kw">confint</span>(ols))</a></code></pre></div>
+<p>Проверим гипотезу о равенстве коэффициента при регрессоре единице.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1"><span class="kw">linearHypothesis</span>(ols, <span class="kw">c</span>(<span class="st">&quot;x = 1&quot;</span>))</a></code></pre></div>
+<pre><code>Linear hypothesis test
+
+Hypothesis:
+x = 1
+
+Model 1: restricted model
+Model 2: y ~ x
+
+  Res.Df     RSS Df Sum of Sq      F Pr(&gt;F)
+1    119 0.73900                           
+2    118 0.72608  1  0.012915 2.0989 0.1501</code></pre>
+<p>Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
+<p><span class="math display">\[
+H_{0}: S = 0, K = 3,
+\]</span>
+где <span class="math inline">\(S\)</span> — коэффициент асимметрии (Skewness), <span class="math inline">\(K\)</span> — коэффициент эксцесса (Kurtosis)</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">jarque.bera.test</span>(<span class="kw">resid</span>(ols)) </a></code></pre></div>
+<pre><code>
+    Jarque Bera Test
+
+data:  resid(ols)
+X-squared = 1.7803, df = 2, p-value = 0.4106</code></pre>
+<p>И тест Шапиро-Уилка.</p>
+<p><span class="math inline">\(H_{0}: \epsilon_{i} \sim N(\mu,\sigma^2)\)</span></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1"><span class="kw">shapiro.test</span>(<span class="kw">resid</span>(ols))</a></code></pre></div>
+<pre><code>
+    Shapiro-Wilk normality test
+
+data:  resid(ols)
+W = 0.99021, p-value = 0.5531</code></pre>
+<p>Оба теста указывают на нормальность распределения остатков регрессии.</p>
+<p>Сделаем прогноз модели по данным вне обучаемой выборки.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb18-1" data-line-number="1"><span class="kw">set.seed</span>(<span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb18-2" data-line-number="2">newData =<span class="st"> </span>df</a>
+<a class="sourceLine" id="cb18-3" data-line-number="3">newData =<span class="st"> </span><span class="kw">mutate</span>(newData, <span class="dt">x =</span> x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="kw">n</span>())) <span class="co"># пошумим</span></a>
+<a class="sourceLine" id="cb18-4" data-line-number="4">yhat =<span class="st"> </span><span class="kw">predict</span>(ols, <span class="dt">newdata =</span> newData, <span class="dt">se =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<div id="----" class="section level4">
+<h4><span class="header-section-number">2.0.0.1</span> То же самое в стате</h4>
+<p>Загружаем данные.</p>
+<pre class="stata"><code>use us-return.dta</code></pre>
+<pre><code>end of do-file</code></pre>
+<p>Любуемся и даем новые названия столбцам.</p>
+<pre class="stata"><code>summarize
+ren A n
+ren B date</code></pre>
+<pre><code>    Variable |        Obs        Mean    Std. Dev.       Min        Max
+-------------+---------------------------------------------------------
+           A |        120        60.5    34.78505          1        120
+           B |          0
+       MOBIL |        120    .0161917    .0803075      -.178       .366
+      TEXACO |        120    .0119417    .0797036      -.194       .399
+         IBM |        120    .0096167     .059024      -.187        .15
+-------------+---------------------------------------------------------
+         DEC |        120      .01975    .0991438      -.364       .385
+      DATGEN |        120    .0074833    .1275399      -.342       .528
+       CONED |        120    .0185083    .0502719      -.139       .151
+        PSNH |        120   -.0042167    .1094712      -.485       .318
+       WEYER |        120    .0096333    .0850664      -.271        .27
+-------------+---------------------------------------------------------
+       BOISE |        120     .016675    .0974882      -.274       .379
+       MOTOR |        120    .0181583    .0972656      -.331        .27
+       TANDY |        120    .0250083     .127566      -.246       .454
+       PANAM |        120    .0035167    .1318054      -.313       .406
+       DELTA |        120    .0116917    .0959317       -.26       .289
+-------------+---------------------------------------------------------
+      CONTIL |        120      -.0011    .1506992        -.6       .974
+      CITCRP |        120    .0118583    .0809719      -.282       .318
+      GERBER |        120       .0164    .0877379      -.288       .234
+      GENMIL |        120    .0165833    .0650403      -.148        .19
+      MARKET |        120    .0139917    .0683532       -.26       .148
+-------------+---------------------------------------------------------
+      RKFREE |        120    .0068386    .0021869     .00207     .01255
+      rkfree |        120    .0068386    .0021869     .00207     .01255
+</code></pre>
+<p>Убираем пропущенные значения и создаем новые переменные.</p>
+<pre class="stata"><code>drop if n == .
+gen y = MOTOR - RKFREE
+gen x = MARKET - RKFREE</code></pre>
+<pre><code>(2,544 observations deleted)
+</code></pre>
+<p>Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.</p>
+<pre class="stata"><code>reg y x</code></pre>
+<pre><code>      Source |       SS           df       MS      Number of obs   =       120
+-------------+----------------------------------   F(1, 118)       =     65.48
+       Model |  .402913404         1  .402913404   Prob &gt; F        =    0.0000
+    Residual |  .726081541       118  .006153233   R-squared       =    0.3569
+-------------+----------------------------------   Adj R-squared   =    0.3514
+       Total |  1.12899494       119  .009487352   Root MSE        =    .07844
+
+------------------------------------------------------------------------------
+           y |      Coef.   Std. Err.      t    P&gt;|t|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+           x |   .8481496   .1048138     8.09   0.000     .6405898    1.055709
+       _cons |   .0052529   .0071999     0.73   0.467     -.009005    .0195107
+------------------------------------------------------------------------------</code></pre>
+<p>Проверим гипотезу о равенстве коэффициента при регрессоре единице.</p>
+<pre class="stata"><code>test x = 1</code></pre>
+<pre><code> ( 1)  x = 1
+
+       F(  1,   118) =    2.10
+            Prob &gt; F =    0.1501</code></pre>
+<p>Сделаем предсказание по выборке и сохраним остатки.</p>
+<pre class="stata"><code>predict u_hat, resid
+predict y_hat</code></pre>
+<pre><code>(option xb assumed; fitted values)</code></pre>
+<p>Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+На самом деле, это не совсем тест Харке-Бера. Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки. В Stata есть. Подробнее здесь <a href="https://www.stata.com/manuals13/rsktest.pdf" class="uri">https://www.stata.com/manuals13/rsktest.pdf</a></p>
+<pre class="stata"><code>sktest u_hat</code></pre>
+<pre><code>                    Skewness/Kurtosis tests for Normality
+                                                          ------ joint ------
+    Variable |        Obs  Pr(Skewness)  Pr(Kurtosis) adj chi2(2)   Prob&gt;chi2
+-------------+---------------------------------------------------------------
+       u_hat |        120     0.8841        0.1027        2.74         0.2539</code></pre>
+<p>И тест Шапиро-Уилка. Тут все аналогично R.</p>
+<pre class="stata"><code>swilk u_hat</code></pre>
+<pre><code>                   Shapiro-Wilk W test for normal data
+
+    Variable |        Obs       W           V         z       Prob&gt;z
+-------------+------------------------------------------------------
+       u_hat |        120    0.99021      0.942    -0.133    0.55310</code></pre>
+<p>Гипотеза о нормальности остатков не отвергается.</p>
+<p>QQ - график</p>
+<pre class="stata"><code>qnorm u_hat </code></pre>
+<pre><code>
+График предсказанных значений против остатков.
+
+```stata
+rvfplot, yline(0)
+```
+</code></pre>
+<p>График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).</p>
+<pre class="stata"><code>lvr2plot</code></pre>
+<p>``````</p>
+<p>График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.</p>
+<pre class="stata"><code>predict D, cooksd
+predict standard, rstandard
+
+graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)</code></pre>
+<pre><code></code></pre>
+<pre class="stata"><code>set seed 7
+
+set obs 120
+gen x_new = x+ 0.5 *rnormal()
+gen y_hat_new =  .8481496 * x_new+ .0052529</code></pre>
+<pre><code>number of observations (_N) was 120, now 120
+</code></pre>
+</div>
+<div id="----python" class="section level4">
+<h4><span class="header-section-number">2.0.0.2</span> То же самое в python</h4>
+<p>Много хорошихх функций для статистических расчетов можно найти в пакете Statsmodels.</p>
+<div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb42-1" data-line-number="1"></a>
+<a class="sourceLine" id="cb42-2" data-line-number="2"><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># для работы с таблицами</span></a>
+<a class="sourceLine" id="cb42-3" data-line-number="3"><span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># математика, работа с матрицами</span></a>
+<a class="sourceLine" id="cb42-4" data-line-number="4"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># графики</span></a>
+<a class="sourceLine" id="cb42-5" data-line-number="5"><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</a>
+<a class="sourceLine" id="cb42-6" data-line-number="6"><span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf</a>
+<a class="sourceLine" id="cb42-7" data-line-number="7"><span class="im">import</span> statsmodels.graphics.gofplots <span class="im">as</span> gf</a>
+<a class="sourceLine" id="cb42-8" data-line-number="8"><span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> summary_table</a>
+<a class="sourceLine" id="cb42-9" data-line-number="9"><span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># еще более классные графики</span></a>
+<a class="sourceLine" id="cb42-10" data-line-number="10"><span class="im">from</span> scipy.stats <span class="im">import</span> shapiro <span class="co"># еще математика</span></a>
+<a class="sourceLine" id="cb42-11" data-line-number="11"><span class="im">import</span> statsmodels.discrete.discrete_model</a></code></pre></div>
+<p>При желании, можем кастомизировать графики :)</p>
+<div class="sourceCode" id="cb43"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb43-1" data-line-number="1">plt.style.use(<span class="st">&#39;seaborn&#39;</span>)</a>
+<a class="sourceLine" id="cb43-2" data-line-number="2">plt.rc(<span class="st">&#39;font&#39;</span>, size<span class="op">=</span><span class="dv">14</span>)</a>
+<a class="sourceLine" id="cb43-3" data-line-number="3">plt.rc(<span class="st">&#39;figure&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb43-4" data-line-number="4">plt.rc(<span class="st">&#39;axes&#39;</span>, labelsize<span class="op">=</span><span class="dv">15</span>)</a>
+<a class="sourceLine" id="cb43-5" data-line-number="5">plt.rc(<span class="st">&#39;axes&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)</a></code></pre></div>
+<p>Загрузим данные.</p>
+<div class="sourceCode" id="cb44"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb44-1" data-line-number="1">df <span class="op">=</span> pd.read_stata(<span class="st">&#39;us-return.dta&#39;</span>)</a></code></pre></div>
+<p>Избавимся от наблюдений с пропущенными значенями.</p>
+<div class="sourceCode" id="cb45"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb45-1" data-line-number="1">df.dropna(inplace<span class="op">=</span><span class="va">True</span>) <span class="co">##ИСПРАВИТЬ (выкинуть только пропуски целевой и объяснющей)</span></a>
+<a class="sourceLine" id="cb45-2" data-line-number="2">df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
+<p>Переименуем столбцы.</p>
+<div class="sourceCode" id="cb46"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb46-1" data-line-number="1">df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">&#39;A&#39;</span>:<span class="st">&#39;n&#39;</span>, <span class="st">&#39;B&#39;</span>: <span class="st">&#39;date&#39;</span>})</a></code></pre></div>
+<div class="sourceCode" id="cb47"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb47-1" data-line-number="1">df[<span class="st">&#39;y&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;MOTOR&#39;</span>] <span class="op">-</span> df[<span class="st">&#39;RKFREE&#39;</span>]</a>
+<a class="sourceLine" id="cb47-2" data-line-number="2">df[<span class="st">&#39;x&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;MARKET&#39;</span>] <span class="op">-</span> df[<span class="st">&#39;RKFREE&#39;</span>] </a></code></pre></div>
+<p>Строим модель и читаем саммари :)</p>
+<div class="sourceCode" id="cb48"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb48-1" data-line-number="1">regr <span class="op">=</span> smf.ols(<span class="st">&#39;y~x&#39;</span>, data <span class="op">=</span> df).fit()</a>
+<a class="sourceLine" id="cb48-2" data-line-number="2">regr.summary()</a></code></pre></div>
+<pre><code>&lt;class &#39;statsmodels.iolib.summary.Summary&#39;&gt;
+&quot;&quot;&quot;
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.357
+Model:                            OLS   Adj. R-squared:                  0.351
+Method:                 Least Squares   F-statistic:                     65.48
+Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
+Time:                        10:46:11   Log-Likelihood:                 136.18
+No. Observations:                 120   AIC:                            -268.4
+Df Residuals:                     118   BIC:                            -262.8
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P&gt;|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.0053      0.007      0.730      0.467      -0.009       0.020
+x              0.8481      0.105      8.092      0.000       0.641       1.056
+==============================================================================
+Omnibus:                        2.684   Durbin-Watson:                   2.030
+Prob(Omnibus):                  0.261   Jarque-Bera (JB):                1.780
+Skew:                          -0.031   Prob(JB):                        0.411
+Kurtosis:                       2.406   Cond. No.                         14.6
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+&quot;&quot;&quot;</code></pre>
+<p>Получить прогноз.</p>
+<div class="sourceCode" id="cb50"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb50-1" data-line-number="1">df[<span class="st">&#39;yhat&#39;</span>] <span class="op">=</span> regr.fittedvalues</a></code></pre></div>
+<p>Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)</p>
+<div class="sourceCode" id="cb51"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb51-1" data-line-number="1">fig, ax <span class="op">=</span> plt.subplots()</a>
+<a class="sourceLine" id="cb51-2" data-line-number="2">ax.plot(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues, color<span class="op">=</span><span class="st">&#39;g&#39;</span>, alpha <span class="op">=</span><span class="fl">0.8</span>)</a>
+<a class="sourceLine" id="cb51-3" data-line-number="3">ax.scatter(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues<span class="op">+</span>regr.resid, color <span class="op">=</span> <span class="st">&#39;g&#39;</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, s <span class="op">=</span> <span class="dv">40</span>)</a>
+<a class="sourceLine" id="cb51-4" data-line-number="4">ax.vlines(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues,regr.fittedvalues<span class="op">+</span>regr.resid, color <span class="op">=</span> <span class="st">&#39;gray&#39;</span>, alpha <span class="op">=</span> <span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb51-5" data-line-number="5">plt.title(<span class="st">&#39;Линия регрессии и остатки&#39;</span>)</a>
+<a class="sourceLine" id="cb51-6" data-line-number="6">plt.xlabel(<span class="st">&#39;RKFREE&#39;</span>)</a>
+<a class="sourceLine" id="cb51-7" data-line-number="7">plt.ylabel(<span class="st">&#39;MARKET&#39;</span>)</a>
+<a class="sourceLine" id="cb51-8" data-line-number="8">plt.show()</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Строим доверительный интервал.</p>
+<div class="sourceCode" id="cb52"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb52-1" data-line-number="1">regr.conf_int()</a></code></pre></div>
+<pre><code>                  0         1
+Intercept -0.009005  0.019511
+x          0.640590  1.055709</code></pre>
+<p>И проведем F-test.</p>
+<div class="sourceCode" id="cb54"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb54-1" data-line-number="1">hypotheses <span class="op">=</span> <span class="st">&#39;(x = 1)&#39;</span></a>
+<a class="sourceLine" id="cb54-2" data-line-number="2">regr.f_test(r_matrix <span class="op">=</span> hypotheses)</a></code></pre></div>
+<pre><code>&lt;class &#39;statsmodels.stats.contrast.ContrastResults&#39;&gt;
+&lt;F test: F=array([[2.09891771]]), p=0.1500556415866233, df_denom=118, df_num=1&gt;</code></pre>
+<p>Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.</p>
+<div class="sourceCode" id="cb56"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb56-1" data-line-number="1">W, p_value <span class="op">=</span> shapiro(regr.resid)</a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="co">#pd.DataFrame(data = {&#39;W&#39;: [round(W,3)], &#39;p_value&#39;: [round(p_value,3)]})</span></a></code></pre></div>
+<p>Генерируем новые данные и строим предсказание.</p>
+<div class="sourceCode" id="cb57"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb57-1" data-line-number="1"><span class="im">import</span> random</a>
+<a class="sourceLine" id="cb57-2" data-line-number="2">random.seed(<span class="dv">7</span>)</a>
+<a class="sourceLine" id="cb57-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb57-4" data-line-number="4">newData <span class="op">=</span> df[<span class="st">&#39;x&#39;</span>] <span class="op">+</span> <span class="fl">0.5</span><span class="op">*</span>np.random.normal(<span class="bu">len</span>(df))</a>
+<a class="sourceLine" id="cb57-5" data-line-number="5">prediction <span class="op">=</span> regr.predict(newData)</a></code></pre></div>
+<p>А теперь жесть! Построим графички, похожие на autoplot R.</p>
+<div class="sourceCode" id="cb58"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb58-1" data-line-number="1">fig_1 <span class="op">=</span> plt.figure(<span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb58-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb58-3" data-line-number="3">fig_1.axes[<span class="dv">0</span>] <span class="op">=</span> sns.residplot(df[<span class="st">&#39;x&#39;</span>], df[<span class="st">&#39;y&#39;</span>],</a>
+<a class="sourceLine" id="cb58-4" data-line-number="4">                                  lowess<span class="op">=</span><span class="va">True</span>,</a>
+<a class="sourceLine" id="cb58-5" data-line-number="5">                                  scatter_kws<span class="op">=</span>{<span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>},</a>
+<a class="sourceLine" id="cb58-6" data-line-number="6">                                  line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">2</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})</a>
+<a class="sourceLine" id="cb58-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb58-8" data-line-number="8">fig_1.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Fitted&#39;</span>)</a>
+<a class="sourceLine" id="cb58-9" data-line-number="9">fig_1.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)</a>
+<a class="sourceLine" id="cb58-10" data-line-number="10">fig_1.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Residuals&#39;</span>)</a>
+<a class="sourceLine" id="cb58-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb58-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb58-13" data-line-number="13"><span class="co">#можем добавить метки потенциальных аутлаеров</span></a>
+<a class="sourceLine" id="cb58-14" data-line-number="14">abs_resid <span class="op">=</span> <span class="bu">abs</span>(regr.resid).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</a>
+<a class="sourceLine" id="cb58-15" data-line-number="15">abs_resid_top3 <span class="op">=</span> abs_resid[:<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb58-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb58-17" data-line-number="17"><span class="cf">for</span> i <span class="kw">in</span> abs_resid_top3.index:</a>
+<a class="sourceLine" id="cb58-18" data-line-number="18">    fig_1.axes[<span class="dv">0</span>].annotate(i, </a>
+<a class="sourceLine" id="cb58-19" data-line-number="19">                               xy<span class="op">=</span>(regr.fittedvalues[i], </a>
+<a class="sourceLine" id="cb58-20" data-line-number="20">                                   regr.resid[i]))</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
+<div class="sourceCode" id="cb59"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb59-1" data-line-number="1">norm_residuals <span class="op">=</span> regr.get_influence().resid_studentized_internal <span class="co">#сохраним стьюдентизированные остатки </span></a>
+<a class="sourceLine" id="cb59-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb59-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb59-4" data-line-number="4">QQ <span class="op">=</span> gf.ProbPlot(norm_residuals)</a>
+<a class="sourceLine" id="cb59-5" data-line-number="5">fig_2 <span class="op">=</span> QQ.qqplot(line<span class="op">=</span><span class="st">&#39;45&#39;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">&#39;b&#39;</span>, lw<span class="op">=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb59-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb59-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb59-8" data-line-number="8">fig_2.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Normal Q-Q&#39;</span>)</a>
+<a class="sourceLine" id="cb59-9" data-line-number="9">fig_2.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Theoretical Quantiles&#39;</span>)</a>
+<a class="sourceLine" id="cb59-10" data-line-number="10">fig_2.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)<span class="op">;</span></a>
+<a class="sourceLine" id="cb59-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb59-12" data-line-number="12"><span class="co">#и снова метки</span></a>
+<a class="sourceLine" id="cb59-13" data-line-number="13">abs_norm_resid <span class="op">=</span> np.flip(np.argsort(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>)</a>
+<a class="sourceLine" id="cb59-14" data-line-number="14">abs_norm_resid_top3 <span class="op">=</span> abs_norm_resid[:<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb59-15" data-line-number="15"></a>
+<a class="sourceLine" id="cb59-16" data-line-number="16"><span class="cf">for</span> r, i <span class="kw">in</span> <span class="bu">enumerate</span>(abs_norm_resid_top3):</a>
+<a class="sourceLine" id="cb59-17" data-line-number="17">    fig_2.axes[<span class="dv">0</span>].annotate(i, </a>
+<a class="sourceLine" id="cb59-18" data-line-number="18">                               xy<span class="op">=</span>(np.flip(QQ.theoretical_quantiles, <span class="dv">0</span>)[r],</a>
+<a class="sourceLine" id="cb59-19" data-line-number="19">                                   norm_residuals[i]))</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<div class="sourceCode" id="cb60"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb60-1" data-line-number="1">fig_3 <span class="op">=</span> plt.figure(<span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb60-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb60-3" data-line-number="3">plt.scatter(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), alpha<span class="op">=</span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb60-4" data-line-number="4">sns.regplot(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), </a>
+<a class="sourceLine" id="cb60-5" data-line-number="5">            scatter<span class="op">=</span><span class="va">False</span>, </a>
+<a class="sourceLine" id="cb60-6" data-line-number="6">            ci<span class="op">=</span><span class="va">False</span>, </a>
+<a class="sourceLine" id="cb60-7" data-line-number="7">            lowess<span class="op">=</span><span class="va">True</span>,</a>
+<a class="sourceLine" id="cb60-8" data-line-number="8">            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>})</a>
+<a class="sourceLine" id="cb60-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb60-10" data-line-number="10">fig_3.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Scale-Location&#39;</span>)</a>
+<a class="sourceLine" id="cb60-11" data-line-number="11">fig_3.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)</a>
+<a class="sourceLine" id="cb60-12" data-line-number="12">fig_3.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;$\sqrt{|Standardized Residuals|}$&#39;</span>)</a>
+<a class="sourceLine" id="cb60-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb60-14" data-line-number="14"><span class="co"># и еще раз!)</span></a>
+<a class="sourceLine" id="cb60-15" data-line-number="15">abs_sq_norm_resid <span class="op">=</span> np.flip(np.argsort(np.sqrt(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb60-16" data-line-number="16">abs_sq_norm_resid_top3 <span class="op">=</span> abs_sq_norm_resid[:<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb60-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb60-18" data-line-number="18"><span class="cf">for</span> i <span class="kw">in</span> abs_sq_norm_resid_top3:</a>
+<a class="sourceLine" id="cb60-19" data-line-number="19">    fig_3.axes[<span class="dv">0</span>].annotate(i, xy<span class="op">=</span>(regr.fittedvalues[i], </a>
+<a class="sourceLine" id="cb60-20" data-line-number="20">                                   np.sqrt(<span class="bu">abs</span>(norm_residuals)[i])))</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<div class="sourceCode" id="cb61"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb61-1" data-line-number="1">leverage <span class="op">=</span> regr.get_influence().hat_matrix_diag <span class="co">#сохраняем элементы матрицы-шляпницы</span></a>
+<a class="sourceLine" id="cb61-2" data-line-number="2">cook_dist <span class="op">=</span> regr.get_influence().cooks_distance[<span class="dv">0</span>] <span class="co">#И расстояние Кука</span></a>
+<a class="sourceLine" id="cb61-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb61-4" data-line-number="4">fig_4 <span class="op">=</span> plt.figure(<span class="dv">4</span>)</a>
+<a class="sourceLine" id="cb61-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb61-6" data-line-number="6">plt.scatter(leverage, norm_residuals, alpha<span class="op">=</span><span class="fl">0.5</span>)</a>
+<a class="sourceLine" id="cb61-7" data-line-number="7">sns.regplot(leverage, norm_residuals, </a>
+<a class="sourceLine" id="cb61-8" data-line-number="8">            scatter<span class="op">=</span><span class="va">False</span>, </a>
+<a class="sourceLine" id="cb61-9" data-line-number="9">            ci<span class="op">=</span><span class="va">False</span>, </a>
+<a class="sourceLine" id="cb61-10" data-line-number="10">            lowess<span class="op">=</span><span class="va">True</span>,</a>
+<a class="sourceLine" id="cb61-11" data-line-number="11">            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})</a>
+<a class="sourceLine" id="cb61-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb61-13" data-line-number="13">fig_4.axes[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>, <span class="fl">0.20</span>)</a></code></pre></div>
+<pre><code>(0, 0.2)</code></pre>
+<div class="sourceCode" id="cb63"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb63-1" data-line-number="1">fig_4.axes[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)</a></code></pre></div>
+<pre><code>(-3, 5)</code></pre>
+<div class="sourceCode" id="cb65"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb65-1" data-line-number="1">fig_4.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Leverage&#39;</span>)</a>
+<a class="sourceLine" id="cb65-2" data-line-number="2">fig_4.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Leverage&#39;</span>)</a>
+<a class="sourceLine" id="cb65-3" data-line-number="3">fig_4.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)</a>
+<a class="sourceLine" id="cb65-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb65-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb65-6" data-line-number="6">leverage_top3 <span class="op">=</span> np.flip(np.argsort(cook_dist), <span class="dv">0</span>)[:<span class="dv">3</span>]</a>
+<a class="sourceLine" id="cb65-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb65-8" data-line-number="8"><span class="cf">for</span> i <span class="kw">in</span> leverage_top3:</a>
+<a class="sourceLine" id="cb65-9" data-line-number="9">    fig_4.axes[<span class="dv">0</span>].annotate(i, </a>
+<a class="sourceLine" id="cb65-10" data-line-number="10">                               xy<span class="op">=</span>(leverage[i], </a>
+<a class="sourceLine" id="cb65-11" data-line-number="11">                                   norm_residuals[i]))</a>
+<a class="sourceLine" id="cb65-12" data-line-number="12">plt.show()</a></code></pre></div>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["Rosetta_Stone.pdf", "Rosetta_Stone.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

@@ -19,13 +19,13 @@
 
 2. Загрузите программу RStudio [с официального сайта разработчика](https://www.rstudio.com/products/rstudio/download/) (выберите подходящую версию из предложенных опций). Возможностей бесплатной версии 
 будет вполне достаточно для работы.
-![*Страница загрузки*](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/RStudio.png) 
+![*Страница загрузки*](images/RStudio.png) 
 
 Готово, Вы можете использовать RStudio на вашем компьютере.
 
 #####Начало работы 
 
-![*Интерфейс программы*](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/RStudio_Interface.png) 
+![*Интерфейс программы*](images/RStudio_Interface.png) 
 
 1. **New file** - Создание нового файла.
 
@@ -50,17 +50,17 @@
 1. Загрузите и установите Anaconda [с официального сайта](https://www.anaconda.com/distribution/).
 
 2. После загрузки и установки откройте Anaconda Navigator, через который Вы сможете открыть программу Jupyter Notebook.
-![*Интерфейс Anaconda Navigator*](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/Anaconda Navigator.png)
+![*Интерфейс Anaconda Navigator*](images/Anaconda Navigator.png)
 
 
 #####Начало работы
 
 Открыв Jupyter Notebook, вы попадете на страницу, содержащую ваши сохраненные файлы. Чтобы создать новый файл, нажмите "New" ▶ "Notebook: Python 3".
-![Новый файл](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/New File in Jupyter.png)
+![Новый файл](images/New File in Jupyter.png)
 
 
 Затем, в открывшемся окне, появится новый файл. Теперь все готово к работе. Вы можете вводить свой код и затем, используя комбинацию клавиш "Shift" + "Enter", проверять его исполнение.
-![Code](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/Code in Jupyter.png)
+![Code](images/Code in Jupyter.png)
 
 
 ***
@@ -75,7 +75,7 @@
 #####Начало работы:
 
 
-![*Интерфейс Stata*](/Users/Sasha/Desktop/my_rosetta/alex_work/Images/Stata Interface.jpg)
+![*Интерфейс Stata*](images/Stata Interface.jpg)
 
 1. **Open File** - открыть файл.
 2. **Save** - сохранить файл.
