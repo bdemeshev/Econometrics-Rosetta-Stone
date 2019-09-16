@@ -1,4 +1,4 @@
-Коан об установке софта {#installsoft}
+# Коан об установке софта {#installsoft}
 ---
 
 В этом коане мы рассмотрим установку и настройку программ для работы на языках программирования R и Python, а также установку и настройку программы Stata. 
@@ -9,7 +9,7 @@
 
 Рассмотрим установку RStudio на Mac OS и Windows.
 
-##### Инструкция по установке RStudio для Windows / Mac OS:
+### Инструкция по установке RStudio для Windows / Mac OS:
 
 1. Загрузите и установите язык программирования R [с официального сайта](http://cran.cnr.berkeley.edu/).
 
@@ -22,16 +22,16 @@
 
 <center> 
 
-![*Страница загрузки*](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/RStudio.png) 
+![*Страница загрузки*](images/RStudio.png) 
 
 </center> 
 
-##### Начало работы 
+### Начало работы 
 
 
 <center> 
 
-![*Интерфейс программы*](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/RStudio_Interface.png) 
+![*Интерфейс программы*](images/RStudio_Interface.png) 
 
 </center> 
 
@@ -51,7 +51,7 @@
 7. **Viewer** - Отображение введенного кода.
 
 
-##### Настройка программы [^1]
+### Настройка программы [^1]
 
 Запустите RStudio. В разделе Tools --- Global Options --- Sweave --- "Weave .Rnw files using" выберите knitr.
 
@@ -72,7 +72,7 @@ install.packages(c("vcd", "ggplot2", "knitr", "xtable", "texreg", "lmtest", "san
 ### Язык программирования Python
 > Python --- это открытая среда программирования, помогающая в работе со статистическими данными. Для программирования на Python подойдет программа Jupyter Notebook. 
 
-##### Установка
+### Установка
 
 1. Загрузите и установите Anaconda [с официального сайта](https://www.anaconda.com/distribution/).
 
@@ -80,17 +80,17 @@ install.packages(c("vcd", "ggplot2", "knitr", "xtable", "texreg", "lmtest", "san
 
 <center> 
 
-![*Интерфейс Anaconda Navigator*](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/Anaconda Navigator.png)
+![*Интерфейс Anaconda Navigator*](images/Anaconda Navigator.png)
 
 </center> 
 
-##### Начало работы
+### Начало работы
 
 Открыв Jupyter Notebook, вы попадете на страницу, содержащую ваши сохраненные файлы. Чтобы создать новый файл, нажмите "New" ▶ "Notebook: Python 3".
 
 <center> 
 
-![*Новый файл*](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/New File in Jupyter.png)
+![*Новый файл*](images/New File in Jupyter.png)
 
 </center> 
 
@@ -98,7 +98,7 @@ install.packages(c("vcd", "ggplot2", "knitr", "xtable", "texreg", "lmtest", "san
 
 <center> 
 
-![Ввод кода](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/Code in Jupyter.png)
+![Ввод кода](images/Code in Jupyter.png)
 
 </center> 
 
@@ -108,16 +108,16 @@ install.packages(c("vcd", "ggplot2", "knitr", "xtable", "texreg", "lmtest", "san
 > Stata, в отличие от R и Python, является программой, а не языком программирования. Она также помогает в работе со статистическими данными. 
 
 
-##### Установка:
+### Установка:
 
 Для установки Stata необходимо загрузить актуальную версию [с сайта компании-разработчика](https://www.stata.com/). Подойдут как Stata SE, так и Stata MP.
 
-##### Начало работы:
+### Начало работы:
 
 
 <center> 
 
-![*Интерфейс Stata*](/Users/Sasha/Documents/GitHub/Rosetta Stone/alex_work/Images/Stata Interface.jpg)
+![*Интерфейс Stata*](images/Stata Interface.jpg)
 
 </center> 
 
