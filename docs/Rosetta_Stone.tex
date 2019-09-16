@@ -126,7 +126,11 @@
   \postdate{\par}
     \date{2019-09-16}
 
-\usepackage{booktabs}
+\usepackage{booktabs} % красивые таблицы
+\usepackage{polyglossia} % переключение языков в xelatex
+\setmainlanguage{russian} 
+\newfontfamily{\cyrillicfont}{Linux Libertine O} % залатываем какой-то косяк с русскими шрифтами
+\newfontfamily{\cyrillicfonttt}{Linux Libertine O}
 
 \begin{document}
 \maketitle
@@ -139,7 +143,7 @@
 \chapter{Напутственное слово}\label{-}}
 
 \hypertarget{installsoft}{%
-\section{Коан об установке софта}\label{installsoft}}
+\chapter{Коан об установке софта}\label{installsoft}}
 
 В этом коане мы рассмотрим установку и настройку программ для работы на языках программирования R и Python, а также установку и настройку программы Stata.
 
@@ -767,7 +771,7 @@ Dep. Variable:                      y   R-squared:                       0.357
 Model:                            OLS   Adj. R-squared:                  0.351
 Method:                 Least Squares   F-statistic:                     65.48
 Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        10:46:25   Log-Likelihood:                 136.18
+Time:                        11:15:11   Log-Likelihood:                 136.18
 No. Observations:                 120   AIC:                            -268.4
 Df Residuals:                     118   BIC:                            -262.8
 Df Model:                           1                                         

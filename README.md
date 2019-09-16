@@ -11,6 +11,7 @@ https://bdemeshev.github.io/Econometrics-Rosetta-Stone/
 Чистая кросс-платформенная компиляция — дело грядущего :)
 * Книжка должна рендериться в docs сама
 * Коммитим на гитхаб и ура!
+* Вся книжка рендерится в pdf/html/epub командой `rmarkdown::render_site(encoding = 'UTF-8')`
 
 # Для настроек компиляции на трёх осях:
 
@@ -70,6 +71,8 @@ a^2 = b \\
 c^2 = d \\
 \end{cases}
 \]
+
+
 
 
 

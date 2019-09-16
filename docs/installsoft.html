@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Розеттский камень</title>
+  <title>Коан 2 Коан об установке софта | Розеттский камень</title>
   <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Розеттский камень" />
+  <meta property="og:title" content="Коан 2 Коан об установке софта | Розеттский камень" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Розеттский камень" />
+  <meta name="twitter:title" content="Коан 2 Коан об установке софта | Розеттский камень" />
   
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
@@ -31,8 +31,8 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-
-<link rel="next" href="installsoft.html"/>
+<link rel="prev" href="index.html"/>
+<link rel="next" href="simplereg.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -148,13 +148,73 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           <div class="page-inner">
 
             <section class="normal" id="section-">
-<div id="header">
-<h1 class="title">Розеттский камень</h1>
-<p class="author"><em>Пуассон, фея и три мексиканских негодяя</em></p>
-<p class="date"><em>2019-09-16</em></p>
+<div id="installsoft" class="section level1">
+<h1><span class="header-section-number">Коан 2</span> Коан об установке софта</h1>
+<p>В этом коане мы рассмотрим установку и настройку программ для работы на языках программирования R и Python, а также установку и настройку программы Stata.</p>
+<hr />
+<p>###Язык программирования R
+&gt; R - это открытая среда программирования, помогающая в работе со статистическими данными. Для программирования на R подойдет программа RStudio.</p>
+<p>Рассмотрим установку RStudio на Mac OS и Windows.</p>
+<p>#####Инструкция по установке RStudio для Windows / Mac OS:</p>
+<ol style="list-style-type: decimal">
+<li>Загрузите и установите язык программирования R <a href="http://cran.cnr.berkeley.edu/">с официального сайта</a>.</li>
+</ol>
+<ul>
+<li><p>Версия для Windows: Выберите “Download R for Windows” ▶ “base” ▶ “Download R 3.x.x for Windows”.</p></li>
+<li><p>Версия для Mac OS: Выберите “Download R for (Mac) OS X” ▶ “Latest Release” ▶ “R 3.x.x”.</p></li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Загрузите программу RStudio <a href="https://www.rstudio.com/products/rstudio/download/">с официального сайта разработчика</a> (выберите подходящую версию из предложенных опций). Возможностей бесплатной версии
+будет вполне достаточно для работы.
+<img src="images/RStudio.png" alt="Страница загрузки" /></li>
+</ol>
+<p>Готово, Вы можете использовать RStudio на вашем компьютере.</p>
+<p>#####Начало работы</p>
+<div class="figure">
+<img src="images/RStudio_Interface.png" alt="Интерфейс программы" />
+<p class="caption"><em>Интерфейс программы</em></p>
 </div>
-<div id="-" class="section level1">
-<h1><span class="header-section-number">Коан 1</span> Напутственное слово</h1>
+<ol style="list-style-type: decimal">
+<li><p><strong>New file</strong> - Создание нового файла.</p></li>
+<li><p><strong>New project</strong> - Создание нового проекта.</p></li>
+<li><p><strong>Open file</strong> - Открытие существующего файла.</p></li>
+<li><p><strong>Console</strong> - Консоль, в которой набирается код.</p></li>
+<li><p><strong>Files</strong> - Список файлов, доступных для работы.</p></li>
+<li><p><strong>Packages</strong> - Список установленных пакетов, т.е. расширений. Также можно ознакомиться с ним, введя в консоль команду <em>installed.packages()</em>.</p></li>
+<li><p><strong>Viewer</strong> - Отображение введенного кода.</p></li>
+</ol>
+<hr />
+<p>###Язык программирования Python
+&gt; Python - это ещё одна открытая среда программирования, помогающая в работе со статистическими данными. Для программирования на Python подойдет программа Jupyter Notebook.</p>
+<p>#####Установка</p>
+<ol style="list-style-type: decimal">
+<li><p>Загрузите и установите Anaconda <a href="https://www.anaconda.com/distribution/">с официального сайта</a>.</p></li>
+<li><p>После загрузки и установки откройте Anaconda Navigator, через который Вы сможете открыть программу Jupyter Notebook.
+<img src="images/Anaconda%20Navigator.png" alt="Интерфейс Anaconda Navigator" /></p></li>
+</ol>
+<p>#####Начало работы</p>
+<p>Открыв Jupyter Notebook, вы попадете на страницу, содержащую ваши сохраненные файлы. Чтобы создать новый файл, нажмите “New” ▶ “Notebook: Python 3”.
+<img src="images/New%20File%20in%20Jupyter.png" alt="Новый файл" /></p>
+<p>Затем, в открывшемся окне, появится новый файл. Теперь все готово к работе. Вы можете вводить свой код и затем, используя комбинацию клавиш “Shift” + “Enter”, проверять его исполнение.
+<img src="images/Code%20in%20Jupyter.png" alt="Code" /></p>
+<hr />
+<p>###Программа STATA
+&gt; Stata, в отличие от R и Python, является программой, а не языком программирования. Она также помогает в работе со статистическими данными.</p>
+<p>#####Установка:</p>
+<p>Для установки Stata необходимо загрузить актуальную версию <a href="https://www.stata.com/">с сайта компании-разработчика</a>. Подойдут как Stata SE, так и Stata MP.</p>
+<p>#####Начало работы:</p>
+<div class="figure">
+<img src="images/Stata%20Interface.jpg" alt="Интерфейс Stata" />
+<p class="caption"><em>Интерфейс Stata</em></p>
+</div>
+<ol style="list-style-type: decimal">
+<li><strong>Open File</strong> - открыть файл.</li>
+<li><strong>Save</strong> - сохранить файл.</li>
+<li><strong>Data Editor</strong> - редактирование данных.</li>
+<li><strong>Data Browser</strong> - просмотр данных.</li>
+<li><strong>Variables</strong> - список переменных.</li>
+<li><strong>Command</strong> - командная строка, в которой вводится код.</li>
+</ol>
 
 </div>
             </section>
@@ -162,8 +222,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-
-<a href="installsoft.html" class="navigation navigation-next navigation-unique" aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simplereg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>

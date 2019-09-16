@@ -4,11 +4,11 @@
 
   <meta charset="utf-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <title>Коан 2 Коан о простой линейной регрессии | Розеттский камень</title>
+  <title>Коан 3 Коан о простой линейной регрессии | Розеттский камень</title>
   <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   <meta name="generator" content="bookdown 0.13 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Коан 2 Коан о простой линейной регрессии | Розеттский камень" />
+  <meta property="og:title" content="Коан 3 Коан о простой линейной регрессии | Розеттский камень" />
   <meta property="og:type" content="book" />
   
   
@@ -16,7 +16,7 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Коан 2 Коан о простой линейной регрессии | Розеттский камень" />
+  <meta name="twitter:title" content="Коан 3 Коан о простой линейной регрессии | Розеттский камень" />
   
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
@@ -31,7 +31,7 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="index.html"/>
+<link rel="prev" href="installsoft.html"/>
 
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
@@ -125,10 +125,9 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#installsoft"><i class="fa fa-check"></i><b>1.1</b> Коан об установке софта</a></li>
-</ul></li>
-<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
+<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a></li>
+<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -150,7 +149,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="simplereg" class="section level1">
-<h1><span class="header-section-number">Коан 2</span> Коан о простой линейной регрессии</h1>
+<h1><span class="header-section-number">Коан 3</span> Коан о простой линейной регрессии</h1>
 <p>Построим простую линейную регрессию в R и проведем несложные тесты.</p>
 <p>Загрузим необходимые пакеты.</p>
 <div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># для манипуляций с данными и построения графиков</span></a>
@@ -287,7 +286,7 @@ W = 0.99021, p-value = 0.5531</code></pre>
 <a class="sourceLine" id="cb18-3" data-line-number="3">newData =<span class="st"> </span><span class="kw">mutate</span>(newData, <span class="dt">x =</span> x <span class="op">+</span><span class="st"> </span><span class="kw">rnorm</span>(<span class="dt">n =</span> <span class="kw">n</span>())) <span class="co"># пошумим</span></a>
 <a class="sourceLine" id="cb18-4" data-line-number="4">yhat =<span class="st"> </span><span class="kw">predict</span>(ols, <span class="dt">newdata =</span> newData, <span class="dt">se =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
 <div id="----" class="section level4">
-<h4><span class="header-section-number">2.0.0.1</span> То же самое в стате</h4>
+<h4><span class="header-section-number">3.0.0.1</span> То же самое в стате</h4>
 <p>Загружаем данные.</p>
 <pre class="stata"><code>use us-return.dta</code></pre>
 <pre><code>end of do-file</code></pre>
@@ -398,7 +397,7 @@ gen y_hat_new =  .8481496 * x_new+ .0052529</code></pre>
 </code></pre>
 </div>
 <div id="----python" class="section level4">
-<h4><span class="header-section-number">2.0.0.2</span> То же самое в python</h4>
+<h4><span class="header-section-number">3.0.0.2</span> То же самое в python</h4>
 <p>Много хорошихх функций для статистических расчетов можно найти в пакете Statsmodels.</p>
 <div class="sourceCode" id="cb42"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb42-1" data-line-number="1"></a>
 <a class="sourceLine" id="cb42-2" data-line-number="2"><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># для работы с таблицами</span></a>
@@ -437,7 +436,7 @@ Dep. Variable:                      y   R-squared:                       0.357
 Model:                            OLS   Adj. R-squared:                  0.351
 Method:                 Least Squares   F-statistic:                     65.48
 Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        10:46:11   Log-Likelihood:                 136.18
+Time:                        11:14:58   Log-Likelihood:                 136.18
 No. Observations:                 120   AIC:                            -268.4
 Df Residuals:                     118   BIC:                            -262.8
 Df Model:                           1                                         
@@ -588,7 +587,7 @@ x          0.640590  1.055709</code></pre>
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="installsoft.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 
     </div>
   </div>
