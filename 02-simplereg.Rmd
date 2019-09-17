@@ -2,6 +2,18 @@
 
 
 ```{r setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+
+
+
 # Sys.setenv(language = "russian")
 
 # Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
@@ -11,17 +23,12 @@
 # Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
 #                       Sys.getenv()["PATH"], sep = ";"))
 
-library(knitr)
-library(texreg)
-library(Statamarkdown)
-library(reticulate)
 # use_condaenv("base")
 # use_python("C:/Users/DNS/Anaconda3/python.exe")
 
 
 # pandas = reticulate::import("pandas")
 
-stataexe <- find_stata()
 # stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 # use_python("Users/DNS/Anaconda3/python.exe")
 # use_python("C:/Users/DNS/Anaconda3/envs/tensorflow/python.exe")
@@ -33,7 +40,6 @@ stataexe <- find_stata()
 # py_config()
 # reticulate::conda_list()
 # py_config()
-knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 
 ```
 
@@ -41,6 +47,7 @@ knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 
 Загрузим необходимые пакеты.
 ```{r "library chunk", results='hide', message=FALSE, warning=FALSE}
+library(texreg)
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) # для красивого summary
 library(rio) # для чтения .dta файлов
