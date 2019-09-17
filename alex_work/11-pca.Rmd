@@ -21,17 +21,20 @@ pre.python {
 3. Расчет доли дисперсии, объясняемой найденными компонентами
 4. Выбор числа главных компонент
 
-Однако прогресс не стоит на месте, и получение главных компонент теперь осуществляется быстрее и проще. Рассмотрим, как проделать это на R, Python и в Stata.
+Однако прогресс не стоит на месте, и получение главных компонент теперь осуществляется быстрее и проще (а главное совершенно бесплатно и без регистрации). Рассмотрим, как проделать это на r, python и в stata.
 
-## На R
+## r
 ```{r setup, include=FALSE}
 library(knitr)
 library(texreg)
 library(Statamarkdown)
 library(reticulate)
-use_python('/Users/Sasha/anaconda3/bin/python3')
-stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
-knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+if (Sys.getenv("USER") == "Sasha") {
+  use_python('/Users/Sasha/anaconda3/bin/python3')
+  stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
+  knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+}
+opts_chunk$set(fig.align = 'center') # Выравнивание картинок по центру
 ```
 Загружаем нужные пакеты:
 ```{r, include=TRUE, warning=FALSE, message=FALSE}
@@ -73,7 +76,7 @@ fviz_pca_var(c_pca, col.var = "contrib",
 
 Переменные с положительной корреляцией расположены близко друг к другу (например, `cyl` и `hp`), с отрицательной корреляцией - на противоположных частях графика (`drat` и `wt`). Чем больше дистанция между переменными и началом координат, тем лучше их удается описать при помощи главных компонент.
 
-## На Stata
+## stata
 
 Загружаем нужные нам данные, в данном случае сведения об автомобилях, содержащиеся в пакете auto.
 ```{stata}
@@ -96,7 +99,7 @@ graph export scr.png
 predict pc1 pc2, score
 ```
 
-## На Python
+## python
 Начинаем, как обычно, с обработки данных. Загружаем необходимые для работы библиотеки
 ```{python}
 import pandas as pd # Библиотека pandas для работы с данными
@@ -116,7 +119,7 @@ df = pd.read_csv(url,
 ```{python}
 df.head()
 ```
-Так как в наших данных, кроме прочего, также присутствуют и другие типы переменных (например, содержащиеся в переменной `car_names` названия машин), то предварительно "очистим" данные, оставив для анализа только численные переменные. После этого используем функцию StandartScaler для стандартизации регрессоров:
+Так как в наших данных, кроме прочего, также присутствуют и другие типы переменных (например, содержащиеся в переменной `car_names` названия машин), то предварительно очистим данные, оставив только численные переменные. После этого используем функцию StandartScaler для стандартизации регрессоров:
 ```{python}
 df = df.dropna() # Убираем пропущенные значения (NAs)
 features = ['cylinders', 'displacement', 'horsepower', 'weight', 'acceleration', 'origin'] # Добавляем количественные регрессоры в отдельный список, убираем переменные car_names, model
