@@ -21,7 +21,7 @@ if (Sys.getenv("USER") == "Sasha") {
 }
 
 
-if (Sys.getenv("USERNAME") == "DNS") {
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
   Sys.setenv(language = "russian")
 
   Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
@@ -37,8 +37,9 @@ if (Sys.getenv("USERNAME") == "DNS") {
   stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 }
 
-if (Sys.getenv("USERNAME") == "matvei") {
-
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
 }
 
 
