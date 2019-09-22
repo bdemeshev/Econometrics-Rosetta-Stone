@@ -24,7 +24,7 @@
 <meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
 
 
-<meta name="date" content="2019-09-16" />
+<meta name="date" content="2019-09-19" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -187,7 +187,7 @@ Count - количество пойманной рыбы</p>
  n obs: 250 
  n variables: 4 
 
-── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -484,81 +484,118 @@ inflate      |
 <div id="----python" class="section level4">
 <h4><span class="header-section-number">4.0.0.2</span> То же самое в python</h4>
 <p>Нужные пакетики:</p>
-<div class="sourceCode" id="cb92"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="im">import</span> seaborn <span class="im">as</span> sns</a>
-<a class="sourceLine" id="cb92-2" data-line-number="2"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a>
-<a class="sourceLine" id="cb92-3" data-line-number="3"><span class="im">import</span> numpy <span class="im">as</span> np</a>
-<a class="sourceLine" id="cb92-4" data-line-number="4"><span class="im">import</span> pandas <span class="im">as</span> pd</a>
-<a class="sourceLine" id="cb92-5" data-line-number="5">plt.style.use(<span class="st">&#39;ggplot&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb92"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb92-1" data-line-number="1"><span class="im">import</span> seaborn <span class="im">as</span> sns</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;seaborn&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb94-1" data-line-number="1"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;matplotlib&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb96-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb96-2" data-line-number="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;pandas&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb98"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb98-1" data-line-number="1">plt.style.use(<span class="st">&#39;ggplot&#39;</span>)</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Загружаем данные и смотрим описательные статистики.</p>
-<div class="sourceCode" id="cb93"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb93-1" data-line-number="1">df_fish <span class="op">=</span> pd.read_stata(<span class="st">&#39;fish.dta&#39;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb94"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb94-1" data-line-number="1">sns.distplot(df_fish[<span class="st">&#39;count&#39;</span>])</a>
-<a class="sourceLine" id="cb94-2" data-line-number="2">plt.show()</a></code></pre></div>
-<p><img src="05-poisreg_files/figure-html/unnamed-chunk-12-1.png" width="672" /></p>
+<div class="sourceCode" id="cb100"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb100-1" data-line-number="1">df_fish <span class="op">=</span> pd.read_stata(<span class="st">&#39;fish.dta&#39;</span>)</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pd&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb102-1" data-line-number="1">sns.distplot(df_fish[<span class="st">&#39;count&#39;</span>])</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sns&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb104"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb104-1" data-line-number="1">plt.show()</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Превращаем переменную <code>camper</code> в категориальную.</p>
-<div class="sourceCode" id="cb95"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb95-1" data-line-number="1">df_fish[<span class="st">&#39;camper&#39;</span>]<span class="op">=</span>df_fish[<span class="st">&#39;camper&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb106"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb106-1" data-line-number="1">df_fish[<span class="st">&#39;camper&#39;</span>]<span class="op">=</span>df_fish[<span class="st">&#39;camper&#39;</span>].astype(<span class="st">&#39;category&#39;</span>)</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df_fish&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Строим Пуассоновскую регрессию.</p>
-<div class="sourceCode" id="cb96"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb96-1" data-line-number="1">regr_pois <span class="op">=</span> smf.glm(<span class="st">&#39;count ~ child + camper +  persons&#39;</span>, data<span class="op">=</span>df_fish,</a>
-<a class="sourceLine" id="cb96-2" data-line-number="2">                    family<span class="op">=</span>sm.families.Poisson(link<span class="op">=</span>sm.families.links.log)).fit()</a></code></pre></div>
+<div class="sourceCode" id="cb108"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb108-1" data-line-number="1">regr_pois <span class="op">=</span> smf.glm(<span class="st">&#39;count ~ child + camper +  persons&#39;</span>, data<span class="op">=</span>df_fish,</a>
+<a class="sourceLine" id="cb108-2" data-line-number="2">                    family<span class="op">=</span>sm.families.Poisson(link<span class="op">=</span>sm.families.links.log)).fit()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;smf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb98"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb98-1" data-line-number="1">regr_pois.summary()</a></code></pre></div>
+<div class="sourceCode" id="cb110"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb110-1" data-line-number="1">regr_pois.summary()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr_pois&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.</p>
-<div class="sourceCode" id="cb100"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb100-1" data-line-number="1">(df_fish</a>
-<a class="sourceLine" id="cb100-2" data-line-number="2"> .<span class="bu">filter</span>([<span class="st">&#39;count&#39;</span>, <span class="st">&#39;camper&#39;</span>])</a>
-<a class="sourceLine" id="cb100-3" data-line-number="3"> .groupby(<span class="st">&#39;camper&#39;</span>)</a>
-<a class="sourceLine" id="cb100-4" data-line-number="4"> .agg([<span class="st">&#39;mean&#39;</span>, <span class="st">&#39;var&#39;</span>]))</a></code></pre></div>
-<pre><code>           count            
-            mean         var
-camper                      
-0       1.524272   21.055778
-1       4.537415  212.400988</code></pre>
+<div class="sourceCode" id="cb112"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb112-1" data-line-number="1">(df_fish</a>
+<a class="sourceLine" id="cb112-2" data-line-number="2"> .<span class="bu">filter</span>([<span class="st">&#39;count&#39;</span>, <span class="st">&#39;camper&#39;</span>])</a>
+<a class="sourceLine" id="cb112-3" data-line-number="3"> .groupby(<span class="st">&#39;camper&#39;</span>)</a>
+<a class="sourceLine" id="cb112-4" data-line-number="4"> .agg([<span class="st">&#39;mean&#39;</span>, <span class="st">&#39;var&#39;</span>]))</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df_fish&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>И регрессию с остатками, имеющими отрицательное биномиальное распределение.</p>
-<div class="sourceCode" id="cb102"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb102-1" data-line-number="1">regr_bin <span class="op">=</span> smf.glm(<span class="st">&#39;count ~ child + camper +  persons&#39;</span>, data<span class="op">=</span>df_fish,</a>
-<a class="sourceLine" id="cb102-2" data-line-number="2">              family<span class="op">=</span>sm.families.NegativeBinomial(link<span class="op">=</span>sm.families.links.log)).fit()</a></code></pre></div>
+<div class="sourceCode" id="cb114"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb114-1" data-line-number="1">regr_bin <span class="op">=</span> smf.glm(<span class="st">&#39;count ~ child + camper +  persons&#39;</span>, data<span class="op">=</span>df_fish,</a>
+<a class="sourceLine" id="cb114-2" data-line-number="2">              family<span class="op">=</span>sm.families.NegativeBinomial(link<span class="op">=</span>sm.families.links.log)).fit()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;smf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Проверим гипотезу о равенстве 0 коэффициента при переменной <code>camper</code>. Проведем тест Вальда.</p>
-<div class="sourceCode" id="cb104"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb104-1" data-line-number="1">hyp <span class="op">=</span> <span class="st">&#39;(camper = 0)&#39;</span></a>
-<a class="sourceLine" id="cb104-2" data-line-number="2">regr_bin.wald_test(hyp)</a></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb116-1" data-line-number="1">hyp <span class="op">=</span> <span class="st">&#39;(camper = 0)&#39;</span></a>
+<a class="sourceLine" id="cb116-2" data-line-number="2">regr_bin.wald_test(hyp)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr_bin&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Посчитаем средний предельный эффект для каждой переменной.</p>
-<div class="sourceCode" id="cb106"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb106-1" data-line-number="1">pred <span class="op">=</span> regr_pois.fittedvalues</a></code></pre></div>
+<div class="sourceCode" id="cb118"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb118-1" data-line-number="1">pred <span class="op">=</span> regr_pois.fittedvalues</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr_pois&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb108"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb108-1" data-line-number="1">mean_mef_child <span class="op">=</span> np.mean([regr_pois.params[<span class="dv">1</span>] <span class="op">*</span> p <span class="cf">for</span> p <span class="kw">in</span> pred])</a></code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb120-1" data-line-number="1">mean_mef_child <span class="op">=</span> np.mean([regr_pois.params[<span class="dv">1</span>] <span class="op">*</span> p <span class="cf">for</span> p <span class="kw">in</span> pred])</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pred&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb110"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb110-1" data-line-number="1">mean_mef_camper <span class="op">=</span> np.mean([regr_pois.params[<span class="dv">2</span>] <span class="op">*</span> p <span class="cf">for</span> p <span class="kw">in</span> pred])</a></code></pre></div>
+<div class="sourceCode" id="cb122"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb122-1" data-line-number="1">mean_mef_camper <span class="op">=</span> np.mean([regr_pois.params[<span class="dv">2</span>] <span class="op">*</span> p <span class="cf">for</span> p <span class="kw">in</span> pred])</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pred&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb112"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb112-1" data-line-number="1">data_1 <span class="op">=</span> pd.DataFrame({<span class="st">&#39;child&#39;</span>: df_fish[<span class="st">&#39;child&#39;</span>], <span class="st">&#39;camper&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;persons&#39;</span>: df_fish[<span class="st">&#39;persons&#39;</span>]})</a>
-<a class="sourceLine" id="cb112-2" data-line-number="2">data_0 <span class="op">=</span> pd.DataFrame({<span class="st">&#39;child&#39;</span>: df_fish[<span class="st">&#39;child&#39;</span>], <span class="st">&#39;camper&#39;</span>: <span class="dv">0</span>, <span class="st">&#39;persons&#39;</span>: df_fish[<span class="st">&#39;persons&#39;</span>]})</a>
-<a class="sourceLine" id="cb112-3" data-line-number="3">mean_mef_persons <span class="op">=</span> np.mean([(regr_pois.predict(data_1)[i]<span class="op">-</span>regr_pois.predict(data_0)[i]) </a>
-<a class="sourceLine" id="cb112-4" data-line-number="4">                            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df_fish))])</a></code></pre></div>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr_pois&#39; is not defined
+<div class="sourceCode" id="cb124"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb124-1" data-line-number="1">data_1 <span class="op">=</span> pd.DataFrame({<span class="st">&#39;child&#39;</span>: df_fish[<span class="st">&#39;child&#39;</span>], <span class="st">&#39;camper&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;persons&#39;</span>: df_fish[<span class="st">&#39;persons&#39;</span>]})</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pd&#39; is not defined
 
 Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 2, in &lt;module&gt;
-  File &quot;&lt;string&gt;&quot;, line 2, in &lt;listcomp&gt;</code></pre>
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb126"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb126-1" data-line-number="1">data_0 <span class="op">=</span> pd.DataFrame({<span class="st">&#39;child&#39;</span>: df_fish[<span class="st">&#39;child&#39;</span>], <span class="st">&#39;camper&#39;</span>: <span class="dv">0</span>, <span class="st">&#39;persons&#39;</span>: df_fish[<span class="st">&#39;persons&#39;</span>]})</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pd&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<div class="sourceCode" id="cb128"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb128-1" data-line-number="1">mean_mef_persons <span class="op">=</span> np.mean([(regr_pois.predict(data_1)[i]<span class="op">-</span>regr_pois.predict(data_0)[i]) </a>
+<a class="sourceLine" id="cb128-2" data-line-number="2">                            <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="bu">len</span>(df_fish))])</a></code></pre></div>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df_fish&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 2, in &lt;module&gt;</code></pre>
 <p>И модель с раздутыми нулями.</p>
-<div class="sourceCode" id="cb114"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb114-1" data-line-number="1"><span class="dv">1</span></a></code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="dv">1</span></a></code></pre></div>
 <pre><code>1</code></pre>
 <p>Проблемы:</p>
 <ol start="2" style="list-style-type: decimal">

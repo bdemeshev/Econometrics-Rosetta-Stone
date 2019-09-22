@@ -1,7 +1,7 @@
 # Коан о простой линейной регрессии {#simplereg}
 
 
-```{r setup, include=FALSE}
+```{r stata_py_setup, include=FALSE}
 library(knitr) # комбинирование кода и текста
 library(Statamarkdown) # взаимодействие со статой
 library(reticulate) # взаимодействие с питоном

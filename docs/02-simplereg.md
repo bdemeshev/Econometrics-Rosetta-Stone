@@ -8,6 +8,7 @@
 Загрузим необходимые пакеты.
 
 ```r
+library(texreg)
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) # для красивого summary
 library(rio) # для чтения .dta файлов
@@ -35,11 +36,11 @@ Skim summary statistics
  n obs: 2664 
  n variables: 22 
 
-── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:character ───
  variable missing complete    n min max empty n_unique
         B       0     2664 2664   0   6  2544       31
 
-── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────
  variable missing complete    n    mean      sd      p0     p25     p50
         A    2544      120 2664 60.5    34.79    1      30.75   60.5   
     BOISE    2544      120 2664  0.017   0.097  -0.27   -0.045   0.015 
@@ -416,25 +417,159 @@ number of observations (_N) was 120, now 120
 ```python
 
 import pandas as pd # для работы с таблицами
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import numpy as np # математика, работа с матрицами
 import matplotlib.pyplot as plt # графики
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import statsmodels.api as sm
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import statsmodels.formula.api as smf
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import statsmodels.graphics.gofplots as gf
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 from statsmodels.stats.outliers_influence import summary_table
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import seaborn as sns # еще более классные графики
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'seaborn'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 from scipy.stats import shapiro # еще математика
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'scipy'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import statsmodels.discrete.discrete_model
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 При желании, можем кастомизировать графики :)
 
 ```python
 plt.style.use('seaborn')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.rc('font', size=14)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.rc('figure', titlesize=15)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.rc('axes', labelsize=15)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.rc('axes', titlesize=15)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Загрузим данные.
@@ -443,11 +578,35 @@ plt.rc('axes', titlesize=15)
 df = pd.read_stata('us-return.dta')
 ```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
 Избавимся от наблюдений с пропущенными значенями. 
 
 ```python
 df.dropna(inplace=True) ##ИСПРАВИТЬ (выкинуть только пропуски целевой и объяснющей)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 df.reset_index(drop=True, inplace=True)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Переименуем столбцы.
@@ -456,48 +615,58 @@ df.reset_index(drop=True, inplace=True)
 df = df.rename(columns={'A':'n', 'B': 'date'})
 ```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
 
 ```python
 df['y'] = df['MOTOR'] - df['RKFREE']
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 df['x'] = df['MARKET'] - df['RKFREE'] 
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Строим модель и читаем саммари :)
 
 ```python
 regr = smf.ols('y~x', data = df).fit()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'smf' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 regr.summary()
 ```
 
 ```
-<class 'statsmodels.iolib.summary.Summary'>
-"""
-                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:                      y   R-squared:                       0.357
-Model:                            OLS   Adj. R-squared:                  0.351
-Method:                 Least Squares   F-statistic:                     65.48
-Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        16:00:02   Log-Likelihood:                 136.18
-No. Observations:                 120   AIC:                            -268.4
-Df Residuals:                     118   BIC:                            -262.8
-Df Model:                           1                                         
-Covariance Type:            nonrobust                                         
-==============================================================================
-                 coef    std err          t      P>|t|      [0.025      0.975]
-------------------------------------------------------------------------------
-Intercept      0.0053      0.007      0.730      0.467      -0.009       0.020
-x              0.8481      0.105      8.092      0.000       0.641       1.056
-==============================================================================
-Omnibus:                        2.684   Durbin-Watson:                   2.030
-Prob(Omnibus):                  0.261   Jarque-Bera (JB):                1.780
-Skew:                          -0.031   Prob(JB):                        0.411
-Kurtosis:                       2.406   Cond. No.                         14.6
-==============================================================================
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
 
-Warnings:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-"""
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Получить прогноз.
@@ -506,20 +675,102 @@ Warnings:
 df['yhat'] = regr.fittedvalues
 ```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
 Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)
 
 ```python
 fig, ax = plt.subplots()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 ax.plot(df['x'],regr.fittedvalues, color='g', alpha =0.8)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ax' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 ax.scatter(df['x'],regr.fittedvalues+regr.resid, color = 'g', alpha = 0.8, s = 40)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ax' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 ax.vlines(df['x'],regr.fittedvalues,regr.fittedvalues+regr.resid, color = 'gray', alpha = 0.5)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ax' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.title('Линия регрессии и остатки')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.xlabel('RKFREE')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.ylabel('MARKET')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.show()
 ```
 
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-13-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 
 Строим доверительный интервал.
 
@@ -528,9 +779,10 @@ regr.conf_int()
 ```
 
 ```
-                  0         1
-Intercept -0.009005  0.019511
-x          0.640590  1.055709
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 И проведем F-test.
@@ -541,8 +793,10 @@ regr.f_test(r_matrix = hypotheses)
 ```
 
 ```
-<class 'statsmodels.stats.contrast.ContrastResults'>
-<F test: F=array([[2.09891771]]), p=0.1500556415866233, df_denom=118, df_num=1>
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.
@@ -550,6 +804,13 @@ regr.f_test(r_matrix = hypotheses)
 ```python
 W, p_value = shapiro(regr.resid)
 #pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'shapiro' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 
@@ -560,7 +821,24 @@ import random
 random.seed(7)
 
 newData = df['x'] + 0.5*np.random.normal(len(df))
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 prediction = regr.predict(newData)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 А теперь жесть! Построим графички, похожие на autoplot R.
@@ -568,101 +846,387 @@ prediction = regr.predict(newData)
 
 ```python
 fig_1 = plt.figure(1)
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_1.axes[0] = sns.residplot(df['x'], df['y'],
                                   lowess=True,
                                   scatter_kws={'alpha': 0.6},
                                   line_kws={'color': 'red', 'lw': 2, 'alpha': 0.8})
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_1.axes[0].set_title('Residuals vs Fitted')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_1' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_1.axes[0].set_xlabel('Fitted values')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_1' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_1.axes[0].set_ylabel('Residuals')
 
 
 #можем добавить метки потенциальных аутлаеров
-abs_resid = abs(regr.resid).sort_values(ascending=False)
-abs_resid_top3 = abs_resid[:3]
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_1' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_resid = abs(regr.resid).sort_values(ascending=False)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_resid_top3 = abs_resid[:3]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_resid' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 for i in abs_resid_top3.index:
     fig_1.axes[0].annotate(i, 
                                xy=(regr.fittedvalues[i], 
                                    regr.resid[i]))
 ```
 
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-18-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_resid_top3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 
 
 
 ```python
 norm_residuals = regr.get_influence().resid_studentized_internal #сохраним стьюдентизированные остатки 
 
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 QQ = gf.ProbPlot(norm_residuals)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'gf' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_2 = QQ.qqplot(line='45', alpha=0.5, color='b', lw=1)
 
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'QQ' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_2.axes[0].set_title('Normal Q-Q')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_2' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_2.axes[0].set_xlabel('Theoretical Quantiles')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_2' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_2.axes[0].set_ylabel('Standardized Residuals');
 
 #и снова метки
-abs_norm_resid = np.flip(np.argsort(abs(norm_residuals)), 0)
-abs_norm_resid_top3 = abs_norm_resid[:3]
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_2' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_norm_resid = np.flip(np.argsort(abs(norm_residuals)), 0)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'norm_residuals' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_norm_resid_top3 = abs_norm_resid[:3]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_norm_resid' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 for r, i in enumerate(abs_norm_resid_top3):
     fig_2.axes[0].annotate(i, 
                                xy=(np.flip(QQ.theoretical_quantiles, 0)[r],
                                    norm_residuals[i]))
 ```
 
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-19-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_norm_resid_top3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 
 
 
 ```python
 fig_3 = plt.figure(3)
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.scatter(regr.fittedvalues, np.sqrt(abs(norm_residuals)), alpha=0.5)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 sns.regplot(regr.fittedvalues, np.sqrt(abs(norm_residuals)), 
             scatter=False, 
             ci=False, 
             lowess=True,
             line_kws={'color': 'red', 'lw': 1, 'alpha': 0.6})
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_3.axes[0].set_title('Scale-Location')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_3.axes[0].set_xlabel('Fitted values')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_3.axes[0].set_ylabel('$\sqrt{|Standardized Residuals|}$')
 
 # и еще раз!)
-abs_sq_norm_resid = np.flip(np.argsort(np.sqrt(abs(norm_residuals)), 0))
-abs_sq_norm_resid_top3 = abs_sq_norm_resid[:3]
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_sq_norm_resid = np.flip(np.argsort(np.sqrt(abs(norm_residuals)), 0))
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'norm_residuals' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+abs_sq_norm_resid_top3 = abs_sq_norm_resid[:3]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_sq_norm_resid' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 for i in abs_sq_norm_resid_top3:
     fig_3.axes[0].annotate(i, xy=(regr.fittedvalues[i], 
                                    np.sqrt(abs(norm_residuals)[i])))
 ```
 
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-20-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'abs_sq_norm_resid_top3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 
 
 ```python
 leverage = regr.get_influence().hat_matrix_diag #сохраняем элементы матрицы-шляпницы
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 cook_dist = regr.get_influence().cooks_distance[0] #И расстояние Кука
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_4 = plt.figure(4)
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.scatter(leverage, norm_residuals, alpha=0.5)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 sns.regplot(leverage, norm_residuals, 
             scatter=False, 
             ci=False, 
             lowess=True,
             line_kws={'color': 'red', 'lw': 1, 'alpha': 0.8})
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_4.axes[0].set_xlim(0, 0.20)
 ```
 
 ```
-(0, 0.2)
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_4' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 ```python
@@ -670,23 +1234,79 @@ fig_4.axes[0].set_ylim(-3, 5)
 ```
 
 ```
-(-3, 5)
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_4' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 ```python
 fig_4.axes[0].set_title('Residuals vs Leverage')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_4' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_4.axes[0].set_xlabel('Leverage')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_4' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 fig_4.axes[0].set_ylabel('Standardized Residuals')
 
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'fig_4' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 leverage_top3 = np.flip(np.argsort(cook_dist), 0)[:3]
+```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'cook_dist' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 for i in leverage_top3:
     fig_4.axes[0].annotate(i, 
                                xy=(leverage[i], 
                                    norm_residuals[i]))
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'leverage_top3' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.show()
 ```
 
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-21-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 

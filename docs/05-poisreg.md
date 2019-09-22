@@ -52,7 +52,7 @@ Skim summary statistics
  n obs: 250 
  n variables: 4 
 
-── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -482,10 +482,47 @@ inflate      |
 
 ```python
 import seaborn as sns
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'seaborn'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import matplotlib.pyplot as plt
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 import numpy as np
 import pandas as pd
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.style.use('ggplot')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Загружаем данные и смотрим описательные статистики.
@@ -494,18 +531,47 @@ plt.style.use('ggplot')
 df_fish = pd.read_stata('fish.dta')
 ```
 
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
 
 ```python
 sns.distplot(df_fish['count'])
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 plt.show()
 ```
 
-<img src="05-poisreg_files/figure-epub3/unnamed-chunk-12-1.png" width="480" />
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
 
 Превращаем переменную `camper` в категориальную.
 
 ```python
 df_fish['camper']=df_fish['camper'].astype('category')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 Строим Пуассоновскую регрессию.
@@ -543,11 +609,10 @@ Detailed traceback:
 ```
 
 ```
-           count            
-            mean         var
-camper                      
-0       1.524272   21.055778
-1       4.537415  212.400988
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
 ```
 
 И регрессию с остатками, имеющими отрицательное биномиальное распределение.
@@ -615,17 +680,36 @@ Detailed traceback:
 
 ```python
 data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
 mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
                             for i in range(len(df_fish))])
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
 
 Detailed traceback: 
   File "<string>", line 2, in <module>
-  File "<string>", line 2, in <listcomp>
 ```
 
 И модель с раздутыми нулями.
