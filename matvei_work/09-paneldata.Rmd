@@ -1,16 +1,50 @@
 # Панельные данные {#paneldata}
+```{r stata_py_setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
 
-```{r setup, include = FALSE}
-library(knitr)
-library(texreg)
-library(Statamarkdown)
-library(reticulate)
-use_python("Users/The_sun/Anaconda3/python.exe")
-stataexe <- find_stata()
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USER") == "Sasha") {
+  use_python('/Users/Sasha/anaconda3/bin/python3')
+  stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
+}
+
+
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  Sys.setenv(language = "russian")
+
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+
+  use_condaenv("base")
+  use_python("C:/Users/DNS/Anaconda3/python.exe")
+  pandas = reticulate::import("pandas")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
-
 ```
+
+
 
 
 
@@ -226,22 +260,22 @@ estimates store b_fe
 hausman b_fe b_re, sigmamore
 ```
 
-<!-- Оценим FD-модель. -->
-<!-- ```{stata} -->
-<!-- reg D.(lwage hours), vce(robust) nocon -->
-<!-- ``` -->
+Оценим FD-модель.
+```{stata}
+reg D.(lwage hours), vce(robust) nocon
+```
 
-<!-- Аналогично оцениваем модель pooled OLS. -->
+Аналогично оцениваем модель pooled OLS.
 
-<!-- ```{stata} -->
-<!-- reg lwage hours, vce(robust) -->
-<!-- ``` -->
+```{stata}
+reg lwage hours, vce(robust)
+```
 
-<!-- Оценим LSDV-модель. -->
+Оценим LSDV-модель.
 
-<!-- ```{stata} -->
-<!-- areg lwage hours, absorb(id) -->
-<!-- ``` -->
+```{stata}
+areg lwage hours, absorb(id)
+```
 
 Повторим в Python.
 
