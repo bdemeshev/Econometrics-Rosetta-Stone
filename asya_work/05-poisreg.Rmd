@@ -1,15 +1,48 @@
 ### Модели счетных данных {#poisreg}
 
 
-```{r setup, include=FALSE}
-Sys.setenv(language = "russian")
-library(knitr)
-library(texreg)
-library(Statamarkdown)
-library(reticulate)
-library(snakecase)
+```{r stata_py_setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
 
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USER") == "Sasha") {
+  use_python('/Users/Sasha/anaconda3/bin/python3')
+  stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
+}
+
+
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  Sys.setenv(language = "russian")
+
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+
+  use_condaenv("base")
+  use_python("C:/Users/DNS/Anaconda3/python.exe")
+  pandas = reticulate::import("pandas")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
@@ -71,7 +104,7 @@ summary(poisson_model)
 ```
 
 Посчитаем средний предельный эффект для каждой переменной.
-```{r "mef"}
+```{r "mef", message=FALSE, warning=FALSE}
 m = margins(poisson_model)
 summary(m)
 cplot(poisson_model, x = 'persons', what = 'effect', title = 'Предельный эффект переменной camper')
@@ -130,7 +163,7 @@ plt.style.use('ggplot')
 
 Загружаем данные и смотрим описательные статистики.
 ```{python}
-df_fish = pd.read_stata('fish.dta')
+df_fish = pd.read_stata('data/fish.dta')
 ```
 
 ```{python}
@@ -145,10 +178,17 @@ df_fish['camper'] = df_fish['camper'].astype('category')
 
 Строим Пуассоновскую регрессию.
 ```{python}
+pois = statsmodels.discrete.discrete_model.Poisson(endog = count, exog = np.array(child, camper, persons), data=df_fish)
 regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
                     family=sm.families.Poisson()).fit()
 regr_pois.summary()
 regr_pois.get_margeff()
+
+
+from statsmodels.discrete.discrete_model import Poisson
+model_pois = Poisson(df_fish['count'], df_fish['camper']).fit()
+model_pois.summary()
+model_pois.get_margeff()
 ```
 
 Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
@@ -169,7 +209,7 @@ regr_bin.summary()
  
 Проверим гипотезу о равенстве 0 коэффициента при переменной `camper`. Проведем тест Вальда.
 ```{python}
-hyp = '(camper = 0)'
+hyp = '(child = 0)'
 regr_bin.wald_test(hyp)
 ```
 
@@ -195,7 +235,7 @@ plot_model(regr_pois, type = 'effect', terms = 'camper')
 
 ## stata
 
-```{stata}
+```{stata, include=FALSE}
 clear all
 ```
 

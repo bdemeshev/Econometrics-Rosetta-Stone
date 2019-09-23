@@ -1,15 +1,48 @@
 ### Модели множественного выбора {#multchoice}
 
 
-```{r setup, include=FALSE}
-Sys.setenv(language = "russian")
-library(knitr)
-library(texreg)
-library(Statamarkdown)
-library(reticulate)
-stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
-py_config()
-#use_python("C:/Users/DNS/Anaconda3/python.exe")
+```{r stata_py_setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USER") == "Sasha") {
+  use_python('/Users/Sasha/anaconda3/bin/python3')
+  stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
+}
+
+
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  Sys.setenv(language = "russian")
+
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+
+  use_condaenv("base")
+  use_python("C:/Users/DNS/Anaconda3/python.exe")
+  pandas = reticulate::import("pandas")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
@@ -20,6 +53,7 @@ library(skimr) # для красивого summary
 library(rio) # для чтения .dta файлов
 library(margins) # для расчета предельных эффектов
 library(mlogit)
+library(skimr)
 library(nnet)
 library(questionr)
 library(MASS)
