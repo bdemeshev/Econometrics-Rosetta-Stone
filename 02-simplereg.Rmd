@@ -1,7 +1,7 @@
 # Коан о простой линейной регрессии {#simplereg}
 
 
-```{r stata_py_setup, include=FALSE}
+```{r setup, include=FALSE}
 library(knitr) # комбинирование кода и текста
 library(Statamarkdown) # взаимодействие со статой
 library(reticulate) # взаимодействие с питоном
@@ -46,11 +46,13 @@ if (Sys.getenv("USERNAME") == "The_sun") {
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
+## r
+
 Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты.
 ```{r "library chunk", results='hide', message=FALSE, warning=FALSE}
-library(texreg)
+
 library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) # для красивого summary
 library(rio) # для чтения .dta файлов
@@ -61,27 +63,26 @@ library(sjPlot) # еще графики
 
 Импортируем данные.
 ```{r "import data", message=FALSE, warning=FALSE}
-df = import("us-return.dta")
+df = rio::import("data/us-return.dta")
 ```
 
 Исследуем наш датасет.
-
 ```{r "skim",  message=FALSE, warning=FALSE}
-# skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные характеристики
-skim(df) # посмотрим на данные
+skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные статистики
+skim(df) 
 ```
 
+Переименуем столбцы.
 ```{r "rename chunk",  message=FALSE, warning=FALSE}
-df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия
+df = rename(df, n = A, date = B) 
 ```
 
 ```{r "omit missings",  message=FALSE, warning=FALSE}
-df = na.omit(df) # уберем строки с пропущенными наблюдениями
+df = na.omit(df) # уберем пустые строки
 ```
 
 Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
 ```{r "mutate", warning=FALSE}
-#создаем новые переменные и добавляем их к набору данных
 df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
 ```
 
@@ -89,6 +90,8 @@ df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE)
 ```{r "model", message=FALSE, warning=FALSE}
 ols = lm(y ~ x, data = df)
 summary(ols)
+coeff = summary(ols)$coeff # отдельно табличка с коэффициентами
+coeff
 ```
 
 Вызовом одной функции получаем кучу полезных графиков. Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.
@@ -108,10 +111,8 @@ linearHypothesis(ols, c("x = 1"))
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 
-\[
-H_{0}: S = 0, K = 3,
-\]
-где $S$ — коэффициент асимметрии (Skewness), $K$ — коэффициент эксцесса (Kurtosis)
+\[H_{0}: S = 0, K = 3,\\
+\text{где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)}\]
 
 ```{r}
 jarque.bera.test(resid(ols)) 
@@ -129,99 +130,14 @@ shapiro.test(resid(ols))
 Сделаем прогноз модели по данным вне обучаемой выборки.
 ```{r "prediction"}
 set.seed(7)
-newData = df
-newData = mutate(newData, x = x + rnorm(n = n())) # пошумим
+
+newData = data.frame(x = df$x + 0.5*rnorm(length(df$x))) #пошумим
 yhat = predict(ols, newdata = newData, se = TRUE)
 ```
 
+## python
 
-#### То же самое в стате
-
-Загружаем данные. 
-```{stata}
-use us-return.dta
-```
-
-
-Любуемся и даем новые названия столбцам.
-```{stata}
-summarize
-ren A n
-ren B date
-```
-
-Убираем пропущенные значения и создаем новые переменные.
-```{stata "new var"}
-drop if n == .
-gen y = MOTOR - RKFREE
-gen x = MARKET - RKFREE
-```
-
-Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.
-```{stata "model_stata"}
-reg y x
-```
-
-Проверим гипотезу о равенстве коэффициента при регрессоре единице. 
-```{stata "lin hyp_stata"}
-test x = 1
-```
-
-Сделаем предсказание по выборке и сохраним остатки.
-```{stata "prediction_stata"}
-predict u_hat, resid
-predict y_hat
-```
-
-Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
-На самом деле, это не совсем тест Харке-Бера. Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки. В Stata есть. Подробнее здесь https://www.stata.com/manuals13/rsktest.pdf
-
-```{stata "Jarque–Bera"}
-sktest u_hat
-```
-
-И тест Шапиро-Уилка. Тут все аналогично R.
-```{stata "Shapiro-Wilk"}
-swilk u_hat
-```
-
-Гипотеза о нормальности остатков не отвергается.
-
-QQ - график
-```{stata "qq-plot"}
-qnorm u_hat 
-```
-
-График предсказанных значений против остатков.
-```{stata "res_vs_fit"}
-rvfplot, yline(0)
-```
-
-
-График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).
-```{stata "res_vs_h"}
-lvr2plot
-```
-
-График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.
-```{stata "standard hat"}
-predict D, cooksd
-predict standard, rstandard
-
-graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)
-```
-
-
-```{stata "x_new"}
-set seed 7
-
-set obs 120
-gen x_new = x+ 0.5 *rnormal()
-gen y_hat_new =  .8481496 * x_new+ .0052529
-```
-#### То же самое в python
-
-Много хорошихх функций для статистических расчетов можно найти в пакете Statsmodels. 
+Много полезных функций для статистических расчетов можно найти в пакете Statsmodels. 
 ```{python}
 
 import pandas as pd # для работы с таблицами
@@ -247,12 +163,12 @@ plt.rc('axes', titlesize=15)
 
 Загрузим данные.
 ```{python}
-df = pd.read_stata('us-return.dta')
+df = pd.read_stata('data/us-return.dta')
 ```
 
-Избавимся от наблюдений с пропущенными значенями. 
+Избавимся от наблюдений с пропущенными значениями. 
 ```{python}
-df.dropna(inplace=True) ##ИСПРАВИТЬ (выкинуть только пропуски целевой и объяснющей)
+df.dropna(inplace=True)
 df.reset_index(drop=True, inplace=True)
 ```
 
@@ -317,7 +233,6 @@ prediction = regr.predict(newData)
 ```
 
 А теперь жесть! Построим графички, похожие на autoplot R.
-
 ```{python}
 fig_1 = plt.figure(1)
 
@@ -331,7 +246,7 @@ fig_1.axes[0].set_xlabel('Fitted values')
 fig_1.axes[0].set_ylabel('Residuals')
 
 
-#можем добавить метки потенциальных аутлаеров
+# можем добавить метки потенциальных аутлаеров
 abs_resid = abs(regr.resid).sort_values(ascending=False)
 abs_resid_top3 = abs_resid[:3]
 
@@ -343,7 +258,7 @@ for i in abs_resid_top3.index:
 
 
 ```{python}
-norm_residuals = regr.get_influence().resid_studentized_internal #сохраним стьюдентизированные остатки 
+norm_residuals = regr.get_influence().resid_studentized_internal # сохраним стьюдентизированные остатки 
 
 
 QQ = gf.ProbPlot(norm_residuals)
@@ -389,8 +304,8 @@ for i in abs_sq_norm_resid_top3:
 ```
 
 ```{python}
-leverage = regr.get_influence().hat_matrix_diag #сохраняем элементы матрицы-шляпницы
-cook_dist = regr.get_influence().cooks_distance[0] #И расстояние Кука
+leverage = regr.get_influence().hat_matrix_diag # сохраняем элементы матрицы-шляпницы
+cook_dist = regr.get_influence().cooks_distance[0] # и расстояние Кука
 
 fig_4 = plt.figure(4)
 
@@ -415,5 +330,102 @@ for i in leverage_top3:
                                xy=(leverage[i], 
                                    norm_residuals[i]))
 plt.show()
+```
+
+## stata
+
+```{stata, include=FALSE}
+clear all
+```
+
+Загружаем данные. 
+
+```{stata}
+use data/us-return.dta
+```
+
+Любуемся и даем новые названия столбцам.
+
+```{stata}
+summarize
+ren A n
+ren B date
+```
+
+Убираем пропущенные значения и создаем новые переменные.
+```{stata "new var"}
+drop if n == .
+gen y = MOTOR - RKFREE
+gen x = MARKET - RKFREE
+```
+
+Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.
+```{stata "model_stata"}
+reg y x
+```
+
+Проверим гипотезу о равенстве коэффициента при регрессоре единице. 
+```{stata "lin hyp_stata"}
+test x = 1
+```
+
+Сделаем предсказание по выборке и сохраним остатки.
+```{stata "prediction_stata"}
+predict u_hat, resid
+predict y_hat
+```
+
+Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+На самом деле, это не совсем тест Харке-Бера. Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки. В Stata есть. Подробнее здесь https://www.stata.com/manuals13/rsktest.pdf
+
+```{stata "Jarque–Bera"}
+sktest u_hat
+```
+
+И тест Шапиро-Уилка. Тут все аналогично R.
+```{stata "Shapiro-Wilk"}
+swilk u_hat
+```
+
+Гипотеза о нормальности остатков не отвергается.
+
+QQ - график
+
+```{stata "qq-plot", echo = 1, results = 'hide'}
+qnorm u_hat 
+graph export qq_plot.png, replace
+```
+![](qq_plot.png)
+
+График предсказанных значений против остатков.
+```{stata "res_vs_fit", echo = 1, results = 'hide'}
+rvfplot, yline(0)
+graph export resvsfit.png, replace
+```
+![](resvsfit.png)
+
+График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).
+```{stata "res_vs_h", echo = 1, results = 'hide'}
+lvr2plot
+graph export resvsh.png, replace
+```
+![](resvsh.png)
+
+График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.
+```{stata "standard hat", echo = 1:4, results = 'hide'}
+predict D, cooksd
+predict standard, rstandard
+
+graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)
+graph export standardhat.png, replace
+```
+![](standardhat.png)
+
+```{stata "x_new"}
+set seed 7
+
+set obs 120
+gen x_new = x+ 0.5 * rnormal()
+gen y_hat_new =  .8481496 * x_new + .0052529 
 ```
 

@@ -10,13 +10,6 @@ library(tidyverse) # для манипуляций с данными и пост
 library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(margins)
-```
-
-```
-Error in library(margins): there is no package called 'margins'
-```
-
-```r
 library(mlogit)
 ```
 
@@ -145,7 +138,20 @@ summary(marginal_effects(multmodel)) # mean как в стате
 ```
 
 ```
-Error in marginal_effects(multmodel): could not find function "marginal_effects"
+  dydx_choice          dydx_age         dydx_educ        
+ Min.   :-0.15646   Min.   :0.00887   Min.   :-0.036761  
+ 1st Qu.:-0.15043   1st Qu.:0.01777   1st Qu.:-0.029252  
+ Median :-0.12909   Median :0.02075   Median :-0.025701  
+ Mean   :-0.12697   Mean   :0.02049   Mean   :-0.024735  
+ 3rd Qu.:-0.10976   3rd Qu.:0.02411   3rd Qu.:-0.020634  
+ Max.   :-0.05576   Max.   :0.02562   Max.   :-0.009214  
+ dydx_wealth89        dydx_prftshr      
+ Min.   :3.225e-05   Min.   :-0.177629  
+ 1st Qu.:6.389e-05   1st Qu.:-0.075981  
+ Median :7.515e-05   Median :-0.056485  
+ Mean   :7.385e-05   Mean   :-0.060746  
+ 3rd Qu.:8.726e-05   3rd Qu.:-0.023855  
+ Max.   :9.123e-05   Max.   :-0.002558  
 ```
 
 
