@@ -182,13 +182,6 @@ pois = statsmodels.discrete.discrete_model.Poisson(endog = count, exog = np.arra
 regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
                     family=sm.families.Poisson()).fit()
 regr_pois.summary()
-regr_pois.get_margeff()
-
-
-from statsmodels.discrete.discrete_model import Poisson
-model_pois = Poisson(df_fish['count'], df_fish['camper']).fit()
-model_pois.summary()
-model_pois.get_margeff()
 ```
 
 Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
