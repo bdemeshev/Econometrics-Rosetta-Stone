@@ -178,38 +178,36 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
             <section class="normal" id="section-">
 <div id="tobit_heckit" class="section level1">
 <h1><span class="header-section-number">Коан 12</span> TOBIT, HECKIT</h1>
-<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb625-2" data-line-number="2"><span class="kw">library</span>(AER) <span class="co">#tobit</span></a>
-<a class="sourceLine" id="cb625-3" data-line-number="3"><span class="kw">library</span>(sampleSelection) <span class="co">#heckit</span></a></code></pre></div>
-<pre><code>Error in library(sampleSelection): there is no package called &#39;sampleSelection&#39;</code></pre>
-<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&#39;ltm&#39;</span>) <span class="co">#margins</span></a></code></pre></div>
-<pre><code>Error in library(&quot;ltm&quot;): there is no package called &#39;ltm&#39;</code></pre>
-<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1"><span class="kw">library</span>(<span class="st">&#39;foreign&#39;</span>)</a>
-<a class="sourceLine" id="cb629-2" data-line-number="2"><span class="kw">library</span>(skimr)</a></code></pre></div>
+<div class="sourceCode" id="cb623"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb623-1" data-line-number="1"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb623-2" data-line-number="2"><span class="kw">library</span>(AER) <span class="co">#tobit</span></a>
+<a class="sourceLine" id="cb623-3" data-line-number="3"><span class="kw">library</span>(sampleSelection) <span class="co">#heckit</span></a>
+<a class="sourceLine" id="cb623-4" data-line-number="4"><span class="kw">library</span>(<span class="st">&#39;ltm&#39;</span>) <span class="co">#margins</span></a>
+<a class="sourceLine" id="cb623-5" data-line-number="5"><span class="kw">library</span>(<span class="st">&#39;foreign&#39;</span>)</a>
+<a class="sourceLine" id="cb623-6" data-line-number="6"><span class="kw">library</span>(skimr)</a></code></pre></div>
 <p>Данная глава посвящена моделям с цензурированными выборками. В таких выборках часть значений целевой переменной будет дискретной переменной, а часть - непрерывной. Простой пример, который указывается в некоторых учебниках, это исследование расходов семей на автомобили. Каждая семья может либо потратить какую-то сумму на автомобиль, либо, если она не может позволить себе автомобиль, то значение расходов будет равно нулю. Соответственно, переменная демонстрирует либо факт неучастия в покупке автомобиля, либо степень участия в виде суммы. Оценивается в данном случае обычная регрессионная модель, но с функцией правдоподобия следующего вида:</p>
 <p><span class="math display">\[\begin{equation}
 L=\prod_{y_{t}=0}\left(1-\Phi\left(\frac{\boldsymbol{x}_{t}^{\prime} \boldsymbol{\beta}}{\sigma}\right)\right) \prod_{y_{t}&gt;0} \frac{1}{\sqrt{2 \pi} \sigma} \exp \left(-\frac{1}{2 \sigma^{2}}\left(y_{t}-\boldsymbol{x}_{t}^{\prime} \boldsymbol{\beta}\right)^{2}\right)
 \end{equation}\]</span></p>
 <p>Для начала подгрузим данные и визуализируем их. Этот датасет результаты тестирования двухсот школьников по шкале от 200 до 800 (apt), а также их успеваемость по чтению и математике (read и math соответственно). Построим гистограмму, наложив поверх неё функцию плотности нормального распределения.</p>
-<div class="sourceCode" id="cb630"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb630-1" data-line-number="1">data =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;tobit.csv&#39;</span>)</a></code></pre></div>
-<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1"><span class="co"># Функция, генерирующая функцию плотности нормального распределения в соответствии с распределением вектора входных данных</span></a>
-<a class="sourceLine" id="cb631-2" data-line-number="2">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, var, <span class="dt">bw =</span> <span class="dv">15</span>) {</a>
-<a class="sourceLine" id="cb631-3" data-line-number="3">  <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> <span class="kw">mean</span>(var), <span class="kw">sd</span>(var)) <span class="op">*</span><span class="st"> </span><span class="kw">length</span>(var)  <span class="op">*</span><span class="st"> </span>bw</a>
-<a class="sourceLine" id="cb631-4" data-line-number="4">}</a>
-<a class="sourceLine" id="cb631-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb631-6" data-line-number="6"></a>
-<a class="sourceLine" id="cb631-7" data-line-number="7">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> apt, <span class="dt">fill=</span>prog))</a>
-<a class="sourceLine" id="cb631-8" data-line-number="8">p <span class="op">+</span><span class="st"> </span><span class="kw">stat_bin</span>(<span class="dt">binwidth=</span><span class="dv">15</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb631-9" data-line-number="9"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> f, <span class="dt">size =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb631-10" data-line-number="10">    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">var =</span> data<span class="op">$</span>apt))</a></code></pre></div>
+<div class="sourceCode" id="cb624"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb624-1" data-line-number="1">data =<span class="st"> </span><span class="kw">read.csv</span>(<span class="st">&#39;tobit.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb625"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb625-1" data-line-number="1"><span class="co"># Функция, генерирующая функцию плотности нормального распределения в соответствии с распределением вектора входных данных</span></a>
+<a class="sourceLine" id="cb625-2" data-line-number="2">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, var, <span class="dt">bw =</span> <span class="dv">15</span>) {</a>
+<a class="sourceLine" id="cb625-3" data-line-number="3">  <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> <span class="kw">mean</span>(var), <span class="kw">sd</span>(var)) <span class="op">*</span><span class="st"> </span><span class="kw">length</span>(var)  <span class="op">*</span><span class="st"> </span>bw</a>
+<a class="sourceLine" id="cb625-4" data-line-number="4">}</a>
+<a class="sourceLine" id="cb625-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb625-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb625-7" data-line-number="7">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> apt, <span class="dt">fill=</span>prog))</a>
+<a class="sourceLine" id="cb625-8" data-line-number="8">p <span class="op">+</span><span class="st"> </span><span class="kw">stat_bin</span>(<span class="dt">binwidth=</span><span class="dv">15</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb625-9" data-line-number="9"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> f, <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb625-10" data-line-number="10">    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">var =</span> data<span class="op">$</span>apt))</a></code></pre></div>
 <p><img src="13-tobit_heckit_files/figure-html/hist%20plot%20chunk-1.png" width="672" /></p>
 <p>Как можем видеть, нашлось довольно много школьников, которые написали тест на высший балл. В связи с этим распределение даллеко от нормального из-за ограничений баллов теста. Вид выборки также довольно специфичен при взгляде на диаграмму рассеяния. Довольно различимая линейная зависимость как бы сплюснута сверху.</p>
-<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(math, apt, <span class="dt">col =</span> prog))</a>
-<a class="sourceLine" id="cb632-2" data-line-number="2">g <span class="op">+</span><span class="kw">geom_point</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb626"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb626-1" data-line-number="1">g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(math, apt, <span class="dt">col =</span> prog))</a>
+<a class="sourceLine" id="cb626-2" data-line-number="2">g <span class="op">+</span><span class="kw">geom_point</span>()</a></code></pre></div>
 <p><img src="13-tobit_heckit_files/figure-html/scatter%20plot%20chunk-1.png" width="672" /></p>
 <p>Оценим Тобит-модель:</p>
-<div class="sourceCode" id="cb633"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb633-1" data-line-number="1">model_tobit =<span class="st"> </span><span class="kw">tobit</span>(apt <span class="op">~</span><span class="st"> </span>math <span class="op">+</span><span class="st"> </span>read, <span class="dt">data =</span> data, <span class="dt">right =</span> <span class="dv">800</span>)</a>
-<a class="sourceLine" id="cb633-2" data-line-number="2"><span class="kw">summary</span>(model_tobit)</a></code></pre></div>
+<div class="sourceCode" id="cb627"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb627-1" data-line-number="1">model_tobit =<span class="st"> </span><span class="kw">tobit</span>(apt <span class="op">~</span><span class="st"> </span>math <span class="op">+</span><span class="st"> </span>read, <span class="dt">data =</span> data, <span class="dt">right =</span> <span class="dv">800</span>)</a>
+<a class="sourceLine" id="cb627-2" data-line-number="2"><span class="kw">summary</span>(model_tobit)</a></code></pre></div>
 <pre><code>
 Call:
 tobit(formula = apt ~ math + read, right = 800, data = data)
@@ -235,8 +233,8 @@ Log-likelihood: -1047 on 4 Df
 Wald-statistic: 266.2 on 2 Df, p-value: &lt; 2.22e-16 </code></pre>
 <p>Модель Тобина имеет ряд ограничений. Основное из них – это зависимость вероятности участия и интенсивности участия определяется одним и тем же набором переменных. Для преодоления этих ограничений была предложена модель Хекмана. В ней принятие решения “участвовать - не участвовать” и определение степени участия могут зависеть от разных переменных.</p>
 <p>Загрузим другие данные во славу разнообразия.</p>
-<div class="sourceCode" id="cb635"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb635-1" data-line-number="1">data =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_alcohol&amp;tobacco.dta&#39;</span>)</a>
-<a class="sourceLine" id="cb635-2" data-line-number="2"><span class="kw">summary</span>(data)</a></code></pre></div>
+<div class="sourceCode" id="cb629"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb629-1" data-line-number="1">data =<span class="st"> </span><span class="kw">read.dta</span>(<span class="st">&#39;data_alcohol&amp;tobacco.dta&#39;</span>)</a>
+<a class="sourceLine" id="cb629-2" data-line-number="2"><span class="kw">summary</span>(data)</a></code></pre></div>
 <pre><code>     obs                 age           bluecol            lnx       
  Length:2724        Min.   :0.000   Min.   :0.0000   Min.   :11.76  
  Class :character   1st Qu.:1.000   1st Qu.:0.0000   1st Qu.:13.41  
@@ -272,24 +270,79 @@ Wald-statistic: 266.2 on 2 Df, p-value: &lt; 2.22e-16 </code></pre>
  Mean   :0.3803  
  3rd Qu.:1.0000  
  Max.   :1.0000  </code></pre>
-<div class="sourceCode" id="cb637"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb637-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, var, <span class="dt">bw =</span> <span class="dv">15</span>) {</a>
-<a class="sourceLine" id="cb637-2" data-line-number="2">  <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> <span class="kw">mean</span>(var), <span class="kw">sd</span>(var)) <span class="op">*</span><span class="st"> </span><span class="kw">length</span>(var)  <span class="op">*</span><span class="st"> </span>bw</a>
-<a class="sourceLine" id="cb637-3" data-line-number="3">}</a>
-<a class="sourceLine" id="cb637-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb637-5" data-line-number="5"></a>
-<a class="sourceLine" id="cb637-6" data-line-number="6">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> shalc))</a>
-<a class="sourceLine" id="cb637-7" data-line-number="7">p <span class="op">+</span><span class="st"> </span><span class="kw">stat_bin</span>(<span class="dt">binwidth=</span><span class="fl">0.01</span>) <span class="op">+</span></a>
-<a class="sourceLine" id="cb637-8" data-line-number="8"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> f, <span class="dt">size =</span> <span class="dv">1</span>,</a>
-<a class="sourceLine" id="cb637-9" data-line-number="9">    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">var =</span> data<span class="op">$</span>alc))</a></code></pre></div>
+<div class="sourceCode" id="cb631"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb631-1" data-line-number="1">f &lt;-<span class="st"> </span><span class="cf">function</span>(x, var, <span class="dt">bw =</span> <span class="dv">15</span>) {</a>
+<a class="sourceLine" id="cb631-2" data-line-number="2">  <span class="kw">dnorm</span>(x, <span class="dt">mean =</span> <span class="kw">mean</span>(var), <span class="kw">sd</span>(var)) <span class="op">*</span><span class="st"> </span><span class="kw">length</span>(var)  <span class="op">*</span><span class="st"> </span>bw</a>
+<a class="sourceLine" id="cb631-3" data-line-number="3">}</a>
+<a class="sourceLine" id="cb631-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb631-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb631-6" data-line-number="6">p &lt;-<span class="st"> </span><span class="kw">ggplot</span>(data, <span class="kw">aes</span>(<span class="dt">x =</span> shalc))</a>
+<a class="sourceLine" id="cb631-7" data-line-number="7">p <span class="op">+</span><span class="st"> </span><span class="kw">stat_bin</span>(<span class="dt">binwidth=</span><span class="fl">0.01</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb631-8" data-line-number="8"><span class="st">  </span><span class="kw">stat_function</span>(<span class="dt">fun =</span> f, <span class="dt">size =</span> <span class="dv">1</span>,</a>
+<a class="sourceLine" id="cb631-9" data-line-number="9">    <span class="dt">args =</span> <span class="kw">list</span>(<span class="dt">var =</span> data<span class="op">$</span>alc))</a></code></pre></div>
 <p><img src="13-tobit_heckit_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
-<div class="sourceCode" id="cb638"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb638-1" data-line-number="1">heck1 =<span class="st"> </span><span class="kw">heckit</span>(alc <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, shalc <span class="op">~</span><span class="st">  </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, <span class="dt">data =</span> data, <span class="dt">method =</span> <span class="st">&#39;ml&#39;</span>)</a></code></pre></div>
-<pre><code>Error in heckit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~ age + : could not find function &quot;heckit&quot;</code></pre>
-<div class="sourceCode" id="cb640"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb640-1" data-line-number="1"><span class="kw">summary</span>(heck1)</a></code></pre></div>
-<pre><code>Error in summary(heck1): object &#39;heck1&#39; not found</code></pre>
-<div class="sourceCode" id="cb642"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb642-1" data-line-number="1">heck2 =<span class="st"> </span><span class="kw">heckit2fit</span>(alc <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, shalc <span class="op">~</span><span class="st">  </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, <span class="dt">data =</span> data)</a></code></pre></div>
-<pre><code>Error in heckit2fit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~ : could not find function &quot;heckit2fit&quot;</code></pre>
-<div class="sourceCode" id="cb644"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb644-1" data-line-number="1"><span class="kw">summary</span>(heck2)</a></code></pre></div>
-<pre><code>Error in summary(heck2): object &#39;heck2&#39; not found</code></pre>
+<div class="sourceCode" id="cb632"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb632-1" data-line-number="1">heck1 =<span class="st"> </span><span class="kw">heckit</span>(alc <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, shalc <span class="op">~</span><span class="st">  </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, <span class="dt">data =</span> data, <span class="dt">method =</span> <span class="st">&#39;ml&#39;</span>)</a>
+<a class="sourceLine" id="cb632-2" data-line-number="2"><span class="kw">summary</span>(heck1)</a></code></pre></div>
+<pre><code>--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 5 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: 4311.465 
+2724 observations (466 censored and 2258 observed)
+14 free parameters (df = 2710)
+Probit selection equation:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -11.12847    0.99823 -11.148  &lt; 2e-16 ***
+age           0.06449    0.02333   2.765  0.00574 ** 
+nadults      -0.08657    0.04198  -2.062  0.03927 *  
+nkids        -0.08477    0.03621  -2.341  0.01929 *  
+lnx           0.88399    0.07585  11.654  &lt; 2e-16 ***
+walloon       0.19751    0.06229   3.171  0.00154 ** 
+Outcome equation:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.0413302  0.0205897   2.007 0.044815 *  
+age          0.0022075  0.0003854   5.727 1.13e-08 ***
+nadults     -0.0017463  0.0006455  -2.705 0.006865 ** 
+nkids       -0.0021381  0.0005640  -3.791 0.000153 ***
+lnx         -0.0015570  0.0014823  -1.050 0.293642    
+walloon      0.0025647  0.0009575   2.679 0.007437 ** 
+   Error terms:
+        Estimate Std. Error t value Pr(&gt;|t|)    
+sigma  0.0214606  0.0003194  67.187   &lt;2e-16 ***
+rho   -0.0062437  0.1345571  -0.046    0.963    
+---
+Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+--------------------------------------------</code></pre>
+<div class="sourceCode" id="cb634"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb634-1" data-line-number="1">heck2 =<span class="st"> </span><span class="kw">heckit2fit</span>(alc <span class="op">~</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, shalc <span class="op">~</span><span class="st">  </span>age <span class="op">+</span><span class="st"> </span>nadults <span class="op">+</span><span class="st"> </span>nkids <span class="op">+</span><span class="st"> </span>lnx <span class="op">+</span><span class="st"> </span>walloon, <span class="dt">data =</span> data)</a>
+<a class="sourceLine" id="cb634-2" data-line-number="2"><span class="kw">summary</span>(heck2)</a></code></pre></div>
+<pre><code>--------------------------------------------
+Tobit 2 model (sample selection model)
+2-step Heckman / heckit estimation
+2724 observations (466 censored and 2258 observed)
+15 free parameters (df = 2710)
+Probit selection equation:
+             Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept) -11.12810    0.99819 -11.148  &lt; 2e-16 ***
+age           0.06448    0.02332   2.765  0.00574 ** 
+nadults      -0.08653    0.04196  -2.062  0.03930 *  
+nkids        -0.08475    0.03620  -2.341  0.01931 *  
+lnx           0.88396    0.07585  11.654  &lt; 2e-16 ***
+walloon       0.19748    0.06228   3.171  0.00154 ** 
+Outcome equation:
+              Estimate Std. Error t value Pr(&gt;|t|)    
+(Intercept)  0.0584579  0.0763935   0.765 0.444207    
+age          0.0021170  0.0005482   3.862 0.000115 ***
+nadults     -0.0016402  0.0007920  -2.071 0.038456 *  
+nkids       -0.0020387  0.0007089  -2.876 0.004062 ** 
+lnx         -0.0027209  0.0052148  -0.522 0.601873    
+walloon      0.0023175  0.0014319   1.619 0.105666    
+Multiple R-Squared:0.0534,  Adjusted R-Squared:0.0509
+   Error terms:
+               Estimate Std. Error t value Pr(&gt;|t|)
+invMillsRatio -0.003805   0.016022  -0.237    0.812
+sigma          0.021579         NA      NA       NA
+rho           -0.176330         NA      NA       NA
+--------------------------------------------</code></pre>
 <p>Теперь то же самое в STATA.</p>
 <pre class="stata"><code>clear
 use tobit

@@ -17,13 +17,6 @@ library(xts) # работа с временными рядами
 library(dplyr) # манипуляции с данными
 library(ggplot2) # построение графиков
 library(aTSA) # тест Дики-Фуллера
-```
-
-```
-Error in library(aTSA): there is no package called 'aTSA'
-```
-
-```r
 library(forecast) # прогнозирование ARMA-моделей
 library(quantmod) # импортирование dataset
 library(lmtest) # проверка гипотез
@@ -58,7 +51,32 @@ adf.test(apple_df)
 ```
 
 ```
-Error in adf.test(apple_df): could not find function "adf.test"
+Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag    ADF p.value
+[1,]   0 0.0708   0.664
+[2,]   1 0.1616   0.690
+[3,]   2 0.1670   0.692
+[4,]   3 0.1321   0.682
+[5,]   4 0.0120   0.647
+Type 2: with drift no trend 
+     lag  ADF p.value
+[1,]   0 2.15    0.99
+[2,]   1 2.06    0.99
+[3,]   2 2.24    0.99
+[4,]   3 2.35    0.99
+[5,]   4 2.65    0.99
+Type 3: with drift and trend 
+     lag  ADF p.value
+[1,]   0 1.75    0.99
+[2,]   1 1.53    0.99
+[3,]   2 1.64    0.99
+[4,]   3 1.77    0.99
+[5,]   4 2.17    0.99
+---- 
+Note: in fact, p.value = 0.01 means p.value <= 0.01 
 ```
 Тест выявил нестационарность на 5% уровне значимости (основная гипотеза – о нестационарности ряда).
 

@@ -7,21 +7,7 @@
 library(ggplot2)
 library(AER) #tobit
 library(sampleSelection) #heckit
-```
-
-```
-Error in library(sampleSelection): there is no package called 'sampleSelection'
-```
-
-```r
 library('ltm') #margins
-```
-
-```
-Error in library("ltm"): there is no package called 'ltm'
-```
-
-```r
 library('foreign')
 library(skimr)
 ```
@@ -169,35 +155,78 @@ p + stat_bin(binwidth=0.01) +
 
 ```r
 heck1 = heckit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~  age + nadults + nkids + lnx + walloon, data = data, method = 'ml')
-```
-
-```
-Error in heckit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~ age + : could not find function "heckit"
-```
-
-```r
 summary(heck1)
 ```
 
 ```
-Error in summary(heck1): object 'heck1' not found
+--------------------------------------------
+Tobit 2 model (sample selection model)
+Maximum Likelihood estimation
+Newton-Raphson maximisation, 5 iterations
+Return code 2: successive function values within tolerance limit
+Log-Likelihood: 4311.465 
+2724 observations (466 censored and 2258 observed)
+14 free parameters (df = 2710)
+Probit selection equation:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -11.12847    0.99823 -11.148  < 2e-16 ***
+age           0.06449    0.02333   2.765  0.00574 ** 
+nadults      -0.08657    0.04198  -2.062  0.03927 *  
+nkids        -0.08477    0.03621  -2.341  0.01929 *  
+lnx           0.88399    0.07585  11.654  < 2e-16 ***
+walloon       0.19751    0.06229   3.171  0.00154 ** 
+Outcome equation:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.0413302  0.0205897   2.007 0.044815 *  
+age          0.0022075  0.0003854   5.727 1.13e-08 ***
+nadults     -0.0017463  0.0006455  -2.705 0.006865 ** 
+nkids       -0.0021381  0.0005640  -3.791 0.000153 ***
+lnx         -0.0015570  0.0014823  -1.050 0.293642    
+walloon      0.0025647  0.0009575   2.679 0.007437 ** 
+   Error terms:
+        Estimate Std. Error t value Pr(>|t|)    
+sigma  0.0214606  0.0003194  67.187   <2e-16 ***
+rho   -0.0062437  0.1345571  -0.046    0.963    
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+--------------------------------------------
 ```
 
 
 ```r
 heck2 = heckit2fit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~  age + nadults + nkids + lnx + walloon, data = data)
-```
-
-```
-Error in heckit2fit(alc ~ age + nadults + nkids + lnx + walloon, shalc ~ : could not find function "heckit2fit"
-```
-
-```r
 summary(heck2)
 ```
 
 ```
-Error in summary(heck2): object 'heck2' not found
+--------------------------------------------
+Tobit 2 model (sample selection model)
+2-step Heckman / heckit estimation
+2724 observations (466 censored and 2258 observed)
+15 free parameters (df = 2710)
+Probit selection equation:
+             Estimate Std. Error t value Pr(>|t|)    
+(Intercept) -11.12810    0.99819 -11.148  < 2e-16 ***
+age           0.06448    0.02332   2.765  0.00574 ** 
+nadults      -0.08653    0.04196  -2.062  0.03930 *  
+nkids        -0.08475    0.03620  -2.341  0.01931 *  
+lnx           0.88396    0.07585  11.654  < 2e-16 ***
+walloon       0.19748    0.06228   3.171  0.00154 ** 
+Outcome equation:
+              Estimate Std. Error t value Pr(>|t|)    
+(Intercept)  0.0584579  0.0763935   0.765 0.444207    
+age          0.0021170  0.0005482   3.862 0.000115 ***
+nadults     -0.0016402  0.0007920  -2.071 0.038456 *  
+nkids       -0.0020387  0.0007089  -2.876 0.004062 ** 
+lnx         -0.0027209  0.0052148  -0.522 0.601873    
+walloon      0.0023175  0.0014319   1.619 0.105666    
+Multiple R-Squared:0.0534,	Adjusted R-Squared:0.0509
+   Error terms:
+               Estimate Std. Error t value Pr(>|t|)
+invMillsRatio -0.003805   0.016022  -0.237    0.812
+sigma          0.021579         NA      NA       NA
+rho           -0.176330         NA      NA       NA
+--------------------------------------------
 ```
 
 

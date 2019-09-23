@@ -189,29 +189,53 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div class="sourceCode" id="cb297"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb297-1" data-line-number="1"><span class="kw">library</span>(xts) <span class="co"># работа с временными рядами</span></a>
 <a class="sourceLine" id="cb297-2" data-line-number="2"><span class="kw">library</span>(dplyr) <span class="co"># манипуляции с данными</span></a>
 <a class="sourceLine" id="cb297-3" data-line-number="3"><span class="kw">library</span>(ggplot2) <span class="co"># построение графиков</span></a>
-<a class="sourceLine" id="cb297-4" data-line-number="4"><span class="kw">library</span>(aTSA) <span class="co"># тест Дики-Фуллера</span></a></code></pre></div>
-<pre><code>Error in library(aTSA): there is no package called &#39;aTSA&#39;</code></pre>
-<div class="sourceCode" id="cb299"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb299-1" data-line-number="1"><span class="kw">library</span>(forecast) <span class="co"># прогнозирование ARMA-моделей</span></a>
-<a class="sourceLine" id="cb299-2" data-line-number="2"><span class="kw">library</span>(quantmod) <span class="co"># импортирование dataset</span></a>
-<a class="sourceLine" id="cb299-3" data-line-number="3"><span class="kw">library</span>(lmtest) <span class="co"># проверка гипотез</span></a></code></pre></div>
+<a class="sourceLine" id="cb297-4" data-line-number="4"><span class="kw">library</span>(aTSA) <span class="co"># тест Дики-Фуллера</span></a>
+<a class="sourceLine" id="cb297-5" data-line-number="5"><span class="kw">library</span>(forecast) <span class="co"># прогнозирование ARMA-моделей</span></a>
+<a class="sourceLine" id="cb297-6" data-line-number="6"><span class="kw">library</span>(quantmod) <span class="co"># импортирование dataset</span></a>
+<a class="sourceLine" id="cb297-7" data-line-number="7"><span class="kw">library</span>(lmtest) <span class="co"># проверка гипотез</span></a></code></pre></div>
 <p>Импортируем dataset <code>AAPL</code> прямо из пакета <code>quantmod</code>. Будем анализировать одномерный временной ряд от переменной <code>AAPL. Close</code>.</p>
-<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1"><span class="kw">getSymbols</span>(<span class="st">&quot;AAPL&quot;</span>,<span class="dt">from=</span><span class="st">&quot;2015-01-01&quot;</span>,<span class="dt">to=</span><span class="st">&quot;2015-12-31&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb298"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb298-1" data-line-number="1"><span class="kw">getSymbols</span>(<span class="st">&quot;AAPL&quot;</span>,<span class="dt">from=</span><span class="st">&quot;2015-01-01&quot;</span>,<span class="dt">to=</span><span class="st">&quot;2015-12-31&quot;</span>)</a></code></pre></div>
 <pre><code>[1] &quot;AAPL&quot;</code></pre>
 <p>Обозначим наш dataframe как <code>apple_df</code>.</p>
-<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1">apple_df =<span class="st"> </span>AAPL<span class="op">$</span>AAPL.Close</a></code></pre></div>
+<div class="sourceCode" id="cb300"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb300-1" data-line-number="1">apple_df =<span class="st"> </span>AAPL<span class="op">$</span>AAPL.Close</a></code></pre></div>
 <p>Визуализируем исследуемый временной ряд, его автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode" id="cb303"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb303-1" data-line-number="1"><span class="kw">ggtsdisplay</span>(apple_df)</a></code></pre></div>
+<div class="sourceCode" id="cb301"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb301-1" data-line-number="1"><span class="kw">ggtsdisplay</span>(apple_df)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-5-1.png" width="672" style="display: block; margin: auto;" />
 По графику видим, что процесс напоминает случайное блуждание: медленно убывает автокорреляционная функция, первый лаг частной автокорреляционной функции не входит в доверительный интервал, остальные - входят.</p>
 <p>Проверим стационарность ряда тестом Дики-Фуллера.</p>
-<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1"><span class="kw">adf.test</span>(apple_df)</a></code></pre></div>
-<pre><code>Error in adf.test(apple_df): could not find function &quot;adf.test&quot;</code></pre>
+<div class="sourceCode" id="cb302"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb302-1" data-line-number="1"><span class="kw">adf.test</span>(apple_df)</a></code></pre></div>
+<pre><code>Augmented Dickey-Fuller Test 
+alternative: stationary 
+ 
+Type 1: no drift no trend 
+     lag    ADF p.value
+[1,]   0 0.0708   0.664
+[2,]   1 0.1616   0.690
+[3,]   2 0.1670   0.692
+[4,]   3 0.1321   0.682
+[5,]   4 0.0120   0.647
+Type 2: with drift no trend 
+     lag  ADF p.value
+[1,]   0 2.15    0.99
+[2,]   1 2.06    0.99
+[3,]   2 2.24    0.99
+[4,]   3 2.35    0.99
+[5,]   4 2.65    0.99
+Type 3: with drift and trend 
+     lag  ADF p.value
+[1,]   0 1.75    0.99
+[2,]   1 1.53    0.99
+[3,]   2 1.64    0.99
+[4,]   3 1.77    0.99
+[5,]   4 2.17    0.99
+---- 
+Note: in fact, p.value = 0.01 means p.value &lt;= 0.01 </code></pre>
 <p>Тест выявил нестационарность на 5% уровне значимости (основная гипотеза – о нестационарности ряда).</p>
 <p>Возьмём первую разность от ряда, чтобы сделать его стационарным (ведь только стационарные процессы могут быть описаны моделью <code>ARMA (p, q)</code> ) и снова построим автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode" id="cb306"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb306-1" data-line-number="1">apple_diff =<span class="st"> </span><span class="kw">diff</span>(apple_df)</a>
-<a class="sourceLine" id="cb306-2" data-line-number="2"><span class="kw">ggtsdisplay</span>(apple_diff)</a></code></pre></div>
+<div class="sourceCode" id="cb304"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb304-1" data-line-number="1">apple_diff =<span class="st"> </span><span class="kw">diff</span>(apple_df)</a>
+<a class="sourceLine" id="cb304-2" data-line-number="2"><span class="kw">ggtsdisplay</span>(apple_diff)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-7-1.png" width="672" style="display: block; margin: auto;" /></p>
-<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1"><span class="kw">summary</span>(apple_diff)</a></code></pre></div>
+<div class="sourceCode" id="cb305"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb305-1" data-line-number="1"><span class="kw">summary</span>(apple_diff)</a></code></pre></div>
 <pre><code>     Index              AAPL.Close      
  Min.   :2015-01-02   Min.   :-6.89000  
  1st Qu.:2015-04-04   1st Qu.:-1.02500  
@@ -222,8 +246,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
                       NA&#39;s   :1         </code></pre>
 <p>Ряд похож на стационарный. Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан <code>ARIMA (0, 0, 0)</code>, что равносильно <code>ARMA(0, 0)</code>, но всё же…</p>
 <p><code>ARIMA (0, 0, 0)</code>:</p>
-<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1">arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">000</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb307"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb307-1" data-line-number="1">arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order=</span><span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb307-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">000</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = apple_diff, order = c(0, 0, 0))
@@ -241,8 +265,8 @@ Training set 8.078552e-15 1.966425 1.495158 99.55996 99.55996 0.6825331
                     ACF1
 Training set -0.02936922</code></pre>
 <p>Построим также модель <code>ARIMA (1, 0, 0)</code> , что равносильно <code>ARMA (1, 0)</code>, для сравнения.</p>
-<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1">arima_<span class="dv">100</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb311-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb309"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb309-1" data-line-number="1">arima_<span class="dv">100</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order=</span><span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb309-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = apple_diff, order = c(1, 0, 0))
@@ -259,7 +283,7 @@ Training set error measures:
 Training set -0.0003728078 1.965566 1.491983 94.09101 105.0814 0.6810838
                      ACF1
 Training set -0.002372191</code></pre>
-<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1"><span class="kw">coeftest</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb311"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb311-1" data-line-number="1"><span class="kw">coeftest</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>
 z test of coefficients:
 
@@ -269,8 +293,8 @@ intercept -0.0075101  0.1207545 -0.0622   0.9504</code></pre>
 <p>По информационному критерию Акаике первая модель лучше (AIC меньше), а также во второй модели коэффициент перед ar(1) незначим.</p>
 <p>Получается, что (как и ожидалось) первая модель лучше.
 Можно схитрить и использовать функцию автоподбора коэффициентов модели ARIMA.</p>
-<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">arima_auto_model =<span class="st"> </span><span class="kw">auto.arima</span>(apple_diff)</a>
-<a class="sourceLine" id="cb315-2" data-line-number="2"><span class="kw">summary</span>(arima_auto_model)</a></code></pre></div>
+<div class="sourceCode" id="cb313"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb313-1" data-line-number="1">arima_auto_model =<span class="st"> </span><span class="kw">auto.arima</span>(apple_diff)</a>
+<a class="sourceLine" id="cb313-2" data-line-number="2"><span class="kw">summary</span>(arima_auto_model)</a></code></pre></div>
 <pre><code>Series: apple_diff 
 ARIMA(0,0,0) with zero mean 
 
@@ -285,8 +309,8 @@ Training set -0.02936922</code></pre>
 <p>Такая функция автоматически минимизирует критерий Акаике. Заметим, что автоподбор выдал модель <code>ARIMA (0, 0, 0)</code> для первой разности.</p>
 <p>Теперь проверим остатки модели <code>ARIMA (0, 0, 0)</code> на белошумность. Сохраним остатки и проделаем тест Льюнг-Бокса, в котором основная гипотеза - остатки независимы.</p>
 <p>Сохраним остатки модели <code>ARIMA (0, 0, 0)</code> и построим тест Льюнг-Бокса (если наблюдений мало, то используем опцию <code>Box-Pierce</code>).</p>
-<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1">res_arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">resid</span>(arima_<span class="dv">000</span>)</a>
-<a class="sourceLine" id="cb317-2" data-line-number="2"><span class="kw">Box.test</span>(res_arima_<span class="dv">000</span>, <span class="dt">lag=</span><span class="dv">10</span>, <span class="dt">type=</span><span class="st">&quot;Ljung-Box&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb315"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb315-1" data-line-number="1">res_arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">resid</span>(arima_<span class="dv">000</span>)</a>
+<a class="sourceLine" id="cb315-2" data-line-number="2"><span class="kw">Box.test</span>(res_arima_<span class="dv">000</span>, <span class="dt">lag=</span><span class="dv">10</span>, <span class="dt">type=</span><span class="st">&quot;Ljung-Box&quot;</span>)</a></code></pre></div>
 <pre><code>
     Box-Ljung test
 
@@ -296,248 +320,248 @@ X-squared = 4.2362, df = 10, p-value = 0.9361</code></pre>
 <p>Время небольших фактов: Льюнг - это женщина-статистик! Поэтому правильно склонять “Льюнг-Бокса”, а не “Льюнга-Бокса”!</p>
 <p><img src="images/Greta.jpg" /></p>
 <p>Можно ещё также научиться оценивать визуально, где лежат корни AR и MA (<code>unit root test</code>). Так как для построенной модели нет AR и MA частей (<code>ARIMA (0, 0, 0)</code>), то можно применить команду к, например, <code>ARIMA (1, 0, 0)</code>:</p>
-<div class="sourceCode" id="cb319"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="kw">autoplot</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb317"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb317-1" data-line-number="1"><span class="kw">autoplot</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-12-1.png" width="672" style="display: block; margin: auto;" />
 Построим прогноз на 3 периода вперёд для модели <code>arima_000</code>. Визуализируем прогноз, границы 80% и 95% доверительного интервалов.</p>
-<div class="sourceCode" id="cb320"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb320-1" data-line-number="1"><span class="kw">forecast</span>(arima_<span class="dv">000</span>, <span class="dt">h=</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb320-2" data-line-number="2"><span class="kw">autoplot</span>()</a></code></pre></div>
+<div class="sourceCode" id="cb318"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb318-1" data-line-number="1"><span class="kw">forecast</span>(arima_<span class="dv">000</span>, <span class="dt">h=</span><span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb318-2" data-line-number="2"><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-13-1.png" width="672" style="display: block; margin: auto;" /></p>
 </div>
 <div id="python-2" class="section level2">
 <h2><span class="header-section-number">7.2</span> python</h2>
 <p>Настало время <strong>python</strong>!</p>
 <p>Импортируем необходимые пакеты.</p>
-<div class="sourceCode" id="cb321"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="im">import</span> quandl <span class="co"># импортирование данных из Сети</span></a></code></pre></div>
+<div class="sourceCode" id="cb319"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb319-1" data-line-number="1"><span class="im">import</span> quandl <span class="co"># импортирование данных из Сети</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;quandl&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb323"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="im">import</span> datetime <span class="co"># работа с форматами даты и времени</span></a>
-<a class="sourceLine" id="cb323-2" data-line-number="2"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># построение графиков</span></a></code></pre></div>
+<div class="sourceCode" id="cb321"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb321-1" data-line-number="1"><span class="im">import</span> datetime <span class="co"># работа с форматами даты и времени</span></a>
+<a class="sourceLine" id="cb321-2" data-line-number="2"><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># построение графиков</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;matplotlib&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb325"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="im">from</span> pandas <span class="im">import</span> Series <span class="co"># работа с временными рядами</span></a></code></pre></div>
+<div class="sourceCode" id="cb323"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb323-1" data-line-number="1"><span class="im">from</span> pandas <span class="im">import</span> Series <span class="co"># работа с временными рядами</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;pandas&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb327"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="im">import</span> statsmodels</a></code></pre></div>
+<div class="sourceCode" id="cb325"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb325-1" data-line-number="1"><span class="im">import</span> statsmodels</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb329"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="im">from</span> statsmodels.tsa.arima_model <span class="im">import</span> ARMA <span class="co"># ARMA-модели</span></a></code></pre></div>
+<div class="sourceCode" id="cb327"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb327-1" data-line-number="1"><span class="im">from</span> statsmodels.tsa.arima_model <span class="im">import</span> ARMA <span class="co"># ARMA-модели</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb331"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf <span class="co"># построение графиков acf и pacf</span></a></code></pre></div>
+<div class="sourceCode" id="cb329"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb329-1" data-line-number="1"><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf <span class="co"># построение графиков acf и pacf</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb333"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</a></code></pre></div>
+<div class="sourceCode" id="cb331"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb331-1" data-line-number="1"><span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb335"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb335-1" data-line-number="1"><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</a></code></pre></div>
+<div class="sourceCode" id="cb333"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb333-1" data-line-number="1"><span class="im">import</span> statsmodels.api <span class="im">as</span> sm</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb337"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="im">from</span> statsmodels.stats <span class="im">import</span> diagnostic <span class="im">as</span> diag <span class="co"># тесты</span></a></code></pre></div>
+<div class="sourceCode" id="cb335"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb335-1" data-line-number="1"><span class="im">from</span> statsmodels.stats <span class="im">import</span> diagnostic <span class="im">as</span> diag <span class="co"># тесты</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb339"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="im">import</span> pmdarima <span class="im">as</span> pm</a></code></pre></div>
+<div class="sourceCode" id="cb337"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb337-1" data-line-number="1"><span class="im">import</span> pmdarima <span class="im">as</span> pm</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;pmdarima&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb341"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="im">from</span> pmdarima.arima <span class="im">import</span> auto_arima <span class="co"># автоподбор коэффициентов модели ARIMA</span></a></code></pre></div>
+<div class="sourceCode" id="cb339"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb339-1" data-line-number="1"><span class="im">from</span> pmdarima.arima <span class="im">import</span> auto_arima <span class="co"># автоподбор коэффициентов модели ARIMA</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;pmdarima&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb343"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb343-1" data-line-number="1"><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller <span class="co"># тест Дики-Фуллера</span></a></code></pre></div>
+<div class="sourceCode" id="cb341"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb341-1" data-line-number="1"><span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller <span class="co"># тест Дики-Фуллера</span></a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;statsmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Загрузим dataset:</p>
-<div class="sourceCode" id="cb345"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb345-1" data-line-number="1">start <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">1</span>, <span class="dv">1</span>)</a>
-<a class="sourceLine" id="cb345-2" data-line-number="2">end <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">12</span>, <span class="dv">31</span>)</a>
-<a class="sourceLine" id="cb345-3" data-line-number="3">apple <span class="op">=</span> quandl.get(<span class="st">&quot;WIKI/&quot;</span> <span class="op">+</span> <span class="st">&quot;AAPL&quot;</span>, start_date<span class="op">=</span>start, end_date<span class="op">=</span>end)</a></code></pre></div>
+<div class="sourceCode" id="cb343"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb343-1" data-line-number="1">start <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">1</span>, <span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb343-2" data-line-number="2">end <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">12</span>, <span class="dv">31</span>)</a>
+<a class="sourceLine" id="cb343-3" data-line-number="3">apple <span class="op">=</span> quandl.get(<span class="st">&quot;WIKI/&quot;</span> <span class="op">+</span> <span class="st">&quot;AAPL&quot;</span>, start_date<span class="op">=</span>start, end_date<span class="op">=</span>end)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;quandl&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Проверим загрузку данных. Установим dataset как цену закрытия.</p>
-<div class="sourceCode" id="cb347"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb347-1" data-line-number="1">apple.head()</a></code></pre></div>
+<div class="sourceCode" id="cb345"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb345-1" data-line-number="1">apple.head()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;apple&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb349"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb349-1" data-line-number="1">apple_df <span class="op">=</span> apple[<span class="st">&quot;Close&quot;</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb347"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb347-1" data-line-number="1">apple_df <span class="op">=</span> apple[<span class="st">&quot;Close&quot;</span>]</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;apple&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Посмотрим на структуру временного ряда, автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode" id="cb351"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb351-1" data-line-number="1">apple_df.plot(grid<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb349"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb349-1" data-line-number="1">apple_df.plot(grid<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;apple_df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb353"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb353-1" data-line-number="1">plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb351"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb351-1" data-line-number="1">plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb355"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb355-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb353"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb353-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb357"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb357-1" data-line-number="1">plot_acf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb355"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb355-1" data-line-number="1">plot_acf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plot_acf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb359"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb359-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb357"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb357-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb361"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb361-1" data-line-number="1">plot_pacf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb359"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb359-1" data-line-number="1">plot_pacf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plot_pacf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb363"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb363-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb361"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb361-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Появились очень знакомые (и красивые) графики. Важно отметить, что на графиках есть 0 - лаг, он равен единице, в предыдущих графиках его не было.</p>
 <p>Проверим стационарность ряда тестом Дики-Фуллера.</p>
-<div class="sourceCode" id="cb365"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb365-1" data-line-number="1">res <span class="op">=</span> sm.tsa.adfuller(apple_df, regression<span class="op">=</span><span class="st">&#39;ct&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb363"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb363-1" data-line-number="1">res <span class="op">=</span> sm.tsa.adfuller(apple_df, regression<span class="op">=</span><span class="st">&#39;ct&#39;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sm&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb367"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb367-1" data-line-number="1"><span class="co">&#39;p-value:{}&#39;</span>.<span class="bu">format</span>(res[<span class="dv">1</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb365"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb365-1" data-line-number="1"><span class="co">&#39;p-value:{}&#39;</span>.<span class="bu">format</span>(res[<span class="dv">1</span>])</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;res&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Возьмём первую разность.</p>
-<div class="sourceCode" id="cb369"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb369-1" data-line-number="1">apple_diff <span class="op">=</span> apple_df.diff(periods<span class="op">=</span><span class="dv">1</span>).dropna()</a></code></pre></div>
+<div class="sourceCode" id="cb367"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb367-1" data-line-number="1">apple_diff <span class="op">=</span> apple_df.diff(periods<span class="op">=</span><span class="dv">1</span>).dropna()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;apple_df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>И визуализируем структуру нового ряда.</p>
-<div class="sourceCode" id="cb371"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb371-1" data-line-number="1">apple_diff.plot(grid<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb369"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb369-1" data-line-number="1">apple_diff.plot(grid<span class="op">=</span><span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;apple_diff&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb373"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb373-1" data-line-number="1">plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb371"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb371-1" data-line-number="1">plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb375"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb375-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb373"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb373-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb377"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb377-1" data-line-number="1">plot_acf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb375"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb375-1" data-line-number="1">plot_acf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plot_acf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb379"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb379-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb377"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb377-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb381"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb381-1" data-line-number="1">plot_pacf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb379"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb379-1" data-line-number="1">plot_pacf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plot_pacf&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb383"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb383-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb381"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb381-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Аналогично операциям в <strong>r</strong>, смоделируем данный ряд как <code>ARMA (0, 0)</code>.</p>
-<div class="sourceCode" id="cb385"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb385-1" data-line-number="1">arma_00 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb383"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb383-1" data-line-number="1">arma_00 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;ARMA&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb387"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb387-1" data-line-number="1">arma_00_fit <span class="op">=</span> arma_00.fit(disp<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb385"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb385-1" data-line-number="1">arma_00_fit <span class="op">=</span> arma_00.fit(disp<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_00&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb389"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb389-1" data-line-number="1">arma_00_fit.summary()</a></code></pre></div>
+<div class="sourceCode" id="cb387"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb387-1" data-line-number="1">arma_00_fit.summary()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_00_fit&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Смоделируем ряд как <code>ARMA (1, 0)</code>:</p>
-<div class="sourceCode" id="cb391"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb391-1" data-line-number="1">arma_10 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb389"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb389-1" data-line-number="1">arma_10 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>))</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;ARMA&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb393"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb393-1" data-line-number="1">arma_10_fit <span class="op">=</span> arma_10.fit(disp<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb391"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb391-1" data-line-number="1">arma_10_fit <span class="op">=</span> arma_10.fit(disp<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_10&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb395"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb395-1" data-line-number="1">arma_10_fit.summary()</a></code></pre></div>
+<div class="sourceCode" id="cb393"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb393-1" data-line-number="1">arma_10_fit.summary()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_10_fit&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Вторая модель имеет более высокое значение критерия Акаике и незначимый коэффициент перед ar(1).</p>
 <p>Отдельно можно выделить значения AIC и BIC для построенных моделей.</p>
-<div class="sourceCode" id="cb397"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb397-1" data-line-number="1">np.<span class="bu">round</span>(arma_00_fit.aic, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb395"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb395-1" data-line-number="1">np.<span class="bu">round</span>(arma_00_fit.aic, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;np&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb399"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb399-1" data-line-number="1">np.<span class="bu">round</span>(arma_10_fit.aic, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb397"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb397-1" data-line-number="1">np.<span class="bu">round</span>(arma_10_fit.aic, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;np&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb401"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb401-1" data-line-number="1">np.<span class="bu">round</span>(arma_00_fit.bic, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb399"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb399-1" data-line-number="1">np.<span class="bu">round</span>(arma_00_fit.bic, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;np&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb403"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb403-1" data-line-number="1">np.<span class="bu">round</span>(arma_10_fit.bic, <span class="dv">2</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb401"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb401-1" data-line-number="1">np.<span class="bu">round</span>(arma_10_fit.bic, <span class="dv">2</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;np&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Как и в <strong>r</strong>, <strong>python</strong> имеет опцию автоподбора коэффициентов модели <code>ARIMA</code>.</p>
-<div class="sourceCode" id="cb405"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb405-1" data-line-number="1">auto_arima_python <span class="op">=</span> pm.auto_arima(apple_diff)</a></code></pre></div>
+<div class="sourceCode" id="cb403"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb403-1" data-line-number="1">auto_arima_python <span class="op">=</span> pm.auto_arima(apple_diff)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pm&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb407"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb407-1" data-line-number="1">auto_arima_python.summary()</a></code></pre></div>
+<div class="sourceCode" id="cb405"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb405-1" data-line-number="1">auto_arima_python.summary()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;auto_arima_python&#39; is not defined
 
 Detailed traceback: 
@@ -545,49 +569,49 @@ Detailed traceback:
 <p>В строчке <code>SARIMAX</code> нет рядом коэффициентов. Это означает, что они нулевые, как и предполагалось, то есть модель описывается <code>ARMA (0, 0)</code>.Эта функция также удобна тем, что выводит статистики.</p>
 <p>Проверим белошумность остатков тестом Льюнг - Бокса.</p>
 <p>Сначала сохраним остатки как <code>residuals</code>.</p>
-<div class="sourceCode" id="cb409"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb409-1" data-line-number="1">residuals <span class="op">=</span> pd.DataFrame(arma_00_fit.resid)</a></code></pre></div>
+<div class="sourceCode" id="cb407"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb407-1" data-line-number="1">residuals <span class="op">=</span> pd.DataFrame(arma_00_fit.resid)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pd&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb411"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb411-1" data-line-number="1">diag.acorr_ljungbox(residuals, lags<span class="op">=</span><span class="dv">10</span>, boxpierce<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb409"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb409-1" data-line-number="1">diag.acorr_ljungbox(residuals, lags<span class="op">=</span><span class="dv">10</span>, boxpierce<span class="op">=</span><span class="va">False</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;diag&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Посмотрим на прогноз на 10 дней вперёд.</p>
-<div class="sourceCode" id="cb413"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb413-1" data-line-number="1">forecast <span class="op">=</span> arma_00_fit.forecast(steps<span class="op">=</span><span class="dv">10</span>)[<span class="dv">0</span>]</a></code></pre></div>
+<div class="sourceCode" id="cb411"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb411-1" data-line-number="1">forecast <span class="op">=</span> arma_00_fit.forecast(steps<span class="op">=</span><span class="dv">10</span>)[<span class="dv">0</span>]</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_00_fit&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb415"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb415-1" data-line-number="1">forecast</a></code></pre></div>
+<div class="sourceCode" id="cb413"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb413-1" data-line-number="1">forecast</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;forecast&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>И визуализируем прогнозные значения на исходном графике.</p>
-<div class="sourceCode" id="cb417"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb417-1" data-line-number="1">arma_00_fit.plot_predict(<span class="bu">len</span>(apple_diff)<span class="op">-</span><span class="dv">250</span>, <span class="bu">len</span>(apple_diff)<span class="op">+</span><span class="dv">10</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb415"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb415-1" data-line-number="1">arma_00_fit.plot_predict(<span class="bu">len</span>(apple_diff)<span class="op">-</span><span class="dv">250</span>, <span class="bu">len</span>(apple_diff)<span class="op">+</span><span class="dv">10</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;arma_00_fit&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb419"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb419-1" data-line-number="1">plt.xlabel(<span class="st">&#39;Лаги&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb417"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb417-1" data-line-number="1">plt.xlabel(<span class="st">&#39;Лаги&#39;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb421"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb421-1" data-line-number="1">plt.ylabel(<span class="st">&#39;Изменение цены&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb419"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb419-1" data-line-number="1">plt.ylabel(<span class="st">&#39;Изменение цены&#39;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb423"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb423-1" data-line-number="1">plt.title(<span class="st">&#39;Изменение цены закрытия AAPL&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb421"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb421-1" data-line-number="1">plt.title(<span class="st">&#39;Изменение цены закрытия AAPL&#39;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb425"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb425-1" data-line-number="1">plt.show()</a></code></pre></div>
+<div class="sourceCode" id="cb423"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb423-1" data-line-number="1">plt.show()</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;plt&#39; is not defined
 
 Detailed traceback: 

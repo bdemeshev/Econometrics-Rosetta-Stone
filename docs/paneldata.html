@@ -179,33 +179,33 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="paneldata" class="section level1">
 <h1><span class="header-section-number">Коан 8</span> Панельные данные</h1>
 <p>Загрузим необходимые библиотеки.</p>
-<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="kw">library</span>(foreign) <span class="co">#Вспомогательная библиотека для подгрузки данных</span></a>
-<a class="sourceLine" id="cb445-2" data-line-number="2"><span class="kw">library</span>(plm) <span class="co">#Пакет для работы с панельными данными</span></a>
-<a class="sourceLine" id="cb445-3" data-line-number="3"><span class="kw">library</span>(lmtest) <span class="co">#Пакет для оценки регрессий и ковариационных матриц параметров</span></a>
-<a class="sourceLine" id="cb445-4" data-line-number="4"><span class="kw">library</span>(skimr) <span class="co">#Для красивого summary</span></a>
-<a class="sourceLine" id="cb445-5" data-line-number="5"><span class="kw">library</span>(car) <span class="co">#Для некоторых графиков</span></a>
-<a class="sourceLine" id="cb445-6" data-line-number="6"><span class="kw">library</span>(gplots) <span class="co">#Для графигов гетерогенности</span></a>
-<a class="sourceLine" id="cb445-7" data-line-number="7"><span class="kw">library</span>(rio)</a>
-<a class="sourceLine" id="cb445-8" data-line-number="8"><span class="kw">library</span>(tidyverse)</a>
-<a class="sourceLine" id="cb445-9" data-line-number="9"><span class="kw">library</span>(car)</a></code></pre></div>
+<div class="sourceCode" id="cb443"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb443-1" data-line-number="1"><span class="kw">library</span>(foreign) <span class="co">#Вспомогательная библиотека для подгрузки данных</span></a>
+<a class="sourceLine" id="cb443-2" data-line-number="2"><span class="kw">library</span>(plm) <span class="co">#Пакет для работы с панельными данными</span></a>
+<a class="sourceLine" id="cb443-3" data-line-number="3"><span class="kw">library</span>(lmtest) <span class="co">#Пакет для оценки регрессий и ковариационных матриц параметров</span></a>
+<a class="sourceLine" id="cb443-4" data-line-number="4"><span class="kw">library</span>(skimr) <span class="co">#Для красивого summary</span></a>
+<a class="sourceLine" id="cb443-5" data-line-number="5"><span class="kw">library</span>(car) <span class="co">#Для некоторых графиков</span></a>
+<a class="sourceLine" id="cb443-6" data-line-number="6"><span class="kw">library</span>(gplots) <span class="co">#Для графигов гетерогенности</span></a>
+<a class="sourceLine" id="cb443-7" data-line-number="7"><span class="kw">library</span>(rio)</a>
+<a class="sourceLine" id="cb443-8" data-line-number="8"><span class="kw">library</span>(tidyverse)</a>
+<a class="sourceLine" id="cb443-9" data-line-number="9"><span class="kw">library</span>(car)</a></code></pre></div>
 <p>Загрузим данные, и преобразуем нужные переменные в факторные.В данном разделе все визуализации будут построены на подмножестве данных из шести наблюдений. Это позволит сделать их более читаемыми в формате книги. Все модели будут оценены на всём массиве данных.</p>
-<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1">panel =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;lwage_panel_small.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb446-2" data-line-number="2">panel<span class="op">$</span>black =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>black)</a>
-<a class="sourceLine" id="cb446-3" data-line-number="3">panel<span class="op">$</span>id =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>id)</a></code></pre></div>
+<div class="sourceCode" id="cb444"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb444-1" data-line-number="1">panel =<span class="st"> </span><span class="kw">read_csv</span>(<span class="st">&#39;lwage_panel_small.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb444-2" data-line-number="2">panel<span class="op">$</span>black =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>black)</a>
+<a class="sourceLine" id="cb444-3" data-line-number="3">panel<span class="op">$</span>id =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>id)</a></code></pre></div>
 <p>Изобразим наши панельные данные на диаграмме рассеяния. Дополнимельно установим параметр сглаживания, чтобы получить кривые временных рядов.</p>
-<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1"><span class="kw">scatterplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>id, <span class="dt">boxplots=</span>F, <span class="dt">smooth=</span><span class="ot">TRUE</span>, <span class="dt">regLine=</span><span class="ot">FALSE</span>, <span class="dt">data=</span>panel)</a></code></pre></div>
+<div class="sourceCode" id="cb445"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb445-1" data-line-number="1"><span class="kw">scatterplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>id, <span class="dt">boxplots=</span>F, <span class="dt">smooth=</span><span class="ot">TRUE</span>, <span class="dt">regLine=</span><span class="ot">FALSE</span>, <span class="dt">data=</span>panel)</a></code></pre></div>
 <p><img src="09-paneldata_files/figure-html/scatterplot%20chunk-1.png" width="672" /></p>
 <p>Для получения графиков на различных плитках можно использовать coplot.</p>
-<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1"><span class="kw">coplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>id, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">data =</span> panel)</a></code></pre></div>
+<div class="sourceCode" id="cb446"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb446-1" data-line-number="1"><span class="kw">coplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>id, <span class="dt">type =</span> <span class="st">&#39;b&#39;</span>, <span class="dt">data =</span> panel)</a></code></pre></div>
 <p><img src="09-paneldata_files/figure-html/1%20coplot%20chunk-1.png" width="672" /></p>
 <p>Сгруппировать можно по разным признакам. Например, в зависимости от расы индивидов.</p>
-<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1">panel<span class="op">$</span>year =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>year)</a>
-<a class="sourceLine" id="cb449-2" data-line-number="2"><span class="kw">coplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>black, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">data=</span>panel, <span class="dt">panel =</span> <span class="cf">function</span>(x, y, ...) <span class="kw">panel.smooth</span>(x, y, <span class="dt">span =</span> <span class="fl">0.3</span>, ...), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">show.given =</span> F, <span class="dt">xlab =</span> <span class="st">&quot;Mean dependence lwage of year for white and black people&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb447"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb447-1" data-line-number="1">panel<span class="op">$</span>year =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>year)</a>
+<a class="sourceLine" id="cb447-2" data-line-number="2"><span class="kw">coplot</span>(lwage <span class="op">~</span><span class="st"> </span>year<span class="op">|</span>black, <span class="dt">type=</span><span class="st">&quot;l&quot;</span>, <span class="dt">data=</span>panel, <span class="dt">panel =</span> <span class="cf">function</span>(x, y, ...) <span class="kw">panel.smooth</span>(x, y, <span class="dt">span =</span> <span class="fl">0.3</span>, ...), <span class="dt">pch =</span> <span class="dv">16</span>, <span class="dt">show.given =</span> F, <span class="dt">xlab =</span> <span class="st">&quot;Mean dependence lwage of year for white and black people&quot;</span>)</a></code></pre></div>
 <p><img src="09-paneldata_files/figure-html/2%20coplot%20chunk-1.png" width="672" /></p>
 <p>Импортируем основной датасет.</p>
-<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1">Panel =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;lwage_panel_large.csv&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb448"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb448-1" data-line-number="1">Panel =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;lwage_panel_large.csv&#39;</span>)</a></code></pre></div>
 <p>Визуализируем гетерогенный эффект. Можно визуализировать по годам или по индивидам. Здесь уже можно использовать полный датасет. Так как доверительные интервалы с интервалом в год не пересекаются, можно увидеть явную гетерогенность.</p>
-<div class="sourceCode" id="cb451"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb451-1" data-line-number="1"><span class="kw">plotmeans</span>(lwage <span class="op">~</span><span class="st"> </span>year, <span class="dt">main=</span><span class="st">&quot;Heterogeineity across years&quot;</span>, <span class="dt">data=</span>Panel)</a></code></pre></div>
+<div class="sourceCode" id="cb449"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb449-1" data-line-number="1"><span class="kw">plotmeans</span>(lwage <span class="op">~</span><span class="st"> </span>year, <span class="dt">main=</span><span class="st">&quot;Heterogeineity across years&quot;</span>, <span class="dt">data=</span>Panel)</a></code></pre></div>
 <p><img src="09-paneldata_files/figure-html/heterogenity%20plot-1.png" width="672" /></p>
 <p>Модель панельных данных будет выглядеть следующим образом:</p>
 <p><span class="math display">\[\begin{equation}
@@ -220,8 +220,8 @@ y_{i t}=\alpha+x_{i t}^{\prime} \beta+z_{i}^{\prime} \gamma+c_{i}+u_{i t}
 <p><span class="math display">\[\begin{equation}
 \widehat{\beta}_{F E}=\left(\ddot{X}^{\prime} \ddot{X}\right)^{-1} \ddot{X}^{\prime} \ddot{y}
 \end{equation}\]</span></p>
-<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1">ffe =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;within&quot;</span>, <span class="dt">data =</span> Panel)</a>
-<a class="sourceLine" id="cb452-2" data-line-number="2"><span class="kw">summary</span>(ffe)</a></code></pre></div>
+<div class="sourceCode" id="cb450"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb450-1" data-line-number="1">ffe =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;within&quot;</span>, <span class="dt">data =</span> Panel)</a>
+<a class="sourceLine" id="cb450-2" data-line-number="2"><span class="kw">summary</span>(ffe)</a></code></pre></div>
 <pre><code>Oneway (individual) effect Within Model
 
 Call:
@@ -243,7 +243,7 @@ R-Squared:      4.1656e-07
 Adj. R-Squared: -0.14289
 F-statistic: 0.00158875 on 1 and 3814 DF, p-value: 0.96821</code></pre>
 <p>Проверим значимость коэффициентов, используя ковариационную матрицу ошибок Хубера - Уайта.</p>
-<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1"><span class="kw">coeftest</span>(ffe, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(ffe, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb452"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb452-1" data-line-number="1"><span class="kw">coeftest</span>(ffe, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(ffe, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
 <pre><code>
 t test of coefficients:
 
@@ -255,8 +255,8 @@ hours -5.5854e-07  2.5051e-05 -0.0223   0.9822</code></pre>
 \end{equation}\]</span></p>
 <p>где</p>
 <p><span class="math inline">\(W=\left[\iota_{N T} X Z\right] \text { и } \iota_{N T} \text { это вектор из единиц размерности } N T \times 1\)</span></p>
-<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1">fre =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;random&quot;</span>, <span class="dt">data =</span> Panel)</a>
-<a class="sourceLine" id="cb456-2" data-line-number="2"><span class="kw">summary</span>(fre)</a></code></pre></div>
+<div class="sourceCode" id="cb454"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb454-1" data-line-number="1">fre =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;random&quot;</span>, <span class="dt">data =</span> Panel)</a>
+<a class="sourceLine" id="cb454-2" data-line-number="2"><span class="kw">summary</span>(fre)</a></code></pre></div>
 <pre><code>Oneway (individual) effect Random Effect Model 
    (Swamy-Arora&#39;s transformation)
 
@@ -288,14 +288,14 @@ R-Squared:      2.7494e-06
 Adj. R-Squared: -0.00022671
 Chisq: 0.0119818 on 1 DF, p-value: 0.91284</code></pre>
 <p>Проверим значимость коэффициентов, используя ковариационную матрицу ошибок Хубера - Уайта.</p>
-<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="kw">coeftest</span>(fre, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(ffe, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb456"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb456-1" data-line-number="1"><span class="kw">coeftest</span>(fre, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(ffe, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
 <pre><code>
 t test of coefficients:
 
         Estimate Std. Error t value Pr(&gt;|t|)
 hours 1.4611e-06 2.5051e-05  0.0583   0.9535</code></pre>
 <p>Проведём тест Хаусмана</p>
-<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1"><span class="kw">phtest</span>(ffe, fre)</a></code></pre></div>
+<div class="sourceCode" id="cb458"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb458-1" data-line-number="1"><span class="kw">phtest</span>(ffe, fre)</a></code></pre></div>
 <pre><code>
     Hausman Test
 
@@ -307,8 +307,8 @@ alternative hypothesis: one model is inconsistent</code></pre>
 \dot{y}_{i t}=\dot{x}_{i t}^{\prime} \beta+\dot{u}_{i t}
 \end{equation}\]</span></p>
 <p><span class="math inline">\(\dot{y}_{i t}=y_{i t}-y_{i, t-1}, \dot{x}_{i t}=x_{i t}-x_{i, t-1}\)</span> и <span class="math inline">\(\dot{u}_{i t}=u_{i t}-u_{i, t-1}\)</span></p>
-<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">fd =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">model=</span><span class="st">&quot;fd&quot;</span>, <span class="dt">data =</span> Panel)</a>
-<a class="sourceLine" id="cb462-2" data-line-number="2"><span class="kw">summary</span>(fd)</a></code></pre></div>
+<div class="sourceCode" id="cb460"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb460-1" data-line-number="1">fd =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">model=</span><span class="st">&quot;fd&quot;</span>, <span class="dt">data =</span> Panel)</a>
+<a class="sourceLine" id="cb460-2" data-line-number="2"><span class="kw">summary</span>(fd)</a></code></pre></div>
 <pre><code>Oneway (individual) effect First-Difference Model
 
 Call:
@@ -333,8 +333,8 @@ R-Squared:      0.058688
 Adj. R-Squared: 0.058688
 F-statistic: 102.938 on 1 and 3814 DF, p-value: &lt; 2.22e-16</code></pre>
 <p>Построим LS-оценку с дамми-переменными по каждому индивиду (LSDV). Видим, что численно её результаты идентичны withih-регрессии, как и должно быть.</p>
-<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1">lsdv =<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(id) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>Panel)</a>
-<a class="sourceLine" id="cb464-2" data-line-number="2"><span class="kw">summary</span>(lsdv)</a></code></pre></div>
+<div class="sourceCode" id="cb462"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb462-1" data-line-number="1">lsdv =<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(id) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>Panel)</a>
+<a class="sourceLine" id="cb462-2" data-line-number="2"><span class="kw">summary</span>(lsdv)</a></code></pre></div>
 <pre><code>
 Call:
 lm(formula = lwage ~ hours + factor(id) - 1, data = Panel)
@@ -898,8 +898,8 @@ Residual standard error: 0.3873 on 3814 degrees of freedom
 Multiple R-squared:  0.9563,    Adjusted R-squared:  0.9501 
 F-statistic: 152.9 on 546 and 3814 DF,  p-value: &lt; 2.2e-16</code></pre>
 <p>Построим оценку Pooled OLS. Проверим значимость коэффициентов, используя ковариационную матрицу ошибок Хубера - Уайта. Визуализируем игнорирование этой моделью гетерогенного эффекта.</p>
-<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1">fpo =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;pooling&quot;</span>,<span class="dt">data =</span> Panel)</a>
-<a class="sourceLine" id="cb466-2" data-line-number="2"><span class="kw">coeftest</span>(fpo, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(fpo, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
+<div class="sourceCode" id="cb464"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb464-1" data-line-number="1">fpo =<span class="st"> </span><span class="kw">plm</span>(lwage <span class="op">~</span><span class="st"> </span>hours, <span class="dt">model=</span><span class="st">&quot;pooling&quot;</span>,<span class="dt">data =</span> Panel)</a>
+<a class="sourceLine" id="cb464-2" data-line-number="2"><span class="kw">coeftest</span>(fpo, <span class="dt">vcov=</span><span class="kw">vcovHC</span>(fpo, <span class="dt">cluster=</span><span class="st">&quot;group&quot;</span>))</a></code></pre></div>
 <pre><code>
 t test of coefficients:
 
@@ -908,7 +908,7 @@ t test of coefficients:
 hours       9.3560e-06 2.7040e-05   0.346   0.7294    
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb468-1" data-line-number="1"><span class="kw">summary</span>(fpo)</a></code></pre></div>
+<div class="sourceCode" id="cb466"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb466-1" data-line-number="1"><span class="kw">summary</span>(fpo)</a></code></pre></div>
 <pre><code>Pooling Model
 
 Call:
@@ -932,20 +932,20 @@ Residual Sum of Squares: 1236.4
 R-Squared:      9.8978e-05
 Adj. R-Squared: -0.00013046
 F-statistic: 0.431389 on 1 and 4358 DF, p-value: 0.51134</code></pre>
-<div class="sourceCode" id="cb470"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb470-1" data-line-number="1">panel =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;lwage_panel_small.csv&#39;</span>)</a>
-<a class="sourceLine" id="cb470-2" data-line-number="2">panel<span class="op">$</span>black =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>black)</a>
-<a class="sourceLine" id="cb470-3" data-line-number="3">panel<span class="op">$</span>id =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>id)</a>
-<a class="sourceLine" id="cb470-4" data-line-number="4"></a>
-<a class="sourceLine" id="cb470-5" data-line-number="5">lsdv_small =<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(id) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>panel)</a>
-<a class="sourceLine" id="cb470-6" data-line-number="6">yhat_lsdv &lt;-<span class="st"> </span>lsdv_small<span class="op">$</span>fitted.values</a>
-<a class="sourceLine" id="cb470-7" data-line-number="7"></a>
-<a class="sourceLine" id="cb470-8" data-line-number="8"></a>
-<a class="sourceLine" id="cb470-9" data-line-number="9"><span class="kw">library</span>(ggplot2)</a>
-<a class="sourceLine" id="cb470-10" data-line-number="10">g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(panel, <span class="kw">aes</span>(hours, yhat_lsdv, <span class="dt">col =</span> id))</a>
-<a class="sourceLine" id="cb470-11" data-line-number="11">g <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb470-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> id, <span class="dt">col =</span> id), <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb470-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">col =</span> <span class="st">&#39;Pooled OLS&#39;</span>),<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">se =</span> F) <span class="op">+</span><span class="st"> </span></a>
-<a class="sourceLine" id="cb470-14" data-line-number="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Ignoring of heterogeneous effect&#39;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb468"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb468-1" data-line-number="1">panel =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;lwage_panel_small.csv&#39;</span>)</a>
+<a class="sourceLine" id="cb468-2" data-line-number="2">panel<span class="op">$</span>black =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>black)</a>
+<a class="sourceLine" id="cb468-3" data-line-number="3">panel<span class="op">$</span>id =<span class="st"> </span><span class="kw">factor</span>(panel<span class="op">$</span>id)</a>
+<a class="sourceLine" id="cb468-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb468-5" data-line-number="5">lsdv_small =<span class="st"> </span><span class="kw">lm</span>(lwage <span class="op">~</span><span class="st"> </span>hours <span class="op">+</span><span class="st"> </span><span class="kw">factor</span>(id) <span class="op">-</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data=</span>panel)</a>
+<a class="sourceLine" id="cb468-6" data-line-number="6">yhat_lsdv &lt;-<span class="st"> </span>lsdv_small<span class="op">$</span>fitted.values</a>
+<a class="sourceLine" id="cb468-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb468-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb468-9" data-line-number="9"><span class="kw">library</span>(ggplot2)</a>
+<a class="sourceLine" id="cb468-10" data-line-number="10">g &lt;-<span class="st"> </span><span class="kw">ggplot</span>(panel, <span class="kw">aes</span>(hours, yhat_lsdv, <span class="dt">col =</span> id))</a>
+<a class="sourceLine" id="cb468-11" data-line-number="11">g <span class="op">+</span><span class="st"> </span><span class="kw">geom_point</span>() <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb468-12" data-line-number="12"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">group =</span> id, <span class="dt">col =</span> id), <span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb468-13" data-line-number="13"><span class="st">  </span><span class="kw">geom_smooth</span>(<span class="kw">aes</span>(<span class="dt">col =</span> <span class="st">&#39;Pooled OLS&#39;</span>),<span class="dt">method =</span> <span class="st">&#39;lm&#39;</span>, <span class="dt">se =</span> F) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb468-14" data-line-number="14"><span class="st">  </span><span class="kw">labs</span>(<span class="dt">title =</span> <span class="st">&#39;Ignoring of heterogeneous effect&#39;</span>)</a></code></pre></div>
 <p><img src="09-paneldata_files/figure-html/ignoring%20hetero-1.png" width="672" /></p>
 <p>Теперь то же самое в Stata</p>
 <p>Для начала подгрузим данные и посмотрим на них. Сперва визуализируем малый датасет.</p>
@@ -1166,130 +1166,130 @@ F test that all u_i=0: F(544, 3814) = 8.14                   Prob &gt; F = 0.000
 -------------+----------------------------------------------------------------
           id |      F(544, 3814) =      8.142   0.000         (545 categories)</code></pre>
 <p>Повторим в Python.</p>
-<div class="sourceCode" id="cb489"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb489-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
-<a class="sourceLine" id="cb489-2" data-line-number="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a></code></pre></div>
+<div class="sourceCode" id="cb487"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb487-1" data-line-number="1"><span class="im">import</span> numpy <span class="im">as</span> np</a>
+<a class="sourceLine" id="cb487-2" data-line-number="2"><span class="im">import</span> pandas <span class="im">as</span> pd</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;pandas&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Подгрузим данные и для обозначения панельных данных присвоим соответствующие индексы. Зададим соответствующие зависимые и независимые переменные, а также регрессионную формулу. Переменная “Entity effects” (Фиксированные эффекты) обязательна для включения для корректного распознавания панельных данных. Если её не включить, результат будет отличаться от R и STATA.</p>
-<div class="sourceCode" id="cb491"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb491-1" data-line-number="1">df <span class="op">=</span> pd.read_csv(<span class="st">&quot;lwage_panel_large.csv&quot;</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb489"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb489-1" data-line-number="1">df <span class="op">=</span> pd.read_csv(<span class="st">&quot;lwage_panel_large.csv&quot;</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;pd&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb493"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb493-1" data-line-number="1">df <span class="op">=</span> df.set_index([<span class="st">&#39;id&#39;</span>, <span class="st">&#39;year&#39;</span>])</a></code></pre></div>
+<div class="sourceCode" id="cb491"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb491-1" data-line-number="1">df <span class="op">=</span> df.set_index([<span class="st">&#39;id&#39;</span>, <span class="st">&#39;year&#39;</span>])</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb495"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb495-1" data-line-number="1">formula <span class="op">=</span> <span class="st">&#39;lwage ~ 1 + hours + EntityEffects&#39;</span></a>
-<a class="sourceLine" id="cb495-2" data-line-number="2">dependent <span class="op">=</span> df.lwage</a></code></pre></div>
+<div class="sourceCode" id="cb493"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb493-1" data-line-number="1">formula <span class="op">=</span> <span class="st">&#39;lwage ~ 1 + hours + EntityEffects&#39;</span></a>
+<a class="sourceLine" id="cb493-2" data-line-number="2">dependent <span class="op">=</span> df.lwage</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb497"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb497-1" data-line-number="1">regressors <span class="op">=</span> df[[<span class="st">&#39;hours&#39;</span>]]</a></code></pre></div>
+<div class="sourceCode" id="cb495"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb495-1" data-line-number="1">regressors <span class="op">=</span> df[[<span class="st">&#39;hours&#39;</span>]]</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb499"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb499-1" data-line-number="1"><span class="bu">print</span>(df.head())</a></code></pre></div>
+<div class="sourceCode" id="cb497"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb497-1" data-line-number="1"><span class="bu">print</span>(df.head())</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Оценим FE-модель, используя within-оценку.</p>
-<div class="sourceCode" id="cb501"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb501-1" data-line-number="1"><span class="im">from</span> linearmodels <span class="im">import</span> PanelOLS</a></code></pre></div>
+<div class="sourceCode" id="cb499"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb499-1" data-line-number="1"><span class="im">from</span> linearmodels <span class="im">import</span> PanelOLS</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;linearmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb503"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb503-1" data-line-number="1">model_fe <span class="op">=</span> PanelOLS.from_formula(formula, df)</a></code></pre></div>
+<div class="sourceCode" id="cb501"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb501-1" data-line-number="1">model_fe <span class="op">=</span> PanelOLS.from_formula(formula, df)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;PanelOLS&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb505"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb505-1" data-line-number="1">model_fe_fitted <span class="op">=</span> model_fe.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb503"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb503-1" data-line-number="1">model_fe_fitted <span class="op">=</span> model_fe.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_fe&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb507"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="bu">print</span>(model_fe_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb505"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb505-1" data-line-number="1"><span class="bu">print</span>(model_fe_fitted)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_fe_fitted&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Оценим RE-модель, используя FGLS-оценку.</p>
-<div class="sourceCode" id="cb509"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb509-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> RandomEffects</a></code></pre></div>
+<div class="sourceCode" id="cb507"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb507-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> RandomEffects</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;linearmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb511"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb511-1" data-line-number="1">model_re <span class="op">=</span> RandomEffects.from_formula(formula, df)</a></code></pre></div>
+<div class="sourceCode" id="cb509"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb509-1" data-line-number="1">model_re <span class="op">=</span> RandomEffects.from_formula(formula, df)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;RandomEffects&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb513"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb513-1" data-line-number="1">model_re_fitted <span class="op">=</span> model_re.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb511"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb511-1" data-line-number="1">model_re_fitted <span class="op">=</span> model_re.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_re&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb515"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="bu">dir</span>(model_re_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb513"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb513-1" data-line-number="1"><span class="bu">dir</span>(model_re_fitted)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_re_fitted&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb517"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="bu">print</span>(model_re_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb515"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb515-1" data-line-number="1"><span class="bu">print</span>(model_re_fitted)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_re_fitted&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Тест Хаусмана в соответствующем пакете на данный момент не реализован.</p>
 <p>Оценим модель Pooled OLS</p>
-<div class="sourceCode" id="cb519"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb519-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> PooledOLS</a></code></pre></div>
+<div class="sourceCode" id="cb517"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb517-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> PooledOLS</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;linearmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb521"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb521-1" data-line-number="1">model_pool <span class="op">=</span> PooledOLS.from_formula(formula, df)</a></code></pre></div>
+<div class="sourceCode" id="cb519"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb519-1" data-line-number="1">model_pool <span class="op">=</span> PooledOLS.from_formula(formula, df)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;PooledOLS&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb523"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb523-1" data-line-number="1">model_pool_fitted <span class="op">=</span> model_pool.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb521"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb521-1" data-line-number="1">model_pool_fitted <span class="op">=</span> model_pool.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_pool&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb525"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb525-1" data-line-number="1"><span class="bu">print</span>(model_pool_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb523"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb523-1" data-line-number="1"><span class="bu">print</span>(model_pool_fitted)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_pool_fitted&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
 <p>Оценим LSDV-модель</p>
-<div class="sourceCode" id="cb527"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb527-1" data-line-number="1">model_lsdv <span class="op">=</span> PanelOLS.from_formula(formula, df)</a>
-<a class="sourceLine" id="cb527-2" data-line-number="2">model_lsdv_fitted <span class="op">=</span> model_lsdv.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>, use_lsdv <span class="op">=</span> <span class="va">True</span>)</a>
-<a class="sourceLine" id="cb527-3" data-line-number="3"><span class="bu">print</span>(model_lsdv_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb525"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb525-1" data-line-number="1">model_lsdv <span class="op">=</span> PanelOLS.from_formula(formula, df)</a>
+<a class="sourceLine" id="cb525-2" data-line-number="2">model_lsdv_fitted <span class="op">=</span> model_lsdv.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>, use_lsdv <span class="op">=</span> <span class="va">True</span>)</a>
+<a class="sourceLine" id="cb525-3" data-line-number="3"><span class="bu">print</span>(model_lsdv_fitted)</a></code></pre></div>
 <p>Построим FD-оценку. Здесь необходимо убрать константный признак, так как данная модель начинает выдавать ошибку. Логически, конечно, он автоматически должен исчезнуть по построению модели, но в данной реализации это требуется задать на уровне пользователя.</p>
-<div class="sourceCode" id="cb528"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb528-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> FirstDifferenceOLS</a></code></pre></div>
+<div class="sourceCode" id="cb526"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb526-1" data-line-number="1"><span class="im">from</span> linearmodels.panel <span class="im">import</span> FirstDifferenceOLS</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named &#39;linearmodels&#39;
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb530"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb530-1" data-line-number="1">formula_fd <span class="op">=</span> <span class="st">&#39;lwage ~ hours + EntityEffects&#39;</span></a>
-<a class="sourceLine" id="cb530-2" data-line-number="2">model_fd <span class="op">=</span> FirstDifferenceOLS.from_formula(formula_fd, df)</a></code></pre></div>
+<div class="sourceCode" id="cb528"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb528-1" data-line-number="1">formula_fd <span class="op">=</span> <span class="st">&#39;lwage ~ hours + EntityEffects&#39;</span></a>
+<a class="sourceLine" id="cb528-2" data-line-number="2">model_fd <span class="op">=</span> FirstDifferenceOLS.from_formula(formula_fd, df)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;FirstDifferenceOLS&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb532"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb532-1" data-line-number="1">model_fd_fitted <span class="op">=</span> model_fd.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
+<div class="sourceCode" id="cb530"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb530-1" data-line-number="1">model_fd_fitted <span class="op">=</span> model_fd.fit(cov_type<span class="op">=</span><span class="st">&#39;clustered&#39;</span>, cluster_entity <span class="op">=</span> <span class="va">True</span>)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_fd&#39; is not defined
 
 Detailed traceback: 
   File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<div class="sourceCode" id="cb534"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb534-1" data-line-number="1"><span class="bu">print</span>(model_fd_fitted)</a></code></pre></div>
+<div class="sourceCode" id="cb532"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb532-1" data-line-number="1"><span class="bu">print</span>(model_fd_fitted)</a></code></pre></div>
 <pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;model_fd_fitted&#39; is not defined
 
 Detailed traceback: 
