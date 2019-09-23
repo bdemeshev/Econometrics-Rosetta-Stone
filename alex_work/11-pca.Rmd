@@ -24,17 +24,49 @@ pre.python {
 Однако прогресс не стоит на месте, и получение главных компонент теперь осуществляется быстрее и проще (а главное совершенно бесплатно и без регистрации). Рассмотрим, как проделать это на r, python и в stata.
 
 ## r
-```{r setup, include=FALSE}
-library(knitr)
-library(texreg)
-library(Statamarkdown)
-library(reticulate)
+```{r stata_py_setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+  stataexe <- find_stata()
+}
+
 if (Sys.getenv("USER") == "Sasha") {
   use_python('/Users/Sasha/anaconda3/bin/python3')
   stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
-  knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 }
-opts_chunk$set(fig.align = 'center') # Выравнивание картинок по центру
+
+
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  Sys.setenv(language = "russian")
+
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+
+  use_condaenv("base")
+  use_python("C:/Users/DNS/Anaconda3/python.exe")
+  pandas = reticulate::import("pandas")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+
+
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 Загружаем нужные пакеты:
 ```{r, include=TRUE, warning=FALSE, message=FALSE}
