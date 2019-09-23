@@ -1,4 +1,4 @@
-### Модели счетных данных {#poisreg}
+# Модели счетных данных {#poisreg}
 
 
 ```{r stata_py_setup, include=FALSE}
