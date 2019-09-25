@@ -377,8 +377,8 @@ $(document).ready(function () {
 </div>
 
 
-<div id="multchoice" class="section level3">
-<h3>Модели множественного выбора</h3>
+<div id="multchoice" class="section level1">
+<h1>Модели множественного выбора</h1>
 <p>Загрузим необходимые пакеты.</p>
 <pre class="r"><code>library(tidyverse) # для манипуляций с данными и построения графиков
 library(skimr) # для красивого summary
@@ -391,166 +391,200 @@ library(questionr)
 library(MASS)
 library(survival)
 library(lattice)</code></pre>
-</div>
 <div id="r" class="section level2">
 <h2>r</h2>
-<p>Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная <code>pctstck</code>, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений.</p>
+<p>Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная <code>pctstck</code>, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений - в облигации, смешанный способ и в акции.</p>
 <pre class="r"><code>df = rio::import(&quot;data/pension.dta&quot;)</code></pre>
-<pre class="r"><code>skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) #посмотрим на данные
-
+<p>Начнем с пристального взгляда на описательные статистки.</p>
+<pre class="r"><code>skim_with(numeric = list(p25 = NULL, p75 = NULL)) 
 skim(df)</code></pre>
 <pre><code>Skim summary statistics
  n obs: 226 
  n variables: 19 
 
--- Variable type:numeric -------------------------------------------------------------
- variable missing complete   n     mean      sd   p0     p50 p100
-      age       0      226 226   60.7      4.29   53   60      73
-    black       0      226 226    0.12     0.33    0    0       1
-   choice       0      226 226    0.62     0.49    0    1       1
-     educ       7      219 226   13.52     2.55    8   12      18
-   female       0      226 226    0.6      0.49    0    1       1
-  finc100      10      216 226    0.12     0.33    0    0       1
-  finc101      10      216 226    0.065    0.25    0    0       1
-   finc25      10      216 226    0.21     0.41    0    0       1
-   finc35      10      216 226    0.19     0.39    0    0       1
-   finc50      10      216 226    0.25     0.43    0    0       1
-   finc75      10      216 226    0.12     0.33    0    0       1
-       id       0      226 226 2445.09  1371.27   38 2377.5  5014
-  irain89       0      226 226    0.5      0.5     0    0.5     1
-  married       0      226 226    0.73     0.44    0    1       1
-  pctstck       0      226 226   46.68    39.44    0   50     100
-  prftshr      20      206 226    0.21     0.41    0    0       1
-   pyears       8      218 226   11.39     9.61    0    9      45
- stckin89       0      226 226    0.32     0.47    0    0       1
- wealth89       0      226 226  197.91   242.09 -580  127.85 1485</code></pre>
-<p>Создадим факторную перменную и упорядочим категории.</p>
+-- Variable type:numeric ------------------------------------------------------
+ variable missing complete   n     mean      sd   p0     p50 p100     hist
+      age       0      226 226   60.7      4.29   53   60      73 &lt;U+2583&gt;&lt;U+2587&gt;&lt;U+2585&gt;&lt;U+2586&gt;&lt;U+2585&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+    black       0      226 226    0.12     0.33    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+   choice       0      226 226    0.62     0.49    0    1       1 &lt;U+2585&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;
+     educ       7      219 226   13.52     2.55    8   12      18 &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;&lt;U+2582&gt;
+   female       0      226 226    0.6      0.49    0    1       1 &lt;U+2585&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;
+  finc100      10      216 226    0.12     0.33    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+  finc101      10      216 226    0.065    0.25    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+   finc25      10      216 226    0.21     0.41    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;
+   finc35      10      216 226    0.19     0.39    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;
+   finc50      10      216 226    0.25     0.43    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;
+   finc75      10      216 226    0.12     0.33    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+       id       0      226 226 2445.09  1371.27   38 2377.5  5014 &lt;U+2586&gt;&lt;U+2585&gt;&lt;U+2586&gt;&lt;U+2586&gt;&lt;U+2583&gt;&lt;U+2585&gt;&lt;U+2587&gt;&lt;U+2583&gt;
+  irain89       0      226 226    0.5      0.5     0    0.5     1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;
+  married       0      226 226    0.73     0.44    0    1       1 &lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;
+  pctstck       0      226 226   46.68    39.44    0   50     100 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2586&gt;
+  prftshr      20      206 226    0.21     0.41    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2582&gt;
+   pyears       8      218 226   11.39     9.61    0    9      45 &lt;U+2587&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2582&gt;&lt;U+2582&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;
+ stckin89       0      226 226    0.32     0.47    0    0       1 &lt;U+2587&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2583&gt;
+ wealth89       0      226 226  197.91   242.09 -580  127.85 1485 &lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2587&gt;&lt;U+2583&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;&lt;U+2581&gt;</code></pre>
+<p>Отсюда несложно заметить, что переменная <code>choice</code> - бинарная. И принимает значение <code>1</code>, если индивид в выборке имел право выбора схемы инвестирования. Переменнная <code>wealth98</code> - чистое богатство пенсионеров на 1989 год. Остальные переменные нас пока что не интересуют :)</p>
+<p>Для начала разберемся с объясняемой переменной. Превратим её в факторную и упорядочим категории.</p>
 <pre class="r"><code>df = mutate(df, y = factor(pctstck)) # факторная переменная
-df = mutate(df, y = relevel(y, ref = 1)) # сменить базовую категорию
+df = mutate(df, y = relevel(y, ref = 2)) # сменить базовую категорию
 levels(df$y)</code></pre>
-<pre><code>[1] &quot;0&quot;   &quot;50&quot;  &quot;100&quot;</code></pre>
-<p>Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной. Или посмотреть на картиночку.</p>
+<pre><code>[1] &quot;50&quot;  &quot;0&quot;   &quot;100&quot;</code></pre>
+<p>Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной.</p>
 <pre class="r"><code>table(df$y, df$educ)</code></pre>
 <pre><code>     
        8  9 10 11 12 13 14 15 16 17 18
-  0    5  3  0  3 31  4  7  0 11  1  7
   50   1  1  0  3 34  4  6  2 14  5 14
+  0    5  3  0  3 31  4  7  0 11  1  7
   100  0  2  1  1 36  1  5  4  5  4  4</code></pre>
-<pre class="r"><code>tab = xtabs(~ y + educ, data = df)
-prop.table(tab, 1)</code></pre>
-<pre><code>     educ
-y              8          9         10         11         12         13
-  0   0.06944444 0.04166667 0.00000000 0.04166667 0.43055556 0.05555556
-  50  0.01190476 0.01190476 0.00000000 0.03571429 0.40476190 0.04761905
-  100 0.00000000 0.03174603 0.01587302 0.01587302 0.57142857 0.01587302
-     educ
-y             14         15         16         17         18
-  0   0.09722222 0.00000000 0.15277778 0.01388889 0.09722222
-  50  0.07142857 0.02380952 0.16666667 0.05952381 0.16666667
-  100 0.07936508 0.06349206 0.07936508 0.06349206 0.06349206</code></pre>
-<pre class="r"><code>spineplot(tab, off = 0)</code></pre>
-<p><img src="data:image/png;base64,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" width="672" /></p>
 <p>Построим модель множественного выбора (лог-линейная модель).</p>
-<pre class="r"><code>multmodel= multinom(y ~ choice+age+educ+wealth89+prftshr, data = df, reflevel = &#39;50&#39;)</code></pre>
+<pre class="r"><code>multmodel = multinom(y ~ choice+age+educ+wealth89+prftshr, data = df, reflevel = &#39;0&#39;)</code></pre>
 <pre><code># weights:  21 (12 variable)
 initial  value 220.821070 
-iter  10 value 207.012642
-iter  20 value 204.507792
+iter  10 value 208.003694
+iter  20 value 204.508245
 final  value 204.507779 
 converged</code></pre>
 <pre class="r"><code>summary(multmodel)</code></pre>
 <pre><code>Call:
 multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
-    data = df, reflevel = &quot;50&quot;)
+    data = df, reflevel = &quot;0&quot;)
 
 Coefficients:
-    (Intercept)    choice         age       educ      wealth89    prftshr
-50     3.777686 0.6269410 -0.10621691 0.18518113 -0.0003716626 -0.2717872
-100    4.492971 0.6244954 -0.09482129 0.04644315 -0.0003548369  0.9809245
+    (Intercept)       choice        age       educ     wealth89   prftshr
+0    -3.7778032 -0.626950541 0.10621896 -0.1851817 3.716695e-04 0.2718066
+100   0.7155771 -0.002461399 0.01139191 -0.1387427 1.684637e-05 1.2527158
 
 Std. Errors:
     (Intercept)    choice        age       educ     wealth89   prftshr
-50     1.581691 0.3701263 0.02826469 0.06725443 0.0007365833 0.4988234
-100    1.385291 0.3851273 0.02530600 0.07203058 0.0007896235 0.4396202
+0      1.577870 0.3701450 0.02706225 0.06827224 0.0007353231 0.4980872
+100    1.368662 0.3876881 0.02549556 0.06954044 0.0007948194 0.4622377
 
 Residual Deviance: 409.0156 
 AIC: 433.0156 </code></pre>
 <p>При необходимости можем построить модельку для подвыборки, например, только для замужних/женатых.</p>
-<pre class="r"><code>multmodel_married = multinom(y ~ choice+age+educ+wealth89+prftshr, subset = married == 1, data = df, reflevel = &#39;50&#39;)</code></pre>
+<pre class="r"><code>multmodel_married = multinom(y ~ choice+age+educ+wealth89+prftshr, subset = married == 1, data = df, reflevel = &#39;0&#39;)</code></pre>
 <pre><code># weights:  21 (12 variable)
 initial  value 165.890456 
-iter  10 value 152.737765
-iter  20 value 149.611359
+iter  10 value 152.140783
+iter  20 value 149.611135
 final  value 149.611069 
 converged</code></pre>
 <pre class="r"><code>summary(multmodel_married)</code></pre>
 <pre><code>Call:
 multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
-    data = df, subset = married == 1, reflevel = &quot;50&quot;)
+    data = df, subset = married == 1, reflevel = &quot;0&quot;)
 
 Coefficients:
-    (Intercept)    choice        age       educ      wealth89   prftshr
-50     4.907315 1.0040978 -0.1279041 0.19054837 -0.0006204112 0.1901337
-100    5.135424 0.4658502 -0.1145570 0.09046898 -0.0002127724 1.2594092
+    (Intercept)     choice       age       educ     wealth89    prftshr
+0    -4.9076771 -1.0040922 0.1279089 -0.1905437 0.0006204087 -0.1901239
+100   0.2276417 -0.5382183 0.0133528 -0.1000726 0.0004076403  1.0692773
 
 Std. Errors:
     (Intercept)    choice        age       educ     wealth89   prftshr
-50     1.836616 0.4462543 0.03282248 0.07841324 0.0008456801 0.5624022
-100    1.551829 0.4583930 0.02890949 0.08508466 0.0008605946 0.5228806
+0      1.850782 0.4463254 0.03189365 0.07925101 0.0008454956 0.5621150
+100    1.603713 0.4540907 0.02965149 0.07925338 0.0008825075 0.4947089
 
 Residual Deviance: 299.2221 
 AIC: 323.2221 </code></pre>
 <p>Быстренько прикинули значимость коэффициентов.</p>
-<pre class="r"><code>summary(multmodel)$coefficients/summary(multmodel)$standard.errors</code></pre>
-<pre><code>    (Intercept)   choice       age      educ   wealth89    prftshr
-50     2.388384 1.693857 -3.757937 2.7534413 -0.5045765 -0.5448566
-100    3.243342 1.621530 -3.746989 0.6447699 -0.4493748  2.2313001</code></pre>
+<pre class="r"><code>coef(multmodel)/summary(multmodel)$standard.errors</code></pre>
+<pre><code>    (Intercept)       choice       age      educ   wealth89   prftshr
+0    -2.3942416 -1.693797015 3.9249859 -2.712401 0.50545058 0.5457008
+100   0.5228296 -0.006348915 0.4468195 -1.995136 0.02119521 2.7101114</code></pre>
 <p>Сохраним прогнозы.</p>
 <pre class="r"><code>fit_values = fitted(multmodel)</code></pre>
 <p>И посчитать относительное изменение отношения шансов:</p>
 <p><span class="math display">\[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\]</span> - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу</p>
+\]</span> - показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу</p>
 <pre class="r"><code>odds.ratio(multmodel) </code></pre>
-<pre><code>                      OR    2.5 %    97.5 %         p    
-50/(Intercept)  43.71476  1.96920  970.4342 0.0169227 *  
-50/choice        1.87188  0.90620    3.8666 0.0902925 .  
-50/age           0.89923  0.85077    0.9505 0.0001713 ***
-50/educ          1.20344  1.05481    1.3730 0.0058972 ** 
-50/wealth89      0.99963  0.99819    1.0011 0.6138563    
-50/prftshr       0.76202  0.28666    2.0256 0.5858522    
-100/(Intercept) 89.38659  5.91713 1350.3111 0.0011814 ** 
-100/choice       1.86730  0.87780    3.9722 0.1049041    
-100/age          0.90954  0.86552    0.9558 0.0001790 ***
-100/educ         1.04754  0.90961    1.2064 0.5190763    
-100/wealth89     0.99965  0.99810    1.0012 0.6531613    
-100/prftshr      2.66692  1.12669    6.3127 0.0256613 *  
+<pre><code>                       OR     2.5 %  97.5 %         p    
+0/(Intercept)   0.0228729 0.0010381  0.5040  0.016655 *  
+0/choice        0.5342184 0.2586133  1.1035  0.090304 .  
+0/age           1.1120653 1.0546173  1.1726 8.673e-05 ***
+0/educ          0.8309533 0.7268808  0.9499  0.006680 ** 
+0/wealth89      1.0003717 0.9989310  1.0018  0.613242    
+0/prftshr       1.3123331 0.4943921  3.4835  0.585272    
+100/(Intercept) 2.0453667 0.1398827 29.9074  0.601093    
+100/choice      0.9975416 0.4665845  2.1327  0.994934    
+100/age         1.0114570 0.9621562  1.0633  0.655005    
+100/educ        0.8704520 0.7595422  0.9976  0.046028 *  
+100/wealth89    1.0000168 0.9984602  1.0016  0.983090    
+100/prftshr     3.4998349 1.4144581  8.6597  0.006726 ** 
 ---
 Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
 <p>Можем посчитать предельные эффекты в различных квартилях.</p>
-<pre class="r"><code>summary(marginal_effects(multmodel)) </code></pre>
-<pre><code>  dydx_choice          dydx_age         dydx_educ        
- Min.   :-0.15646   Min.   :0.00887   Min.   :-0.036761  
- 1st Qu.:-0.15043   1st Qu.:0.01777   1st Qu.:-0.029252  
- Median :-0.12909   Median :0.02075   Median :-0.025701  
- Mean   :-0.12697   Mean   :0.02049   Mean   :-0.024735  
- 3rd Qu.:-0.10976   3rd Qu.:0.02411   3rd Qu.:-0.020634  
- Max.   :-0.05576   Max.   :0.02562   Max.   :-0.009214  
- dydx_wealth89        dydx_prftshr      
- Min.   :3.225e-05   Min.   :-0.177629  
- 1st Qu.:6.389e-05   1st Qu.:-0.075981  
- Median :7.515e-05   Median :-0.056485  
- Mean   :7.385e-05   Mean   :-0.060746  
- 3rd Qu.:8.726e-05   3rd Qu.:-0.023855  
- Max.   :9.123e-05   Max.   :-0.002558  </code></pre>
-<p>Допустим, мы можем упорядочить наши альтернативы (например, от более рискованного способа распределения ресурсов до менее). Тогда воспользуемся моделью упорядоченного выбора.</p>
-<pre class="r"><code>logit.polr = polr(y ~ choice+age+educ+wealth89+prftshr , data = df)
-probit.polr = polr(y ~ choice+age+educ+wealth89+prftshr , data = df, method = &#39;probit&#39;) 
+<pre class="r"><code>summary(marginal_effects(multmodel))</code></pre>
+<pre><code>  dydx_choice         dydx_age           dydx_educ      
+ Min.   :0.02341   Min.   :-0.019966   Min.   :0.01298  
+ 1st Qu.:0.05924   1st Qu.:-0.015237   1st Qu.:0.03141  
+ Median :0.07324   Median :-0.013644   Median :0.03791  
+ Mean   :0.06945   Mean   :-0.012893   Mean   :0.03468  
+ 3rd Qu.:0.08402   3rd Qu.:-0.011486   3rd Qu.:0.03905  
+ Max.   :0.11414   Max.   :-0.005686   Max.   :0.04223  
+ dydx_wealth89         dydx_prftshr     
+ Min.   :-6.855e-05   Min.   :-0.25602  
+ 1st Qu.:-5.119e-05   1st Qu.:-0.19363  
+ Median :-4.509e-05   Median :-0.16877  
+ Mean   :-4.275e-05   Mean   :-0.15863  
+ 3rd Qu.:-3.729e-05   3rd Qu.:-0.13454  
+ Max.   :-1.675e-05   Max.   :-0.03909  </code></pre>
+<p>Или при заданном значении объясняемых переменных.</p>
+<pre class="r"><code>margins(multmodel,at = list(age = 69, choice = 1))</code></pre>
+<pre><code> at(age) at(choice)  choice      age    educ   wealth89 prftshr
+      69          1 0.08024 -0.01431 0.03263 -4.857e-05 -0.1158</code></pre>
+<p>Теперь посмотрим на модель упорядоченного выбора :) Для нее возьмем другие данные. Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth). В ней представлены данные о 3705 молодых белых женщинах из США. Зависимая переменная tradrole – степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).</p>
+<pre class="r"><code>data_nlsy = import(&#39;data/tradrole.dta&#39;)
+#skim(data_nlsy)</code></pre>
+<pre class="r"><code>ggplot(data_nlsy, aes(x = tradrole)) + 
+  geom_histogram() + 
+  ggtitle(&#39;Вот такие дела, джентельмены :)&#39;)</code></pre>
+<p><img src="data:image/png;base64,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" width="672" /></p>
+<p>Посмотрим, как влияет религиозное воспитание (<code>cath</code> - католичество и <code>fpro</code> - протестанство), число лет образования матери - <code>meduc</code> и проживание в крупном городе <code>urb</code> на объясняемую переменную.</p>
+<pre class="r"><code>oprobit &lt;- polr(as.factor(tradrole) ~  as.factor(cath) + as.factor(fpro) + meduc + as.factor(urb), data = data_nlsy, method=&quot;probit&quot;, na.action = na.omit)
+summary(oprobit)</code></pre>
+<pre><code>Call:
+polr(formula = as.factor(tradrole) ~ as.factor(cath) + as.factor(fpro) + 
+    meduc + as.factor(urb), data = data_nlsy, na.action = na.omit, 
+    method = &quot;probit&quot;)
 
+Coefficients:
+                    Value Std. Error t value
+as.factor(cath)1 -0.05481   0.044530  -1.231
+as.factor(fpro)1  0.24982   0.045573   5.482
+meduc            -0.05884   0.007469  -7.878
+as.factor(urb)1  -0.07204   0.043349  -1.662
 
-### summary(logit.polr) не работает</code></pre>
-<pre class="r"><code>fit_prob = fitted(logit.polr)
-fit_log = fitted(probit.polr)</code></pre>
+Intercepts:
+    Value   Std. Error t value
+1|2 -0.9445  0.0971    -9.7303
+2|3  0.3861  0.0964     4.0037
+3|4  1.1630  0.1004    11.5827
+
+Residual Deviance: 7931.443 
+AIC: 7945.443 </code></pre>
+<p>В summary видим коэффициенты при регрессорах и коэффициенты при константах для каждой из упорядоченных альтернатив.</p>
+<pre class="r"><code>summary(oprobit)</code></pre>
+<pre><code>Call:
+polr(formula = as.factor(tradrole) ~ as.factor(cath) + as.factor(fpro) + 
+    meduc + as.factor(urb), data = data_nlsy, na.action = na.omit, 
+    method = &quot;probit&quot;)
+
+Coefficients:
+                    Value Std. Error t value
+as.factor(cath)1 -0.05481   0.044530  -1.231
+as.factor(fpro)1  0.24982   0.045573   5.482
+meduc            -0.05884   0.007469  -7.878
+as.factor(urb)1  -0.07204   0.043349  -1.662
+
+Intercepts:
+    Value   Std. Error t value
+1|2 -0.9445  0.0971    -9.7303
+2|3  0.3861  0.0964     4.0037
+3|4  1.1630  0.1004    11.5827
+
+Residual Deviance: 7931.443 
+AIC: 7945.443 </code></pre>
 </div>
 <div id="stata" class="section level2">
 <h2>stata</h2>
@@ -628,6 +662,17 @@ Log likelihood = -204.50778                       Pseudo R2       =     0.0698
      prftshr |   .9809114   .4396226     2.23   0.026      .119267    1.842556
        _cons |   4.493463   2.967396     1.51   0.130    -1.322526    10.30945
 ------------------------------------------------------------------------------</code></pre>
+<p>Кросс - табличка для объясняемой переменной и числа лет образования.</p>
+<pre class="stata"><code>table y educ</code></pre>
+<pre><code>0=mstbnds |
+,50=mixed |
+,100=msts |                     highest grade completed                     
+tcks      |    8     9    10    11    12    13    14    15    16    17    18
+----------+-----------------------------------------------------------------
+        0 |    5     3           3    31     4     7          11     1     7
+       50 |    1     1           3    34     4     6     2    14     5    14
+      100 |          2     1     1    36     1     5     4     5     4     4
+----------------------------------------------------------------------------</code></pre>
 <p>Можем посмотреть на прогнозы.</p>
 <pre class="stata"><code>predict p1 p2 p3, p</code></pre>
 <pre><code>(25 missing values generated)</code></pre>
@@ -663,13 +708,15 @@ Log likelihood = -204.50778                       Pseudo R2       =     0.0698
        _cons |   89.43064   265.3761     1.51   0.130     .2664612    30015.02
 ------------------------------------------------------------------------------</code></pre>
 <p>Можем посчитать предельные эффекты в разных точках.</p>
-<pre class="stata"><code>margins, predict(outcome(50)) dydx(choice age educ wealth89 prftshr) atmeans 
+<pre class="stata"><code>margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
 
-margins, predict(outcome(50)) dydx(choice age educ wealth89 prftshr) at((p25) *)</code></pre>
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
+
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)</code></pre>
 <pre><code>Conditional marginal effects                      Number of obs   =        201
 Model VCE    : OIM
 
-Expression   : Pr(y==50), predict(outcome(50))
+Expression   : Pr(y==0), predict(outcome(0))
 dy/dx w.r.t. : choice age educ wealth89 prftshr
 at           : choice          =    .6069652 (mean)
                age             =    60.52736 (mean)
@@ -681,18 +728,18 @@ at           : choice          =    .6069652 (mean)
              |            Delta-method
              |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-      choice |    .077144   .0757102     1.02   0.308    -.0712453    .2255333
-         age |   -.014281   .0089754    -1.59   0.112    -.0318725    .0033105
-        educ |   .0380169   .0140813     2.70   0.007     .0104182    .0656157
-    wealth89 |  -.0000474   .0001544    -0.31   0.759      -.00035    .0002551
-     prftshr |  -.1715698   .0989457    -1.73   0.083    -.3654998    .0223602
+      choice |  -.1387657   .0717581    -1.93   0.053     -.279409    .0018776
+         age |   .0224223   .0083071     2.70   0.007     .0061407     .038704
+        educ |  -.0273084    .014011    -1.95   0.051    -.0547696    .0001527
+    wealth89 |   .0000807   .0001452     0.56   0.578    -.0002039    .0003654
+     prftshr |  -.0638897   .0905915    -0.71   0.481    -.2414458    .1136664
 ------------------------------------------------------------------------------
 
 
 Conditional marginal effects                      Number of obs   =        201
 Model VCE    : OIM
 
-Expression   : Pr(y==50), predict(outcome(50))
+Expression   : Pr(y==0), predict(outcome(0))
 dy/dx w.r.t. : choice age educ wealth89 prftshr
 at           : choice          =           0 (p25)
                age             =          57 (p25)
@@ -704,17 +751,28 @@ at           : choice          =           0 (p25)
              |            Delta-method
              |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-      choice |   .0853087   .0708501     1.20   0.229    -.0535549    .2241723
-         age |  -.0154741   .0095391    -1.62   0.105    -.0341705    .0032222
-        educ |   .0380373   .0133192     2.86   0.004     .0119321    .0641426
-    wealth89 |   -.000052    .000152    -0.34   0.732      -.00035     .000246
-     prftshr |  -.1534241     .10697    -1.43   0.151    -.3630814    .0562333
-------------------------------------------------------------------------------</code></pre>
+      choice |  -.1479315   .0837538    -1.77   0.077     -.312086    .0162229
+         age |   .0239584   .0083078     2.88   0.004     .0076754    .0402413
+        educ |  -.0298039   .0158695    -1.88   0.060    -.0609076    .0012998
+    wealth89 |   .0000861   .0001542     0.56   0.576     -.000216    .0003883
+     prftshr |   -.061837   .1037161    -0.60   0.551    -.2651169    .1414428
+------------------------------------------------------------------------------
+
+invalid &#39;asobserved&#39; 
+r(198);
+
+end of do-file
+r(198);</code></pre>
 <p>Допустим, мы можем упорядочить наши альтернативы (например, от более рискованного способа распределения ресурсов до менее). Тогда воспользуемся моделью упорядоченного выбора.</p>
 <pre class="stata"><code>oprobit y choice age educ wealth89 prftshr
 
 ologit y choice age educ wealth89 prftshr</code></pre>
-<pre><code>Iteration 0:   log likelihood = -219.86356  
+<pre><code> invalid &#39;asobserved&#39; 
+r(198);
+
+
+
+Iteration 0:   log likelihood = -219.86356  
 Iteration 1:   log likelihood = -212.89234  
 Iteration 2:   log likelihood = -212.88817  
 Iteration 3:   log likelihood = -212.88817  
@@ -760,6 +818,7 @@ Log likelihood = -212.72813                       Pseudo R2       =     0.0325
        /cut1 |  -4.376271   2.144494                     -8.579402   -.1731395
        /cut2 |  -2.714186   2.129423                     -6.887779    1.459407
 ------------------------------------------------------------------------------</code></pre>
+</div>
 </div>
 
 
