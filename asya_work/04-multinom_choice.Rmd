@@ -147,6 +147,7 @@ data_nlsy = import('data/tradrole.dta')
 ```{r "hist tradrole r",  message=FALSE, warning=FALSE}
 ggplot(data_nlsy, aes(x = tradrole)) + 
   geom_histogram() + 
+  xlab('Ответы респонденток') +
   ggtitle('Вот такие дела, джентельмены :)')
 ```
 
@@ -160,6 +161,105 @@ summary(oprobit)
 ```{r "summary r",  message=FALSE, warning=FALSE}
 summary(oprobit)
 ```
+
+## python
+
+
+```{python "pack", message=FALSE, warning=FALSE}
+import numpy as np
+import pandas as pd
+import statsmodels.api as st
+import matplotlib.pyplot as plt
+
+plt.style.use('ggplot')
+```
+
+
+```{python "import data py", message=FALSE, warning=FALSE}
+df = pd.read_stata('data/pension.dta')
+```
+
+```{python "sum py",  message=FALSE, warning=FALSE}
+df.describe()
+```
+
+
+```{python "ren py",  message=FALSE, warning=FALSE}
+df.rename(columns = {'pctstck':'y'}, inplace = True)
+```
+
+Подготовим данные для построения модели множественного выбора. Избавимся от пропусков в интересующих нас переменных и добавим вектор констант. 
+
+```{python "data_prepor py",  message=FALSE, warning=FALSE}
+sub = df1[['y', 'choice', 'age', 'wealth89', 'prftshr', 'married']].dropna()
+y = sub['y']
+X = sub[['choice', 'age', 'wealth89', 'prftshr']]
+X = st.add_constant(X, prepend = False)
+```
+
+Кросс - табличка для объясняемой переменной и числа лет образования.
+```{python, message=FALSE, warning=FALSE }
+pd.crosstab(sub['y'], sub['educ'])
+```
+
+Строим модель.
+```{python "model py",  message=FALSE, warning=FALSE}
+multmodel = st.MNLogit(y, X, )
+mm_fit = multmodel.fit()
+mm_fit.summary() ### сразу же можно проверить значимость коэффициентов
+```
+
+```{python "pred py",  message=FALSE, warning=FALSE}
+fitted_values = mm_fit.predict()
+```
+
+Отдельно можем извлечь параметры.
+```{python "param py",  message=FALSE, warning=FALSE}
+mm_fit.params
+```
+
+Для того, чтобы построить модельку по подвыборке, её (подвыборку) нужно создать :)
+```{python "sample py",  message=FALSE, warning=FALSE}
+data_m = sub[(sub.married == 1)]
+y_m = data_m['y']
+X_m = data_m[['choice', 'age', 'wealth89', 'prftshr']]
+X_m = st.add_constant(X_m, prepend = False)
+```
+
+Дальше всё аналогично :)
+```{python "sample_model py",  message=FALSE, warning=FALSE}
+multmodel_m = st.MNLogit(y_m, X_m)
+mm_fit_m = multmodel_m.fit()
+mm_fit_m.summary()
+```
+
+C пределными эффектами в питоне беда!!!!
+```{python "mfx py",  message=FALSE, warning=FALSE}
+margeff = mm_fit.get_margeff()
+np.round(margeff.margeff, 3)
+```
+ 
+Или все-таки беда с отношением шансов?
+```{python "ood py",  message=FALSE, warning=FALSE}
+y50_data = sub[sub['y'] == 50][sub.columns.difference(['y', 'married'])]
+y100_data = sub[sub['y'] == 100][sub.columns.difference(['y', 'married'])]
+#np.exp(mm_fit.params[0]*y100_data) # кажется, это придется считать вручную :(
+#np.exp(mm_fit.params[0]*y100_data) # не уверена, что так, но пусть пока будет
+```
+
+И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
+```{python "import tradrole py",  message=FALSE, warning=FALSE}
+data_nlsy = pd.read_stata('data/tradrole.dta')
+```
+
+```{python "hist tradrole py",  message=FALSE, warning=FALSE}
+plt.hist(data_nlsy['tradrole'])
+plt.title('')
+plt.xlabel('Ответы респонденток')
+plt.show('Вот такие дела, джентельмены :)')
+```
+
+Дальше тоже пока печаль :(
 
 ## stata
 
@@ -216,10 +316,13 @@ margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
 margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)
 ```
 
+```{stata, include=FALSE}
+clear all
+```
 
 И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
 ```{stata "import tradrole stata",  message=FALSE, warning=FALSE}
-use data/tradrole.dta'
+use data/tradrole.dta
 
 sum
 ```
@@ -234,6 +337,4 @@ subtitle("Вот такие дела, джентельмены :)")
 ```{stata "ordered stata",  message=FALSE, warning=FALSE}
 oprobit tradrole i.cath i.fpro meduc i.urb
 ```
-
-
 
