@@ -12,6 +12,18 @@ description: "Сборник коанов для эконометристов, �
 
 # Напутственное слово
 
+<style>
+pre.r {
+    background-color: #FEF9E7 !important;
+}
+pre.stata {
+    background-color: #BDBDBD !important;
+}
+pre.python {
+    background-color: #FDF2E9 !important;
+}
+</style> 
+
 
 ```{r include=FALSE}
 # automatically create a bib database for R packages

@@ -1,4 +1,4 @@
-### Модели множественного выбора {#multchoice}
+# Модели множественного выбора {#multchoice}
 
 
 
@@ -21,17 +21,16 @@ library(lattice)
 
 ## r
 
-Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений.   
-
+Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений - в облигации, смешанный способ и в акции.   
 
 ```r
 df = rio::import("data/pension.dta")
 ```
 
+Начнем с пристального взгляда на описательные статистки. 
 
 ```r
-skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) #посмотрим на данные
-
+skim_with(numeric = list(p25 = NULL, p75 = NULL)) 
 skim(df)
 ```
 
@@ -40,45 +39,45 @@ Skim summary statistics
  n obs: 226 
  n variables: 19 
 
-── Variable type:numeric ───────────────────────────────────────────────────────────────────
- variable missing complete   n     mean      sd   p0     p50 p100
-      age       0      226 226   60.7      4.29   53   60      73
-    black       0      226 226    0.12     0.33    0    0       1
-   choice       0      226 226    0.62     0.49    0    1       1
-     educ       7      219 226   13.52     2.55    8   12      18
-   female       0      226 226    0.6      0.49    0    1       1
-  finc100      10      216 226    0.12     0.33    0    0       1
-  finc101      10      216 226    0.065    0.25    0    0       1
-   finc25      10      216 226    0.21     0.41    0    0       1
-   finc35      10      216 226    0.19     0.39    0    0       1
-   finc50      10      216 226    0.25     0.43    0    0       1
-   finc75      10      216 226    0.12     0.33    0    0       1
-       id       0      226 226 2445.09  1371.27   38 2377.5  5014
-  irain89       0      226 226    0.5      0.5     0    0.5     1
-  married       0      226 226    0.73     0.44    0    1       1
-  pctstck       0      226 226   46.68    39.44    0   50     100
-  prftshr      20      206 226    0.21     0.41    0    0       1
-   pyears       8      218 226   11.39     9.61    0    9      45
- stckin89       0      226 226    0.32     0.47    0    0       1
- wealth89       0      226 226  197.91   242.09 -580  127.85 1485
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+ variable missing complete   n     mean      sd   p0     p50 p100     hist
+      age       0      226 226   60.7      4.29   53   60      73 ▃▇▅▆▅▂▁▁
+    black       0      226 226    0.12     0.33    0    0       1 ▇▁▁▁▁▁▁▁
+   choice       0      226 226    0.62     0.49    0    1       1 ▅▁▁▁▁▁▁▇
+     educ       7      219 226   13.52     2.55    8   12      18 ▁▁▁▇▁▁▂▂
+   female       0      226 226    0.6      0.49    0    1       1 ▅▁▁▁▁▁▁▇
+  finc100      10      216 226    0.12     0.33    0    0       1 ▇▁▁▁▁▁▁▁
+  finc101      10      216 226    0.065    0.25    0    0       1 ▇▁▁▁▁▁▁▁
+   finc25      10      216 226    0.21     0.41    0    0       1 ▇▁▁▁▁▁▁▂
+   finc35      10      216 226    0.19     0.39    0    0       1 ▇▁▁▁▁▁▁▂
+   finc50      10      216 226    0.25     0.43    0    0       1 ▇▁▁▁▁▁▁▂
+   finc75      10      216 226    0.12     0.33    0    0       1 ▇▁▁▁▁▁▁▁
+       id       0      226 226 2445.09  1371.27   38 2377.5  5014 ▆▅▆▆▃▅▇▃
+  irain89       0      226 226    0.5      0.5     0    0.5     1 ▇▁▁▁▁▁▁▇
+  married       0      226 226    0.73     0.44    0    1       1 ▃▁▁▁▁▁▁▇
+  pctstck       0      226 226   46.68    39.44    0   50     100 ▇▁▁▇▁▁▁▆
+  prftshr      20      206 226    0.21     0.41    0    0       1 ▇▁▁▁▁▁▁▂
+   pyears       8      218 226   11.39     9.61    0    9      45 ▇▇▃▂▂▁▁▁
+ stckin89       0      226 226    0.32     0.47    0    0       1 ▇▁▁▁▁▁▁▃
+ wealth89       0      226 226  197.91   242.09 -580  127.85 1485 ▁▁▇▃▁▁▁▁
 ```
 
+Отсюда несложно заметить, что переменная `choice` - бинарная. И принимает значение `1`, если индивид в выборке имел право выбора схемы инвестирования. Переменнная `wealth98` - чистое богатство пенсионеров на 1989 год. Остальные переменные нас пока что не интересуют :)
 
-Создадим факторную перменную и упорядочим категории. 
 
+Для начала разберемся с объясняемой переменной. Превратим её в факторную и упорядочим категории. 
 
 ```r
 df = mutate(df, y = factor(pctstck)) # факторная переменная
-df = mutate(df, y = relevel(y, ref = 1)) # сменить базовую категорию
+df = mutate(df, y = relevel(y, ref = 2)) # сменить базовую категорию
 levels(df$y)
 ```
 
 ```
-[1] "0"   "50"  "100"
+[1] "50"  "0"   "100"
 ```
 
-Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной. Или посмотреть на картиночку.
-
+Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной. 
 
 ```r
 table(df$y, df$educ)
@@ -87,47 +86,23 @@ table(df$y, df$educ)
 ```
      
        8  9 10 11 12 13 14 15 16 17 18
-  0    5  3  0  3 31  4  7  0 11  1  7
   50   1  1  0  3 34  4  6  2 14  5 14
+  0    5  3  0  3 31  4  7  0 11  1  7
   100  0  2  1  1 36  1  5  4  5  4  4
 ```
-
-```r
-tab = xtabs(~ y + educ, data = df)
-prop.table(tab, 1)
-```
-
-```
-     educ
-y              8          9         10         11         12         13
-  0   0.06944444 0.04166667 0.00000000 0.04166667 0.43055556 0.05555556
-  50  0.01190476 0.01190476 0.00000000 0.03571429 0.40476190 0.04761905
-  100 0.00000000 0.03174603 0.01587302 0.01587302 0.57142857 0.01587302
-     educ
-y             14         15         16         17         18
-  0   0.09722222 0.00000000 0.15277778 0.01388889 0.09722222
-  50  0.07142857 0.02380952 0.16666667 0.05952381 0.16666667
-  100 0.07936508 0.06349206 0.07936508 0.06349206 0.06349206
-```
-
-```r
-spineplot(tab, off = 0)
-```
-
-<img src="04-multinom_choice_files/figure-html/unnamed-chunk-1-1.png" width="672" />
 
 Построим модель множественного выбора (лог-линейная модель). 
 
 
 ```r
-multmodel= multinom(y ~ choice+age+educ+wealth89+prftshr, data = df, reflevel = '50')
+multmodel = multinom(y ~ choice+age+educ+wealth89+prftshr, data = df, reflevel = '0')
 ```
 
 ```
 # weights:  21 (12 variable)
 initial  value 220.821070 
-iter  10 value 207.012642
-iter  20 value 204.507792
+iter  10 value 208.003694
+iter  20 value 204.508245
 final  value 204.507779 
 converged
 ```
@@ -139,17 +114,17 @@ summary(multmodel)
 ```
 Call:
 multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
-    data = df, reflevel = "50")
+    data = df, reflevel = "0")
 
 Coefficients:
-    (Intercept)    choice         age       educ      wealth89    prftshr
-50     3.777686 0.6269410 -0.10621691 0.18518113 -0.0003716626 -0.2717872
-100    4.492971 0.6244954 -0.09482129 0.04644315 -0.0003548369  0.9809245
+    (Intercept)       choice        age       educ     wealth89   prftshr
+0    -3.7778032 -0.626950541 0.10621896 -0.1851817 3.716695e-04 0.2718066
+100   0.7155771 -0.002461399 0.01139191 -0.1387427 1.684637e-05 1.2527158
 
 Std. Errors:
     (Intercept)    choice        age       educ     wealth89   prftshr
-50     1.581691 0.3701263 0.02826469 0.06725443 0.0007365833 0.4988234
-100    1.385291 0.3851273 0.02530600 0.07203058 0.0007896235 0.4396202
+0      1.577870 0.3701450 0.02706225 0.06827224 0.0007353231 0.4980872
+100    1.368662 0.3876881 0.02549556 0.06954044 0.0007948194 0.4622377
 
 Residual Deviance: 409.0156 
 AIC: 433.0156 
@@ -157,16 +132,15 @@ AIC: 433.0156
 
 При необходимости можем построить модельку для подвыборки, например, только для замужних/женатых.
 
-
 ```r
-multmodel_married = multinom(y ~ choice+age+educ+wealth89+prftshr, subset = married == 1, data = df, reflevel = '50')
+multmodel_married = multinom(y ~ choice+age+educ+wealth89+prftshr, subset = married == 1, data = df, reflevel = '0')
 ```
 
 ```
 # weights:  21 (12 variable)
 initial  value 165.890456 
-iter  10 value 152.737765
-iter  20 value 149.611359
+iter  10 value 152.140783
+iter  20 value 149.611135
 final  value 149.611069 
 converged
 ```
@@ -178,17 +152,17 @@ summary(multmodel_married)
 ```
 Call:
 multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
-    data = df, subset = married == 1, reflevel = "50")
+    data = df, subset = married == 1, reflevel = "0")
 
 Coefficients:
-    (Intercept)    choice        age       educ      wealth89   prftshr
-50     4.907315 1.0040978 -0.1279041 0.19054837 -0.0006204112 0.1901337
-100    5.135424 0.4658502 -0.1145570 0.09046898 -0.0002127724 1.2594092
+    (Intercept)     choice       age       educ     wealth89    prftshr
+0    -4.9076771 -1.0040922 0.1279089 -0.1905437 0.0006204087 -0.1901239
+100   0.2276417 -0.5382183 0.0133528 -0.1000726 0.0004076403  1.0692773
 
 Std. Errors:
     (Intercept)    choice        age       educ     wealth89   prftshr
-50     1.836616 0.4462543 0.03282248 0.07841324 0.0008456801 0.5624022
-100    1.551829 0.4583930 0.02890949 0.08508466 0.0008605946 0.5228806
+0      1.850782 0.4463254 0.03189365 0.07925101 0.0008454956 0.5621150
+100    1.603713 0.4540907 0.02965149 0.07925338 0.0008825075 0.4947089
 
 Residual Deviance: 299.2221 
 AIC: 323.2221 
@@ -196,15 +170,14 @@ AIC: 323.2221
 
 Быстренько прикинули значимость коэффициентов.
 
-
 ```r
-summary(multmodel)$coefficients/summary(multmodel)$standard.errors
+coef(multmodel)/summary(multmodel)$standard.errors
 ```
 
 ```
-    (Intercept)   choice       age      educ   wealth89    prftshr
-50     2.388384 1.693857 -3.757937 2.7534413 -0.5045765 -0.5448566
-100    3.243342 1.621530 -3.746989 0.6447699 -0.4493748  2.2313001
+    (Intercept)       choice       age      educ   wealth89   prftshr
+0    -2.3942416 -1.693797014 3.9249859 -2.712401 0.50545058 0.5457008
+100   0.5228296 -0.006348915 0.4468195 -1.995136 0.02119521 2.7101114
 ```
 
 Сохраним прогнозы.
@@ -217,7 +190,7 @@ fit_values = fitted(multmodel)
 
 \[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу
+\] - показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу
 
 
 ```r
@@ -225,64 +198,456 @@ odds.ratio(multmodel)
 ```
 
 ```
-                      OR    2.5 %    97.5 %         p    
-50/(Intercept)  43.71476  1.96920  970.4342 0.0169227 *  
-50/choice        1.87188  0.90620    3.8666 0.0902925 .  
-50/age           0.89923  0.85077    0.9505 0.0001713 ***
-50/educ          1.20344  1.05481    1.3730 0.0058972 ** 
-50/wealth89      0.99963  0.99819    1.0011 0.6138563    
-50/prftshr       0.76202  0.28666    2.0256 0.5858522    
-100/(Intercept) 89.38659  5.91713 1350.3111 0.0011814 ** 
-100/choice       1.86730  0.87780    3.9722 0.1049041    
-100/age          0.90954  0.86552    0.9558 0.0001790 ***
-100/educ         1.04754  0.90961    1.2064 0.5190763    
-100/wealth89     0.99965  0.99810    1.0012 0.6531613    
-100/prftshr      2.66692  1.12669    6.3127 0.0256613 *  
+                       OR     2.5 %  97.5 %         p    
+0/(Intercept)   0.0228729 0.0010381  0.5040  0.016655 *  
+0/choice        0.5342184 0.2586133  1.1035  0.090304 .  
+0/age           1.1120653 1.0546173  1.1726 8.673e-05 ***
+0/educ          0.8309533 0.7268808  0.9499  0.006680 ** 
+0/wealth89      1.0003717 0.9989310  1.0018  0.613242    
+0/prftshr       1.3123331 0.4943921  3.4835  0.585272    
+100/(Intercept) 2.0453667 0.1398827 29.9074  0.601093    
+100/choice      0.9975416 0.4665845  2.1327  0.994934    
+100/age         1.0114570 0.9621562  1.0633  0.655005    
+100/educ        0.8704520 0.7595422  0.9976  0.046028 *  
+100/wealth89    1.0000168 0.9984602  1.0016  0.983090    
+100/prftshr     3.4998349 1.4144581  8.6597  0.006726 ** 
 ---
 Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 
-Можем посчитать предельные эффекты в различных квартилях. 
+Можем посчитать предельные эффекты в различных квартилях.
+
+```r
+summary(marginal_effects(multmodel))
+```
+
+```
+  dydx_choice         dydx_age           dydx_educ      
+ Min.   :0.02341   Min.   :-0.019966   Min.   :0.01298  
+ 1st Qu.:0.05924   1st Qu.:-0.015237   1st Qu.:0.03141  
+ Median :0.07324   Median :-0.013644   Median :0.03791  
+ Mean   :0.06945   Mean   :-0.012893   Mean   :0.03468  
+ 3rd Qu.:0.08402   3rd Qu.:-0.011486   3rd Qu.:0.03905  
+ Max.   :0.11414   Max.   :-0.005686   Max.   :0.04223  
+ dydx_wealth89         dydx_prftshr     
+ Min.   :-6.855e-05   Min.   :-0.25602  
+ 1st Qu.:-5.119e-05   1st Qu.:-0.19363  
+ Median :-4.509e-05   Median :-0.16877  
+ Mean   :-4.275e-05   Mean   :-0.15863  
+ 3rd Qu.:-3.729e-05   3rd Qu.:-0.13454  
+ Max.   :-1.675e-05   Max.   :-0.03909  
+```
+
+Или при заданном значении объясняемых переменных.
+
+```r
+margins(multmodel,at = list(age = 69, choice = 1))
+```
+
+```
+ at(age) at(choice)  choice      age    educ   wealth89 prftshr
+      69          1 0.08024 -0.01431 0.03263 -4.857e-05 -0.1158
+```
+
+
+Теперь посмотрим на модель упорядоченного выбора :) Для нее возьмем другие данные. Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth). В ней представлены данные о 3705 молодых белых женщинах из США.
+Зависимая переменная tradrole – степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).
 
 
 ```r
-summary(marginal_effects(multmodel)) 
+data_nlsy = import('data/tradrole.dta')
 ```
 
 ```
-  dydx_choice          dydx_age         dydx_educ        
- Min.   :-0.15646   Min.   :0.00887   Min.   :-0.036761  
- 1st Qu.:-0.15043   1st Qu.:0.01777   1st Qu.:-0.029252  
- Median :-0.12909   Median :0.02075   Median :-0.025701  
- Mean   :-0.12697   Mean   :0.02049   Mean   :-0.024735  
- 3rd Qu.:-0.10976   3rd Qu.:0.02411   3rd Qu.:-0.020634  
- Max.   :-0.05576   Max.   :0.02562   Max.   :-0.009214  
- dydx_wealth89        dydx_prftshr      
- Min.   :3.225e-05   Min.   :-0.177629  
- 1st Qu.:6.389e-05   1st Qu.:-0.075981  
- Median :7.515e-05   Median :-0.056485  
- Mean   :7.385e-05   Mean   :-0.060746  
- 3rd Qu.:8.726e-05   3rd Qu.:-0.023855  
- Max.   :9.123e-05   Max.   :-0.002558  
+Error in import("data/tradrole.dta"): No such file
 ```
-
-Допустим, мы можем упорядочить наши альтернативы (например, от более рискованного способа распределения ресурсов до менее). Тогда воспользуемся моделью упорядоченного выбора.
-
 
 ```r
-logit.polr = polr(y ~ choice+age+educ+wealth89+prftshr , data = df)
-probit.polr = polr(y ~ choice+age+educ+wealth89+prftshr , data = df, method = 'probit') 
-
-
-### summary(logit.polr) не работает
+#skim(data_nlsy)
 ```
 
 
 ```r
-fit_prob = fitted(logit.polr)
-fit_log = fitted(probit.polr)
+ggplot(data_nlsy, aes(x = tradrole)) + 
+  geom_histogram() + 
+  xlab('Ответы респонденток') +
+  ggtitle('Вот такие дела, джентельмены :)')
 ```
+
+```
+Error in ggplot(data_nlsy, aes(x = tradrole)): object 'data_nlsy' not found
+```
+
+Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
+
+```r
+oprobit <- polr(as.factor(tradrole) ~  as.factor(cath) + as.factor(fpro) + meduc + as.factor(urb), data = data_nlsy, method="probit", na.action = na.omit)
+```
+
+```
+Error in eval(expr, p): object 'data_nlsy' not found
+```
+
+```r
+summary(oprobit)
+```
+
+```
+Error in summary(oprobit): object 'oprobit' not found
+```
+
+В summary видим коэффициенты при регрессорах и коэффициенты при константах для каждой из упорядоченных альтернатив.
+
+```r
+summary(oprobit)
+```
+
+```
+Error in summary(oprobit): object 'oprobit' not found
+```
+
+## python
+
+
+
+```python
+import numpy as np
+import pandas as pd
+import statsmodels.api as st
+import matplotlib.pyplot as plt
+
+plt.style.use('ggplot')
+```
+
+
+
+```python
+df = pd.read_stata('data/pension.dta')
+```
+
+
+```python
+df.describe()
+```
+
+```
+                id      pyears     prftshr  ...    stckin89    irain89     pctstck
+count   226.000000  218.000000  206.000000  ...  226.000000  226.00000  226.000000
+mean   2445.092920   11.385321    0.208738  ...    0.318584    0.50000   46.681416
+std    1371.270511    9.605498    0.407397  ...    0.466962    0.50111   39.441155
+min      38.000000    0.000000    0.000000  ...    0.000000    0.00000    0.000000
+25%    1312.500000    4.000000    0.000000  ...    0.000000    0.00000    0.000000
+50%    2377.500000    9.000000    0.000000  ...    0.000000    0.50000   50.000000
+75%    3804.250000   16.000000    0.000000  ...    1.000000    1.00000  100.000000
+max    5014.000000   45.000000    1.000000  ...    1.000000    1.00000  100.000000
+
+[8 rows x 19 columns]
+```
+
+
+
+```python
+df.rename(columns = {'pctstck':'y'}, inplace = True)
+```
+
+Подготовим данные для построения модели множественного выбора. Избавимся от пропусков в интересующих нас переменных и добавим вектор констант. 
+
+
+```python
+sub = df1[['y', 'choice', 'age', 'wealth89', 'prftshr', 'married']].dropna()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df1' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+y = sub['y']
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+X = sub[['choice', 'age', 'wealth89', 'prftshr']]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+X = st.add_constant(X, prepend = False)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'X' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+Кросс - табличка для объясняемой переменной и числа лет образования.
+
+```python
+pd.crosstab(sub['y'], sub['educ'])
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+Строим модель.
+
+```python
+multmodel = st.MNLogit(y, X, )
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'y' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+mm_fit = multmodel.fit()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'multmodel' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+mm_fit.summary() ### сразу же можно проверить значимость коэффициентов
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+
+```python
+fitted_values = mm_fit.predict()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+Отдельно можем извлечь параметры.
+
+```python
+mm_fit.params
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+Для того, чтобы построить модельку по подвыборке, её (подвыборку) нужно создать :)
+
+```python
+data_m = sub[(sub.married == 1)]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+y_m = data_m['y']
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+X_m = data_m[['choice', 'age', 'wealth89', 'prftshr']]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+X_m = st.add_constant(X_m, prepend = False)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'X_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+Дальше всё аналогично :)
+
+```python
+multmodel_m = st.MNLogit(y_m, X_m)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'y_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+mm_fit_m = multmodel_m.fit()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'multmodel_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+mm_fit_m.summary()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit_m' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+C пределными эффектами в питоне беда!!!!
+
+```python
+margeff = mm_fit.get_margeff()
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+np.round(margeff.margeff, 3)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'margeff' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+ 
+Или все-таки беда с отношением шансов?
+
+```python
+y50_data = sub[sub['y'] == 50][sub.columns.difference(['y', 'married'])]
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+y100_data = sub[sub['y'] == 100][sub.columns.difference(['y', 'married'])]
+#np.exp(mm_fit.params[0]*y100_data) # кажется, это придется считать вручную :(
+#np.exp(mm_fit.params[0]*y100_data) # не уверена, что так, но пусть пока будет
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
+
+```python
+data_nlsy = pd.read_stata('data/tradrole.dta')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: 'data/tradrole.dta'
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/util/_decorators.py", line 188, in wrapper
+    return func(*args, **kwargs)
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/util/_decorators.py", line 188, in wrapper
+    return func(*args, **kwargs)
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/io/stata.py", line 186, in read_stata
+    chunksize=chunksize)
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/util/_decorators.py", line 188, in wrapper
+    return func(*args, **kwargs)
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/util/_decorators.py", line 188, in wrapper
+    return func(*args, **kwargs)
+  File "/home/boris/anaconda3/lib/python3.7/site-packages/pandas/io/stata.py", line 994, in __init__
+    self.path_or_buf = open(path_or_buf, 'rb')
+```
+
+
+```python
+plt.hist(data_nlsy['tradrole'])
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_nlsy' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+plt.title('')
+plt.xlabel('Ответы респонденток')
+plt.show('Вот такие дела, джентельмены :)')
+```
+
+<img src="04-multinom_choice_files/figure-html/hist tradrole py-1.png" width="672" />
+
+Дальше тоже пока печаль :(
 
 ## stata
 
@@ -376,8 +741,25 @@ Log likelihood = -204.50778                     Pseudo R2         =     0.0698
 ------------------------------------------------------------------------------
 ```
 
-Можем посмотреть на прогнозы.
+Кросс - табличка для объясняемой переменной и числа лет образования.
 
+```stata
+table y educ
+```
+
+```
+0=mstbnds |
+,50=mixed |
+,100=msts |                     highest grade completed                     
+tcks      |    8     9    10    11    12    13    14    15    16    17    18
+----------+-----------------------------------------------------------------
+        0 |    5     3           3    31     4     7          11     1     7
+       50 |    1     1           3    34     4     6     2    14     5    14
+      100 |          2     1     1    36     1     5     4     5     4     4
+----------------------------------------------------------------------------
+```
+
+Можем посмотреть на прогнозы.
 
 ```stata
 predict p1 p2 p3, p
@@ -431,18 +813,19 @@ Log likelihood = -204.50778                     Pseudo R2         =     0.0698
 
 Можем посчитать предельные эффекты в разных точках.
 
-
 ```stata
-margins, predict(outcome(50)) dydx(choice age educ wealth89 prftshr) atmeans 
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
 
-margins, predict(outcome(50)) dydx(choice age educ wealth89 prftshr) at((p25) *)
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
+
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)
 ```
 
 ```
 Conditional marginal effects                    Number of obs     =        201
 Model VCE    : OIM
 
-Expression   : Pr(y==50), predict(outcome(50))
+Expression   : Pr(y==0), predict(outcome(0))
 dy/dx w.r.t. : choice age educ wealth89 prftshr
 at           : choice          =    .6069652 (mean)
                age             =    60.52736 (mean)
@@ -454,18 +837,18 @@ at           : choice          =    .6069652 (mean)
              |            Delta-method
              |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-      choice |    .077144   .0757102     1.02   0.308    -.0712453    .2255333
-         age |   -.014281   .0089754    -1.59   0.112    -.0318725    .0033105
-        educ |   .0380169   .0140813     2.70   0.007     .0104182    .0656157
-    wealth89 |  -.0000474   .0001544    -0.31   0.759      -.00035    .0002551
-     prftshr |  -.1715698   .0989457    -1.73   0.083    -.3654998    .0223602
+      choice |  -.1387657   .0717581    -1.93   0.053     -.279409    .0018776
+         age |   .0224223   .0083071     2.70   0.007     .0061407     .038704
+        educ |  -.0273084    .014011    -1.95   0.051    -.0547696    .0001527
+    wealth89 |   .0000807   .0001452     0.56   0.578    -.0002039    .0003654
+     prftshr |  -.0638897   .0905915    -0.71   0.481    -.2414458    .1136664
 ------------------------------------------------------------------------------
 
 
 Conditional marginal effects                    Number of obs     =        201
 Model VCE    : OIM
 
-Expression   : Pr(y==50), predict(outcome(50))
+Expression   : Pr(y==0), predict(outcome(0))
 dy/dx w.r.t. : choice age educ wealth89 prftshr
 at           : choice          =           0 (p25)
                age             =          57 (p25)
@@ -477,72 +860,76 @@ at           : choice          =           0 (p25)
              |            Delta-method
              |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
 -------------+----------------------------------------------------------------
-      choice |   .0853087   .0708501     1.20   0.229    -.0535549    .2241723
-         age |  -.0154741   .0095391    -1.62   0.105    -.0341705    .0032222
-        educ |   .0380373   .0133192     2.86   0.004     .0119321    .0641426
-    wealth89 |   -.000052    .000152    -0.34   0.732      -.00035     .000246
-     prftshr |  -.1534241     .10697    -1.43   0.151    -.3630814    .0562333
+      choice |  -.1479315   .0837538    -1.77   0.077     -.312086    .0162229
+         age |   .0239584   .0083078     2.88   0.004     .0076754    .0402413
+        educ |  -.0298039   .0158695    -1.88   0.060    -.0609076    .0012998
+    wealth89 |   .0000861   .0001542     0.56   0.576     -.000216    .0003883
+     prftshr |   -.061837   .1037161    -0.60   0.551    -.2651169    .1414428
 ------------------------------------------------------------------------------
+
+invalid 'asobserved' 
+r(198);
+
+end of do-file
+r(198);
 ```
 
 
-Допустим, мы можем упорядочить наши альтернативы (например, от более рискованного способа распределения ресурсов до менее). Тогда воспользуемся моделью упорядоченного выбора.
+
+И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
+
+```stata
+use data/tradrole.dta
+
+sum
+```
+
+```
+ invalid 'asobserved' 
+r(198);
+
+
+no; data in memory would be lost
+r(4);
+
+end of do-file
+r(4);
+```
 
 
 ```stata
-oprobit y choice age educ wealth89 prftshr
-
-ologit y choice age educ wealth89 prftshr
+hist tradrole 'Вот такие дела, джентельмены :)')
+subtitle("Вот такие дела, джентельмены :)")
 ```
 
 ```
-Iteration 0:   log likelihood = -219.86356  
-Iteration 1:   log likelihood = -212.89234  
-Iteration 2:   log likelihood = -212.88817  
-Iteration 3:   log likelihood = -212.88817  
-
-Ordered probit regression                       Number of obs     =        201
-                                                LR chi2(5)        =      13.95
-                                                Prob > chi2       =     0.0159
-Log likelihood = -212.88817                     Pseudo R2         =     0.0317
-
-------------------------------------------------------------------------------
-           y |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      choice |   .2932272    .167064     1.76   0.079    -.0342122    .6206666
-         age |  -.0453065   .0195009    -2.32   0.020    -.0835275   -.0070854
-        educ |   .0269375   .0315643     0.85   0.393    -.0349273    .0888024
-    wealth89 |  -.0001694   .0003431    -0.49   0.622    -.0008419    .0005031
-     prftshr |   .4864833   .2030406     2.40   0.017      .088531    .8844355
--------------+----------------------------------------------------------------
-       /cut1 |  -2.578052   1.277878                     -5.082648   -.0734562
-       /cut2 |  -1.561798   1.272756                     -4.056353    .9327576
-------------------------------------------------------------------------------
+ invalid 'asobserved' 
+r(198);
 
 
-Iteration 0:   log likelihood = -219.86356  
-Iteration 1:   log likelihood = -212.75117  
-Iteration 2:   log likelihood = -212.72813  
-Iteration 3:   log likelihood = -212.72813  
+variable tradrole not found
+r(111);
 
-Ordered logistic regression                     Number of obs     =        201
-                                                LR chi2(5)        =      14.27
-                                                Prob > chi2       =     0.0140
-Log likelihood = -212.72813                     Pseudo R2         =     0.0325
-
-------------------------------------------------------------------------------
-           y |      Coef.   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      choice |   .4720438   .2757545     1.71   0.087     -.068425    1.012513
-         age |  -.0776337   .0328659    -2.36   0.018    -.1420497   -.0132177
-        educ |   .0475714   .0514763     0.92   0.355    -.0533203    .1484631
-    wealth89 |   -.000277    .000561    -0.49   0.621    -.0013765    .0008224
-     prftshr |   .8312158   .3506528     2.37   0.018     .1439489    1.518483
--------------+----------------------------------------------------------------
-       /cut1 |  -4.376271   2.144494                     -8.579402   -.1731395
-       /cut2 |  -2.714186   2.129423                     -6.887779    1.459407
-------------------------------------------------------------------------------
+end of do-file
+r(111);
 ```
 
+Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
 
+
+```stata
+oprobit tradrole i.cath i.fpro meduc i.urb
+```
+
+```
+ invalid 'asobserved' 
+r(198);
+
+
+variable tradrole not found
+r(111);
+
+end of do-file
+r(111);
+```
 

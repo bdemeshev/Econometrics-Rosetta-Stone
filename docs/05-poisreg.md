@@ -51,7 +51,7 @@ Skim summary statistics
  n obs: 250 
  n variables: 4 
 
-── Variable type:numeric ───────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -285,124 +285,18 @@ Error in insight::model_info(model): object 'zero_infl' not found
 
 ```python
 import pandas as pd # для работы с таблицами
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import numpy as np # математика, работа с матрицами
 import matplotlib.pyplot as plt # графики
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.api as sm
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.formula.api as smf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.graphics.gofplots as gf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.stats.outliers_influence import summary_table
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import seaborn as sns # еще более классные графики
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'seaborn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from scipy.stats import shapiro # еще математика
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'scipy'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.discrete.discrete_model
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.discrete.count_model import ZeroInflatedPoisson
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.style.use('ggplot')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 
 Загружаем данные и смотрим описательные статистики.
@@ -411,47 +305,18 @@ Detailed traceback:
 df_fish = pd.read_stata('data/fish.dta')
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
 
 ```python
 sns.distplot(df_fish['count'])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="05-poisreg_files/figure-html/unnamed-chunk-3-1.png" width="672" />
 
 Превращаем переменную `camper` в категориальную.
 
 ```python
 df_fish['camper'] = df_fish['camper'].astype('category')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 
 Строим Пуассоновскую регрессию.
@@ -461,7 +326,7 @@ pois = statsmodels.discrete.discrete_model.Poisson(endog = count, exog = np.arra
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'statsmodels' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'count' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -470,24 +335,32 @@ Detailed traceback:
 ```python
 regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
                     family=sm.families.Poisson()).fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'smf' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 regr_pois.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:                  count   No. Observations:                  250
+Model:                            GLM   Df Residuals:                      246
+Model Family:                 Poisson   Df Model:                            3
+Link Function:                    log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -837.07
+Date:                 Чт, 26 сен 2019   Deviance:                       1337.1
+Time:                        17:30:25   Pearson chi2:                 2.91e+03
+No. Iterations:                     6                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      -1.9818      0.152    -13.016      0.000      -2.280      -1.683
+camper[T.1]     0.9309      0.089     10.450      0.000       0.756       1.106
+child          -1.6900      0.081    -20.866      0.000      -1.849      -1.531
+persons         1.0913      0.039     27.799      0.000       1.014       1.168
+===============================================================================
+"""
 ```
 
 Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
@@ -500,10 +373,11 @@ Detailed traceback:
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+           count            
+            mean         var
+camper                      
+0       1.524272   21.055778
+1       4.537415  212.400988
 ```
 
 И регрессию с остатками, имеющими отрицательное биномиальное распределение.
@@ -511,24 +385,33 @@ Detailed traceback:
 ```python
 regr_bin = smf.glm('count ~ child + camper +  persons', data=df_fish,
               family=sm.families.NegativeBinomial()).fit()
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'smf' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 regr_bin.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_bin' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:                  count   No. Observations:                  250
+Model:                            GLM   Df Residuals:                      246
+Model Family:        NegativeBinomial   Df Model:                            3
+Link Function:                    log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -417.63
+Date:                 Чт, 26 сен 2019   Deviance:                       316.92
+Time:                        17:30:25   Pearson chi2:                     938.
+No. Iterations:                     8                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      -1.6582      0.261     -6.351      0.000      -2.170      -1.147
+camper[T.1]     0.6599      0.182      3.636      0.000       0.304       1.016
+child          -1.7314      0.147    -11.787      0.000      -2.019      -1.443
+persons         1.0547      0.086     12.253      0.000       0.886       1.223
+===============================================================================
+"""
 ```
  
 Проверим гипотезу о равенстве 0 коэффициента при переменной `camper`. Проведем тест Вальда.
@@ -539,79 +422,21 @@ regr_bin.wald_test(hyp)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_bin' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.stats.contrast.ContrastResults'>
+<Wald test (chi2): statistic=[[138.9233986]], p-value=4.577705644901894e-32, df_denom=1>
 ```
 
 Посчитаем средний предельный эффект для каждой переменной.
 
 ```python
 pred = regr_pois.fittedvalues
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 mean_mef_child = np.mean([regr_pois.params[1] * p for p in pred])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pred' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 mean_mef_camper = np.mean([regr_pois.params[2] * p for p in pred])
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pred' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
                             for i in range(len(df_fish))])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df_fish' is not defined
-
-Detailed traceback: 
-  File "<string>", line 2, in <module>
 ```
 
 

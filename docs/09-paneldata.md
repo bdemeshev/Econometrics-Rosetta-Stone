@@ -1200,71 +1200,32 @@ import numpy as np
 import pandas as pd
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
 Подгрузим данные и для обозначения панельных данных присвоим соответствующие индексы. Зададим соответствующие зависимые и независимые переменные, а также регрессионную формулу. Переменная "Entity effects" (Фиксированные эффекты) обязательна для включения для корректного распознавания панельных данных. Если её не включить, результат будет отличаться от R и STATA.
 
 
 ```python
 df = pd.read_csv("lwage_panel_large.csv")
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 df = df.set_index(['id', 'year'])
 
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 formula = 'lwage ~ 1 + hours + EntityEffects'
 dependent = df.lwage
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 regressors = df[['hours']]
-```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 print(df.head())
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
+         nr  black  exper  hisp  ...  union     lwage  expersq  occupation
+id year                          ...                                      
+1  1980  13      0      1     0  ...      0  1.197540        1           9
+   1981  13      0      2     0  ...      1  1.853060        4           9
+   1982  13      0      3     0  ...      0  1.344462        9           9
+   1983  13      0      4     0  ...      0  1.433213       16           9
+   1984  13      0      5     0  ...      0  1.568125       25           5
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+[5 rows x 11 columns]
 ```
 
 Оценим FE-модель, используя within-оценку.
