@@ -1,6 +1,6 @@
 # Коан о простой линейной регрессии {#simplereg}
 
-
+# test changes
 ```{r setup, include=FALSE}
 library(knitr) # комбинирование кода и текста
 library(Statamarkdown) # взаимодействие со статой
