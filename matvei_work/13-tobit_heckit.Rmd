@@ -47,12 +47,13 @@ knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
 ```{r "chapter library chunk", message=FALSE, warning=FALSE}
-library(ggplot2)
-library(AER) #tobit
-library(sampleSelection) #heckit
-library('ltm') #margins
-library('foreign')
+library(ggplot2) # визуализация
+library(AER) # tobit-модель
+library(sampleSelection) # heckit - модель
+library(ltm) #margins
+library(rio)
 library(skimr)
+
 ```
 
 
@@ -66,7 +67,7 @@ L=\prod_{y_{t}=0}\left(1-\Phi\left(\frac{\boldsymbol{x}_{t}^{\prime} \boldsymbol
 Для начала подгрузим данные и визуализируем их. Этот датасет результаты тестирования двухсот школьников по шкале от 200 до 800 (apt), а также их успеваемость по чтению и математике (read и math соответственно). Построим гистограмму, наложив поверх неё функцию плотности нормального распределения.
 
 ```{r "read data chunk", message=FALSE, warning=FALSE}
-data = read.csv('tobit.csv')
+data = import('tobit.csv')
 
 ```
 
@@ -103,21 +104,16 @@ summary(model_tobit)
 
 
 ```{r}
-data = read.dta('data_alcohol&tobacco.dta')
+data = import('data_alcohol&tobacco.dta')
 summary(data)
 
 ```
 
 ```{r}
-f <- function(x, var, bw = 15) {
-  dnorm(x, mean = mean(var), sd(var)) * length(var)  * bw
-}
+p <- ggplot(data, aes(x = shalc)) + geom_histogram() + ylab("Frequency") + xlab("Share of alcohol")
 
 
-p <- ggplot(data, aes(x = shalc))
-p + stat_bin(binwidth=0.01) +
-  stat_function(fun = f, size = 1,
-    args = list(var = data$alc))
+plot(p)
 ```
 
 
@@ -157,3 +153,26 @@ heckman shalc age nadults nkids lnx walloon, select(alc = age nadults nkids lnx 
 heckman shalc age nadults nkids lnx walloon, select(alc = age nadults nkids lnx walloon) twostep
 ```
 
+
+Частично воспроизведём в Python. Для начала подгрузим библиотеки
+
+```{python}
+import pandas as pd # Чтение и обработка данных
+import tobin as tb # Модель Тобина
+```
+
+Прочтём данные. Для цензурирования создадим новую переменную "cens", которая равна единице, если студент получил высший балл. Также выделим зависимую переменную и оставим в датасете только зависимые переменные.
+```{python}
+data = pd.read_csv('tobit.csv', index_col = 'id')
+cens = (data.apt == 800).astype('int')
+Y = data.apt
+data = data.drop(columns = ['apt', 'prog'])
+```
+
+Оценим модель
+```{r}
+tobit = tb.TobitModel()
+tobit_fitted = tobit.fit(data, Y, cens)
+```
+
+Для модели Хекмана не было найдено хорошего и завершённого пакета на Python. Лучше воспользоваться другими инструментами.
