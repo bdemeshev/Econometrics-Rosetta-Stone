@@ -3,6 +3,8 @@
 
 
 
+## r
+
 Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты.
@@ -19,15 +21,14 @@ library(sjPlot) # еще графики
 Импортируем данные.
 
 ```r
-df = import("us-return.dta")
+df = rio::import("data/us-return.dta")
 ```
 
 Исследуем наш датасет.
 
-
 ```r
-# skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные характеристики
-skim(df) # посмотрим на данные
+skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные статистики
+skim(df) 
 ```
 
 ```
@@ -35,71 +36,49 @@ Skim summary statistics
  n obs: 2664 
  n variables: 22 
 
-── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete    n min max empty n_unique
         B       0     2664 2664   0   6  2544       31
 
-── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
- variable missing complete    n    mean      sd      p0     p25     p50
-        A    2544      120 2664 60.5    34.79    1      30.75   60.5   
-    BOISE    2544      120 2664  0.017   0.097  -0.27   -0.045   0.015 
-   CITCRP    2544      120 2664  0.012   0.081  -0.28   -0.037   0.011 
-    CONED    2544      120 2664  0.019   0.05   -0.14   -0.012   0.019 
-   CONTIL    2544      120 2664 -0.0011  0.15   -0.6    -0.051   0     
-   DATGEN    2544      120 2664  0.0075  0.13   -0.34   -0.072   0.017 
-      DEC    2544      120 2664  0.02    0.099  -0.36   -0.051   0.024 
-    DELTA    2544      120 2664  0.012   0.096  -0.26   -0.053   0.013 
-   GENMIL    2544      120 2664  0.017   0.065  -0.15   -0.026   0.011 
-   GERBER    2544      120 2664  0.016   0.088  -0.29   -0.036   0.015 
-      IBM    2544      120 2664  0.0096  0.059  -0.19   -0.029   0.002 
-   MARKET    2544      120 2664  0.014   0.068  -0.26   -0.013   0.012 
-    MOBIL    2544      120 2664  0.016   0.08   -0.18   -0.032   0.013 
-    MOTOR    2544      120 2664  0.018   0.097  -0.33   -0.053   0.017 
-    PANAM    2544      120 2664  0.0035  0.13   -0.31   -0.065   0     
-     PSNH    2544      120 2664 -0.0042  0.11   -0.48   -0.049   0     
-   rkfree    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
-   RKFREE    2544      120 2664  0.0068  0.0022  0.0021  0.0052  0.0066
-    TANDY    2544      120 2664  0.025   0.13   -0.25   -0.058   0.022 
-   TEXACO    2544      120 2664  0.012   0.08   -0.19   -0.037   0.01  
-    WEYER    2544      120 2664  0.0096  0.085  -0.27   -0.049  -0.002 
-     p75    p100     hist
- 90.25   120     ▇▇▇▇▇▇▇▇
-  0.07     0.38  ▁▂▆▇▇▂▁▁
-  0.064    0.32  ▁▁▅▇▇▃▁▁
-  0.045    0.15  ▁▁▂▇▇▅▂▂
-  0.058    0.97  ▁▁▇▇▁▁▁▁
-  0.078    0.53  ▁▂▅▇▃▁▁▁
-  0.075    0.39  ▁▁▂▇▇▂▁▁
-  0.063    0.29  ▁▂▅▇▇▃▂▁
-  0.06     0.19  ▁▃▅▇▅▃▂▁
-  0.065    0.23  ▁▁▁▅▇▅▂▁
-  0.05     0.15  ▁▁▂▇▇▆▃▂
-  0.062    0.15  ▁▁▁▂▅▇▇▂
-  0.057    0.37  ▁▃▇▇▂▁▁▁
-  0.084    0.27  ▁▁▂▇▇▇▃▁
-  0.074    0.41  ▁▂▅▇▃▁▁▁
-  0.043    0.32  ▁▁▁▁▇▆▁▁
-  0.0078   0.013 ▁▃▆▇▅▂▂▂
-  0.0078   0.013 ▁▃▆▇▅▂▂▂
-  0.094    0.45  ▂▃▆▇▂▂▁▁
-  0.048    0.4   ▁▃▇▆▂▁▁▁
-  0.06     0.27  ▁▁▅▇▆▃▂▁
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
+ variable missing complete    n    mean      sd      p0     p50    p100
+        A    2544      120 2664 60.5    34.79    1      60.5    120    
+    BOISE    2544      120 2664  0.017   0.097  -0.27    0.015    0.38 
+   CITCRP    2544      120 2664  0.012   0.081  -0.28    0.011    0.32 
+    CONED    2544      120 2664  0.019   0.05   -0.14    0.019    0.15 
+   CONTIL    2544      120 2664 -0.0011  0.15   -0.6     0        0.97 
+   DATGEN    2544      120 2664  0.0075  0.13   -0.34    0.017    0.53 
+      DEC    2544      120 2664  0.02    0.099  -0.36    0.024    0.39 
+    DELTA    2544      120 2664  0.012   0.096  -0.26    0.013    0.29 
+   GENMIL    2544      120 2664  0.017   0.065  -0.15    0.011    0.19 
+   GERBER    2544      120 2664  0.016   0.088  -0.29    0.015    0.23 
+      IBM    2544      120 2664  0.0096  0.059  -0.19    0.002    0.15 
+   MARKET    2544      120 2664  0.014   0.068  -0.26    0.012    0.15 
+    MOBIL    2544      120 2664  0.016   0.08   -0.18    0.013    0.37 
+    MOTOR    2544      120 2664  0.018   0.097  -0.33    0.017    0.27 
+    PANAM    2544      120 2664  0.0035  0.13   -0.31    0        0.41 
+     PSNH    2544      120 2664 -0.0042  0.11   -0.48    0        0.32 
+   rkfree    2544      120 2664  0.0068  0.0022  0.0021  0.0066   0.013
+   RKFREE    2544      120 2664  0.0068  0.0022  0.0021  0.0066   0.013
+    TANDY    2544      120 2664  0.025   0.13   -0.25    0.022    0.45 
+   TEXACO    2544      120 2664  0.012   0.08   -0.19    0.01     0.4  
+    WEYER    2544      120 2664  0.0096  0.085  -0.27   -0.002    0.27 
+```
+
+Переименуем столбцы.
+
+```r
+df = rename(df, n = A, date = B) 
 ```
 
 
 ```r
-df = rename(df, n = A, date = B) # дадим столбцам более осмысленные названия
-```
-
-
-```r
-df = na.omit(df) # уберем строки с пропущенными наблюдениями
+df = na.omit(df) # уберем пустые строки
 ```
 
 Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
 
 ```r
-#создаем новые переменные и добавляем их к набору данных
 df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
 ```
 
@@ -131,13 +110,24 @@ Multiple R-squared:  0.3569,	Adjusted R-squared:  0.3514
 F-statistic: 65.48 on 1 and 118 DF,  p-value: 5.913e-13
 ```
 
+```r
+coeff = summary(ols)$coeff # отдельно табличка с коэффициентами
+coeff
+```
+
+```
+               Estimate  Std. Error   t value     Pr(>|t|)
+(Intercept) 0.005252865 0.007199935 0.7295713 4.670981e-01
+x           0.848149581 0.104813757 8.0919681 5.913330e-13
+```
+
 Вызовом одной функции получаем кучу полезных графиков. Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.
 
 ```r
 plot(ols)
 ```
 
-![](02-simplereg_files/figure-epub3/plot-1.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-2.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-3.png)<!-- -->![](02-simplereg_files/figure-epub3/plot-4.png)<!-- -->
+<img src="02-simplereg_files/figure-html/plot-1.png" width="672" /><img src="02-simplereg_files/figure-html/plot-2.png" width="672" /><img src="02-simplereg_files/figure-html/plot-3.png" width="672" /><img src="02-simplereg_files/figure-html/plot-4.png" width="672" />
 
 Строим доверительный интервал для параметров модели.
 
@@ -167,10 +157,8 @@ Model 2: y ~ x
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 
-\[
-H_{0}: S = 0, K = 3,
-\]
-где $S$ — коэффициент асимметрии (Skewness), $K$ — коэффициент эксцесса (Kurtosis)
+\[H_{0}: S = 0, K = 3,\\
+\text{где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)}\]
 
 
 ```r
@@ -207,24 +195,302 @@ W = 0.99021, p-value = 0.5531
 
 ```r
 set.seed(7)
-newData = df
-newData = mutate(newData, x = x + rnorm(n = n())) # пошумим
+
+newData = data.frame(x = df$x + 0.5*rnorm(length(df$x))) #пошумим
 yhat = predict(ols, newdata = newData, se = TRUE)
 ```
 
+## python
 
-#### То же самое в стате
+Много полезных функций для статистических расчетов можно найти в пакете Statsmodels. 
+
+```python
+
+import pandas as pd # для работы с таблицами
+import numpy as np # математика, работа с матрицами
+import matplotlib.pyplot as plt # графики
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+import statsmodels.graphics.gofplots as gf
+from statsmodels.stats.outliers_influence import summary_table
+import seaborn as sns # еще более классные графики
+from scipy.stats import shapiro # еще математика
+import statsmodels.discrete.discrete_model
+```
+
+При желании, можем кастомизировать графики :)
+
+```python
+plt.style.use('seaborn')
+plt.rc('font', size=14)
+plt.rc('figure', titlesize=15)
+plt.rc('axes', labelsize=15)
+plt.rc('axes', titlesize=15)
+```
+
+Загрузим данные.
+
+```python
+df = pd.read_stata('data/us-return.dta')
+```
+
+Избавимся от наблюдений с пропущенными значениями. 
+
+```python
+df.dropna(inplace=True)
+df.reset_index(drop=True, inplace=True)
+```
+
+Переименуем столбцы.
+
+```python
+df = df.rename(columns={'A':'n', 'B': 'date'})
+```
+
+
+```python
+df['y'] = df['MOTOR'] - df['RKFREE']
+df['x'] = df['MARKET'] - df['RKFREE'] 
+```
+
+Строим модель и читаем саммари :)
+
+```python
+regr = smf.ols('y~x', data = df).fit()
+regr.summary()
+```
+
+```
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                      y   R-squared:                       0.357
+Model:                            OLS   Adj. R-squared:                  0.351
+Method:                 Least Squares   F-statistic:                     65.48
+Date:                 Чт, 26 сен 2019   Prob (F-statistic):           5.91e-13
+Time:                        17:29:48   Log-Likelihood:                 136.18
+No. Observations:                 120   AIC:                            -268.4
+Df Residuals:                     118   BIC:                            -262.8
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.0053      0.007      0.730      0.467      -0.009       0.020
+x              0.8481      0.105      8.092      0.000       0.641       1.056
+==============================================================================
+Omnibus:                        2.684   Durbin-Watson:                   2.030
+Prob(Omnibus):                  0.261   Jarque-Bera (JB):                1.780
+Skew:                          -0.031   Prob(JB):                        0.411
+Kurtosis:                       2.406   Cond. No.                         14.6
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+"""
+```
+
+Получить прогноз.
+
+```python
+df['yhat'] = regr.fittedvalues
+```
+
+Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)
+
+```python
+fig, ax = plt.subplots()
+ax.plot(df['x'],regr.fittedvalues, color='g', alpha =0.8)
+ax.scatter(df['x'],regr.fittedvalues+regr.resid, color = 'g', alpha = 0.8, s = 40)
+ax.vlines(df['x'],regr.fittedvalues,regr.fittedvalues+regr.resid, color = 'gray', alpha = 0.5)
+plt.title('Линия регрессии и остатки')
+plt.xlabel('RKFREE')
+plt.ylabel('MARKET')
+plt.show()
+```
+
+<img src="02-simplereg_files/figure-html/unnamed-chunk-11-1.png" width="672" />
+
+Строим доверительный интервал.
+
+```python
+regr.conf_int()
+```
+
+```
+                  0         1
+Intercept -0.009005  0.019511
+x          0.640590  1.055709
+```
+
+И проведем F-test.
+
+```python
+hypotheses = '(x = 1)'
+regr.f_test(r_matrix = hypotheses)
+```
+
+```
+<class 'statsmodels.stats.contrast.ContrastResults'>
+<F test: F=array([[2.09891771]]), p=0.1500556415866233, df_denom=118, df_num=1>
+```
+
+Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.
+
+```python
+W, p_value = shapiro(regr.resid)
+#pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
+```
+
+
+Генерируем новые данные и строим предсказание.
+
+```python
+import random
+random.seed(7)
+
+newData = df['x'] + 0.5*np.random.normal(len(df))
+prediction = regr.predict(newData)
+```
+
+А теперь жесть! Построим графички, похожие на autoplot R.
+
+```python
+fig_1 = plt.figure(1)
+
+fig_1.axes[0] = sns.residplot(df['x'], df['y'],
+                                  lowess=True,
+                                  scatter_kws={'alpha': 0.6},
+                                  line_kws={'color': 'red', 'lw': 2, 'alpha': 0.8})
+
+fig_1.axes[0].set_title('Residuals vs Fitted')
+fig_1.axes[0].set_xlabel('Fitted values')
+fig_1.axes[0].set_ylabel('Residuals')
+
+
+# можем добавить метки потенциальных аутлаеров
+abs_resid = abs(regr.resid).sort_values(ascending=False)
+abs_resid_top3 = abs_resid[:3]
+
+for i in abs_resid_top3.index:
+    fig_1.axes[0].annotate(i, 
+                               xy=(regr.fittedvalues[i], 
+                                   regr.resid[i]))
+```
+
+<img src="02-simplereg_files/figure-html/unnamed-chunk-16-1.png" width="672" />
+
+
+
+```python
+norm_residuals = regr.get_influence().resid_studentized_internal # сохраним стьюдентизированные остатки 
+
+
+QQ = gf.ProbPlot(norm_residuals)
+fig_2 = QQ.qqplot(line='45', alpha=0.5, color='b', lw=1)
+
+
+fig_2.axes[0].set_title('Normal Q-Q')
+fig_2.axes[0].set_xlabel('Theoretical Quantiles')
+fig_2.axes[0].set_ylabel('Standardized Residuals');
+
+#и снова метки
+abs_norm_resid = np.flip(np.argsort(abs(norm_residuals)), 0)
+abs_norm_resid_top3 = abs_norm_resid[:3]
+
+for r, i in enumerate(abs_norm_resid_top3):
+    fig_2.axes[0].annotate(i, 
+                               xy=(np.flip(QQ.theoretical_quantiles, 0)[r],
+                                   norm_residuals[i]))
+```
+
+<img src="02-simplereg_files/figure-html/unnamed-chunk-17-1.png" width="672" />
+
+
+
+```python
+fig_3 = plt.figure(3)
+
+plt.scatter(regr.fittedvalues, np.sqrt(abs(norm_residuals)), alpha=0.5)
+sns.regplot(regr.fittedvalues, np.sqrt(abs(norm_residuals)), 
+            scatter=False, 
+            ci=False, 
+            lowess=True,
+            line_kws={'color': 'red', 'lw': 1, 'alpha': 0.6})
+
+fig_3.axes[0].set_title('Scale-Location')
+fig_3.axes[0].set_xlabel('Fitted values')
+fig_3.axes[0].set_ylabel('$\sqrt{|Standardized Residuals|}$')
+
+# и еще раз!)
+abs_sq_norm_resid = np.flip(np.argsort(np.sqrt(abs(norm_residuals)), 0))
+abs_sq_norm_resid_top3 = abs_sq_norm_resid[:3]
+
+for i in abs_sq_norm_resid_top3:
+    fig_3.axes[0].annotate(i, xy=(regr.fittedvalues[i], 
+                                   np.sqrt(abs(norm_residuals)[i])))
+```
+
+<img src="02-simplereg_files/figure-html/unnamed-chunk-18-1.png" width="672" />
+
+
+```python
+leverage = regr.get_influence().hat_matrix_diag # сохраняем элементы матрицы-шляпницы
+cook_dist = regr.get_influence().cooks_distance[0] # и расстояние Кука
+
+fig_4 = plt.figure(4)
+
+plt.scatter(leverage, norm_residuals, alpha=0.5)
+sns.regplot(leverage, norm_residuals, 
+            scatter=False, 
+            ci=False, 
+            lowess=True,
+            line_kws={'color': 'red', 'lw': 1, 'alpha': 0.8})
+
+fig_4.axes[0].set_xlim(0, 0.20)
+```
+
+```
+(0, 0.2)
+```
+
+```python
+fig_4.axes[0].set_ylim(-3, 5)
+```
+
+```
+(-3, 5)
+```
+
+```python
+fig_4.axes[0].set_title('Residuals vs Leverage')
+fig_4.axes[0].set_xlabel('Leverage')
+fig_4.axes[0].set_ylabel('Standardized Residuals')
+
+
+leverage_top3 = np.flip(np.argsort(cook_dist), 0)[:3]
+
+for i in leverage_top3:
+    fig_4.axes[0].annotate(i, 
+                               xy=(leverage[i], 
+                                   norm_residuals[i]))
+plt.show()
+```
+
+<img src="02-simplereg_files/figure-html/unnamed-chunk-19-1.png" width="672" />
+
+## stata
+
+
 
 Загружаем данные. 
 
 ```stata
-use us-return.dta
+use data/us-return.dta
 ```
 
-```
-end of do-file
-```
-
+``````
 
 Любуемся и даем новые названия столбцам.
 
@@ -359,28 +625,25 @@ swilk u_hat
 
 QQ - график
 
+
 ```stata
 qnorm u_hat 
 ```
-
-``````
+![](qq_plot.png)
 
 График предсказанных значений против остатков.
 
 ```stata
 rvfplot, yline(0)
 ```
-
-``````
-
+![](resvsfit.png)
 
 График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).
 
 ```stata
 lvr2plot
 ```
-
-``````
+![](resvsh.png)
 
 График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.
 
@@ -390,303 +653,24 @@ predict standard, rstandard
 
 graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)
 ```
-
-```
-
-```
-
+![](standardhat.png)
 
 
 ```stata
 set seed 7
 
 set obs 120
-gen x_new = x+ 0.5 *rnormal()
-gen y_hat_new =  .8481496 * x_new+ .0052529
+gen x_new = x+ 0.5 * rnormal()
+gen y_hat_new =  .8481496 * x_new + .0052529 
 ```
 
 ```
+ translator Graph2png not found
+r(111);
+
+
+
 number of observations (_N) was 120, now 120
 
 ```
-#### То же самое в python
-
-Много хорошихх функций для статистических расчетов можно найти в пакете Statsmodels. 
-
-```python
-
-import pandas as pd # для работы с таблицами
-import numpy as np # математика, работа с матрицами
-import matplotlib.pyplot as plt # графики
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-import statsmodels.graphics.gofplots as gf
-from statsmodels.stats.outliers_influence import summary_table
-import seaborn as sns # еще более классные графики
-from scipy.stats import shapiro # еще математика
-import statsmodels.discrete.discrete_model
-```
-
-При желании, можем кастомизировать графики :)
-
-```python
-plt.style.use('seaborn')
-plt.rc('font', size=14)
-plt.rc('figure', titlesize=15)
-plt.rc('axes', labelsize=15)
-plt.rc('axes', titlesize=15)
-```
-
-Загрузим данные.
-
-```python
-df = pd.read_stata('us-return.dta')
-```
-
-Избавимся от наблюдений с пропущенными значенями. 
-
-```python
-df.dropna(inplace=True) ##ИСПРАВИТЬ (выкинуть только пропуски целевой и объяснющей)
-df.reset_index(drop=True, inplace=True)
-```
-
-Переименуем столбцы.
-
-```python
-df = df.rename(columns={'A':'n', 'B': 'date'})
-```
-
-
-```python
-df['y'] = df['MOTOR'] - df['RKFREE']
-df['x'] = df['MARKET'] - df['RKFREE'] 
-```
-
-Строим модель и читаем саммари :)
-
-```python
-regr = smf.ols('y~x', data = df).fit()
-regr.summary()
-```
-
-```
-<class 'statsmodels.iolib.summary.Summary'>
-"""
-                            OLS Regression Results                            
-==============================================================================
-Dep. Variable:                      y   R-squared:                       0.357
-Model:                            OLS   Adj. R-squared:                  0.351
-Method:                 Least Squares   F-statistic:                     65.48
-Date:                 Пн, 16 сен 2019   Prob (F-statistic):           5.91e-13
-Time:                        16:00:02   Log-Likelihood:                 136.18
-No. Observations:                 120   AIC:                            -268.4
-Df Residuals:                     118   BIC:                            -262.8
-Df Model:                           1                                         
-Covariance Type:            nonrobust                                         
-==============================================================================
-                 coef    std err          t      P>|t|      [0.025      0.975]
-------------------------------------------------------------------------------
-Intercept      0.0053      0.007      0.730      0.467      -0.009       0.020
-x              0.8481      0.105      8.092      0.000       0.641       1.056
-==============================================================================
-Omnibus:                        2.684   Durbin-Watson:                   2.030
-Prob(Omnibus):                  0.261   Jarque-Bera (JB):                1.780
-Skew:                          -0.031   Prob(JB):                        0.411
-Kurtosis:                       2.406   Cond. No.                         14.6
-==============================================================================
-
-Warnings:
-[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
-"""
-```
-
-Получить прогноз.
-
-```python
-df['yhat'] = regr.fittedvalues
-```
-
-Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)
-
-```python
-fig, ax = plt.subplots()
-ax.plot(df['x'],regr.fittedvalues, color='g', alpha =0.8)
-ax.scatter(df['x'],regr.fittedvalues+regr.resid, color = 'g', alpha = 0.8, s = 40)
-ax.vlines(df['x'],regr.fittedvalues,regr.fittedvalues+regr.resid, color = 'gray', alpha = 0.5)
-plt.title('Линия регрессии и остатки')
-plt.xlabel('RKFREE')
-plt.ylabel('MARKET')
-plt.show()
-```
-
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-13-1.png" width="480" />
-
-Строим доверительный интервал.
-
-```python
-regr.conf_int()
-```
-
-```
-                  0         1
-Intercept -0.009005  0.019511
-x          0.640590  1.055709
-```
-
-И проведем F-test.
-
-```python
-hypotheses = '(x = 1)'
-regr.f_test(r_matrix = hypotheses)
-```
-
-```
-<class 'statsmodels.stats.contrast.ContrastResults'>
-<F test: F=array([[2.09891771]]), p=0.1500556415866233, df_denom=118, df_num=1>
-```
-
-Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.
-
-```python
-W, p_value = shapiro(regr.resid)
-#pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
-```
-
-
-Генерируем новые данные и строим предсказание.
-
-```python
-import random
-random.seed(7)
-
-newData = df['x'] + 0.5*np.random.normal(len(df))
-prediction = regr.predict(newData)
-```
-
-А теперь жесть! Построим графички, похожие на autoplot R.
-
-
-```python
-fig_1 = plt.figure(1)
-
-fig_1.axes[0] = sns.residplot(df['x'], df['y'],
-                                  lowess=True,
-                                  scatter_kws={'alpha': 0.6},
-                                  line_kws={'color': 'red', 'lw': 2, 'alpha': 0.8})
-
-fig_1.axes[0].set_title('Residuals vs Fitted')
-fig_1.axes[0].set_xlabel('Fitted values')
-fig_1.axes[0].set_ylabel('Residuals')
-
-
-#можем добавить метки потенциальных аутлаеров
-abs_resid = abs(regr.resid).sort_values(ascending=False)
-abs_resid_top3 = abs_resid[:3]
-
-for i in abs_resid_top3.index:
-    fig_1.axes[0].annotate(i, 
-                               xy=(regr.fittedvalues[i], 
-                                   regr.resid[i]))
-```
-
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-18-1.png" width="480" />
-
-
-
-```python
-norm_residuals = regr.get_influence().resid_studentized_internal #сохраним стьюдентизированные остатки 
-
-
-QQ = gf.ProbPlot(norm_residuals)
-fig_2 = QQ.qqplot(line='45', alpha=0.5, color='b', lw=1)
-
-
-fig_2.axes[0].set_title('Normal Q-Q')
-fig_2.axes[0].set_xlabel('Theoretical Quantiles')
-fig_2.axes[0].set_ylabel('Standardized Residuals');
-
-#и снова метки
-abs_norm_resid = np.flip(np.argsort(abs(norm_residuals)), 0)
-abs_norm_resid_top3 = abs_norm_resid[:3]
-
-for r, i in enumerate(abs_norm_resid_top3):
-    fig_2.axes[0].annotate(i, 
-                               xy=(np.flip(QQ.theoretical_quantiles, 0)[r],
-                                   norm_residuals[i]))
-```
-
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-19-1.png" width="480" />
-
-
-
-```python
-fig_3 = plt.figure(3)
-
-plt.scatter(regr.fittedvalues, np.sqrt(abs(norm_residuals)), alpha=0.5)
-sns.regplot(regr.fittedvalues, np.sqrt(abs(norm_residuals)), 
-            scatter=False, 
-            ci=False, 
-            lowess=True,
-            line_kws={'color': 'red', 'lw': 1, 'alpha': 0.6})
-
-fig_3.axes[0].set_title('Scale-Location')
-fig_3.axes[0].set_xlabel('Fitted values')
-fig_3.axes[0].set_ylabel('$\sqrt{|Standardized Residuals|}$')
-
-# и еще раз!)
-abs_sq_norm_resid = np.flip(np.argsort(np.sqrt(abs(norm_residuals)), 0))
-abs_sq_norm_resid_top3 = abs_sq_norm_resid[:3]
-
-for i in abs_sq_norm_resid_top3:
-    fig_3.axes[0].annotate(i, xy=(regr.fittedvalues[i], 
-                                   np.sqrt(abs(norm_residuals)[i])))
-```
-
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-20-1.png" width="480" />
-
-
-```python
-leverage = regr.get_influence().hat_matrix_diag #сохраняем элементы матрицы-шляпницы
-cook_dist = regr.get_influence().cooks_distance[0] #И расстояние Кука
-
-fig_4 = plt.figure(4)
-
-plt.scatter(leverage, norm_residuals, alpha=0.5)
-sns.regplot(leverage, norm_residuals, 
-            scatter=False, 
-            ci=False, 
-            lowess=True,
-            line_kws={'color': 'red', 'lw': 1, 'alpha': 0.8})
-
-fig_4.axes[0].set_xlim(0, 0.20)
-```
-
-```
-(0, 0.2)
-```
-
-```python
-fig_4.axes[0].set_ylim(-3, 5)
-```
-
-```
-(-3, 5)
-```
-
-```python
-fig_4.axes[0].set_title('Residuals vs Leverage')
-fig_4.axes[0].set_xlabel('Leverage')
-fig_4.axes[0].set_ylabel('Standardized Residuals')
-
-
-leverage_top3 = np.flip(np.argsort(cook_dist), 0)[:3]
-
-for i in leverage_top3:
-    fig_4.axes[0].annotate(i, 
-                               xy=(leverage[i], 
-                                   norm_residuals[i]))
-plt.show()
-```
-
-<img src="02-simplereg_files/figure-epub3/unnamed-chunk-21-1.png" width="480" />
 

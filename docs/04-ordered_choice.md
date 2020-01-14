@@ -10,30 +10,9 @@ library(tidyverse) # для манипуляций с данными и пост
 library(skimr) #для красивого summary
 library(rio) # для чтения .dta файлов
 library(margins)
-```
-
-```
-Error in library(margins): there is no package called 'margins'
-```
-
-```r
 library(mlogit)
-```
-
-```
-Error in library(mlogit): there is no package called 'mlogit'
-```
-
-```r
 library(nnet)
 library(questionr)
-```
-
-```
-Error in library(questionr): there is no package called 'questionr'
-```
-
-```r
 library(MASS)
 library(survival)
 
@@ -134,7 +113,21 @@ odds.ratio(multmodel) # отношение шансов в stata называе�
 ```
 
 ```
-Error in odds.ratio(multmodel): could not find function "odds.ratio"
+                      OR    2.5 %    97.5 %         p    
+50/(Intercept)  43.71476  1.96920  970.4342 0.0169227 *  
+50/choice        1.87188  0.90620    3.8666 0.0902925 .  
+50/age           0.89923  0.85077    0.9505 0.0001713 ***
+50/educ          1.20344  1.05481    1.3730 0.0058972 ** 
+50/wealth89      0.99963  0.99819    1.0011 0.6138563    
+50/prftshr       0.76202  0.28666    2.0256 0.5858522    
+100/(Intercept) 89.38659  5.91713 1350.3111 0.0011814 ** 
+100/choice       1.86730  0.87780    3.9722 0.1049041    
+100/age          0.90954  0.86552    0.9558 0.0001790 ***
+100/educ         1.04754  0.90961    1.2064 0.5190763    
+100/wealth89     0.99965  0.99810    1.0012 0.6531613    
+100/prftshr      2.66692  1.12669    6.3127 0.0256613 *  
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```
 
 
@@ -145,7 +138,20 @@ summary(marginal_effects(multmodel)) # mean как в стате
 ```
 
 ```
-Error in marginal_effects(multmodel): could not find function "marginal_effects"
+  dydx_choice          dydx_age         dydx_educ        
+ Min.   :-0.15646   Min.   :0.00887   Min.   :-0.036761  
+ 1st Qu.:-0.15043   1st Qu.:0.01777   1st Qu.:-0.029252  
+ Median :-0.12909   Median :0.02075   Median :-0.025701  
+ Mean   :-0.12697   Mean   :0.02049   Mean   :-0.024735  
+ 3rd Qu.:-0.10976   3rd Qu.:0.02411   3rd Qu.:-0.020634  
+ Max.   :-0.05576   Max.   :0.02562   Max.   :-0.009214  
+ dydx_wealth89        dydx_prftshr      
+ Min.   :3.225e-05   Min.   :-0.177629  
+ 1st Qu.:6.389e-05   1st Qu.:-0.075981  
+ Median :7.515e-05   Median :-0.056485  
+ Mean   :7.385e-05   Mean   :-0.060746  
+ 3rd Qu.:8.726e-05   3rd Qu.:-0.023855  
+ Max.   :9.123e-05   Max.   :-0.002558  
 ```
 
 

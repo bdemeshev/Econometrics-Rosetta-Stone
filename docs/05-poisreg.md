@@ -6,13 +6,12 @@
 Загрузим необходимые пакеты.
 
 ```r
-library(tidyverse) #работа с данными и графики
-library(skimr) #красивое summary
-library(rio) #чтение .dta файлов
-library(vcd) #еще графики
-library(MASS) #отрицательное биномиальное
-library(lmtest) #для проверки гипотез
-library(pscl) #zero-inflation function
+library(tidyverse) # работа с данными и графики
+library(skimr) # красивое summary
+library(rio) # чтение .dta файлов
+library(MASS) # отрицательное биномиальное
+library(lmtest) # для проверки гипотез
+library(pscl) # zero-inflation function
 ```
 
 ```
@@ -20,17 +19,17 @@ Error in library(pscl): there is no package called 'pscl'
 ```
 
 ```r
-library(margins) #для подсчета предельных эффектов
+library(margins) # для подсчета предельных эффектов
+library(sjPlot) # визуализация моделей
 ```
 
-```
-Error in library(margins): there is no package called 'margins'
-```
+
+## r
 
 Импортируем данные.
 
 ```r
-df = import(file = "fish.dta")
+df_fish = rio::import(file = "data/fish.dta")
 ```
 Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 
@@ -44,7 +43,7 @@ Count - количество пойманной рыбы
 
 ```r
 skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL))
-skim(df)
+skim(df_fish)
 ```
 
 ```
@@ -52,7 +51,7 @@ Skim summary statistics
  n obs: 250 
  n variables: 4 
 
-── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete   n mean    sd p0 p50 p100
    camper       0      250 250 0.59  0.49  0   1    1
     child       0      250 250 0.68  0.85  0   0    3
@@ -64,16 +63,18 @@ Skim summary statistics
 
 
 ```r
-df = mutate(df, camper = factor(camper))
+df_fish = mutate(df_fish, camper = factor(camper))
 ```
 
 Наша задача - по имеющимся данным предсказать улов. Для начала посмотрим на распределение объясняемой переменной `count`.
 
 ```r
-ggplot(df, aes(x = count)) + geom_histogram(binwidth = 1) + labs(x = 'count', y = 'frequency', title = 'Distribution of count variable')
+ggplot(df_fish, aes(x = count)) + 
+  geom_histogram(binwidth = 1) + 
+  labs(x = 'count', y = 'frequency', title = 'Distribution of count variable')
 ```
 
-![](05-poisreg_files/figure-epub3/hist-1.png)<!-- -->
+<img src="05-poisreg_files/figure-html/hist-1.png" width="672" />
 
 Предположим, что переменная имеет распределение Пуассона. Будем использовать пуассоновскую регрессию. 
 \[
@@ -83,15 +84,15 @@ P(y=k)=exp(-\lambda) \lambda^k / k!
 
 
 ```r
-poisson = glm(count ~ child + camper +  persons, family = "poisson", data = df)
-summary(poisson)
+poisson_model = glm(count ~ child + camper +  persons, family = "poisson", data = df_fish)
+summary(poisson_model)
 ```
 
 ```
 
 Call:
 glm(formula = count ~ child + camper + persons, family = "poisson", 
-    data = df)
+    data = df_fish)
 
 Deviance Residuals: 
     Min       1Q   Median       3Q      Max  
@@ -118,17 +119,69 @@ Number of Fisher Scoring iterations: 6
 Посчитаем средний предельный эффект для каждой переменной.
 
 ```r
-colMeans(marginal_effects(poisson))
+m = margins(poisson_model)
+summary(m)
 ```
 
 ```
-Error in marginal_effects(poisson): could not find function "marginal_effects"
+  factor     AME     SE        z      p   lower   upper
+ camper1  2.5815 0.2137  12.0800 0.0000  2.1626  3.0003
+   child -5.5701 0.3300 -16.8779 0.0000 -6.2169 -4.9233
+ persons  3.5968 0.1801  19.9697 0.0000  3.2438  3.9498
 ```
+
+```r
+cplot(poisson_model, x = 'persons', what = 'effect', title = 'Предельный эффект переменной camper')
+```
+
+<img src="05-poisreg_files/figure-html/mef-1.png" width="672" />
+
+```r
+margins(poisson_model, at = list(child = 0:1)) # или в какой-нибудь точке
+```
+
+```
+ at(child)   child persons camper1
+         0 -12.948   8.361   6.343
+         1  -2.389   1.543   1.171
+```
+
+```r
+plot_model(poisson_model, type = 'pred')
+```
+
+```
+$child
+```
+
+<img src="05-poisreg_files/figure-html/mef-2.png" width="672" />
+
+```
+
+$camper
+```
+
+<img src="05-poisreg_files/figure-html/mef-3.png" width="672" />
+
+```
+
+$persons
+```
+
+<img src="05-poisreg_files/figure-html/mef-4.png" width="672" />
+
+```r
+plot_model(poisson_model, type = "pred", terms = c("child [0, 0, 1]", "persons [1,3]"))
+```
+
+<img src="05-poisreg_files/figure-html/mef-5.png" width="672" />
 
 Однако, заметим, что дисперсия и среднее значение объясняемой переменной не равны, как это предполагает распределение Пуассона.
 
 ```r
-df %>% group_by(camper) %>% summarize(var = var(count), mean = mean(count))
+df_fish %>% 
+  group_by(camper) %>% 
+  summarize(var = var(count), mean = mean(count))
 ```
 
 ```
@@ -143,14 +196,14 @@ df %>% group_by(camper) %>% summarize(var = var(count), mean = mean(count))
 
 
 ```r
-nb1 = glm.nb(count ~ child + camper +  persons, data = df)
+nb1 = glm.nb(count ~ child + camper +  persons, data = df_fish)
 summary(nb1)
 ```
 
 ```
 
 Call:
-glm.nb(formula = count ~ child + camper + persons, data = df, 
+glm.nb(formula = count ~ child + camper + persons, data = df_fish, 
     init.theta = 0.4635287626, link = log)
 
 Deviance Residuals: 
@@ -203,11 +256,11 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 Можем посмотреть на результаты модели с "раздутыми нулями" (zero-inflated). Они предполагают большую частоту нулевых наблюдений.
 
 ```r
-zero_infl = zeroinfl(count ~ child + camper | persons, data = df, dist = 'negbin')
+zero_infl = zeroinfl(count ~  child + camper | persons, data = df_fish, dist = 'negbin')
 ```
 
 ```
-Error in zeroinfl(count ~ child + camper | persons, data = df, dist = "negbin"): could not find function "zeroinfl"
+Error in zeroinfl(count ~ child + camper | persons, data = df_fish, dist = "negbin"): could not find function "zeroinfl"
 ```
 
 ```r
@@ -218,14 +271,198 @@ summary(zero_infl)
 Error in summary(zero_infl): object 'zero_infl' not found
 ```
 
+```r
+plot_model(zero_infl, type = 'pred')
+```
 
-#### То же самое в стате
+```
+Error in insight::model_info(model): object 'zero_infl' not found
+```
+
+## python
+
+Нужные пакетики:
+
+```python
+import pandas as pd # для работы с таблицами
+import numpy as np # математика, работа с матрицами
+import matplotlib.pyplot as plt # графики
+import statsmodels.api as sm
+import statsmodels.formula.api as smf
+import statsmodels.graphics.gofplots as gf
+from statsmodels.stats.outliers_influence import summary_table
+import seaborn as sns # еще более классные графики
+from scipy.stats import shapiro # еще математика
+import statsmodels.discrete.discrete_model
+from statsmodels.discrete.count_model import ZeroInflatedPoisson
+
+plt.style.use('ggplot')
+```
 
 Загружаем данные и смотрим описательные статистики.
 
+```python
+df_fish = pd.read_stata('data/fish.dta')
+```
+
+
+```python
+sns.distplot(df_fish['count'])
+plt.show()
+```
+
+<img src="05-poisreg_files/figure-html/unnamed-chunk-3-1.png" width="672" />
+
+Превращаем переменную `camper` в категориальную.
+
+```python
+df_fish['camper'] = df_fish['camper'].astype('category')
+```
+
+Строим Пуассоновскую регрессию.
+
+```python
+pois = statsmodels.discrete.discrete_model.Poisson(endog = count, exog = np.array(child, camper, persons), data=df_fish)
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'count' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+```python
+regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
+                    family=sm.families.Poisson()).fit()
+regr_pois.summary()
+```
+
+```
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:                  count   No. Observations:                  250
+Model:                            GLM   Df Residuals:                      246
+Model Family:                 Poisson   Df Model:                            3
+Link Function:                    log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -837.07
+Date:                 Чт, 26 сен 2019   Deviance:                       1337.1
+Time:                        17:30:25   Pearson chi2:                 2.91e+03
+No. Iterations:                     6                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      -1.9818      0.152    -13.016      0.000      -2.280      -1.683
+camper[T.1]     0.9309      0.089     10.450      0.000       0.756       1.106
+child          -1.6900      0.081    -20.866      0.000      -1.849      -1.531
+persons         1.0913      0.039     27.799      0.000       1.014       1.168
+===============================================================================
+"""
+```
+
+Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
+
+```python
+(df_fish
+ .filter(['count', 'camper'])
+ .groupby('camper')
+ .agg(['mean', 'var']))
+```
+
+```
+           count            
+            mean         var
+camper                      
+0       1.524272   21.055778
+1       4.537415  212.400988
+```
+
+И регрессию с остатками, имеющими отрицательное биномиальное распределение.
+
+```python
+regr_bin = smf.glm('count ~ child + camper +  persons', data=df_fish,
+              family=sm.families.NegativeBinomial()).fit()
+
+regr_bin.summary()
+```
+
+```
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                 Generalized Linear Model Regression Results                  
+==============================================================================
+Dep. Variable:                  count   No. Observations:                  250
+Model:                            GLM   Df Residuals:                      246
+Model Family:        NegativeBinomial   Df Model:                            3
+Link Function:                    log   Scale:                          1.0000
+Method:                          IRLS   Log-Likelihood:                -417.63
+Date:                 Чт, 26 сен 2019   Deviance:                       316.92
+Time:                        17:30:25   Pearson chi2:                     938.
+No. Iterations:                     8                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          z      P>|z|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      -1.6582      0.261     -6.351      0.000      -2.170      -1.147
+camper[T.1]     0.6599      0.182      3.636      0.000       0.304       1.016
+child          -1.7314      0.147    -11.787      0.000      -2.019      -1.443
+persons         1.0547      0.086     12.253      0.000       0.886       1.223
+===============================================================================
+"""
+```
+ 
+Проверим гипотезу о равенстве 0 коэффициента при переменной `camper`. Проведем тест Вальда.
+
+```python
+hyp = '(child = 0)'
+regr_bin.wald_test(hyp)
+```
+
+```
+<class 'statsmodels.stats.contrast.ContrastResults'>
+<Wald test (chi2): statistic=[[138.9233986]], p-value=4.577705644901894e-32, df_denom=1>
+```
+
+Посчитаем средний предельный эффект для каждой переменной.
+
+```python
+pred = regr_pois.fittedvalues
+mean_mef_child = np.mean([regr_pois.params[1] * p for p in pred])
+mean_mef_camper = np.mean([regr_pois.params[2] * p for p in pred])
+
+data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
+data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
+mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
+                            for i in range(len(df_fish))])
+```
+
+
+```python
+plot_model(regr_pois, type = 'effect', terms = 'camper')
+```
+
+```
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plot_model' is not defined
+
+Detailed traceback: 
+  File "<string>", line 1, in <module>
+```
+
+
+И модель с раздутыми нулями. (которой нет)
+
+
+## stata
+
+
+
+Загружаем данные и смотрим описательные статистики.
 
 ```stata
-use fish.dta
+use data/fish.dta
 summarize
 ```
 
@@ -242,10 +479,8 @@ summarize
 ```stata
 hist count
 ```
+![](hist_pois.png)
 
-```
-(bin=15, start=0, width=9.9333333)
-```
 
 Строим Пуассоновскую регрессию. 
 В описательных статистиках:
@@ -253,12 +488,16 @@ $AIC = -2log(L) + 2k$
 $AIC = -2log(L) + klog(N)$
 
 
-
 ```stata
 glm count camper child persons, family(poisson)
 ```
 
 ```
+ translator Graph2png not found
+r(111);
+
+
+
 Iteration 0:   log likelihood = -965.92815  
 Iteration 1:   log likelihood = -837.97093  
 Iteration 2:   log likelihood = -837.07307  
@@ -296,14 +535,15 @@ estat ic
 ```
 
 ```
-Akaike's information criterion and Bayesian information criterion
+ translator Graph2png not found
+r(111);
 
------------------------------------------------------------------------------
-       Model |        Obs  ll(null)  ll(model)      df         AIC        BIC
--------------+---------------------------------------------------------------
-           . |        250         .  -837.0725       4    1682.145   1696.231
------------------------------------------------------------------------------
-               Note: N=Obs used in calculating BIC; see [R] BIC note.
+
+last estimates not found
+r(301);
+
+end of do-file
+r(301);
 ```
 
 Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
@@ -313,6 +553,11 @@ tabstat count, by(camper) stat(mean, variance) nototal
 ```
 
 ```
+ translator Graph2png not found
+r(111);
+
+
+
 Summary for variables: count
      by categories of: camper (CAMPER)
 
@@ -330,6 +575,11 @@ nbreg count child camper persons
 ```
 
 ```
+ translator Graph2png not found
+r(111);
+
+
+
 Fitting Poisson model:
 
 Iteration 0:   log likelihood = -841.58831  
@@ -376,45 +626,30 @@ LR test of alpha=0: chibar2(01) = 863.70               Prob >= chibar2 = 0.000
 Проверим гипотезу о равенстве 0 коэффицинта при переменной `camper`. Проведем тест Вальда.
 
 ```stata
-quietly: nbreg count child i.camper persons #скрыть вывод регрессии
+quietly: nbreg count child i.camper persons 
 test i.camper 
 ```
 
 ```
-# invalid name
+ translator Graph2png not found
+r(111);
+
+
+
+i:  operator invalid
 r(198);
 
 end of do-file
 r(198);
 ```
 
-Посчитаем средний предельный эффект для каждоый переменной.
+Посчитаем средний предельный эффект для каждой переменной.
 
 ```stata
 margins, dydx(*)
+marginsplot
 ```
-
-```
- # invalid name
-r(198);
-
-
-
-Average marginal effects                        Number of obs     =        250
-Model VCE    : OIM
-
-Expression   : Predicted number of events, predict()
-dy/dx w.r.t. : child camper persons
-
-------------------------------------------------------------------------------
-             |            Delta-method
-             |      dy/dx   Std. Err.      z    P>|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-       child |  -5.842234   1.494053    -3.91   0.000    -8.770524   -2.913943
-      camper |   2.038045   .8917015     2.29   0.022     .2903418    3.785748
-     persons |   3.480692   .9200607     3.78   0.000     1.677406    5.283978
-------------------------------------------------------------------------------
-```
+![](margins_plot.png)
 
 И модель с раздутыми нулями.
 
@@ -423,8 +658,8 @@ zinb count child i.camper, inflate(persons)
 ```
 
 ```
- # invalid name
-r(198);
+ translator Graph2png not found
+r(111);
 
 
 
@@ -474,173 +709,3 @@ inflate      |
        alpha |   2.678758   .4713275                      1.897425    3.781834
 ------------------------------------------------------------------------------
 ```
-
-
-#### То же самое в python
-
-Нужные пакетики:
-
-```python
-import seaborn as sns
-import matplotlib.pyplot as plt
-import numpy as np
-import pandas as pd
-plt.style.use('ggplot')
-```
-
-Загружаем данные и смотрим описательные статистики.
-
-```python
-df_fish = pd.read_stata('fish.dta')
-```
-
-
-```python
-sns.distplot(df_fish['count'])
-plt.show()
-```
-
-<img src="05-poisreg_files/figure-epub3/unnamed-chunk-12-1.png" width="480" />
-
-Превращаем переменную `camper` в категориальную.
-
-```python
-df_fish['camper']=df_fish['camper'].astype('category')
-```
-
-Строим Пуассоновскую регрессию.
-
-```python
-regr_pois = smf.glm('count ~ child + camper +  persons', data=df_fish,
-                    family=sm.families.Poisson(link=sm.families.links.log)).fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'smf' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-regr_pois.summary()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
-
-```python
-(df_fish
- .filter(['count', 'camper'])
- .groupby('camper')
- .agg(['mean', 'var']))
-```
-
-```
-           count            
-            mean         var
-camper                      
-0       1.524272   21.055778
-1       4.537415  212.400988
-```
-
-И регрессию с остатками, имеющими отрицательное биномиальное распределение.
-
-```python
-regr_bin = smf.glm('count ~ child + camper +  persons', data=df_fish,
-              family=sm.families.NegativeBinomial(link=sm.families.links.log)).fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'smf' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
- 
-Проверим гипотезу о равенстве 0 коэффициента при переменной `camper`. Проведем тест Вальда.
-
-```python
-hyp = '(camper = 0)'
-regr_bin.wald_test(hyp)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_bin' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Посчитаем средний предельный эффект для каждой переменной.
-
-```python
-pred = regr_pois.fittedvalues
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mean_mef_child = np.mean([regr_pois.params[1] * p for p in pred])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pred' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mean_mef_camper = np.mean([regr_pois.params[2] * p for p in pred])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pred' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-data_1 = pd.DataFrame({'child': df_fish['child'], 'camper': 1, 'persons': df_fish['persons']})
-data_0 = pd.DataFrame({'child': df_fish['child'], 'camper': 0, 'persons': df_fish['persons']})
-mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data_0)[i]) 
-                            for i in range(len(df_fish))])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'regr_pois' is not defined
-
-Detailed traceback: 
-  File "<string>", line 2, in <module>
-  File "<string>", line 2, in <listcomp>
-```
-
-И модель с раздутыми нулями.
-
-```python
-1
-```
-
-```
-1
-```
-
-
-Проблемы:
-
-2) предельные эффекты в Питоне
-3) clogit ВООБЩЕ НЕ ПОЛУЧАЕТСЯ
-

@@ -1,13 +1,46 @@
 # Гетероскедастичность в простой регрессии {#heterosked}
+```{r stata_py_setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+if (Sys.getenv("USER") == "boris") {
+  stataexe <- find_stata()
+}
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+  stataexe <- find_stata()
+}
+if (Sys.getenv("USER") == "Sasha") {
+  use_python('/Users/Sasha/anaconda3/bin/python3')
+  stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
+}
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  Sys.setenv(language = "russian")
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Library/bin",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/Scripts",
+                       Sys.getenv()["PATH"], sep = ";"))
+  Sys.setenv(PATH = paste("C:/Users/DNS/Anaconda3/",
+                       Sys.getenv()["PATH"], sep = ";"))
+  use_condaenv("base")
+  use_python("C:/Users/DNS/Anaconda3/python.exe")
+  pandas = reticulate::import("pandas")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+if (Sys.getenv("USERNAME") == "The_sun") {
+  use_python("Users/The_sun/Anaconda3/python.exe")
+  stataexe = "C:/Program Files (x86)/Stata13/StataMP-64.exe"
+}
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+```
 
 ```{r setup, include=FALSE}
-library("texreg")
-library("Statamarkdown")
-library("reticulate")
-library ("knitr")
-library("dplyr")
-library("rmarkdown")
-use_python("/Users/Юлия/AppData/Local/Programs/Python/Python37/python.exe")
+library(texreg)
+library(Statamarkdown)
+library(reticulate)
+library (knitr)
+library(dplyr)
+library(rmarkdown)
 stataexe <- find_stata()
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 opts_chunk$set(fig.align = 'center') # выравнивание картинок по центру
@@ -22,7 +55,7 @@ opts_chunk$set(fig.align = 'center') # выравнивание картинок
 
 Вызовем **r** в помощь в охоте на гетероскедастичность. Импортируем его оружейные пакеты.
 ```{r, message=FALSE, warning=FALSE}
-library(rio) # чтение dta - файлов
+library(rio) # импорт и экспорт данных в разных форматах
 library(dplyr) # манипуляции с данными
 library(lmtest) # тест Бройша-Пагана
 library(sandwich) # оценка дисперсии при гетероскедастичности
@@ -110,7 +143,7 @@ H_1: \sigma^2_i \propto f(\alpha_0 + \alpha_1 \cdot Z_1 +  \ldots + \alpha_p \cd
 bptest(reg, studentize=FALSE)
 ```
 
-Современная модификация теста не требует нормальности остатков, лишь $$\E{\varepsilon^4_i} = const$$.
+Современная модификация теста не требует нормальности остатков, лишь $${\mathbb E}({\varepsilon^4_i}) = const$$.
 На первом шаге строится исходная регрессия и сохраняются остатки. Затем строится состоятельная оценка дисперсии:
 \[
 \hat{\sigma}^2 = \frac{1}{n} \cdot \sum_{i=1}^{n} {e^2_i}
@@ -172,6 +205,7 @@ gqtest(reg_gqtest, fraction=0.34) # посередине отсортирова�
 \frac{\beta_0}{\hat{\sigma}_i} + 
 \frac{\beta_{\ln{(kitsp)}} \cdot \ln{(kitsp_i)}}{\hat{\sigma}_i} + \frac{\beta_{\ln{(livesp)}} \cdot \ln{(livesp_i)}}{\hat{\sigma}_i} + \frac{\beta_{\ln{(dist)}} \cdot \ln{(dist_i)}}{\hat{\sigma}_i} + \frac{\beta_{\ln{(metrdist)}} \cdot \ln{(metrdist_i)}}{\hat{\sigma}_i} + \frac{\varepsilon_i}{\hat{\sigma}_i}
 \]
+
 В **r** это можно сделать так:
 ```{r}
 reg_wls = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data=flats, weights = 1 / (1 / fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2))
@@ -180,8 +214,7 @@ summary(reg_wls)
 Способ 2. Робастные оценки Уайта.
 
 ```{r}
-reg_robust = lm_robust(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data=flats)
-summary(reg_robust)
+coeftest(reg, vcov = vcovHC(reg, "HC0"))
 ```
 Робастные оценки коэффициентов регрессии получаются состоятельными. 
 
