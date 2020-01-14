@@ -41,11 +41,11 @@ Skim summary statistics
  n obs: 1388 
  n variables: 15 
 
-── Variable type:logical ───────────────────────────────────────────────────────────────────
+── Variable type:logical ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete    n mean                      count
     smoke       0     1388 1388 0.15 FAL: 1176, TRU: 212, NA: 0
 
-── Variable type:numeric ───────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete    n   mean    sd     p0    p25    p50    p75
     bwght       0     1388 1388 118.7  20.35  23    107    120    132   
  bwghtlbs       0     1388 1388   7.42  1.27   1.44   6.69   7.5    8.25
@@ -89,11 +89,11 @@ Skim summary statistics
  n obs: 1191 
  n variables: 15 
 
-── Variable type:logical ───────────────────────────────────────────────────────────────────
+── Variable type:logical ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete    n mean                      count
     smoke       0     1191 1191 0.14 FAL: 1030, TRU: 161, NA: 0
 
-── Variable type:numeric ───────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
  variable missing complete    n    mean    sd     p0    p25    p50    p75
     bwght       0     1191 1191 119.53  20.14  23    108    120    132   
  bwghtlbs       0     1191 1191   7.47   1.26   1.44   6.75   7.5    8.25
@@ -452,115 +452,38 @@ Deviance                                        862.11        858.93
 ```python
 import numpy as np
 import pandas as pd # чтение файлов
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import matplotlib.pyplot as plt # построение графиков
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.formula.api import logit, probit, ols # построение логит-, пробит - и линейной регрессий
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statistics # описательные статистики
 import sklearn
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'sklearn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from sklearn import metrics # для работы с классификационными матрицами
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'sklearn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from sklearn.metrics import roc_curve, auc  # ROC-curve и AUC
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'sklearn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from scipy.stats.distributions import chi2 # хи-квадрат-статистика
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'scipy'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 Загрузим данные:
 
 ```python
 data = pd.read_stata("data/bwght.dta")
 ```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
 Уберём пропущенные данные.Выведем описательные статистики по данным.
 
 ```python
 data_2 = data.dropna()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_2.describe()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_2' is not defined
+            faminc       cigtax  ...        packs      lfaminc
+count  1191.000000  1191.000000  ...  1191.000000  1191.000000
+mean     32.219143    19.603275  ...     0.088455     3.276755
+std      17.956232     7.859841  ...     0.267190     0.715159
+min       0.500000     2.000000  ...     0.000000    -0.693147
+25%      18.500000    15.000000  ...     0.000000     2.917771
+50%      27.500000    20.000000  ...     0.000000     3.314186
+75%      42.500000    26.000000  ...     0.000000     3.749504
+max      65.000000    38.000000  ...     2.000000     4.174387
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+[8 rows x 14 columns]
 ```
 Создадим бинарную переменную `smoke`:
 
@@ -569,67 +492,67 @@ data_2['smoke'] = 1 * (data_2['cigs']>0)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_2' is not defined
+/home/boris/anaconda3/bin//python:1: SettingWithCopyWarning: 
+A value is trying to be set on a copy of a slice from a DataFrame.
+Try using .loc[row_indexer,col_indexer] = value instead
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+See the caveats in the documentation: http://pandas.pydata.org/pandas-docs/stable/indexing.html#indexing-view-versus-copy
 ```
 Построим модель линейной вероятности:
 
 ```python
 lin_prob_model = ols("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white", data_2).fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ols' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 lin_prob_model.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'lin_prob_model' is not defined
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:                  smoke   R-squared:                       0.064
+Model:                            OLS   Adj. R-squared:                  0.059
+Method:                 Least Squares   F-statistic:                     11.65
+Date:                 Чт, 26 сен 2019   Prob (F-statistic):           2.18e-14
+Time:                        17:30:03   Log-Likelihood:                -372.09
+No. Observations:                1191   AIC:                             760.2
+Df Residuals:                    1183   BIC:                             800.8
+Df Model:                           7                                         
+Covariance Type:            nonrobust                                         
+==============================================================================
+                 coef    std err          t      P>|t|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.4297      0.227      1.893      0.059      -0.016       0.875
+faminc        -0.0015      0.001     -2.342      0.019      -0.003      -0.000
+cigtax         0.0008      0.003      0.317      0.752      -0.004       0.006
+cigprice       0.0007      0.002      0.374      0.708      -0.003       0.005
+fatheduc      -0.0065      0.005     -1.366      0.172      -0.016       0.003
+motheduc      -0.0242      0.005     -4.542      0.000      -0.035      -0.014
+parity         0.0020      0.011      0.177      0.860      -0.020       0.024
+white          0.0472      0.027      1.723      0.085      -0.007       0.101
+==============================================================================
+Omnibus:                      400.127   Durbin-Watson:                   2.006
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):              939.987
+Skew:                           1.901   Prob(JB):                    7.66e-205
+Kurtosis:                       5.117   Cond. No.                     3.26e+03
+==============================================================================
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+[2] The condition number is large, 3.26e+03. This might indicate that there are
+strong multicollinearity or other numerical problems.
+"""
 ```
 Создадим переменную `predictions__lin_prob_model`, равную прогнозным значениям модели линейной вероятности, и посмотрим на число совпадений исходных и прогнозных данных.
 
 ```python
 predictions_lin_prob_model = lin_prob_model.predict(data_2)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'lin_prob_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_2['smoke_ols'] = 1 * (predictions_lin_prob_model>0.5)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'predictions_lin_prob_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 sum(data_2['smoke']==data_2['smoke_ols'])
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_2' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+1030
 ```
 Построим логит-модель.
 
@@ -638,10 +561,9 @@ logit_model = logit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + mothedu
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Optimization terminated successfully.
+         Current function value: 0.361927
+         Iterations 7
 ```
 
 ```python
@@ -649,33 +571,58 @@ logit_model.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                  smoke   No. Observations:                 1191
+Model:                          Logit   Df Residuals:                     1183
+Method:                           MLE   Df Model:                            7
+Date:                 Чт, 26 сен 2019   Pseudo R-squ.:                 0.08631
+Time:                        17:30:03   Log-Likelihood:                -431.06
+converged:                       True   LL-Null:                       -471.78
+Covariance Type:            nonrobust   LLR p-value:                 6.999e-15
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.9606      2.084      0.461      0.645      -3.123       5.044
+faminc        -0.0171      0.006     -2.678      0.007      -0.030      -0.005
+cigtax         0.0139      0.024      0.567      0.571      -0.034       0.062
+cigprice       0.0042      0.018      0.227      0.820      -0.032       0.040
+fatheduc      -0.0546      0.042     -1.306      0.191      -0.137       0.027
+motheduc      -0.2245      0.049     -4.560      0.000      -0.321      -0.128
+parity        -0.0084      0.097     -0.087      0.931      -0.199       0.182
+white          0.4366      0.260      1.678      0.093      -0.074       0.947
+==============================================================================
+"""
 ```
 Посчитаем предельные эффекты в средних значениях переменных для логистической регрессии.
 
 ```python
 me_mean = logit_model.get_margeff(at='mean')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 me_mean.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'me_mean' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+        Logit Marginal Effects       
+=====================================
+Dep. Variable:                  smoke
+Method:                          dydx
+At:                              mean
+==============================================================================
+                dy/dx    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+faminc        -0.0017      0.001     -2.738      0.006      -0.003      -0.000
+cigtax         0.0014      0.002      0.568      0.570      -0.003       0.006
+cigprice       0.0004      0.002      0.227      0.820      -0.003       0.004
+fatheduc      -0.0054      0.004     -1.308      0.191      -0.013       0.003
+motheduc      -0.0220      0.005     -4.693      0.000      -0.031      -0.013
+parity        -0.0008      0.010     -0.087      0.931      -0.020       0.018
+white          0.0428      0.025      1.684      0.092      -0.007       0.093
+==============================================================================
+"""
 ```
 
 Посмотрим на точность классификации построенной логит-модели. Для этого вычислим прогнозные значения модели.
@@ -683,24 +630,7 @@ Detailed traceback:
 
 ```python
 predictions_logit_pred = logit_model.predict(data_2) # прогнозирование значений
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 data_2['smoke_logit_model'] = 1 * (predictions_logit_pred>0.5)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'predictions_logit_pred' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 Построим классификационную матрицу.
 
@@ -709,10 +639,8 @@ sklearn.metrics.confusion_matrix(data_2['smoke'], data_2['smoke_logit_model'])
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sklearn' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+array([[1027,    3],
+       [ 161,    0]])
 ```
 Точность прогноза и классификационные данные.
 
@@ -721,10 +649,7 @@ np.round(sklearn.metrics.accuracy_score(data_2['smoke'],data_2['smoke_logit_mode
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sklearn' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+0.86
 ```
 
 ```python
@@ -732,100 +657,22 @@ sklearn.metrics.classification_report(data_2['smoke'], data_2['smoke_logit_model
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sklearn' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+'              precision    recall  f1-score   support\n\n           0       0.86      1.00      0.93      1030\n           1       0.00      0.00      0.00       161\n\n    accuracy                           0.86      1191\n   macro avg       0.43      0.50      0.46      1191\nweighted avg       0.75      0.86      0.80      1191\n'
 ```
 Выведем ROC-кривую для логит-модели.
 
 ```python
 fpr, tpr, thresholds = metrics.roc_curve(data_2['smoke'], predictions_logit_pred)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'metrics' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 auc = metrics.roc_auc_score(data_2['smoke'], predictions_logit_pred)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'metrics' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.plot(fpr,tpr,label="auc="+str(np.round(auc, 2)))
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.legend(loc=4)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.xlabel('1-Specifity')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.ylabel('Sensitivity')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.title('ROC-curve')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="03-binchoice_files/figure-html/unnamed-chunk-32-1.png" width="672" style="display: block; margin: auto;" />
 Построим новую логит-модель (`logit_model_new`) без учёта переменной `white`.
 
 ```python
@@ -833,10 +680,9 @@ logit_model_new = logit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + mot
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Optimization terminated successfully.
+         Current function value: 0.363186
+         Iterations 7
 ```
 
 ```python
@@ -844,57 +690,43 @@ logit_model_new.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model_new' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                           Logit Regression Results                           
+==============================================================================
+Dep. Variable:                  smoke   No. Observations:                 1191
+Model:                          Logit   Df Residuals:                     1184
+Method:                           MLE   Df Model:                            6
+Date:                 Чт, 26 сен 2019   Pseudo R-squ.:                 0.08314
+Time:                        17:30:03   Log-Likelihood:                -432.55
+converged:                       True   LL-Null:                       -471.78
+Covariance Type:            nonrobust   LLR p-value:                 7.492e-15
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      1.5094      2.058      0.733      0.463      -2.524       5.543
+faminc        -0.0152      0.006     -2.426      0.015      -0.027      -0.003
+cigtax         0.0186      0.024      0.766      0.444      -0.029       0.066
+cigprice       0.0019      0.018      0.103      0.918      -0.034       0.038
+fatheduc      -0.0502      0.041     -1.217      0.224      -0.131       0.031
+motheduc      -0.2298      0.049     -4.692      0.000      -0.326      -0.134
+parity        -0.0183      0.097     -0.187      0.851      -0.209       0.173
+==============================================================================
+"""
 ```
 Так как на момент написания коана готовой реализации функции теста отношения правдоподобия нет, то сделаем его ручками.
 
 ```python
 L1 = logit_model.llf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 L2 = logit_model_new.llf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'logit_model_new' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 def likelihood_ratio(llmin, llmax):
 	return(2*(max(llmax, llmin) - min(llmax, llmin)))
 LR = likelihood_ratio (L1, L2)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'L1' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 np.round(chi2.sf(LR, 1), 2) # расчёт p-value для теста
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'chi2' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+0.08
 ```
 Основная гипотеза о незначимости фактора `white` не отвергается на 5% уровне значимости. 
 Построим пробит-модель.
@@ -904,10 +736,9 @@ probit_model = probit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + mothe
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'probit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Optimization terminated successfully.
+         Current function value: 0.360591
+         Iterations 6
 ```
 
 ```python
@@ -915,10 +746,30 @@ probit_model.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'probit_model' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                          Probit Regression Results                           
+==============================================================================
+Dep. Variable:                  smoke   No. Observations:                 1191
+Model:                         Probit   Df Residuals:                     1183
+Method:                           MLE   Df Model:                            7
+Date:                 Чт, 26 сен 2019   Pseudo R-squ.:                 0.08969
+Time:                        17:30:03   Log-Likelihood:                -429.46
+converged:                       True   LL-Null:                       -471.78
+Covariance Type:            nonrobust   LLR p-value:                 1.566e-15
+==============================================================================
+                 coef    std err          z      P>|z|      [0.025      0.975]
+------------------------------------------------------------------------------
+Intercept      0.3931      1.115      0.352      0.725      -1.793       2.579
+faminc        -0.0089      0.003     -2.622      0.009      -0.016      -0.002
+cigtax         0.0059      0.013      0.447      0.655      -0.020       0.032
+cigprice       0.0036      0.010      0.363      0.717      -0.016       0.023
+fatheduc      -0.0346      0.023     -1.489      0.137      -0.080       0.011
+motheduc      -0.1257      0.027     -4.622      0.000      -0.179      -0.072
+parity        -0.0031      0.054     -0.057      0.955      -0.109       0.103
+white          0.2423      0.140      1.735      0.083      -0.031       0.516
+==============================================================================
+"""
 ```
 Расчёт предельных эффектов, точности классификации, визуализация ROC-кривой и проведение LR-теста проводятся аналогично операциям с логит-моделью.
 Сравнение моделей.
@@ -928,10 +779,15 @@ pd.DataFrame(dict(col1=lin_prob_model.params, col2=logit_model.params, col3=prob
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+               col1      col2      col3
+Intercept  0.429707  0.960628  0.393063
+faminc    -0.001481 -0.017142 -0.008873
+cigtax     0.000833  0.013859  0.005892
+cigprice   0.000747  0.004156  0.003561
+fatheduc  -0.006488 -0.054616 -0.034593
+motheduc  -0.024242 -0.224467 -0.125694
+parity     0.001956 -0.008435 -0.003053
+white      0.047160  0.436632  0.242348
 ```
 
 ## stata

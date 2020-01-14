@@ -339,13 +339,11 @@ clear all
 ```
 
 Загружаем данные. 
-
 ```{stata}
 use data/us-return.dta
 ```
 
 Любуемся и даем новые названия столбцам.
-
 ```{stata}
 summarize
 ren A n

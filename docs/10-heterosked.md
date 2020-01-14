@@ -45,12 +45,12 @@ Skim summary statistics
  n obs: 773 
  n variables: 44 
 
-── Variable type:character ─────────────────────────────────────────────────────────────────
+── Variable type:character ───────────────────────────────────────────────────────────────────────────────────────────────────────
                    variable missing complete   n min max empty n_unique
                       okrug       0      773 773   0   4     1        4
  sanuzel__1_razdel__0_sovm_       0      773 773   1   2     0        3
 
-── Variable type:numeric ───────────────────────────────────────────────────────────────────
+── Variable type:numeric ─────────────────────────────────────────────────────────────────────────────────────────────────────────
          variable missing complete   n        mean         sd         p0
               bal       0      773 773       0.53        0.5        0   
             brick       0      773 773       0.16        0.37       0   
@@ -401,54 +401,14 @@ Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
 ```python
 import numpy as np
 import pandas as pd # чтение файлов
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import matplotlib.pyplot as plt # построение графиков
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import seaborn as sns # построение графиков
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'seaborn'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.api as sm # тесты
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.formula.api import ols, WLS # построение регрессии
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
+Error in py_call_impl(callable, dots$args, dots$keywords): ImportError: cannot import name 'WLS' from 'statsmodels.formula.api' (/home/boris/anaconda3/lib/python3.7/site-packages/statsmodels/formula/api.py)
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -456,59 +416,52 @@ Detailed traceback:
 
 ```python
 import statsmodels
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.stats.diagnostic as sm_diagnostic # тест Бройша-Пагана
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 Загрузим исследуемый датасет.
 
 ```python
 flats = pd.read_stata("data/flats.dta")
 ```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'pd' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
 Построим линейную регрессионную модель.
 
 ```python
 reg = ols("ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist", flats).fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ols' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 reg.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg' is not defined
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:          ln_price_metr   R-squared:                       0.418
+Model:                            OLS   Adj. R-squared:                  0.415
+Method:                 Least Squares   F-statistic:                     137.9
+Date:                 Чт, 26 сен 2019   Prob (F-statistic):           9.06e-89
+Time:                        17:31:09   Log-Likelihood:                 38.744
+No. Observations:                 773   AIC:                            -67.49
+Df Residuals:                     768   BIC:                            -44.24
+Df Model:                           4                                         
+Covariance Type:            nonrobust                                         
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      14.1992      0.135    105.243      0.000      13.934      14.464
+ln_livesp      -0.1605      0.037     -4.312      0.000      -0.234      -0.087
+ln_kitsp       -0.2991      0.023    -13.007      0.000      -0.344      -0.254
+ln_dist        -0.3303      0.024    -13.952      0.000      -0.377      -0.284
+ln_metrdist    -0.0574      0.016     -3.679      0.000      -0.088      -0.027
+==============================================================================
+Omnibus:                       25.080   Durbin-Watson:                   1.309
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               26.855
+Skew:                           0.425   Prob(JB):                     1.47e-06
+Kurtosis:                       3.331   Cond. No.                         83.2
+==============================================================================
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+"""
 ```
 Визуализируем зависимости регрессоров и регрессанта.
 
@@ -517,22 +470,14 @@ sns.pairplot(flats, x_vars=["ln_metrdist", "ln_kitsp", "ln_livesp", "ln_dist"], 
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sns' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+<seaborn.axisgrid.PairGrid object at 0x7f4f7c44ec50>
 ```
 
 ```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="10-heterosked_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;" />
 Графики всё такие же красивые, как и в предыдущем пункте:) Подозрительны переменные `ln_kitsp` и `ln_metrdist`
 Проведём тесты на выявление гетероскедастичности в **python**.
 
@@ -540,35 +485,12 @@ Detailed traceback:
 
 ```python
 resid = reg.resid
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 X = flats[['ln_livesp', 'ln_kitsp', 'ln_dist', 'ln_metrdist']]
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'flats' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 sm_diagnostic.het_breuschpagan(resid=resid, exog_het=X)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sm_diagnostic' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+(242.3887600398093, 2.8968538727030817e-52, 87.82180928008509, 1.8044481939798466e-61)
 ```
 Интерпретация результатов теста: 
 
@@ -581,10 +503,7 @@ sm_diagnostic.het_goldfeldquandt(y=flats["ln_price_metr"], x=X, alternative="two
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sm_diagnostic' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+(0.5313884697477882, 8.827144512209523e-10, 'two-sided')
 ```
 Значение p-value близко к 0, следовательно, основная гипотеза о гомоскедастичности отвергается.
 
@@ -596,58 +515,81 @@ Detailed traceback:
 
 ```python
 reg_wls = statsmodels.regression.linear_model.WLS(flats["ln_price_metr"], X, weights=flats['ln_kitsp'])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'statsmodels' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 reg_wls_results = reg_wls.fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg_wls' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 reg_wls_results.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg_wls_results' is not defined
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                                 WLS Regression Results                                
+=======================================================================================
+Dep. Variable:          ln_price_metr   R-squared (uncentered):                   0.995
+Model:                            WLS   Adj. R-squared (uncentered):              0.995
+Method:                 Least Squares   F-statistic:                          3.763e+04
+Date:                 Чт, 26 сен 2019   Prob (F-statistic):                        0.00
+Time:                        17:31:09   Log-Likelihood:                         -997.20
+No. Observations:                 773   AIC:                                      2002.
+Df Residuals:                     769   BIC:                                      2021.
+Df Model:                           4                                                  
+Covariance Type:            nonrobust                                                  
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+ln_livesp       2.9582      0.071     41.469      0.000       2.818       3.098
+ln_kitsp       -0.1256      0.095     -1.316      0.189      -0.313       0.062
+ln_dist         1.1813      0.068     17.317      0.000       1.047       1.315
+ln_metrdist     0.2429      0.057      4.259      0.000       0.131       0.355
+==============================================================================
+Omnibus:                       13.564   Durbin-Watson:                   1.132
+Prob(Omnibus):                  0.001   Jarque-Bera (JB):               23.475
+Skew:                          -0.050   Prob(JB):                     7.99e-06
+Kurtosis:                       3.848   Cond. No.                         17.4
+==============================================================================
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+"""
 ```
 Способ 2. Использование робастных оценок.
 
 ```python
 reg_robust = reg.get_robustcov_results()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 reg_robust.summary()
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'reg_robust' is not defined
+<class 'statsmodels.iolib.summary.Summary'>
+"""
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:          ln_price_metr   R-squared:                       0.418
+Model:                            OLS   Adj. R-squared:                  0.415
+Method:                 Least Squares   F-statistic:                     102.5
+Date:                 Чт, 26 сен 2019   Prob (F-statistic):           5.95e-70
+Time:                        17:31:09   Log-Likelihood:                 38.744
+No. Observations:                 773   AIC:                            -67.49
+Df Residuals:                     768   BIC:                            -44.24
+Df Model:                           4                                         
+Covariance Type:                  HC1                                         
+===============================================================================
+                  coef    std err          t      P>|t|      [0.025      0.975]
+-------------------------------------------------------------------------------
+Intercept      14.1992      0.159     89.131      0.000      13.886      14.512
+ln_livesp      -0.1605      0.041     -3.917      0.000      -0.241      -0.080
+ln_kitsp       -0.2991      0.028    -10.500      0.000      -0.355      -0.243
+ln_dist        -0.3303      0.024    -13.736      0.000      -0.377      -0.283
+ln_metrdist    -0.0574      0.015     -3.937      0.000      -0.086      -0.029
+==============================================================================
+Omnibus:                       25.080   Durbin-Watson:                   1.309
+Prob(Omnibus):                  0.000   Jarque-Bera (JB):               26.855
+Skew:                           0.425   Prob(JB):                     1.47e-06
+Kurtosis:                       3.331   Cond. No.                         83.2
+==============================================================================
 
-Detailed traceback: 
-  File "<string>", line 1, in <module>
+Warnings:
+[1] Standard Errors are heteroscedasticity robust (HC1)
+"""
 ```
 
 ## stata

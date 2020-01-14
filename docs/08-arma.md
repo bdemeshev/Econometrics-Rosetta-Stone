@@ -252,93 +252,13 @@ Detailed traceback:
 ```python
 import datetime # работа с форматами даты и времени
 import matplotlib.pyplot as plt # построение графиков
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'matplotlib'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from pandas import Series # работа с временными рядами
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'pandas'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.tsa.arima_model import ARMA # ARMA-модели
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.graphics.tsaplots import plot_acf # построение графиков acf и pacf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.graphics.tsaplots import plot_pacf
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import statsmodels.api as sm
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 from statsmodels.stats import diagnostic as diag # тесты
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 import pmdarima as pm
 ```
 
@@ -362,13 +282,6 @@ Detailed traceback:
 
 ```python
 from statsmodels.tsa.stattools import adfuller # тест Дики-Фуллера
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): ModuleNotFoundError: No module named 'statsmodels'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
 ```
 Загрузим dataset:
 
@@ -422,32 +335,17 @@ Detailed traceback:
 
 ```python
 plt.title("Структурa временного ряда")
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-18-1.png" width="672" style="display: block; margin: auto;" />
 
 ```python
 plot_acf(apple_df, lags=20)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plot_acf' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_df' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -457,19 +355,14 @@ Detailed traceback:
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-18-2.png" width="672" style="display: block; margin: auto;" />
 
 ```python
 plot_pacf(apple_df, lags=20)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plot_pacf' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_df' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -479,12 +372,7 @@ Detailed traceback:
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-18-3.png" width="672" style="display: block; margin: auto;" />
 Появились очень знакомые (и красивые) графики. Важно отметить, что на графиках есть 0 - лаг, он равен единице, в предыдущих графиках его не было.
 
 Проверим стационарность ряда тестом Дики-Фуллера.
@@ -494,7 +382,7 @@ res = sm.tsa.adfuller(apple_df, regression='ct')
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sm' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_df' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -537,32 +425,17 @@ Detailed traceback:
 
 ```python
 plt.title("Структурa временного ряда")
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-21-1.png" width="672" style="display: block; margin: auto;" />
 
 ```python
 plot_acf(apple_diff, lags=50)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plot_acf' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_diff' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -572,19 +445,14 @@ Detailed traceback:
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-21-2.png" width="672" style="display: block; margin: auto;" />
 
 ```python
 plot_pacf(apple_diff, lags=50)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plot_pacf' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_diff' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -594,12 +462,7 @@ Detailed traceback:
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-21-3.png" width="672" style="display: block; margin: auto;" />
 Аналогично операциям в **r**, смоделируем данный ряд как `ARMA (0, 0)`.
 
 ```python
@@ -607,7 +470,7 @@ arma_00 = ARMA(apple_diff, order=(0, 0))
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ARMA' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_diff' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -641,7 +504,7 @@ arma_10 = ARMA(apple_diff, order=(1, 0))
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'ARMA' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'apple_diff' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -760,7 +623,7 @@ diag.acorr_ljungbox(residuals, lags=10, boxpierce=False)
 ```
 
 ```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'diag' is not defined
+Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'residuals' is not defined
 
 Detailed traceback: 
   File "<string>", line 1, in <module>
@@ -803,47 +666,12 @@ Detailed traceback:
 
 ```python
 plt.xlabel('Лаги')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.ylabel('Изменение цены')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.title('Изменение цены закрытия AAPL')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
 plt.show()
 ```
 
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'plt' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
+<img src="08-arma_files/figure-html/unnamed-chunk-29-1.png" width="672" style="display: block; margin: auto;" />
 
 ## stata
 
