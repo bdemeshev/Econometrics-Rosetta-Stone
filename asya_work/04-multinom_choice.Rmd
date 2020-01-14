@@ -46,6 +46,8 @@ if (Sys.getenv("USERNAME") == "The_sun") {
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
+## r
+
 Загрузим необходимые пакеты.
 ```{r "library", results='hide', message=FALSE, warning=FALSE}
 library(tidyverse) # для манипуляций с данными и построения графиков
@@ -58,24 +60,19 @@ library(nnet)
 library(questionr)
 library(MASS)
 library(survival)
-library(lattice)
-
 ```
 
-## r
-
-Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 - в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений - в облигации, смешанный способ и в акции.   
+Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 — в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанный способ и в акции.   
 ```{r "import data r", message=FALSE, warning=FALSE}
 df = rio::import("data/pension.dta")
 ```
 
 Начнем с пристального взгляда на описательные статистки. 
 ```{r "skim",  message=FALSE, warning=FALSE}
-skim_with(numeric = list(p25 = NULL, p75 = NULL)) 
 skim(df)
 ```
 
-Отсюда несложно заметить, что переменная `choice` - бинарная. И принимает значение `1`, если индивид в выборке имел право выбора схемы инвестирования. Переменнная `wealth98` - чистое богатство пенсионеров на 1989 год. Остальные переменные нас пока что не интересуют :)
+Отсюда несложно заметить, что переменная `choice` — бинарная. И принимает значение `1`, если индивид в выборке имел право выбора схемы инвестирования. Переменнная `wealth98` — чистое богатство пенсионеров на 1989 год. Остальные переменные нас пока что не интересуют :)
 
 
 Для начала разберемся с объясняемой переменной. Превратим её в факторную и упорядочим категории. 
@@ -118,12 +115,11 @@ fit_values = fitted(multmodel)
 
 \[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] - показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу
+\] показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
 
 ```{r "or",  message=FALSE, warning=FALSE}
 odds.ratio(multmodel) 
 ```
-
 
 Можем посчитать предельные эффекты в различных квартилях.
 ```{r "me",  message=FALSE, warning=FALSE}
@@ -137,7 +133,7 @@ margins(multmodel,at = list(age = 69, choice = 1))
 
 
 Теперь посмотрим на модель упорядоченного выбора :) Для нее возьмем другие данные. Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth). В ней представлены данные о 3705 молодых белых женщинах из США.
-Зависимая переменная tradrole – степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).
+Зависимая переменная tradrole — степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).
 
 ```{r "import tradrole r",  message=FALSE, warning=FALSE}
 data_nlsy = import('data/tradrole.dta')
@@ -151,9 +147,9 @@ ggplot(data_nlsy, aes(x = tradrole)) +
   ggtitle('Вот такие дела, джентельмены :)')
 ```
 
-Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
+Посмотрим, как влияет религиозное воспитание (`cath` — католичество и `fpro` — протестанство), число лет образования матери — `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
 ```{r "ordered r",  message=FALSE, warning=FALSE}
-oprobit <- polr(as.factor(tradrole) ~  as.factor(cath) + as.factor(fpro) + meduc + as.factor(urb), data = data_nlsy, method="probit", na.action = na.omit)
+oprobit = polr(as.factor(tradrole) ~  as.factor(cath) + as.factor(fpro) + meduc + as.factor(urb), data=data_nlsy, method="probit", na.action=na.omit)
 summary(oprobit)
 ```
 
@@ -163,7 +159,6 @@ summary(oprobit)
 ```
 
 ## python
-
 
 ```{python "pack", message=FALSE, warning=FALSE}
 import numpy as np
@@ -191,7 +186,7 @@ df.rename(columns = {'pctstck':'y'}, inplace = True)
 Подготовим данные для построения модели множественного выбора. Избавимся от пропусков в интересующих нас переменных и добавим вектор констант. 
 
 ```{python "data_prepor py",  message=FALSE, warning=FALSE}
-sub = df1[['y', 'choice', 'age', 'wealth89', 'prftshr', 'married']].dropna()
+sub = df[['y', 'choice', 'age', 'wealth89', 'prftshr', 'educ', 'married']].dropna()
 y = sub['y']
 X = sub[['choice', 'age', 'wealth89', 'prftshr']]
 X = st.add_constant(X, prepend = False)
@@ -260,81 +255,4 @@ plt.show('Вот такие дела, джентельмены :)')
 ```
 
 Дальше тоже пока печаль :(
-
-## stata
-
-```{stata, include=FALSE}
-clear all
-```
-
-```{stata "import data stata", message=FALSE, warning=FALSE}
-use data/pension.dta
-```
-
-```{stata "sum",  message=FALSE, warning=FALSE}
-sum
-```
-
-
-```{stata "ren",  message=FALSE, warning=FALSE}
-ren pctstck y
-```
-
-Построим модель множественного выбора (лог-линейная модель). 
-```{stata "mlogit",  message=FALSE, warning=FALSE}
-mlogit y choice age educ wealth89 prftshr,  baseoutcome(0) 
-```
-
-Кросс - табличка для объясняемой переменной и числа лет образования.
-```{stata, message=FALSE, warning=FALSE }
-table y educ
-```
-
-Можем посмотреть на прогнозы.
-```{stata "predict",  message=FALSE, warning=FALSE}
-predict p1 p2 p3, p
-```
-
-И посчитать относительное изменение отношения шансов:
-
-\[
-\frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу.
-В stata, в отличие от R, отношение шансов называется relative-risk ratio.
-
-```{stata "rrr",  message=FALSE, warning=FALSE}
-mlogit, rrr
-```
-
-
-Можем посчитать предельные эффекты в разных точках.
-```{stata "mfx",  message=FALSE, warning=FALSE}
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)
-```
-
-```{stata, include=FALSE}
-clear all
-```
-
-И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
-```{stata "import tradrole stata",  message=FALSE, warning=FALSE}
-use data/tradrole.dta
-
-sum
-```
-
-```{stata "hist tradrole stata",  message=FALSE, warning=FALSE}
-hist tradrole 'Вот такие дела, джентельмены :)')
-subtitle("Вот такие дела, джентельмены :)")
-```
-
-Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
-
-```{stata "ordered stata",  message=FALSE, warning=FALSE}
-oprobit tradrole i.cath i.fpro meduc i.urb
-```
 

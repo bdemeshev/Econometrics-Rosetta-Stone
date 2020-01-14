@@ -46,20 +46,20 @@ if (Sys.getenv("USERNAME") == "The_sun") {
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
+## r
+
 Загрузим необходимые пакеты.
 ```{r "packages", results='hide', message=FALSE, warning=FALSE}
-library(tidyverse) # работа с данными и графики
-library(skimr) # красивое summary
+library(tidyverse) # манипуляции с данными и построение графиков
+library(sjPlot) # визуализация моделей
+library(skimr) # симпатичное summary
 library(rio) # чтение .dta файлов
-library(MASS) # отрицательное биномиальное
-library(lmtest) # для проверки гипотез
+library(MASS) # отрицательное биномиальное распределение
+library(lmtest) # проверка гипотез
 library(pscl) # zero-inflation function
 library(margins) # для подсчета предельных эффектов
-library(sjPlot) # визуализация моделей
 ```
 
-
-## r
 
 Импортируем данные.
 ```{r "import data"}
@@ -224,67 +224,3 @@ plot_model(regr_pois, type = 'effect', terms = 'camper')
 
 
 И модель с раздутыми нулями. (которой нет)
-
-
-## stata
-
-```{stata, include=FALSE}
-clear all
-```
-
-Загружаем данные и смотрим описательные статистики.
-```{stata}
-use data/fish.dta
-summarize
-```
-
-```{stata, results = 'hide', echo = 1}
-hist count
-graph export hist_pois.png, replace
-```
-![](hist_pois.png)
-
-
-Строим Пуассоновскую регрессию. 
-В описательных статистиках:
-$AIC = -2log(L) + 2k$
-$AIC = -2log(L) + klog(N)$
-
-```{stata}
-glm count camper child persons, family(poisson)
-```
-
-Можем посчитать AIC и BIC по другой формуле, аналогично выводу R.
-$AIC = \frac {-2log(L) + 2k}{N}$
-```{stata}                
-estat ic
-```
-
-Посмотрим, равны ли среднее значение и дисперсия, как это предполагает распределение Пуассона.
-```{stata}
-tabstat count, by(camper) stat(mean, variance) nototal
-```
-
-Предположим, что остатки имеют отрицательное биномиальное распределение.
-```{stata}
-nbreg count child camper persons
-```
- 
-Проверим гипотезу о равенстве 0 коэффицинта при переменной `camper`. Проведем тест Вальда.
-```{stata}
-quietly: nbreg count child i.camper persons 
-test i.camper 
-```
-
-Посчитаем средний предельный эффект для каждой переменной.
-```{stata, results = 'hide', echo = 1:2}                
-margins, dydx(*)
-marginsplot
-graph export margins_plot.png, replace
-```
-![](margins_plot.png)
-
-И модель с раздутыми нулями.
-```{stata}  
-zinb count child i.camper, inflate(persons)
-```
