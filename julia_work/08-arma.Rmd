@@ -147,6 +147,8 @@ use_python("/users/yuliya/appdata/local/programs/python/python37-32")
 ```
 Импортируем необходимые пакеты.
 ```{python}
+import numpy as np
+import pandas as pd
 import quandl # импортирование данных из Сети
 import datetime # работа с форматами даты и времени
 import matplotlib.pyplot as plt # построение графиков
@@ -287,6 +289,9 @@ graph export pac.png
 ```
 ![](pac.png)
 
+На графиках видим отличные от предыдущих 2-х сетов графиков. Почему так происходит -- хороший исследовательский вопрос!https://stats.stackexchange.com/questions/169891/same-data-different-pacf-r-vs-stata рекомендует приписать ", yw" после "ac/pac", но это не работает на моём примере.
+
+Несмотря на выявленное различие, всё равно посмотрим процедуру анализа временного ряда в stata.
 
 Проверим стационарность ряда тестом Дики-Фуллера.
 ```{stata}
@@ -316,7 +321,7 @@ graph export pacc_1.png
 
 
 Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан `ARIMA (0, 0, 0)`, что равносильно `ARMA (0, 0)`, но всё же...
-`ARIMA (0, 0, 0)`.Можно также отдельно вывести AIC и BIC для построенной модели. Построим также модель `ARIMA (1, 0, 0)` для сравнения.
+`ARIMA (0, 0, 0)`. Можно также отдельно вывести AIC и BIC для построенной модели. Построим также модель `ARIMA (1, 0, 0)` для сравнения.
 ```{stata}
 arima Close_1, arima(0, 0, 0)
 estat ic
@@ -336,7 +341,7 @@ arima Close_1, arima(0, 0, 0)
 predict prognoz
 display prognoz
 ```
-
+Прогноз аналогичен полученным раньше.
 ```{stata, include=FALSE}
 save data/prognoz.dta, replace
 ```
