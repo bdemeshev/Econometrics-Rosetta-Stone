@@ -465,7 +465,7 @@ tcks      |    8     9    10    11    12    13    14    15    16    17    18
        50 |    1     1           3    34     4     6     2    14     5    14
       100 |          2     1     1    36     1     5     4     5     4     4
 ----------------------------------------------------------------------------</code></pre>
-<p>Можем посмотреть на прогнозы.</p>
+<p>Можем получить прогнозы вероятностей.</p>
 <pre class="stata"><code>predict p1 p2 p3, p</code></pre>
 <pre><code>(25 missing values generated)</code></pre>
 <p>И посчитать относительное изменение отношения шансов:</p>
@@ -504,7 +504,7 @@ Log likelihood = -204.50778                       Pseudo R2       =     0.0698
 
 margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
 
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)</code></pre>
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69 choice = 0)</code></pre>
 <pre><code>Conditional marginal effects                      Number of obs   =        201
 Model VCE    : OIM
 
@@ -550,24 +550,82 @@ at           : choice          =           0 (p25)
      prftshr |   -.061837   .1037161    -0.60   0.551    -.2651169    .1414428
 ------------------------------------------------------------------------------
 
-invalid &#39;asobserved&#39; 
-r(198);
 
-end of do-file
-r(198);</code></pre>
+Average marginal effects                          Number of obs   =        201
+Model VCE    : OIM
+
+Expression   : Pr(y==0), predict(outcome(0))
+dy/dx w.r.t. : choice age educ wealth89 prftshr
+at           : choice          =           0
+               age             =          69
+
+------------------------------------------------------------------------------
+             |            Delta-method
+             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      choice |  -.1438966   .0694576    -2.07   0.038    -.2800311   -.0077622
+         age |   .0231941   .0072441     3.20   0.001      .008996    .0373922
+        educ |  -.0275972    .014802    -1.86   0.062    -.0566086    .0014142
+    wealth89 |   .0000836   .0001511     0.55   0.580    -.0002125    .0003798
+     prftshr |  -.0727904   .0966843    -0.75   0.452    -.2622882    .1167074
+------------------------------------------------------------------------------</code></pre>
 <p>И вернемся к <del>сильным и независимым</del> моделькам упорядоченного выбора :)</p>
 <pre class="stata"><code>use data/tradrole.dta
 
 sum</code></pre>
-<pre><code> invalid &#39;asobserved&#39; 
+<pre><code>    Variable |       Obs        Mean    Std. Dev.       Min        Max
+-------------+--------------------------------------------------------
+      adjinc |      3705    8646.293      5910.1          0      49497
+         age |      3705    18.36154    2.239999   14.08333         22
+        cath |      3705    .3122807    .4634862          0          1
+        fpro |      3705    .2801619    .4491388          0          1
+          id |      3705    5603.128    3881.492          1      12676
+-------------+--------------------------------------------------------
+         inc |      3705    8.646293      5.9101          0     49.497
+       meduc |      3705    11.61296    2.528294          0         20
+        mw14 |      3705    .5033738    .5000561          0          1
+      nonint |      3705    .2504723    .4333435          0          1
+       nsibs |      3705    3.328475    2.164985          0         17
+-------------+--------------------------------------------------------
+          so |      3705    .2898785    .4537671          0          1
+    tradrole |      3705    1.783266     .779212          1          4
+         urb |      3705    .7581646    .4282529          0          1</code></pre>
+<pre class="stata"><code>hist tradrole &#39;Вот такие дела, джентельмены :)&#39;)
+#subtitle(&quot;Вот такие дела, джентельмены :)&quot;)</code></pre>
+<pre><code>&#39; invalid name
+r(198);
+
+end of do-file
+r(198);</code></pre>
+<p>Посмотрим, как влияет религиозное воспитание (<code>cath</code> - католичество и <code>fpro</code> - протестанство), число лет образования матери - <code>meduc</code> и проживание в крупном городе <code>urb</code> на объясняемую переменную.</p>
+<pre class="stata"><code>oprobit tradrole i.cath i.fpro meduc i.urb</code></pre>
+<pre><code> &#39; invalid name
 r(198);
 
 
-no; data in memory would be lost
-r(4);
 
-end of do-file
-r(4);</code></pre>
+Iteration 0:   log likelihood = -4036.3838  
+Iteration 1:   log likelihood = -3965.7419  
+Iteration 2:   log likelihood = -3965.7215  
+Iteration 3:   log likelihood = -3965.7215  
+
+Ordered probit regression                         Number of obs   =       3705
+                                                  LR chi2(4)      =     141.32
+                                                  Prob &gt; chi2     =     0.0000
+Log likelihood = -3965.7215                       Pseudo R2       =     0.0175
+
+------------------------------------------------------------------------------
+    tradrole |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
+-------------+----------------------------------------------------------------
+      1.cath |  -.0548061   .0445299    -1.23   0.218    -.1420831     .032471
+      1.fpro |   .2498155   .0455727     5.48   0.000     .1604946    .3391364
+       meduc |  -.0588426   .0074691    -7.88   0.000    -.0734817   -.0442035
+       1.urb |  -.0720386   .0433486    -1.66   0.097    -.1570004    .0129232
+-------------+----------------------------------------------------------------
+       /cut1 |   -.944515   .0970692                     -1.134767   -.7542628
+       /cut2 |   .3860603   .0964262                      .1970685    .5750522
+       /cut3 |   1.163018   .1004101                      .9662177    1.359818
+------------------------------------------------------------------------------</code></pre>
 </div>
 </div>
 

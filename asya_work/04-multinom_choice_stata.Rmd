@@ -75,7 +75,7 @@ mlogit y choice age educ wealth89 prftshr,  baseoutcome(0)
 table y educ
 ```
 
-Можем посмотреть на прогнозы.
+Можем получить прогнозы вероятностей.
 ```{stata "predict",  message=FALSE, warning=FALSE}
 predict p1 p2 p3, p
 ```
@@ -98,7 +98,7 @@ margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans
 
 margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
 
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69, choice = 1)
+margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69 choice = 0)
 ```
 
 ```{stata, include=FALSE}
@@ -112,9 +112,9 @@ use data/tradrole.dta
 sum
 ```
 
+!Нужно добавить название к графику
 ```{stata "hist tradrole stata",  message=FALSE, warning=FALSE}
-hist tradrole 'Вот такие дела, джентельмены :)')
-subtitle("Вот такие дела, джентельмены :)")
+hist tradrole
 ```
 
 Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
