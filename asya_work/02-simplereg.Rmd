@@ -46,11 +46,12 @@ if (Sys.getenv("USERNAME") == "The_sun") {
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 
-## r
+## R
 
 Построим простую линейную регрессию в R и проведем несложные тесты. 
 
 Загрузим необходимые пакеты.
+
 ```{r "library chunk", results='hide', message=FALSE, warning=FALSE}
 
 library(tidyverse) # манипуляции с данными и построение графиков
@@ -62,97 +63,113 @@ library(tseries) # тест Харке-Бера
 ```
 
 Импортируем данные.
+
 ```{r "import data", message=FALSE, warning=FALSE}
-df = rio::import("data/us-return.dta")
+df = import("data/us-return.dta")
 ```
 
 Исследуем наш датасет.
+
 ```{r "skim",  message=FALSE, warning=FALSE}
-skim_with(numeric = list(hist = NULL, p25 = NULL, p75 = NULL)) # опустим некоторые описательные статистики
-skim(df) 
+skim(df) # добавить select
 ```
 
 Переименуем столбцы.
+
 ```{r "rename chunk",  message=FALSE, warning=FALSE}
 df = rename(df, n = A, date = B) 
 ```
 
+И уберем строчки, в которых хотя бы один элемент пустой.
+
 ```{r "omit missings",  message=FALSE, warning=FALSE}
-df = na.omit(df) # уберем пустые строки
+df = na.omit(df)
 ```
 
-Будем верить в CAPM :) Оценим параметры модели для компании MOTOR. Соответственно, зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
+Будем верить в CAPM :) (в начале объяснить, что такое capm)
+Оценим параметры модели для компании MOTOR. Тогда зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.
+
 ```{r "mutate", warning=FALSE}
-df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) 
+df = mutate(df, y = MOTOR - RKFREE, x = MARKET - RKFREE) # придумать говорящие названия
 ```
 
-Строим нашу модель и проверяем гипотезу об адекватности регрессии.
+Оценим нашу модель и проверим гипотезу об адекватности регрессии.
+
 ```{r "model", message=FALSE, warning=FALSE}
 ols = lm(y ~ x, data = df)
 summary(ols)
-coeff = summary(ols)$coeff # отдельно табличка с коэффициентами
-coeff
 ```
 
-Вызовом одной функции получаем кучу полезных графиков. Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.
+Вызовом одной функции получаем кучу полезных графиков :) 
+Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.
+
 ```{r "plot", message=FALSE, warning=FALSE}
-plot(ols)
+plot(ols) # добавить, что значит каждый график, после 
 ```
 
-Строим доверительный интервал для параметров модели.
+Строим 90%-й доверительный интервал для параметров модели.
+
 ```{r "ci", warning=FALSE}
-est = cbind(Estimate = coef(ols), confint(ols))
+confint(ols, level = 0.9)
 ```
 
-Проверим гипотезу о равенстве коэффициента при регрессоре единице. 
+Проверим гипотезу о равенстве коэффициента при регрессоре единице.
+
 ```{r "lin hyp"}
 linearHypothesis(ols, c("x = 1"))
 ```
 
 Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 
-\[H_{0}: S = 0, K = 3,\\
-\text{где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)}\]
+\[
+H_{0}: S = 0, K = 3,
+\]
+где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)
 
 ```{r}
 jarque.bera.test(resid(ols)) 
 ```
 
-И тест Шапиро-Уилка.
+И заодно посмотрим на результаты теста Шапиро – Уилка.
 
-$H_{0}: \epsilon_{i} \sim  N(\mu,\sigma^2)$
+\[
+H_{0}: \epsilon_{i} \sim  N(\mu,\sigma^2)
+\]
 ```{r}
 shapiro.test(resid(ols))
 ```
 
 Оба теста указывают на нормальность распределения остатков регрессии.
 
-Сделаем прогноз модели по данным вне обучаемой выборки.
+Сделаем прогноз модели по 20 новым наблюдениям. Будем считать, что новые наблюдения нормально распределены с мат ожиданием и дисперсией
+
 ```{r "prediction"}
 set.seed(7)
 
-newData = data.frame(x = df$x + 0.5*rnorm(length(df$x))) #пошумим
-yhat = predict(ols, newdata = newData, se = TRUE)
+new_data = tibble(x = rnorm(10, mean = 1, sd = 3)) 
+yhat = predict(ols, newdata = new_data, se = TRUE)
+yhat
 ```
 
 ## python
 
 Много полезных функций для статистических расчетов можно найти в пакете Statsmodels. 
-```{python}
 
-import pandas as pd # для работы с таблицами
+```{python}
+import pandas as pd # работа с таблицами
 import numpy as np # математика, работа с матрицами
 import matplotlib.pyplot as plt # графики
 import statsmodels.api as sm
 import statsmodels.formula.api as smf
 import statsmodels.graphics.gofplots as gf
-from statsmodels.stats.outliers_influence import summary_table
 import seaborn as sns # еще более классные графики
-from scipy.stats import shapiro # еще математика
 import statsmodels.discrete.discrete_model
+from statsmodels.stats.outliers_influence import summary_table
+from scipy.stats import shapiro # еще математика
 ```
 
-При желании, можем кастомизировать графики :)
+При желании, можем настроить графики по своему вкусу :)
+
 ```{python}
 plt.style.use('seaborn')
 plt.rc('font', size=14)
@@ -162,43 +179,51 @@ plt.rc('axes', titlesize=15)
 ```
 
 Загрузим данные.
+
 ```{python}
-df = pd.read_stata('data/us-return.dta')
+df = pd.read_stata('data/us-return.dta') # добавить говорящее имя для данных
 ```
 
 Избавимся от наблюдений с пропущенными значениями. 
+
 ```{python}
 df.dropna(inplace=True)
-df.reset_index(drop=True, inplace=True)
+df.reset_index(drop=True, inplace=True) # пояснить, что это
 ```
 
 Переименуем столбцы.
+
 ```{python}
 df = df.rename(columns={'A':'n', 'B': 'date'})
 ```
+
+Добавим в набор данных объясняемую переменную и регрессор.
 
 ```{python}
 df['y'] = df['MOTOR'] - df['RKFREE']
 df['x'] = df['MARKET'] - df['RKFREE'] 
 ```
 
-Строим модель и читаем саммари :)
+Оценим модель и посмотрим на саммари :)
+
 ```{python}
 regr = smf.ols('y~x', data = df).fit()
 regr.summary()
 ```
 
-Получить прогноз.
+Можем посчитать прогнозное значение. 
+
 ```{python}
-df['yhat'] = regr.fittedvalues
+df['yhat'] = regr.fittedvalues # в R добавить для исходных, а сюда для новых
 ```
 
 Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)
+
 ```{python}
 fig, ax = plt.subplots()
-ax.plot(df['x'],regr.fittedvalues, color='g', alpha =0.8)
-ax.scatter(df['x'],regr.fittedvalues+regr.resid, color = 'g', alpha = 0.8, s = 40)
-ax.vlines(df['x'],regr.fittedvalues,regr.fittedvalues+regr.resid, color = 'gray', alpha = 0.5)
+ax.plot(df['x'],regr.fittedvalues, color='g', alpha=0.8)
+ax.scatter(df['x'],regr.fittedvalues + regr.resid, color = 'g', alpha = 0.8, s = 40)
+ax.vlines(df['x'],regr.fittedvalues,regr.fittedvalues+regr.resid, color='gray', alpha=0.5)
 plt.title('Линия регрессии и остатки')
 plt.xlabel('RKFREE')
 plt.ylabel('MARKET')
@@ -206,29 +231,31 @@ plt.show()
 ```
 
 Строим доверительный интервал.
+
 ```{python}
-regr.conf_int()
+regr.conf_int() #добавить уровень значимости
 ```
 
 И проведем F-test.
+
 ```{python}
 hypotheses = '(x = 1)'
 regr.f_test(r_matrix = hypotheses)
 ```
 
-Тест Шапиро. Такой же, как и в R. Для удобства можно поместить в табличку.
+Тест Шапиро - Уилка. Такой же, как и в R. 
 ```{python}
 W, p_value = shapiro(regr.resid)
-#pd.DataFrame(data = {'W': [round(W,3)], 'p_value': [round(p_value,3)]})
 ```
 
 
 Генерируем новые данные и строим предсказание.
+
 ```{python}
 import random
 random.seed(7)
 
-newData = df['x'] + 0.5*np.random.normal(len(df))
+newData = df['x'] + 0.5 * np.random.normal(len(df))
 prediction = regr.predict(newData)
 ```
 
@@ -248,11 +275,11 @@ fig_1.axes[0].set_ylabel('Residuals')
 
 # можем добавить метки потенциальных аутлаеров
 abs_resid = abs(regr.resid).sort_values(ascending=False)
-abs_resid_top3 = abs_resid[:3]
+abs_resid_top3=abs_resid[:3]
 
 for i in abs_resid_top3.index:
     fig_1.axes[0].annotate(i, 
-                               xy=(regr.fittedvalues[i], 
+                               xy = (regr.fittedvalues[i], 
                                    regr.resid[i]))
 ```
 
@@ -316,7 +343,7 @@ sns.regplot(leverage, norm_residuals,
             lowess=True,
             line_kws={'color': 'red', 'lw': 1, 'alpha': 0.8})
 
-fig_4.axes[0].set_xlim(0, 0.20)
+fig_4.axes[0].set_xlim(0, 0.20)  # РАЗВЕСТИ НА ОТДЕЛЬНЫЕ ЧАНКИ ИЛИ MESSAGE = FALSE
 fig_4.axes[0].set_ylim(-3, 5)
 fig_4.axes[0].set_title('Residuals vs Leverage')
 fig_4.axes[0].set_xlabel('Leverage')

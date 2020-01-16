@@ -382,17 +382,14 @@ $(document).ready(function () {
 <div id="r" class="section level2">
 <h2>r</h2>
 <p>Загрузим необходимые пакеты.</p>
-<pre class="r"><code>library(tidyverse) # для манипуляций с данными и построения графиков
-library(skimr) # для красивого summary
-library(rio) # для чтения .dta файлов
-library(margins) # для расчета предельных эффектов
+<pre class="r"><code>library(tidyverse) # манипуляции с данными и построени графиков
+library(skimr) # симпатичное summary
+library(rio) # чтения .dta файлов
+library(margins) # расчет предельных эффектов
 library(mlogit)
-library(skimr)
 library(nnet)
-library(questionr)
-library(MASS)
-library(survival)</code></pre>
-<p>Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная <code>pctstck</code>, которая принимает три значения: 0, 50, 100 — в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанный способ и в акции.</p>
+library(MASS)</code></pre>
+<p>Импортируем датасет. В нем находятся данные по клиентам пенсионных фондов. Нас интересует переменная <code>pctstck</code>, которая принимает три значения: 0, 50, 100 в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанным способом или в акции.</p>
 <pre class="r"><code>df = rio::import(&quot;data/pension.dta&quot;)</code></pre>
 <p>Начнем с пристального взгляда на описательные статистки.</p>
 <pre class="r"><code>skim(df)</code></pre>
@@ -702,8 +699,8 @@ library(survival)</code></pre>
 </table>
 <p>Отсюда несложно заметить, что переменная <code>choice</code> — бинарная. И принимает значение <code>1</code>, если индивид в выборке имел право выбора схемы инвестирования. Переменнная <code>wealth98</code> — чистое богатство пенсионеров на 1989 год. Остальные переменные нас пока что не интересуют :)</p>
 <p>Для начала разберемся с объясняемой переменной. Превратим её в факторную и упорядочим категории.</p>
-<pre class="r"><code>df = mutate(df, y = factor(pctstck)) # факторная переменная
-df = mutate(df, y = relevel(y, ref = 2)) # сменить базовую категорию
+<pre class="r"><code>df = mutate(df, y = factor(pctstck)) 
+df = mutate(df, y = relevel(y, ref = 2)) 
 levels(df$y)</code></pre>
 <pre><code>[1] &quot;50&quot;  &quot;0&quot;   &quot;100&quot;</code></pre>
 <p>Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной.</p>
@@ -775,21 +772,7 @@ AIC: 323.2221 </code></pre>
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
 \]</span> показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.</p>
 <pre class="r"><code>odds.ratio(multmodel) </code></pre>
-<pre><code>                       OR     2.5 %  97.5 %         p    
-0/(Intercept)   0.0228729 0.0010381  0.5040  0.016655 *  
-0/choice        0.5342184 0.2586133  1.1035  0.090304 .  
-0/age           1.1120653 1.0546173  1.1726 8.673e-05 ***
-0/educ          0.8309533 0.7268808  0.9499  0.006680 ** 
-0/wealth89      1.0003717 0.9989310  1.0018  0.613242    
-0/prftshr       1.3123331 0.4943921  3.4835  0.585272    
-100/(Intercept) 2.0453667 0.1398827 29.9074  0.601093    
-100/choice      0.9975416 0.4665845  2.1327  0.994934    
-100/age         1.0114570 0.9621562  1.0633  0.655005    
-100/educ        0.8704520 0.7595422  0.9976  0.046028 *  
-100/wealth89    1.0000168 0.9984602  1.0016  0.983090    
-100/prftshr     3.4998349 1.4144581  8.6597  0.006726 ** 
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
+<pre><code>Error in odds.ratio(multmodel): could not find function &quot;odds.ratio&quot;</code></pre>
 <p>Можем посчитать предельные эффекты в различных квартилях.</p>
 <pre class="r"><code>summary(marginal_effects(multmodel))</code></pre>
 <pre><code>  dydx_choice         dydx_age           dydx_educ      
@@ -914,8 +897,8 @@ mm_fit = multmodel.fit()</code></pre>
 Dep. Variable:                      y   No. Observations:                  201
 Model:                        MNLogit   Df Residuals:                      191
 Method:                           MLE   Df Model:                            8
-Date:                Tue, 14 Jan 2020   Pseudo R-squ.:                 0.05183
-Time:                        23:30:14   Log-Likelihood:                -208.47
+Date:                Thu, 16 Jan 2020   Pseudo R-squ.:                 0.05183
+Time:                        16:33:34   Log-Likelihood:                -208.47
 converged:                       True   LL-Null:                       -219.86
 Covariance Type:            nonrobust   LLR p-value:                  0.003646
 ==============================================================================
@@ -964,8 +947,8 @@ mm_fit_m = multmodel_m.fit()</code></pre>
 Dep. Variable:                      y   No. Observations:                  151
 Model:                        MNLogit   Df Residuals:                      141
 Method:                           MLE   Df Model:                            8
-Date:                Tue, 14 Jan 2020   Pseudo R-squ.:                 0.07150
-Time:                        23:30:14   Log-Likelihood:                -152.52
+Date:                Thu, 16 Jan 2020   Pseudo R-squ.:                 0.07150
+Time:                        16:33:34   Log-Likelihood:                -152.52
 converged:                       True   LL-Null:                       -164.27
 Covariance Type:            nonrobust   LLR p-value:                  0.002788
 ==============================================================================
