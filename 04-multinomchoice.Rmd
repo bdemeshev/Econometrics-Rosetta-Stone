@@ -1,0 +1,13 @@
+# Модели множественного выбора {#multchoice}
+
+```{r, child='setup/setup.Rmd'}
+```
+
+```{r, child='04/04_r.Rmd'}
+```
+
+```{r, child='04/04_py.Rmd'}
+```
+
+```{r, child='04/04_stata.Rmd'}
+```

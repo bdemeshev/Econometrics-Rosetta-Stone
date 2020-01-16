@@ -1,0 +1,13 @@
+# Модели счетных данных {#poisreg}
+
+```{r, child='setup/setup.Rmd'}
+```
+
+```{r, child='05/05_r.Rmd'}
+```
+
+```{r, child='05/05_py.Rmd'}
+```
+
+```{r, child='05/05_stata.Rmd'}
+```
