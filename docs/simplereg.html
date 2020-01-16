@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Коан 3 Коан о простой линейной регрессии | Розеттский камень</title>
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+
+  <meta property="og:title" content="Коан 3 Коан о простой линейной регрессии | Розеттский камень" />
+  <meta property="og:type" content="book" />
+  
+  
+  <meta property="og:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  
+
+  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:title" content="Коан 3 Коан о простой линейной регрессии | Розеттский камень" />
+  
+  <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  
+
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
+
+
+<meta name="date" content="2020-01-16" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  
+  
+<link rel="prev" href="installsoft.html">
+<link rel="next" href="multchoice.html">
+<script src="libs/jquery-2.2.3/jquery.min.js"></script>
+<link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-bookdown.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+
+
+
+
+
+
+
+
+
+<style type="text/css">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+</style>
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+</head>
+
+<body>
+
+
+
+  <div class="book without-animation with-summary font-size-2 font-family-1" data-basepath=".">
+
+    <div class="book-summary">
+      <nav role="navigation">
+
+<ul class="summary">
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
+<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a><ul>
+<li class="chapter" data-level="2.1" data-path="installsoft.html"><a href="installsoft.html#r"><i class="fa fa-check"></i><b>2.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="2.1.1" data-path="installsoft.html"><a href="installsoft.html#rstudio--windows-mac-os"><i class="fa fa-check"></i><b>2.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="2.1.2" data-path="installsoft.html"><a href="installsoft.html#section-1"><i class="fa fa-check"></i><b>2.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="2.1.3" data-path="installsoft.html"><a href="installsoft.html#section-2"><i class="fa fa-check"></i><b>2.1.3</b> Настройка программы</a></li>
+<li class="chapter" data-level="2.1.4" data-path="installsoft.html"><a href="installsoft.html#python"><i class="fa fa-check"></i><b>2.1.4</b> Язык программирования Python</a></li>
+<li class="chapter" data-level="2.1.5" data-path="installsoft.html"><a href="installsoft.html#section-3"><i class="fa fa-check"></i><b>2.1.5</b> Установка</a></li>
+<li class="chapter" data-level="2.1.6" data-path="installsoft.html"><a href="installsoft.html#section-4"><i class="fa fa-check"></i><b>2.1.6</b> Начало работы</a></li>
+<li class="chapter" data-level="2.1.7" data-path="installsoft.html"><a href="installsoft.html#stata"><i class="fa fa-check"></i><b>2.1.7</b> Программа STATA</a></li>
+<li class="chapter" data-level="2.1.8" data-path="installsoft.html"><a href="installsoft.html#section-5"><i class="fa fa-check"></i><b>2.1.8</b> Установка:</a></li>
+<li class="chapter" data-level="2.1.9" data-path="installsoft.html"><a href="installsoft.html#section-6"><i class="fa fa-check"></i><b>2.1.9</b> Начало работы:</a></li>
+</ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
+<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
+<li class="chapter" data-level="3.2" data-path="simplereg.html"><a href="simplereg.html#python-1"><i class="fa fa-check"></i><b>3.2</b> Python</a></li>
+<li class="chapter" data-level="3.3" data-path="simplereg.html"><a href="simplereg.html#stata-1"><i class="fa fa-check"></i><b>3.3</b> Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
+<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
+<li class="chapter" data-level="4.2" data-path="multchoice.html"><a href="multchoice.html#python-2"><i class="fa fa-check"></i><b>4.2</b> python</a></li>
+<li class="chapter" data-level="4.3" data-path="multchoice.html"><a href="multchoice.html#stata-2"><i class="fa fa-check"></i><b>4.3</b> Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
+<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
+<li class="chapter" data-level="5.2" data-path="poisreg.html"><a href="poisreg.html#python-3"><i class="fa fa-check"></i><b>5.2</b> Python</a></li>
+<li class="chapter" data-level="5.3" data-path="poisreg.html"><a href="poisreg.html#stata-3"><i class="fa fa-check"></i><b>5.3</b> Stata</a></li>
+</ul></li>
+<li class="divider"></li>
+<li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
+
+</ul>
+
+      </nav>
+    </div>
+
+    <div class="book-body">
+      <div class="body-inner">
+        <div class="book-header" role="navigation">
+          <h1>
+            <i class="fa fa-circle-o-notch fa-spin"></i><a href="./">Розеттский камень</a>
+          </h1>
+        </div>
+
+        <div class="page-wrapper" tabindex="-1" role="main">
+          <div class="page-inner">
+
+            <section class="normal" id="section-">
+<div id="simplereg" class="section level1">
+<h1><span class="header-section-number">Коан 3</span> Коан о простой линейной регрессии</h1>
+<div id="r-1" class="section level2">
+<h2><span class="header-section-number">3.1</span> R</h2>
+<p>Построим простую линейную регрессию в R и проведем несложные тесты.</p>
+<p>Загрузим необходимые пакеты.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co"># манипуляции с данными и построение графиков</span>
+<span class="kw">library</span>(sjPlot) <span class="co"># красивые графики для линейных моделей</span>
+<span class="kw">library</span>(skimr) <span class="co"># симпатичное summary</span>
+<span class="kw">library</span>(rio) <span class="co"># чтение .dta файлов</span>
+<span class="kw">library</span>(car) <span class="co"># проверка линейных гипотез</span>
+<span class="kw">library</span>(tseries) <span class="co"># тест Харке-Бера</span></code></pre>
+<p>Импортируем данные.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;data/us-return.dta&quot;</span>)</code></pre>
+<pre><code>Error in import(&quot;data/us-return.dta&quot;): No such file</code></pre>
+<p>Исследуем наш датасет.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">skim</span>(df) <span class="co"># добавить select</span></code></pre>
+<pre><code>Error in as.data.frame.default(data): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</code></pre>
+<p>Переименуем столбцы.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">rename</span>(df, <span class="dt">n =</span> A, <span class="dt">date =</span> B) </code></pre>
+<pre><code>Error in UseMethod(&quot;rename_&quot;): no applicable method for &#39;rename_&#39; applied to an object of class &quot;function&quot;</code></pre>
+<p>И уберем строчки, в которых хотя бы один элемент пустой.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">na.omit</span>(df)</code></pre>
+<p>Будем верить в CAPM :) (в начале объяснить, что такое capm)
+Оценим параметры модели для компании MOTOR. Тогда зависимая переменная - разница доходностей акций MOTOR и безрискового актива, а регрессор - рыночная премия.</p>
+<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> MOTOR <span class="op">-</span><span class="st"> </span>RKFREE, <span class="dt">x =</span> MARKET <span class="op">-</span><span class="st"> </span>RKFREE) <span class="co"># придумать говорящие названия</span></code></pre>
+<pre><code>Error in UseMethod(&quot;mutate_&quot;): no applicable method for &#39;mutate_&#39; applied to an object of class &quot;function&quot;</code></pre>
+<p>Оценим нашу модель и проверим гипотезу об адекватности регрессии.</p>
+<pre class="sourceCode r"><code class="sourceCode r">ols =<span class="st"> </span><span class="kw">lm</span>(y <span class="op">~</span><span class="st"> </span>x, <span class="dt">data =</span> df)</code></pre>
+<pre><code>Error in as.data.frame.default(data, optional = TRUE): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(ols)</code></pre>
+<pre><code>Error in summary(ols): object &#39;ols&#39; not found</code></pre>
+<p>Вызовом одной функции получаем кучу полезных графиков :)
+Можем визуально оценить наличие гетероскедастичности, нормальность распределения остатков, наличие выбросов.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">plot</span>(ols) <span class="co"># добавить, что значит каждый график, после </span></code></pre>
+<pre><code>Error in plot(ols): object &#39;ols&#39; not found</code></pre>
+<p>Строим 90%-й доверительный интервал для параметров модели.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">confint</span>(ols, <span class="dt">level =</span> <span class="fl">0.9</span>)</code></pre>
+<pre><code>Error in confint(ols, level = 0.9): object &#39;ols&#39; not found</code></pre>
+<p>Проверим гипотезу о равенстве коэффициента при регрессоре единице.</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">linearHypothesis</span>(ols, <span class="kw">c</span>(<span class="st">&quot;x = 1&quot;</span>))</code></pre>
+<pre><code>Error in linearHypothesis(ols, c(&quot;x = 1&quot;)): object &#39;ols&#39; not found</code></pre>
+<p>Посмотрим на остатки :) Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.</p>
+<p><span class="math display">\[
+H_{0}: S = 0, K = 3,
+\]</span>
+где S — коэффициент асимметрии (Skewness), K — коэффициент эксцесса (Kurtosis)</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">jarque.bera.test</span>(<span class="kw">resid</span>(ols)) </code></pre>
+<pre><code>Error in resid(ols): object &#39;ols&#39; not found</code></pre>
+<p>И заодно посмотрим на результаты теста Шапиро – Уилка.</p>
+<p><span class="math display">\[
+H_{0}: \epsilon_{i} \sim  N(\mu,\sigma^2)
+\]</span></p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">shapiro.test</span>(<span class="kw">resid</span>(ols))</code></pre>
+<pre><code>Error in is.numeric(x): object &#39;ols&#39; not found</code></pre>
+<p>Оба теста указывают на нормальность распределения остатков регрессии.</p>
+<p>Сделаем прогноз модели по 20 новым наблюдениям. Будем считать, что новые наблюдения нормально распределены с мат ожиданием и дисперсией</p>
+<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">set.seed</span>(<span class="dv">7</span>)
+
+new_data =<span class="st"> </span><span class="kw">tibble</span>(<span class="dt">x =</span> <span class="kw">rnorm</span>(<span class="dv">10</span>, <span class="dt">mean =</span> <span class="dv">1</span>, <span class="dt">sd =</span> <span class="dv">3</span>)) 
+yhat =<span class="st"> </span><span class="kw">predict</span>(ols, <span class="dt">newdata =</span> new_data, <span class="dt">se =</span> <span class="ot">TRUE</span>)</code></pre>
+<pre><code>Error in predict(ols, newdata = new_data, se = TRUE): object &#39;ols&#39; not found</code></pre>
+<pre class="sourceCode r"><code class="sourceCode r">yhat</code></pre>
+<pre><code>Error in eval(expr, envir, enclos): object &#39;yhat&#39; not found</code></pre>
+</div>
+<div id="python-1" class="section level2">
+<h2><span class="header-section-number">3.2</span> Python</h2>
+<p>Много полезных функций для статистических расчетов можно найти в пакете Statsmodels.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># работа с таблицами</span>
+<span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># математика, работа с матрицами</span>
+<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># графики</span>
+<span class="im">import</span> statsmodels.api <span class="im">as</span> sm
+<span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf
+<span class="im">import</span> statsmodels.graphics.gofplots <span class="im">as</span> gf
+<span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># еще более классные графики</span>
+<span class="im">import</span> statsmodels.discrete.discrete_model
+<span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> summary_table
+<span class="im">from</span> scipy.stats <span class="im">import</span> shapiro <span class="co"># еще математика</span></code></pre>
+<p>При желании, можем настроить графики по своему вкусу :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">plt.style.use(<span class="st">&#39;seaborn&#39;</span>)
+plt.rc(<span class="st">&#39;font&#39;</span>, size<span class="op">=</span><span class="dv">14</span>)
+plt.rc(<span class="st">&#39;figure&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)
+plt.rc(<span class="st">&#39;axes&#39;</span>, labelsize<span class="op">=</span><span class="dv">15</span>)
+plt.rc(<span class="st">&#39;axes&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)</code></pre>
+<p>Загрузим данные.</p>
+<pre class="sourceCode python"><code class="sourceCode python">df <span class="op">=</span> pd.read_stata(<span class="st">&#39;data/us-return.dta&#39;</span>) <span class="co"># добавить говорящее имя для данных</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: &#39;data/us-return.dta&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
+    return func(*args, **kwargs)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
+    return func(*args, **kwargs)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 227, in read_stata
+    chunksize=chunksize,
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
+    return func(*args, **kwargs)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
+    return func(*args, **kwargs)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 1093, in __init__
+    self.path_or_buf = open(path_or_buf, &quot;rb&quot;)</code></pre>
+<p>Избавимся от наблюдений с пропущенными значениями.</p>
+<pre class="sourceCode python"><code class="sourceCode python">df.dropna(inplace<span class="op">=</span><span class="va">True</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">df.reset_index(drop<span class="op">=</span><span class="va">True</span>, inplace<span class="op">=</span><span class="va">True</span>) <span class="co"># пояснить, что это</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Переименуем столбцы.</p>
+<pre class="sourceCode python"><code class="sourceCode python">df <span class="op">=</span> df.rename(columns<span class="op">=</span>{<span class="st">&#39;A&#39;</span>:<span class="st">&#39;n&#39;</span>, <span class="st">&#39;B&#39;</span>: <span class="st">&#39;date&#39;</span>})</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Добавим в набор данных объясняемую переменную и регрессор.</p>
+<pre class="sourceCode python"><code class="sourceCode python">df[<span class="st">&#39;y&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;MOTOR&#39;</span>] <span class="op">-</span> df[<span class="st">&#39;RKFREE&#39;</span>]</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">df[<span class="st">&#39;x&#39;</span>] <span class="op">=</span> df[<span class="st">&#39;MARKET&#39;</span>] <span class="op">-</span> df[<span class="st">&#39;RKFREE&#39;</span>] </code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Оценим модель и посмотрим на саммари :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">regr <span class="op">=</span> smf.ols(<span class="st">&#39;y~x&#39;</span>, data <span class="op">=</span> df).fit()</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">regr.summary()</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Можем посчитать прогнозное значение.</p>
+<pre class="sourceCode python"><code class="sourceCode python">df[<span class="st">&#39;yhat&#39;</span>] <span class="op">=</span> regr.fittedvalues <span class="co"># в R добавить для исходных, а сюда для новых</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">fig, ax <span class="op">=</span> plt.subplots()
+ax.plot(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues, color<span class="op">=</span><span class="st">&#39;g&#39;</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">ax.scatter(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues <span class="op">+</span> regr.resid, color <span class="op">=</span> <span class="st">&#39;g&#39;</span>, alpha <span class="op">=</span> <span class="fl">0.8</span>, s <span class="op">=</span> <span class="dv">40</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">ax.vlines(df[<span class="st">&#39;x&#39;</span>],regr.fittedvalues,regr.fittedvalues<span class="op">+</span>regr.resid, color<span class="op">=</span><span class="st">&#39;gray&#39;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">plt.title(<span class="st">&#39;Линия регрессии и остатки&#39;</span>)
+plt.xlabel(<span class="st">&#39;RKFREE&#39;</span>)
+plt.ylabel(<span class="st">&#39;MARKET&#39;</span>)
+plt.show()</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
+<p>Строим доверительный интервал.</p>
+<pre class="sourceCode python"><code class="sourceCode python">regr.conf_int() <span class="co">#добавить уровень значимости</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>И проведем F-test.</p>
+<pre class="sourceCode python"><code class="sourceCode python">hypotheses <span class="op">=</span> <span class="st">&#39;(x = 1)&#39;</span>
+regr.f_test(r_matrix <span class="op">=</span> hypotheses)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Тест Шапиро - Уилка. Такой же, как и в R.</p>
+<pre class="sourceCode python"><code class="sourceCode python">W, p_value <span class="op">=</span> shapiro(regr.resid)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>Генерируем новые данные и строим предсказание.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> random
+random.seed(<span class="dv">7</span>)
+
+newData <span class="op">=</span> df[<span class="st">&#39;x&#39;</span>] <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> np.random.normal(<span class="bu">len</span>(df))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">prediction <span class="op">=</span> regr.predict(newData)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>А теперь жесть! Построим графички, похожие на autoplot R.</p>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1 <span class="op">=</span> plt.figure(<span class="dv">1</span>)
+
+fig_1.axes[<span class="dv">0</span>] <span class="op">=</span> sns.residplot(df[<span class="st">&#39;x&#39;</span>], df[<span class="st">&#39;y&#39;</span>],
+                                  lowess<span class="op">=</span><span class="va">True</span>,
+                                  scatter_kws<span class="op">=</span>{<span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>},
+                                  line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">2</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Fitted&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Residuals&#39;</span>)
+
+
+<span class="co"># можем добавить метки потенциальных аутлаеров</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_resid <span class="op">=</span> <span class="bu">abs</span>(regr.resid).sort_values(ascending<span class="op">=</span><span class="va">False</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_resid_top3<span class="op">=</span>abs_resid[:<span class="dv">3</span>]</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_resid&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i <span class="kw">in</span> abs_resid_top3.index:
+    fig_1.axes[<span class="dv">0</span>].annotate(i, 
+                               xy <span class="op">=</span> (regr.fittedvalues[i], 
+                                   regr.resid[i]))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_resid_top3&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">norm_residuals <span class="op">=</span> regr.get_influence().resid_studentized_internal <span class="co"># сохраним стьюдентизированные остатки </span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">QQ <span class="op">=</span> gf.ProbPlot(norm_residuals)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;norm_residuals&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_2 <span class="op">=</span> QQ.qqplot(line<span class="op">=</span><span class="st">&#39;45&#39;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">&#39;b&#39;</span>, lw<span class="op">=</span><span class="dv">1</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;QQ&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_2.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Normal Q-Q&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;fig_2&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_2.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Theoretical Quantiles&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;fig_2&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_2.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)<span class="op">;</span>
+
+<span class="co">#и снова метки</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;fig_2&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_norm_resid <span class="op">=</span> np.flip(np.argsort(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;norm_residuals&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_norm_resid_top3 <span class="op">=</span> abs_norm_resid[:<span class="dv">3</span>]</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_norm_resid&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> r, i <span class="kw">in</span> <span class="bu">enumerate</span>(abs_norm_resid_top3):
+    fig_2.axes[<span class="dv">0</span>].annotate(i, 
+                               xy<span class="op">=</span>(np.flip(QQ.theoretical_quantiles, <span class="dv">0</span>)[r],
+                                   norm_residuals[i]))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_norm_resid_top3&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_3 <span class="op">=</span> plt.figure(<span class="dv">3</span>)
+
+plt.scatter(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), alpha<span class="op">=</span><span class="fl">0.5</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">sns.regplot(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), 
+            scatter<span class="op">=</span><span class="va">False</span>, 
+            ci<span class="op">=</span><span class="va">False</span>, 
+            lowess<span class="op">=</span><span class="va">True</span>,
+            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>})</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_3.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Scale-Location&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_3.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_3.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;$\sqrt{|Standardized Residuals|}$&#39;</span>)
+
+<span class="co"># и еще раз!)</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_sq_norm_resid <span class="op">=</span> np.flip(np.argsort(np.sqrt(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;norm_residuals&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_sq_norm_resid_top3 <span class="op">=</span> abs_sq_norm_resid[:<span class="dv">3</span>]</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_sq_norm_resid&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i <span class="kw">in</span> abs_sq_norm_resid_top3:
+    fig_3.axes[<span class="dv">0</span>].annotate(i, xy<span class="op">=</span>(regr.fittedvalues[i], 
+                                   np.sqrt(<span class="bu">abs</span>(norm_residuals)[i])))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;abs_sq_norm_resid_top3&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">leverage <span class="op">=</span> regr.get_influence().hat_matrix_diag <span class="co"># сохраняем элементы матрицы-шляпницы</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">cook_dist <span class="op">=</span> regr.get_influence().cooks_distance[<span class="dv">0</span>] <span class="co"># и расстояние Кука</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;regr&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4 <span class="op">=</span> plt.figure(<span class="dv">4</span>)
+
+plt.scatter(leverage, norm_residuals, alpha<span class="op">=</span><span class="fl">0.5</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;leverage&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">sns.regplot(leverage, norm_residuals, 
+            scatter<span class="op">=</span><span class="va">False</span>, 
+            ci<span class="op">=</span><span class="va">False</span>, 
+            lowess<span class="op">=</span><span class="va">True</span>,
+            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;leverage&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>, <span class="fl">0.20</span>)  <span class="co"># РАЗВЕСТИ НА ОТДЕЛЬНЫЕ ЧАНКИ ИЛИ MESSAGE = FALSE</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Leverage&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Leverage&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">leverage_top3 <span class="op">=</span> np.flip(np.argsort(cook_dist), <span class="dv">0</span>)[:<span class="dv">3</span>]</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;cook_dist&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="cf">for</span> i <span class="kw">in</span> leverage_top3:
+    fig_4.axes[<span class="dv">0</span>].annotate(i, 
+                               xy<span class="op">=</span>(leverage[i], 
+                                   norm_residuals[i]))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;leverage_top3&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">plt.show()</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+</div>
+<div id="stata-1" class="section level2">
+<h2><span class="header-section-number">3.3</span> Stata</h2>
+<p>Загружаем данные.</p>
+<pre class="stata"><code>use data/us-return.dta</code></pre>
+<pre><code>r(601);
+
+end of do-file
+r(601);</code></pre>
+<p>Любуемся и даем новые названия столбцам.</p>
+<pre class="stata"><code>summarize
+ren A n
+ren B date</code></pre>
+<pre><code>no variables defined
+r(111);
+
+end of do-file
+r(111);</code></pre>
+<p>Убираем пропущенные значения и создаем новые переменные.</p>
+<pre class="stata"><code>drop if n == .
+gen y = MOTOR - RKFREE
+gen x = MARKET - RKFREE</code></pre>
+<pre><code>r(111);
+
+end of do-file
+r(111);</code></pre>
+<p>Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.</p>
+<pre class="stata"><code>reg y x</code></pre>
+<pre><code>r(111);
+
+end of do-file
+r(111);</code></pre>
+<p>Проверим гипотезу о равенстве коэффициента при регрессоре единице.</p>
+<pre class="stata"><code>test x = 1</code></pre>
+<pre><code>r(301);
+
+end of do-file
+r(301);</code></pre>
+<p>Сделаем предсказание по выборке и сохраним остатки.</p>
+<pre class="stata"><code>predict u_hat, resid
+predict y_hat</code></pre>
+<pre><code>r(301);
+
+end of do-file
+r(301);</code></pre>
+<p>Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
+На самом деле, это не совсем тест Харке-Бера. Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки. В Stata есть. Подробнее здесь <a href="https://www.stata.com/manuals13/rsktest.pdf" class="uri">https://www.stata.com/manuals13/rsktest.pdf</a></p>
+<pre class="stata"><code>sktest u_hat</code></pre>
+<pre><code>r(111);
+
+end of do-file
+r(111);</code></pre>
+<p>И тест Шапиро-Уилка. Тут все аналогично R.</p>
+<pre class="stata"><code>swilk u_hat</code></pre>
+<pre><code>r(111);
+
+end of do-file
+r(111);</code></pre>
+<p>Гипотеза о нормальности остатков не отвергается.</p>
+<p>QQ - график</p>
+<pre class="stata"><code>qnorm u_hat </code></pre>
+<p><img src="qq_plot.png" /></p>
+<p>График предсказанных значений против остатков.</p>
+<pre class="stata"><code>rvfplot, yline(0)</code></pre>
+<p><img src="resvsfit.png" /></p>
+<p>График диагональных элементов матрицы-шляпницы против квадрата остатков (по сравнению с R оси поменялись местами).</p>
+<pre class="stata"><code>lvr2plot</code></pre>
+<p><img src="resvsh.png" /></p>
+<p>График предсказанных значений против стандартизиованных остатков. Размер точек на графике зависит от расстояния Кука для данного наблюдения.</p>
+<pre class="stata"><code>predict D, cooksd
+predict standard, rstandard
+
+graph twoway scatter standard y_hat [aweight=D], msymbol(oh) yline(0)</code></pre>
+<p><img src="standardhat.png" /></p>
+<pre class="stata"><code>set seed 7
+
+set obs 120
+gen x_new = x+ 0.5 * rnormal()
+gen y_hat_new =  .8481496 * x_new + .0052529 </code></pre>
+<pre><code>obs was 0, now 120
+
+x not found
+r(111);
+
+end of do-file
+r(111);</code></pre>
+
+</div>
+</div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+<a href="installsoft.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="multchoice.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+    </div>
+  </div>
+<script src="libs/gitbook-2.6.7/js/app.min.js"></script>
+<script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
+<script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script>
+gitbook.require(["gitbook"], function(gitbook) {
+gitbook.start({
+"sharing": {
+"github": false,
+"facebook": true,
+"twitter": true,
+"google": false,
+"linkedin": false,
+"weibo": false,
+"instapaper": false,
+"vk": false,
+"all": ["facebook", "google", "twitter", "linkedin", "weibo", "instapaper"]
+},
+"fontsettings": {
+"theme": "white",
+"family": "sans",
+"size": 2
+},
+"edit": {
+"link": null,
+"text": null
+},
+"history": {
+"link": null,
+"text": null
+},
+"download": ["Rosetta_Stone.pdf", "Rosetta_Stone.epub"],
+"toc": {
+"collapse": "subsection"
+}
+});
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+</body>
+
+</html>

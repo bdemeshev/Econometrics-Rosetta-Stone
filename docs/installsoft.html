@@ -32,7 +32,7 @@
   
   
 <link rel="prev" href="index.html">
-
+<link rel="next" href="simplereg.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -139,6 +139,21 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="2.1.8" data-path="installsoft.html"><a href="installsoft.html#section-5"><i class="fa fa-check"></i><b>2.1.8</b> Установка:</a></li>
 <li class="chapter" data-level="2.1.9" data-path="installsoft.html"><a href="installsoft.html#section-6"><i class="fa fa-check"></i><b>2.1.9</b> Начало работы:</a></li>
 </ul></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
+<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
+<li class="chapter" data-level="3.2" data-path="simplereg.html"><a href="simplereg.html#python-1"><i class="fa fa-check"></i><b>3.2</b> Python</a></li>
+<li class="chapter" data-level="3.3" data-path="simplereg.html"><a href="simplereg.html#stata-1"><i class="fa fa-check"></i><b>3.3</b> Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
+<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
+<li class="chapter" data-level="4.2" data-path="multchoice.html"><a href="multchoice.html#python-2"><i class="fa fa-check"></i><b>4.2</b> python</a></li>
+<li class="chapter" data-level="4.3" data-path="multchoice.html"><a href="multchoice.html#stata-2"><i class="fa fa-check"></i><b>4.3</b> Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
+<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
+<li class="chapter" data-level="5.2" data-path="poisreg.html"><a href="poisreg.html#python-3"><i class="fa fa-check"></i><b>5.2</b> Python</a></li>
+<li class="chapter" data-level="5.3" data-path="poisreg.html"><a href="poisreg.html#stata-3"><i class="fa fa-check"></i><b>5.3</b> Stata</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -284,12 +299,6 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 </div>
 </div>
 </div>
-
-
-
-
-
-
 <div class="footnotes">
 <hr />
 <ol start="1">
@@ -301,8 +310,8 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
           </div>
         </div>
       </div>
-<a href="index.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-
+<a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="simplereg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
@@ -347,6 +356,19 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

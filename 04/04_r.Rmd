@@ -1,0 +1,124 @@
+## R
+
+Загрузим необходимые пакеты.
+```{r "library", results='hide', message=FALSE, warning=FALSE}
+library(tidyverse) # манипуляции с данными и построени графиков
+library(skimr) # симпатичное summary
+library(rio) # чтения .dta файлов
+library(margins) # расчет предельных эффектов
+library(mlogit)
+library(nnet)
+```
+
+Импортируем датасет. 
+В нем находятся данные по клиентам пенсионных фондов. 
+Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанным способом или в акции.  ОЧЕНЬ ДЛИННОЕ ПРЕДЛОЖЕНИЕ!!!!!!
+
+```{r "import data r", message=FALSE, warning=FALSE}
+df = import("data/pension.dta")
+```
+
+Начнем с пристального взгляда на описательные статистки. 
+```{r "skim",  message=FALSE, warning=FALSE}
+skim(df)
+```
+
+Отсюда несложно заметить, что переменная `choice` — бинарная. 
+И принимает значение `1`, если индивид в выборке имел право выбора схемы инвестирования. 
+Переменнная `wealth98` — чистое богатство пенсионеров на 1989 год. 
+Остальные переменные нас пока что не интересуют :)
+
+
+Для начала разберемся с объясняемой переменной.
+Превратим её в факторную и упорядочим категории. 
+
+```{r "factor_var",  message=FALSE, warning=FALSE}
+df = mutate(df, y = factor(pctstck), y = relevel(y, ref = 2)) 
+levels(df$y)
+```
+
+Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной. 
+
+```{r, message=FALSE, warning=FALSE }
+table(df$y, df$educ)
+```
+
+Построим модель множественного выбора (лог-линейная модель). 
+
+```{r "model r",  message=FALSE, warning=FALSE}
+multmodel = multinom(y ~ choice + age + educ + wealth89 + prftshr, 
+                     data = df, reflevel = '0')
+
+summary(multmodel)
+```
+
+При необходимости можем построить модельку для подвыборки, например, только для замужних/женатых.
+
+```{r "married", message=FALSE, warning=FALSE}
+multmodel_married = multinom(y ~ choice + age + educ + wealth89 + prftshr, 
+                             subset = married == 1, data = df, reflevel = '0')
+summary(multmodel_married)
+```
+
+Быстренько прикинули значимость коэффициентов.
+
+```{r, message=FALSE, warning=FALSE}
+coef(multmodel)/summary(multmodel)$standard.errors
+```
+
+Сохраним прогнозы.
+```{r "fit r",  message=FALSE, warning=FALSE}
+fit_values = fitted(multmodel)
+```
+
+И посчитаем относительное изменение отношения шансов:
+
+\[
+\frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
+\] показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
+
+```{r "or",  message=FALSE, warning=FALSE}
+odds.ratio(multmodel) 
+```
+
+Можем посчитать предельные эффекты в различных квартилях.
+```{r "me",  message=FALSE, warning=FALSE}
+summary(marginal_effects(multmodel))
+```
+
+Или при заданном значении объясняемых переменных.
+```{r "me_at",  message=FALSE, warning=FALSE}
+margins(multmodel, at = list(age = 69, choice = 1))
+```
+
+
+Теперь посмотрим на модель упорядоченного выбора :) 
+Для нее возьмем другие данные. 
+Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth). 
+В ней представлены данные о 3705 молодых белых женщинах из США.
+Зависимая переменная tradrole — степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).
+
+```{r "import tradrole r",  message=FALSE, warning=FALSE}
+data_nlsy = import('data/tradrole.dta')
+#skim(data_nlsy)
+```
+
+```{r "hist tradrole r",  message=FALSE, warning=FALSE}
+qplot(data_nlsy, x = tradrole) + 
+  xlab('Ответы респонденток') +
+  ggtitle('Вот такие дела, джентельмены :)')
+```
+
+Посмотрим, как влияет религиозное воспитание (`cath` — католичество и `fpro` — протестанство), число лет образования матери — `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
+
+```{r "ordered r",  message=FALSE, warning=FALSE}
+#сначала в факторные, потом регрессия
+oprobit = polr(as.factor(tradrole) ~  as.factor(cath) + as.factor(fpro) + meduc + as.factor(urb), data = data_nlsy, method = "probit", na.action = na.omit)
+summary(oprobit)
+```
+
+В summary видим коэффициенты при регрессорах и коэффициенты при константах для каждой из упорядоченных альтернатив.
+
+```{r "summary r",  message=FALSE, warning=FALSE}
+summary(oprobit)
+```

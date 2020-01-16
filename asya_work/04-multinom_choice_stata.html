@@ -382,250 +382,122 @@ $(document).ready(function () {
 <div id="stata" class="section level2">
 <h2>stata</h2>
 <pre class="stata"><code>use data/pension.dta</code></pre>
-<pre><code>
+<pre><code>file data/pension.dta not found
+r(601);
 
-```stata
-sum
-```
-
-```
-    Variable |       Obs        Mean    Std. Dev.       Min        Max
--------------+--------------------------------------------------------
-          id |       226    2445.093    1371.271         38       5014
-      pyears |       218    11.38532    9.605498          0         45
-     prftshr |       206    .2087379    .4073967          0          1
-      choice |       226    .6150442     .487665          0          1
-      female |       226    .6017699      .49062          0          1
--------------+--------------------------------------------------------
-     married |       226    .7345133    .4425723          0          1
-         age |       226    60.70354    4.287002         53         73
-        educ |       219    13.51598    2.554627          8         18
-      finc25 |       216    .2083333    .4070598          0          1
-      finc35 |       216    .1851852      .38935          0          1
--------------+--------------------------------------------------------
-      finc50 |       216    .2453704    .4313061          0          1
-      finc75 |       216        .125    .3314871          0          1
-     finc100 |       216    .1203704      .32615          0          1
-     finc101 |       216    .0648148    .2467707          0          1
-    wealth89 |       226    197.9057    242.0919   -579.997   1484.997
--------------+--------------------------------------------------------
-       black |       226     .119469    .3250596          0          1
-    stckin89 |       226    .3185841    .4669616          0          1
-     irain89 |       226          .5    .5011099          0          1
-     pctstck |       226    46.68142    39.44116          0        100
-```
-
-
-```stata
-ren pctstck y
-```
+end of do-file
+r(601);</code></pre>
+<pre class="stata"><code>sum</code></pre>
+<pre><code> file data/pension.dta not found
+r(601);
 </code></pre>
+<pre class="stata"><code>ren pctstck y</code></pre>
+<pre><code> file data/pension.dta not found
+r(601);
+
+
+no variables defined
+r(111);
+
+end of do-file
+r(111);</code></pre>
 <p>Построим модель множественного выбора (лог-линейная модель).</p>
 <pre class="stata"><code>mlogit y choice age educ wealth89 prftshr,  baseoutcome(0) </code></pre>
-<pre><code>Iteration 0:   log likelihood = -219.86356  
-Iteration 1:   log likelihood = -204.58172  
-Iteration 2:   log likelihood =  -204.5078  
-Iteration 3:   log likelihood = -204.50778  
-Iteration 4:   log likelihood = -204.50778  
+<pre><code> file data/pension.dta not found
+r(601);
 
-Multinomial logistic regression                   Number of obs   =        201
-                                                  LR chi2(10)     =      30.71
-                                                  Prob &gt; chi2     =     0.0007
-Log likelihood = -204.50778                       Pseudo R2       =     0.0698
 
-------------------------------------------------------------------------------
-           y |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-0            |  (base outcome)
--------------+----------------------------------------------------------------
-50           |
-      choice |   .6269473   .3706065     1.69   0.091    -.0994281    1.353323
-         age |  -.1062189   .0434194    -2.45   0.014    -.1913193   -.0211185
-        educ |   .1851821    .070641     2.62   0.009     .0467283    .3236359
-    wealth89 |  -.0003717   .0007432    -0.50   0.617    -.0018283     .001085
-     prftshr |  -.2718087   .4988312    -0.54   0.586      -1.2495    .7058825
-       _cons |   3.777798   2.790118     1.35   0.176    -1.690732    9.246328
--------------+----------------------------------------------------------------
-100          |
-      choice |   .6244907   .3859169     1.62   0.106    -.1318925    1.380874
-         age |  -.0948282   .0450488    -2.11   0.035    -.1831222   -.0065341
-        educ |   .0464378   .0767858     0.60   0.545    -.1040595    .1969352
-    wealth89 |  -.0003548    .000797    -0.45   0.656     -.001917    .0012074
-     prftshr |   .9809114   .4396226     2.23   0.026      .119267    1.842556
-       _cons |   4.493463   2.967396     1.51   0.130    -1.322526    10.30945
-------------------------------------------------------------------------------</code></pre>
+no variables defined
+r(111);
+
+end of do-file
+r(111);</code></pre>
 <p>Кросс - табличка для объясняемой переменной и числа лет образования.</p>
 <pre class="stata"><code>table y educ</code></pre>
-<pre><code>0=mstbnds |
-,50=mixed |
-,100=msts |                     highest grade completed                     
-tcks      |    8     9    10    11    12    13    14    15    16    17    18
-----------+-----------------------------------------------------------------
-        0 |    5     3           3    31     4     7          11     1     7
-       50 |    1     1           3    34     4     6     2    14     5    14
-      100 |          2     1     1    36     1     5     4     5     4     4
-----------------------------------------------------------------------------</code></pre>
+<pre><code> file data/pension.dta not found
+r(601);
+
+
+no variables defined
+r(111);
+
+end of do-file
+r(111);</code></pre>
 <p>Можем получить прогнозы вероятностей.</p>
 <pre class="stata"><code>predict p1 p2 p3, p</code></pre>
-<pre><code>(25 missing values generated)</code></pre>
+<pre><code> file data/pension.dta not found
+r(601);
+
+
+last estimates not found
+r(301);
+
+end of do-file
+r(301);</code></pre>
 <p>И посчитать относительное изменение отношения шансов:</p>
 <p><span class="math display">\[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
 \]</span> - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу. В stata, в отличие от R, отношение шансов называется relative-risk ratio.</p>
 <pre class="stata"><code>mlogit, rrr</code></pre>
-<pre><code>Multinomial logistic regression                   Number of obs   =        201
-                                                  LR chi2(10)     =      30.71
-                                                  Prob &gt; chi2     =     0.0007
-Log likelihood = -204.50778                       Pseudo R2       =     0.0698
+<pre><code> file data/pension.dta not found
+r(601);
 
-------------------------------------------------------------------------------
-           y |        RRR   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-0            |  (base outcome)
--------------+----------------------------------------------------------------
-50           |
-      choice |   1.871888   .6937337     1.69   0.091     .9053551    3.870264
-         age |   .8992278   .0390439    -2.45   0.014     .8258688     .979103
-        educ |   1.203438    .085012     2.62   0.009     1.047837    1.382144
-    wealth89 |   .9996284   .0007429    -0.50   0.617     .9981733    1.001086
-     prftshr |       .762   .3801094    -0.54   0.586     .2866481    2.025633
-       _cons |   43.71966    121.983     1.35   0.176     .1843845    10366.43
--------------+----------------------------------------------------------------
-100          |
-      choice |   1.867295   .7206205     1.62   0.106     .8764352    3.978377
-         age |   .9095292   .0409732    -2.11   0.035     .8326664    .9934872
-        educ |   1.047533   .0804356     0.60   0.545     .9011717    1.217665
-    wealth89 |   .9996452   .0007968    -0.45   0.656     .9980848    1.001208
-     prftshr |   2.666886   1.172423     2.23   0.026     1.126671    6.312652
-       _cons |   89.43064   265.3761     1.51   0.130     .2664612    30015.02
-------------------------------------------------------------------------------</code></pre>
+
+last estimates not found
+r(301);
+
+end of do-file
+r(301);</code></pre>
 <p>Можем посчитать предельные эффекты в разных точках.</p>
 <pre class="stata"><code>margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
 
 margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
 
 margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69 choice = 0)</code></pre>
-<pre><code>Conditional marginal effects                      Number of obs   =        201
-Model VCE    : OIM
-
-Expression   : Pr(y==0), predict(outcome(0))
-dy/dx w.r.t. : choice age educ wealth89 prftshr
-at           : choice          =    .6069652 (mean)
-               age             =    60.52736 (mean)
-               educ            =    13.56219 (mean)
-               wealth89        =    205.5467 (mean)
-               prftshr         =    .2089552 (mean)
-
-------------------------------------------------------------------------------
-             |            Delta-method
-             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      choice |  -.1387657   .0717581    -1.93   0.053     -.279409    .0018776
-         age |   .0224223   .0083071     2.70   0.007     .0061407     .038704
-        educ |  -.0273084    .014011    -1.95   0.051    -.0547696    .0001527
-    wealth89 |   .0000807   .0001452     0.56   0.578    -.0002039    .0003654
-     prftshr |  -.0638897   .0905915    -0.71   0.481    -.2414458    .1136664
-------------------------------------------------------------------------------
+<pre><code> file data/pension.dta not found
+r(601);
 
 
-Conditional marginal effects                      Number of obs   =        201
-Model VCE    : OIM
+last estimates not found
+r(301);
 
-Expression   : Pr(y==0), predict(outcome(0))
-dy/dx w.r.t. : choice age educ wealth89 prftshr
-at           : choice          =           0 (p25)
-               age             =          57 (p25)
-               educ            =          12 (p25)
-               wealth89        =        65.1 (p25)
-               prftshr         =           0 (p25)
-
-------------------------------------------------------------------------------
-             |            Delta-method
-             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      choice |  -.1479315   .0837538    -1.77   0.077     -.312086    .0162229
-         age |   .0239584   .0083078     2.88   0.004     .0076754    .0402413
-        educ |  -.0298039   .0158695    -1.88   0.060    -.0609076    .0012998
-    wealth89 |   .0000861   .0001542     0.56   0.576     -.000216    .0003883
-     prftshr |   -.061837   .1037161    -0.60   0.551    -.2651169    .1414428
-------------------------------------------------------------------------------
-
-
-Average marginal effects                          Number of obs   =        201
-Model VCE    : OIM
-
-Expression   : Pr(y==0), predict(outcome(0))
-dy/dx w.r.t. : choice age educ wealth89 prftshr
-at           : choice          =           0
-               age             =          69
-
-------------------------------------------------------------------------------
-             |            Delta-method
-             |      dy/dx   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      choice |  -.1438966   .0694576    -2.07   0.038    -.2800311   -.0077622
-         age |   .0231941   .0072441     3.20   0.001      .008996    .0373922
-        educ |  -.0275972    .014802    -1.86   0.062    -.0566086    .0014142
-    wealth89 |   .0000836   .0001511     0.55   0.580    -.0002125    .0003798
-     prftshr |  -.0727904   .0966843    -0.75   0.452    -.2622882    .1167074
-------------------------------------------------------------------------------</code></pre>
+end of do-file
+r(301);</code></pre>
 <p>И вернемся к <del>сильным и независимым</del> моделькам упорядоченного выбора :)</p>
 <pre class="stata"><code>use data/tradrole.dta
 
 sum</code></pre>
-<pre><code>    Variable |       Obs        Mean    Std. Dev.       Min        Max
--------------+--------------------------------------------------------
-      adjinc |      3705    8646.293      5910.1          0      49497
-         age |      3705    18.36154    2.239999   14.08333         22
-        cath |      3705    .3122807    .4634862          0          1
-        fpro |      3705    .2801619    .4491388          0          1
-          id |      3705    5603.128    3881.492          1      12676
--------------+--------------------------------------------------------
-         inc |      3705    8.646293      5.9101          0     49.497
-       meduc |      3705    11.61296    2.528294          0         20
-        mw14 |      3705    .5033738    .5000561          0          1
-      nonint |      3705    .2504723    .4333435          0          1
-       nsibs |      3705    3.328475    2.164985          0         17
--------------+--------------------------------------------------------
-          so |      3705    .2898785    .4537671          0          1
-    tradrole |      3705    1.783266     .779212          1          4
-         urb |      3705    .7581646    .4282529          0          1</code></pre>
-<pre class="stata"><code>hist tradrole &#39;Вот такие дела, джентельмены :)&#39;)
-#subtitle(&quot;Вот такие дела, джентельмены :)&quot;)</code></pre>
-<pre><code>&#39; invalid name
-r(198);
+<pre><code> file data/pension.dta not found
+r(601);
+
+
+file data/tradrole.dta not found
+r(601);
 
 end of do-file
-r(198);</code></pre>
+r(601);</code></pre>
+<p>!Нужно добавить название к графику</p>
+<pre class="stata"><code>hist tradrole</code></pre>
+<pre><code> file data/pension.dta not found
+r(601);
+
+
+no variables defined
+r(111);
+
+end of do-file
+r(111);</code></pre>
 <p>Посмотрим, как влияет религиозное воспитание (<code>cath</code> - католичество и <code>fpro</code> - протестанство), число лет образования матери - <code>meduc</code> и проживание в крупном городе <code>urb</code> на объясняемую переменную.</p>
 <pre class="stata"><code>oprobit tradrole i.cath i.fpro meduc i.urb</code></pre>
-<pre><code> &#39; invalid name
-r(198);
+<pre><code> file data/pension.dta not found
+r(601);
 
 
+no variables defined
+r(111);
 
-Iteration 0:   log likelihood = -4036.3838  
-Iteration 1:   log likelihood = -3965.7419  
-Iteration 2:   log likelihood = -3965.7215  
-Iteration 3:   log likelihood = -3965.7215  
-
-Ordered probit regression                         Number of obs   =       3705
-                                                  LR chi2(4)      =     141.32
-                                                  Prob &gt; chi2     =     0.0000
-Log likelihood = -3965.7215                       Pseudo R2       =     0.0175
-
-------------------------------------------------------------------------------
-    tradrole |      Coef.   Std. Err.      z    P&gt;|z|     [95% Conf. Interval]
--------------+----------------------------------------------------------------
-      1.cath |  -.0548061   .0445299    -1.23   0.218    -.1420831     .032471
-      1.fpro |   .2498155   .0455727     5.48   0.000     .1604946    .3391364
-       meduc |  -.0588426   .0074691    -7.88   0.000    -.0734817   -.0442035
-       1.urb |  -.0720386   .0433486    -1.66   0.097    -.1570004    .0129232
--------------+----------------------------------------------------------------
-       /cut1 |   -.944515   .0970692                     -1.134767   -.7542628
-       /cut2 |   .3860603   .0964262                      .1970685    .5750522
-       /cut3 |   1.163018   .1004101                      .9662177    1.359818
-------------------------------------------------------------------------------</code></pre>
+end of do-file
+r(111);</code></pre>
 </div>
 </div>
 
