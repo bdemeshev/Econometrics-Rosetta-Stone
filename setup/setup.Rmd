@@ -1,0 +1,27 @@
+```{r setup, include=FALSE}
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
+if (Sys.getenv("USER") == "boris") {
+  source("setup_boris.R")
+}
+
+if (Sys.getenv("USERNAME") == "Yuliya") {
+  source("setup_yuliya.R")
+}
+
+if (Sys.getenv("USER") == "Sasha") {
+    source("setup_sasha.R")
+}
+
+if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
+  source("setup_asya.R")
+}
+
+if (Sys.getenv("USERNAME") == "The_sun") {
+  source("setup_matvei.R")
+}
+
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
+```

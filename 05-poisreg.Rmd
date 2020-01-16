@@ -240,15 +240,15 @@ summarize
 
 ```{stata, results = 'hide', echo = 1}
 hist count
-graph export hist_pois.png, replace
+graph export plots/hist_pois.png, replace
 ```
-![](hist_pois.png)
+![](plots/hist_pois.png)
 
 
 Строим Пуассоновскую регрессию. 
 В описательных статистиках:
 $AIC = -2log(L) + 2k$
-$AIC = -2log(L) + klog(N)$
+$AIC = -2log(L) + k\log(N)$
 
 ```{stata}
 glm count camper child persons, family(poisson)

@@ -1,1 +1,0 @@
-# Treatment effect {#treatment}
