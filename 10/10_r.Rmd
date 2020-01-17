@@ -1,0 +1,111 @@
+## R
+
+Вызовем **r** в помощь в охоте на гетероскедастичность. Импортируем его оружейные пакеты.
+
+```{r, message=FALSE, warning=FALSE}
+library(rio) # импорт и экспорт данных в разных форматах
+library(dplyr) # манипуляции с данными
+library(lmtest) # тест Бройша-Пагана
+library(sandwich) # оценка дисперсии при гетероскедастичности
+library(UStatBookABSC) # WLS
+library (estimatr) # получение робастных оценок
+library(ggpubr) # для графиков
+library(skimr) # для описательных статистик
+```
+
+Импортируем наш dataset, `flats.dta`:
+
+```{r}
+flats= import("data/flats.dta")
+```
+
+Рассмотрим описательные статистики загруженного датасета.
+
+```{r}
+skim(flats)
+```
+
+Построим простую линейную регрессионную модель, на которой будем проверять гетероскедастичность.
+
+```{r}
+reg = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats)
+summary(reg)
+```
+
+Проверим наличие гетероскедастичности визуально. Построим зависимости цены квартир от объясняющих факторов.
+
+```{r}
+kit = ggplot(flats) + geom_point(aes(x = ln_kitsp, y = ln_price_metr)) + 
+  labs(x = "Площадь кухни, кв.м", y = "Цена квартиры, $1000", 
+  title = "Стоимость квартир в Москве")
+live = ggplot(flats) + geom_point(aes(x = ln_livesp, y = ln_price_metr)) + 
+  labs(x = "Жилая площадь, кв.м", y = "Цена квартиры, $1000", 
+  title = "Стоимость квартир в Москве")
+dist = ggplot(flats) + geom_point(aes(x = ln_dist, y = ln_price_metr)) + 
+  labs(x = "Расстояние до центра, м", y = "Цена квартиры, $1000",
+  title = "Стоимость квартир в Москве")
+metrdist = ggplot(flats) + geom_point(aes(x = ln_metrdist, y = ln_price_metr)) + 
+  labs(x = "Расстояние до метро, м", y = "Цена квартиры, $1000", 
+  title = "Стоимость квартир в Москве")
+
+ggarrange(kit, live, dist, metrdist, ncol = 2, nrow = 2)
+```
+
+Из сета красивых графиков видно, что гетероскедастичность присутствует. В частности, подозрительны переменные `ln_kitsp` и `ln_metrdist`.
+
+Проверим наличие гетероскедастичности с помощью тестов. 
+
+Начнём с теста Уайта. 
+
+Тест Уайта реализуется в **r** (ручками) как:
+```{r}
+bptest(reg, varformula = ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist + I(ln_livesp ^ 2) + I(ln_kitsp ^ 2) + I(ln_dist ^ 2) + I(ln_metrdist ^ 2) + I(ln_livesp * ln_kitsp) + I(ln_livesp * ln_dist) + I(ln_livesp * ln_metrdist) + I(ln_kitsp * ln_dist) + I(ln_kitsp * ln_metrdist) + I(ln_dist * ln_metrdist), data = flats)
+```
+
+Тест Уайта выявил гетероскедастичность.
+
+Проведём тест Бройша - Пагана.
+
+Классическая версия Бройша - Пагана реализуется в **r** по команде:
+
+```{r}
+bptest(reg, studentize = FALSE)
+```
+
+Модифицированная версия теста Бройша - Пагана реализуется по команде:
+
+```{r}
+bptest(reg)
+```
+
+Причем, если отдельно не указать спецификацию вспомогательной регрессии, то `bptest()` возьмёт все регрессоры исходной модели.
+
+В обеих версиях теста Бройша - Пагана гетероскедастичность обнаружена.
+
+Ещё есть тест Голдфелда - Квандта. 
+
+Данный тест в **r** реализуется по командам (предполагается, что дисперсии пропорциональны переменной `ln_kitsp`):
+
+```{r}
+flats_ordered = flats[order(flats$ln_kitsp), ]
+reg_gqtest = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats_ordered)
+gqtest(reg_gqtest, fraction = 0.34) # посередине отсортированного ряда лежит 34% наблюдений
+```
+
+Будет также полезным познакомиться с методами борьбы с гетероскедастичностью.
+
+Способ 1. Взвешенный МНК. 
+В **r** его можно осуществить так:
+
+```{r}
+reg_wls = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats, weights = 1 / (1 / fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2))
+summary(reg_wls)
+```
+
+Способ 2. Робастные оценки Уайта.
+
+```{r}
+coeftest(reg, vcov = vcovHC(reg, "HC0"))
+```
+
+Робастные оценки коэффициентов регрессии получаются состоятельными. 

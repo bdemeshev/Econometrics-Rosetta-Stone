@@ -73,9 +73,11 @@ marginsplot
 graph export marginsplot1.png, replace
 ```
 
+<center>
+
 ![](marginsplot1.png)
 
-
+</center>
 
 Посмотрим на точность классификации построенной логит-модели. Для этого применяется простая команда:
 
@@ -92,8 +94,12 @@ estat classification
 lroc
 graph export lroc.png, replace
 ```
+
+<center>
+
 ![](lroc.png)
 
+</center>
 
 Теперь проверим правильность спецификации модели. Проведём тест, определяющий, можно ли убрать некоторые переменные из модели.
 
