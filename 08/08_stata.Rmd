@@ -1,0 +1,137 @@
+## Stata
+
+```{stata, include=FALSE}
+clear all
+```
+
+Теперь научимся анализировать временные ряды в **stata**.
+Импортируем dataset.
+
+```{stata, results="hide"}
+use data/apple.dta
+```
+
+Установим временной формат переменной `Date` и визуализируем исследуемый временной ряд, его автокорреляционную и частную автокорреляционную функции.
+
+```{stata}
+tsset Date
+```
+
+```{stata, echo=1, results="hide"}
+tsline Close
+graph export ts.png
+```
+<center>
+![](ts.png)
+
+</center>
+
+```{stata, echo=1, results= "hide"}
+ac Close
+graph export ac.png
+```
+
+<center>
+
+![](ac.png)
+
+</center>
+
+```{stata, echo = 1, results = "hide"}
+pac Close
+graph export pac.png
+```
+
+<center>
+
+![](pac.png)
+</center>
+На графиках видим отличные от предыдущих 2-х сетов графиков. 
+Почему так происходит – хороший исследовательский вопрос!
+
+[Stackexchange](https://stats.stackexchange.com/questions/169891/same-data-different-pacf-r-vs-stata/)
+рекомендует приписать ", yw" после "ac/pac", но это не работает на моём примере.
+
+Несмотря на выявленное различие, всё равно посмотрим процедуру анализа временного ряда в stata.
+
+Проверим стационарность ряда тестом Дики-Фуллера.
+
+```{stata}
+dfuller Close, trend lags(0)
+```
+
+Тест выявил нестационарность на 5% уровне значимости (основная гипотеза - о нестационарности).
+
+Возьмём первую разность от ряда, чтобы сделать его стационарным и снова построим графики ACF и PACF.
+
+```{stata, results="hide"}
+gen Close_1 = Close[_n]-Close[_n-1]
+```
+
+И визуализируем его, вместе с автокорреляционной и частной автокорреляционной функциями.
+
+```{stata, echo=1, results="hide"}
+tsline Close_1
+graph export ts_1.png
+```
+
+<center>
+
+![](ts_1.png)
+
+</center>
+
+```{stata, echo=1, results="hide"}
+ac Close_1
+graph export acc_1.png
+```
+<center>
+
+![](acc_1.png)
+</center>
+```{stata, echo=1, results="hide"}
+pac Close_1
+graph export pacc_1.png
+```
+<center>
+![](pacc_1.png)
+
+</center>
+
+
+Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан `ARIMA (0, 0, 0)`, что равносильно `ARMA (0, 0)`, но всё же...
+
+`ARIMA (0, 0, 0)`. Можно также отдельно вывести AIC и BIC для построенной модели. Построим также модель `ARIMA (1, 0, 0)` для сравнения.
+
+```{stata}
+arima Close_1, arima(0, 0, 0)
+estat ic
+arima Close_1, arima(1, 0, 0)
+estat ic
+```
+
+По информационному критерию Акаике первая модель лучше (AIC меньше), а также во второй модели коэффициент перед ar(1) незначим. 
+
+Проверим остатки модели `ARIMA (0, 0, 0)` на белошумность. 
+Сохраним остатки модели и проверим тестом Льюнг-Бокса. 
+Основная гипотеза - остатки независимы.
+
+```{stata}
+arima Close_1, arima(0, 0, 0)
+predict res, resid
+wntestq res
+```
+
+Теперь попробуем построить прогноз по модели `ARIMA (0, 0, 0)`:
+
+```{stata}
+arima Close_1, arima(0, 0, 0)
+predict prognoz
+display prognoz
+```
+
+Прогноз аналогичен полученным раньше.
+
+```{stata, include=FALSE}
+save data/prognoz.dta, replace
+```
