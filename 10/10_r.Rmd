@@ -15,8 +15,12 @@ library(skimr) # для описательных статистик
 
 Импортируем наш dataset, `flats.dta`:
 
-```{r}
-flats= import("data/flats.dta")
+```{r, result="hide", message=FALSE, warning=FALSE}
+flats= import("flats_10.dta")
+```
+
+```{r, include=FALSE}
+flats= import("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta")
 ```
 
 Рассмотрим описательные статистики загруженного датасета.

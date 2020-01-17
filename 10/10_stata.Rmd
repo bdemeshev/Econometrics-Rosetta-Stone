@@ -2,27 +2,27 @@
 
 Теперь попробуем поработать в **stata**.
 
-Импортируем датасет для анализа.
-
-```{stata}
-use data/flats.dta
-```
+Импортируем датасет для анализа командой `use flats_10.dta`.
 
 Построим линейную регрессионную модель.
 
-```{stata}
+```{stata, echo=2}
+use C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta
 reg ln_price_metr ln_livesp ln_kitsp ln_dist ln_metrdist
 ```
 
 Визуализируем зависимость регрессоров и регрессанта.
 
-```{stata,echo=1,results="hide"}
+```{stata, echo=2}
+use C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta
+
 scatter ln_price_metr ln_kitsp
-graph export kitsp.png, replace
+
+graph export C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/10/kitsp.png, replace
 ```
-<center>
+
 ![](kitsp.png)
-</center>
+
 
 ```{stata,echo=1,results="hide"}
 scatter ln_price_metr ln_livesp

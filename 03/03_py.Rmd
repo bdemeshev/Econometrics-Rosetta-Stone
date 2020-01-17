@@ -23,8 +23,12 @@ from scipy.stats.distributions import chi2 # хи-квадрат-статист�
 
 Загрузим данные:
 
-```{python}
-data = pd.read_stata("data/bwght.dta")
+```{python, result="hide", message=FALSE, warning=FALSE}
+data = pd.read_stata("bwght_03.dta");
+```
+
+```{python, include=FALSE}
+data = pd.read_stata("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta")
 ```
 
 Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.
