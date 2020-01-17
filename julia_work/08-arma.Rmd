@@ -11,7 +11,7 @@ if (Sys.getenv("USERNAME") == "Yuliya") {
   stataexe <- find_stata()
 }
 if (Sys.getenv("USER") == "Sasha") {
-  use_python('/Users/Sasha/anaconda3/bin/python3')
+  use_python("/Users/Sasha/anaconda3/bin/python3")
   stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
 }
 if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
@@ -43,7 +43,7 @@ library(rmarkdown)
 library(dplyr)
 stataexe <- find_stata()
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
-opts_chunk$set(fig.align = 'center') # выравнивание картинок по центру
+opts_chunk$set(fig.align = "center") # выравнивание картинок по центру
 ```
 >Достигнем просветления в анализе временных рядов вместе с нашими друзьями, stata, r и python!
 В качестве анализируемых наблюдений используем данные по стоимости акций коммапнии `Apple` c 2015 - 01 - 01 по 2015 - 12 - 31: цена открытия/ закрытия, минимальная/ максимальная цены, объём и скорректиованная цена.
@@ -67,7 +67,7 @@ library(lmtest) # проверка гипотез
 ```
 Импортируем dataset `AAPL` прямо из пакета `quantmod`. Будем анализировать одномерный временной ряд от переменной `AAPL. Close`.
 ```{r, result=FALSE, warning=FALSE, message=FALSE}
-getSymbols("AAPL",from="2015-01-01",to="2015-12-31")
+getSymbols("AAPL",from = "2015-01-01",to = "2015-12-31")
 ```
 Обозначим наш dataframe как `apple_df`. 
 ```{r, warning=FALSE, message=FALSE}
@@ -95,12 +95,12 @@ summary(apple_diff)
 
 `ARIMA (0, 0, 0)`:
 ```{r}
-arima_000 = arima(apple_diff, order=c(0, 0, 0))
+arima_000 = arima(apple_diff, order = c(0, 0, 0))
 summary(arima_000)
 ```
 Построим также модель `ARIMA (1, 0, 0)` , что равносильно `ARMA (1, 0)`, для сравнения.
 ```{r}
-arima_100 = arima(apple_diff, order=c(1, 0, 0))
+arima_100 = arima(apple_diff, order = c(1, 0, 0))
 summary(arima_100)
 coeftest(arima_100)
 ```
@@ -119,7 +119,7 @@ summary(arima_auto_model)
 Сохраним остатки модели `ARIMA (0, 0, 0)` и построим тест Льюнг-Бокса (если наблюдений мало, то используем опцию `Box-Pierce`).
 ```{r}
 res_arima_000 = resid(arima_000)
-Box.test(res_arima_000, lag=10, type="Ljung-Box")
+Box.test(res_arima_000, lag = 10, type = "Ljung-Box")
 ```
 Основная гипотеза об отсутствии автокорреляции остатков отвергается, следовательно, модель корректно описывает структуру автокорреляции.
 
@@ -134,7 +134,7 @@ autoplot(arima_100)
 ```
 Построим прогноз на 3 периода вперёд для модели `arima_000`. Визуализируем прогноз, границы 80% и 95% доверительного интервалов.
 ```{r, warning=FALSE, message=FALSE}
-forecast(arima_000, h=10) %>%
+forecast(arima_000, h = 10) %>%
 autoplot()
 ```
 
@@ -188,8 +188,8 @@ plt.show()
 
 Проверим стационарность ряда тестом Дики-Фуллера.
 ```{python, warning=FALSE, message=FALSE}
-res = sm.tsa.adfuller(apple_df, regression='ct')
-'p-value:{}'.format(res[1])
+res = sm.tsa.adfuller(apple_df, regression="ct")
+"p-value:{}".format(res[1])
 ```
 Возьмём первую разность.
 ```{python, warning=FALSE, message=FALSE}
@@ -250,9 +250,9 @@ forecast
 И визуализируем прогнозные значения на исходном графике.
 ```{python, warning=FALSE, message=FALSE}
 arma_00_fit.plot_predict(len(apple_diff)-250, len(apple_diff)+10)
-plt.xlabel('Лаги')
-plt.ylabel('Изменение цены')
-plt.title('Изменение цены закрытия AAPL')
+plt.xlabel("Лаги")
+plt.ylabel("Изменение цены")
+plt.title("Изменение цены закрытия AAPL")
 plt.show()
 ```
 
@@ -289,7 +289,10 @@ graph export pac.png
 ```
 ![](pac.png)
 
-На графиках видим отличные от предыдущих 2-х сетов графиков. Почему так происходит -- хороший исследовательский вопрос!https://stats.stackexchange.com/questions/169891/same-data-different-pacf-r-vs-stata рекомендует приписать ", yw" после "ac/pac", но это не работает на моём примере.
+На графиках видим отличные от предыдущих 2-х сетов графиков. Почему так происходит -- хороший исследовательский вопрос!
+
+[stackexchange](https://stats.stackexchange.com/questions/169891/same-data-different-pacf-r-vs-stata/)
+рекомендует приписать ", yw" после "ac/pac", но это не работает на моём примере.
 
 Несмотря на выявленное различие, всё равно посмотрим процедуру анализа временного ряда в stata.
 

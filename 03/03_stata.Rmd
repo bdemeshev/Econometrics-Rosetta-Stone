@@ -1,0 +1,131 @@
+## Stata
+
+Познакомимся с тем, как **stata** работает с моделями бинарного выбора. 
+
+```{stata, include=FALSE}
+clear all
+```
+
+Импортируем данные. 
+
+```{stata, result=FALSE, message=FALSE, warning=FALSE}
+use data/bwght.dta
+```
+
+Рассмотрим описательные статистики данных.
+
+```{stata, message=FALSE, warning=FALSE}
+sum smoke faminc cigtax cigprice fatheduc motheduc parity white
+```
+
+Заметим, что переменные `fatheduc`, `motheduc` имеют пропущенные значения.
+Уберём их и рассмотрим описательные статистики нового датасета без пропущенных наблюдений.
+
+```{stata, message=FALSE, warning=FALSE}
+sum smoke faminc cigtax cigprice fatheduc motheduc parity white if fatheduc != . & motheduc != .
+``` 
+
+Сгенерируем переменную `smoke`, которая будет зависимой переменной в наших моделях. Присвоим ей значение, равное 1, если индивид выкуривает положительное количество сигарет, и 0, иначе.
+
+```{stata, message=FALSE, warning=FALSE}
+gen smoke = (cigs>0) if cigs != .
+```
+
+Построим модель линейной вероятности. Сохраним результат под `lin_prob_model`.
+
+```{stata, message=FALSE, warning=FALSE}
+reg smoke faminc cigtax cigprice fatheduc motheduc parity white if fatheduc != . & motheduc != .
+est store lin_prob_model
+```
+
+Посчитаем количество совпадений прогнозов и исходных значений. Для этого оценим предсказанные значения модели линейной вероятности. Сохраним их как `predictions_lin_prob_model`. 
+Если прогнозное значение выше 0.5 (порог отсечения, по дефолту, равный 0.5), то классифицируем наблюдаемого индивида как курильщика (`smoke_ols = 1`). 
+Посмотрим на число совпадений исходных и прогнозных данных.
+
+```{stata, result=FALSE, message=FALSE, warning=FALSE}
+predict predictions_lin_prob_model
+gen smoke_ols = (predictions_lin_prob_model>0.5) if predictions_lin_prob_model != .
+count if smoke_ols == smoke
+tab smoke_ols smoke
+```
+
+Ввиду указанных выше недостатков линейной вероятностной модели, есть необходимость оценки логит- и пробит- моделей.
+
+Построим логит-модель и сохраним результат оцененной модели как `logit_model`.
+
+```{stata, message=FALSE, warning=FALSE}
+logit smoke faminc cigtax cigprice fatheduc motheduc parity white if fatheduc != . & motheduc != .
+est store logit_model
+```
+
+Рассчитаем предельные эффекты в средних значениях переменных.
+
+```{stata, message=FALSE, warning=FALSE}
+margins, dydx(*) atmeans
+```
+
+Интерпретация предельных эффектов (на примере переменной семейного дохода): при увеличении семейного дохода в среднем на 1 единицу при остальных неизменных факторах, вероятность стать курильщиком уменьшается в среднем на 0.18%.
+
+Визуализируем предельные эффекты.
+
+```{stata,warning=FALSE, message=FALSE, echo=1, results="hide"}
+marginsplot
+graph export marginsplot1.png, replace
+```
+
+![](marginsplot1.png)
+
+
+
+Посмотрим на точность классификации построенной логит-модели. Для этого применяется простая команда:
+
+```{stata, message=FALSE, warning=FALSE}
+estat classification
+```
+
+Качество модели также можно проанализировать с помощью ROC-кривой, отражающей зависимость доли верных положительно классифицируемых наблюдений (`sensitivity`) от доли ложных положительно классифицируемых наблюдений `(1-specifity)`. Площадь под кривой обозначается как AUC. 
+Она показывает качество классификации. Соответственно, чем выше AUC, тем лучше построенная модель.
+
+Построим ROC-кривую, показывающую качество классификации построенной логит-модели.
+
+```{stata,warning=FALSE, message=FALSE, echo=1, results="hide"}
+lroc
+graph export lroc.png, replace
+```
+![](lroc.png)
+
+
+Теперь проверим правильность спецификации модели. Проведём тест, определяющий, можно ли убрать некоторые переменные из модели.
+
+Попробуем построить ещё одну логит-модель без учёта фактора `white` и сохраним новую модель под именем `logit_model_new`.
+
+```{stata, message=FALSE, warning=FALSE}
+logit smoke faminc cigtax cigprice fatheduc motheduc parity if fatheduc != . & motheduc != .
+est store logit_model_new
+```
+
+Сравним `logit_model` и `logit_model_new` с помощью LR-теста (likelihood-ratio test):
+
+```{stata}
+lrtest logit_model logit_model_new
+```
+
+`p-value = 0.08` в LR-тесте. 
+Следовательно, основная гипотеза о том, что переменная `white` не влияет на решение стать курильщиком, не отвергается на 5% уровне значимости.
+
+Построим пробит-модель и сохраним результат оцененной модели как `probit_model`.
+
+```{stata, message=FALSE, warning=FALSE}
+probit smoke faminc cigtax cigprice fatheduc motheduc parity white if fatheduc != . & motheduc != .
+est store probit_model
+```
+
+Сравним коэффициенты построенных моделей: модели линейной вероятности, логит- и пробит- моделей.
+
+```{stata, message=FALSE, warning=FALSE}
+est tab lin_prob_model logit_model probit_model
+```
+
+```{stata, include=FALSE}
+save data/bwght1.dta, replace
+```

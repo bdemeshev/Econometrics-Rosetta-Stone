@@ -11,7 +11,7 @@ if (Sys.getenv("USERNAME") == "Yuliya") {
   stataexe <- find_stata()
 }
 if (Sys.getenv("USER") == "Sasha") {
-  use_python('/Users/Sasha/anaconda3/bin/python3')
+  use_python("/Users/Sasha/anaconda3/bin/python3")
   stataexe = "/Applications/Stata/StataSE.app/Contents/MacOS/stataSE"
 }
 if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
@@ -43,7 +43,7 @@ library(dplyr)
 library(rmarkdown)
 stataexe <- find_stata()
 knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
-opts_chunk$set(fig.align = 'center') # выравнивание картинок по центру
+opts_chunk$set(fig.align = "center") # выравнивание картинок по центру
 ```
 > Одним из нарушений условий ТГМ является гетероскедастичность, возникающая ввиду неодинаковых дисперсий для разных наблюдений. Она нежелательна ввиду того, что оценки МНК не являются эффективными (но остаются несмещёнными), и предпосылки для использования `t`-статистик нарушены, что даёт неверный результат о значимости коэффициентов.
 
@@ -54,6 +54,7 @@ opts_chunk$set(fig.align = 'center') # выравнивание картинок
 ## r
 
 Вызовем **r** в помощь в охоте на гетероскедастичность. Импортируем его оружейные пакеты.
+
 ```{r, message=FALSE, warning=FALSE}
 library(rio) # импорт и экспорт данных в разных форматах
 library(dplyr) # манипуляции с данными
@@ -64,7 +65,9 @@ library (estimatr) # получение робастных оценок
 library(ggpubr) # для графиков
 library(skimr) # для описательных статистик
 ```
+
 Импортируем наш dataset, `flats.dta`:
+
 ```{r}
 flats= import("data/flats.dta")
 ```
@@ -74,7 +77,7 @@ skim(flats)
 ```
 Построим простую линейную регрессионную модель, на которой будем проверять гетероскедастичность.
 ```{r}
-reg = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data=flats)
+reg = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats)
 summary(reg)
 ```
 Проверим наличие гетероскедастичности визуально. Построим зависимости цены квартир от объясняющих факторов.
@@ -92,7 +95,7 @@ metrdist = ggplot(flats) + geom_point(aes(x = ln_metrdist, y = ln_price_metr)) +
   labs(x = "Расстояние до метро, м", y = "Цена квартиры, $1000", 
   title = "Стоимость квартир в Москве")
 
-ggarrange(kit, live, dist, metrdist, ncol=2, nrow=2)
+ggarrange(kit, live, dist, metrdist, ncol = 2, nrow = 2)
 ```
 Из сета красивых графиков видно, что гетероскедастичность присутствует. В частности, подозрительны переменные `ln_kitsp` и `ln_metrdist`.
 
@@ -123,7 +126,7 @@ n \cdot R^2_{aux} \sim \chi^2_{K-1}
 
 Тест Уайта реализуется (ручками) как:
 ```{r}
-bptest(reg, varformula = ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist + I(ln_livesp ^ 2) + I(ln_kitsp ^ 2) + I(ln_dist ^ 2) + I(ln_metrdist ^ 2) + I(ln_livesp * ln_kitsp) + I(ln_livesp * ln_dist) + I(ln_livesp * ln_metrdist) + I(ln_kitsp * ln_dist) + I(ln_kitsp * ln_metrdist) + I(ln_dist * ln_metrdist), data=flats)
+bptest(reg, varformula = ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist + I(ln_livesp ^ 2) + I(ln_kitsp ^ 2) + I(ln_dist ^ 2) + I(ln_metrdist ^ 2) + I(ln_livesp * ln_kitsp) + I(ln_livesp * ln_dist) + I(ln_livesp * ln_metrdist) + I(ln_kitsp * ln_dist) + I(ln_kitsp * ln_metrdist) + I(ln_dist * ln_metrdist), data = flats)
 ```
 Тест Уайта выявил гетероскедастичность.
 
@@ -140,7 +143,7 @@ H_1: \sigma^2_i \propto f(\alpha_0 + \alpha_1 \cdot Z_1 +  \ldots + \alpha_p \cd
 
 Классическая версия Бройша-Пагана реализуется в **r** по команде:
 ```{r}
-bptest(reg, studentize=FALSE)
+bptest(reg, studentize = FALSE)
 ```
 
 Современная модификация теста не требует нормальности остатков, лишь $${\mathbb E}({\varepsilon^4_i}) = const$$.
@@ -192,8 +195,8 @@ H_1: \sigma^2_i \propto X_i \\
 Данный тест в **r** реализуется по командам (предполагается, что дисперсии пропорциональны переменной `ln_kitsp`):
 ```{r}
 flats_ordered = flats[order(flats$ln_kitsp), ]
-reg_gqtest = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data=flats_ordered)
-gqtest(reg_gqtest, fraction=0.34) # посередине отсортированного ряда лежит 34% наблюдений
+reg_gqtest = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats_ordered)
+gqtest(reg_gqtest, fraction = 0.34) # посередине отсортированного ряда лежит 34% наблюдений
 ```
 
 Будет также полезным познакомиться с методами борьбы с гетероскедастичностью.
@@ -208,7 +211,7 @@ gqtest(reg_gqtest, fraction=0.34) # посередине отсортирова�
 
 В **r** это можно сделать так:
 ```{r}
-reg_wls = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data=flats, weights = 1 / (1 / fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2))
+reg_wls = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats, weights = 1 / (1 / fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2))
 summary(reg_wls)
 ```
 Способ 2. Робастные оценки Уайта.
@@ -256,7 +259,7 @@ plt.show()
 Рассмотрим тест Бройша-Пагана на всех факторах.
 ```{python}
 resid = reg.resid
-X = flats[['ln_livesp', 'ln_kitsp', 'ln_dist', 'ln_metrdist']]
+X = flats[["ln_livesp", "ln_kitsp", "ln_dist", "ln_metrdist"]]
 sm_diagnostic.het_breuschpagan(resid=resid, exog_het=X)
 ```
 Интерпретация результатов теста: 
@@ -275,7 +278,7 @@ sm_diagnostic.het_goldfeldquandt(y=flats["ln_price_metr"], x=X, alternative="two
 
 Взвешиваем по стандартному отклонению фактора `ln_kitsp`.
 ```{python}
-reg_wls = statsmodels.regression.linear_model.WLS(flats["ln_price_metr"], X, weights=flats['ln_kitsp'])
+reg_wls = statsmodels.regression.linear_model.WLS(flats["ln_price_metr"], X, weights=flats["ln_kitsp"])
 reg_wls_results = reg_wls.fit()
 reg_wls_results.summary()
 ```
