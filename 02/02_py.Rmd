@@ -1,21 +1,23 @@
 ## Python
 
-Много полезных функций для статистических расчетов можно найти в пакете Statsmodels. 
+Много полезных функций для статистических расчетов можно найти в модуле Statsmodels. 
 
 ```{python}
 import pandas as pd # работа с таблицами
-import numpy as np # математика, работа с матрицами
+import numpy as np # математические функции и матрицы
 import matplotlib.pyplot as plt # графики
-import statsmodels.api as sm
-import statsmodels.formula.api as smf
-import statsmodels.graphics.gofplots as gf
 import seaborn as sns # еще более классные графики
-import statsmodels.discrete.discrete_model
-from statsmodels.stats.outliers_influence import summary_table
-from scipy.stats import shapiro # еще математика
+
+import statsmodels.api as sm # стандартные регресионные модели
+import statsmodels.formula.api as smf # аналогичные модели с синтаксисом в стиле R
+import statsmodels.graphics.gofplots as gf # визуализация моделей
+import statsmodels.discrete.discrete_model # дискретные модели
+
+from statsmodels.stats.outliers_influence import summary_table # работа с выбросами
+from scipy.stats import shapiro # тест Шапиро – Уилка 
 ```
 
-При желании, можем настроить графики по своему вкусу :)
+При желании можем настроить графики по своему вкусу :)
 
 ```{python}
 plt.style.use('seaborn')
@@ -28,7 +30,7 @@ plt.rc('axes', titlesize=15)
 Загрузим данные.
 
 ```{python}
-df = pd.read_stata('data/us-return.dta') # добавить говорящее имя для данных
+df = pd.read_stata('../data/02_us_return.dta') # добавить говорящее имя для данных
 ```
 
 Избавимся от наблюдений с пропущенными значениями. 
