@@ -6,10 +6,10 @@
 clear all
 ```
 
-Импортируем данные. 
+Импортируем данные командой `use bwght_03.dta`.
 
-```{stata, result=FALSE, message=FALSE, warning=FALSE}
-use data/bwght.dta
+```{stata, include=FALSE}
+use C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta
 ```
 
 Рассмотрим описательные статистики данных.

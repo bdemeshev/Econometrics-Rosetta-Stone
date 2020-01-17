@@ -22,8 +22,12 @@ import statsmodels.stats.diagnostic as sm_diagnostic # тест Бройша-П�
 
 Загрузим исследуемый датасет.
 
-```{python}
-flats = pd.read_stata("data/flats.dta")
+```{python, result=FALSE, warning=FALSE, message=FALSE}
+flats = pd.read_stata("flats_10.dta");
+```
+
+```{python, include=FALSE}
+flats = pd.read_stata("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta")
 ```
 
 Построим линейную регрессионную модель.
@@ -37,7 +41,6 @@ reg.summary()
 
 ```{python}
 sns.pairplot(flats, x_vars=["ln_metrdist", "ln_kitsp", "ln_livesp", "ln_dist"], y_vars=["ln_price_metr"])
-plt.show()
 ```
 
 Графики всё такие же красивые, как и в предыдущем пункте:) 

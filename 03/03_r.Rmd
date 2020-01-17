@@ -16,8 +16,12 @@ library(texreg) # вывод результатов регрессии в тех
 
 Импортируем исследуемые данные.
 
-```{r}
-data = import("data/bwght.dta") 
+```{r, result="hide", message=FALSE, warning=FALSE}
+data = import("bwght_03.dta") 
+```
+
+```{r, include=FALSE}
+data = import("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta") 
 ```
 
 Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.
