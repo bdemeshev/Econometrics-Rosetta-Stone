@@ -1,7 +1,7 @@
 --- 
 title: "Розеттский камень"
 author: "Пуассон, фея и три мексиканских негодяя"
-date: "2020-01-16"
+date: "2020-01-18"
 site: bookdown::bookdown_site
 documentclass: book
 bibliography: [book.bib, packages.bib]

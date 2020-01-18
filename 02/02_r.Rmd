@@ -119,26 +119,17 @@ shapiro.test(resid(ols))
 
 Получим предсказания модели для обучаемой выборки.
 
-#### ДОДУМАТЬ
-
 ```{r "fittedvalues"}
 fitval = fitted(ols)
-fit_vs_real = tibble(fitted = fitval, real = returns$market_premium)
 ```
 
-```{r "fit vs real"}
-
-qplot(x = 1:length(fitval), y = returns$market_premium, 
-      xlab = "Number of observation", 
-      ylab = "Value") + geom_point(aes(y = fitval, color = 'r'))
-```
-
-Выведем прогноз модели по $20$ новым наблюдениям (которые сами же и придумаем). 
+Теперь выведем прогноз модели по $20$ новым наблюдениям (которые сами же и придумаем). 
 Будем считать, что новые наблюдения распределены нормально с математическим ожиданием $0.01$ и дисперсией $0.01$.
 
 ```{r "prediction"}
 set.seed(7)
-new_data = tibble(market_premium = rnorm(10, mean = 0.01, sd = 0.1)) 
+new_data = tibble(market_premium = rnorm(10, mean = 0.01, 
+                                         sd = 0.1)) 
 yhat = predict(ols, newdata = new_data, se = TRUE)
 yhat$fit
 ```

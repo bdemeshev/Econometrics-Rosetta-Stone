@@ -21,7 +21,7 @@ plt.style.use('ggplot')
 Загружаем данные и смотрим описательные статистики.
 
 ```{python}
-df_fish = pd.read_stata('data/fish.dta')
+df_fish = pd.read_stata('../data/05_fish.dta')
 ```
 
 Посмотрим, как выглядит распределение объясняемой переменной. 

@@ -8,6 +8,7 @@ library(rio) # чтения .dta файлов
 library(margins) # расчет предельных эффектов
 library(mlogit)
 library(nnet)
+library(questionr)
 ```
 
 Импортируем датасет. 
@@ -15,7 +16,7 @@ library(nnet)
 Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанным способом или в акции.  ОЧЕНЬ ДЛИННОЕ ПРЕДЛОЖЕНИЕ!!!!!!
 
 ```{r "import data r", message=FALSE, warning=FALSE}
-df = import("data/pension.dta")
+df = import("../data/04_pension.dta")
 ```
 
 Начнем с пристального взгляда на описательные статистки. 
@@ -91,7 +92,6 @@ summary(marginal_effects(multmodel))
 margins(multmodel, at = list(age = 69, choice = 1))
 ```
 
-
 Теперь посмотрим на модель упорядоченного выбора :) 
 Для нее возьмем другие данные. 
 Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth). 
@@ -99,7 +99,7 @@ margins(multmodel, at = list(age = 69, choice = 1))
 Зависимая переменная tradrole — степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).
 
 ```{r "import tradrole r",  message=FALSE, warning=FALSE}
-data_nlsy = import('data/tradrole.dta')
+data_nlsy = import('../data/04_tradrole.dta')
 #skim(data_nlsy)
 ```
 
