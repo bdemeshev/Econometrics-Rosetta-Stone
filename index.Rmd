@@ -10,6 +10,9 @@ link-citations: yes
 description: "Сборник коанов для эконометристов, жаждущих просветления."
 ---
 
+# Приветственный коан {#installsoft}
+
+В этом коане мы рассмотрим установку и настройку R, Python и Stata. 
 
 <style>
 pre.r {
@@ -30,3 +33,18 @@ knitr::write_bib(c(
   .packages(), 'bookdown', 'knitr', 'rmarkdown'
 ), 'packages.bib')
 ```
+
+```{r, child='setup/setup.Rmd'}
+```
+
+```{r, child=if (child$r[1]) '01/01_r.Rmd'}
+```
+
+```{r, child=if (child$py[1]) '01/01_py.Rmd'}
+```
+
+```{r, child=if (child$stata[1]) '01/01_stata.Rmd'}
+```
+
+
+
