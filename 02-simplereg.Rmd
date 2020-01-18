@@ -4,11 +4,17 @@
 ```{r, child='setup/setup.Rmd'}
 ```
 
+<!--
 ```{r, child='02/02_r.Rmd'}
 ```
+-->
+
 
 ```{r, child='02/02_py.Rmd'}
 ```
 
+
+<!--
 ```{r, child='02/02_stata.Rmd'}
 ```
+-->
