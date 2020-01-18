@@ -49,11 +49,11 @@ Y_i =
 ```{r, child='setup/setup.Rmd'}
 ```
 
-```{r, child='03/03_r.Rmd'}
+```{r, child=if (child$r[3] == 1) '03/03_r.Rmd'}
 ```
 
-```{r, child='03/03_py.Rmd'}
+```{r, child=if (child$py[3] == 1) '03/03_py.Rmd'}
 ```
 
-```{r, child='03/03_stata.Rmd'}
+```{r, child=if (child$stata[3] == 1) '03/03_stata.Rmd'}
 ```

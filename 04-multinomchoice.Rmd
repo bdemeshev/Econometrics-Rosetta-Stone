@@ -3,11 +3,11 @@
 ```{r, child='setup/setup.Rmd'}
 ```
 
-```{r, child='04/04_r.Rmd'}
+```{r, child=if (child$r[4] == 1) '04/04_r.Rmd'}
 ```
 
-```{r, child='04/04_py.Rmd'}
+```{r, child=if (child$py[4] == 1) '04/04_py.Rmd'}
 ```
 
-```{r, child='04/04_stata.Rmd'}
+```{r, child=if (child$stata[1] == 1) '04/04_stata.Rmd'}
 ```
