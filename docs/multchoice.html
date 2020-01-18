@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <title>Коан 4 Модели множественного выбора | Розеттский камень</title>
   <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
   <meta property="og:title" content="Коан 4 Модели множественного выбора | Розеттский камень" />
   <meta property="og:type" content="book" />
@@ -24,15 +24,15 @@
 <meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
 
 
-<meta name="date" content="2020-01-16" />
+<meta name="date" content="2020-01-18" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="simplereg.html">
-<link rel="next" href="poisreg.html">
+<link rel="prev" href="binchoice.html"/>
+<link rel="next" href="poisreg.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -55,7 +58,6 @@ a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
 a.sourceLine:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
@@ -67,7 +69,7 @@ a.sourceLine { text-indent: -1em; padding-left: 1em; }
 pre.numberSource a.sourceLine
   { position: relative; left: -4em; }
 pre.numberSource a.sourceLine::before
-  { content: attr(title);
+  { content: attr(data-line-number);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
     border: none; pointer-events: all; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
@@ -126,34 +128,39 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
-<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a><ul>
-<li class="chapter" data-level="2.1" data-path="installsoft.html"><a href="installsoft.html#r"><i class="fa fa-check"></i><b>2.1</b> Язык программирования R</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="installsoft.html"><a href="installsoft.html#rstudio--windows-mac-os"><i class="fa fa-check"></i><b>2.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
-<li class="chapter" data-level="2.1.2" data-path="installsoft.html"><a href="installsoft.html#section-1"><i class="fa fa-check"></i><b>2.1.2</b> Начало работы</a></li>
-<li class="chapter" data-level="2.1.3" data-path="installsoft.html"><a href="installsoft.html#section-2"><i class="fa fa-check"></i><b>2.1.3</b> Настройка программы</a></li>
-<li class="chapter" data-level="2.1.4" data-path="installsoft.html"><a href="installsoft.html#python"><i class="fa fa-check"></i><b>2.1.4</b> Язык программирования Python</a></li>
-<li class="chapter" data-level="2.1.5" data-path="installsoft.html"><a href="installsoft.html#section-3"><i class="fa fa-check"></i><b>2.1.5</b> Установка</a></li>
-<li class="chapter" data-level="2.1.6" data-path="installsoft.html"><a href="installsoft.html#section-4"><i class="fa fa-check"></i><b>2.1.6</b> Начало работы</a></li>
-<li class="chapter" data-level="2.1.7" data-path="installsoft.html"><a href="installsoft.html#stata"><i class="fa fa-check"></i><b>2.1.7</b> Программа STATA</a></li>
-<li class="chapter" data-level="2.1.8" data-path="installsoft.html"><a href="installsoft.html#section-5"><i class="fa fa-check"></i><b>2.1.8</b> Установка:</a></li>
-<li class="chapter" data-level="2.1.9" data-path="installsoft.html"><a href="installsoft.html#section-6"><i class="fa fa-check"></i><b>2.1.9</b> Начало работы:</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#начало-работы"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#настройка-программы-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#язык-программирования-python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#установка"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#начало-работы-1"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#программа-stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#установка-1"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#начало-работы-2"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
-<li class="chapter" data-level="3.2" data-path="simplereg.html"><a href="simplereg.html#python-1"><i class="fa fa-check"></i><b>3.2</b> Python</a></li>
-<li class="chapter" data-level="3.3" data-path="simplereg.html"><a href="simplereg.html#stata-1"><i class="fa fa-check"></i><b>3.3</b> Stata</a></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a><ul>
+<li class="chapter" data-level="2.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
+</ul></li>
+<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a><ul>
+<li class="chapter" data-level="3.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
 </ul></li>
 <li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
 <li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
-<li class="chapter" data-level="4.2" data-path="multchoice.html"><a href="multchoice.html#python-2"><i class="fa fa-check"></i><b>4.2</b> python</a></li>
-<li class="chapter" data-level="4.3" data-path="multchoice.html"><a href="multchoice.html#stata-2"><i class="fa fa-check"></i><b>4.3</b> Stata</a></li>
 </ul></li>
 <li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
 <li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
-<li class="chapter" data-level="5.2" data-path="poisreg.html"><a href="poisreg.html#python-3"><i class="fa fa-check"></i><b>5.2</b> Python</a></li>
-<li class="chapter" data-level="5.3" data-path="poisreg.html"><a href="poisreg.html#stata-3"><i class="fa fa-check"></i><b>5.3</b> Stata</a></li>
+</ul></li>
+<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a><ul>
+<li class="chapter" data-level="6.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
+</ul></li>
+<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
+<li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
+<li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -180,337 +187,446 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="r-2" class="section level2">
 <h2><span class="header-section-number">4.1</span> R</h2>
 <p>Загрузим необходимые пакеты.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(tidyverse) <span class="co"># манипуляции с данными и построени графиков</span>
-<span class="kw">library</span>(skimr) <span class="co"># симпатичное summary</span>
-<span class="kw">library</span>(rio) <span class="co"># чтения .dta файлов</span>
-<span class="kw">library</span>(margins) <span class="co"># расчет предельных эффектов</span>
-<span class="kw">library</span>(mlogit)
-<span class="kw">library</span>(nnet)</code></pre>
+<div class="sourceCode" id="cb53"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb53-1" data-line-number="1"><span class="kw">library</span>(tidyverse) <span class="co"># манипуляции с данными и построени графиков</span></a>
+<a class="sourceLine" id="cb53-2" data-line-number="2"><span class="kw">library</span>(skimr) <span class="co"># симпатичное summary</span></a>
+<a class="sourceLine" id="cb53-3" data-line-number="3"><span class="kw">library</span>(rio) <span class="co"># чтения .dta файлов</span></a>
+<a class="sourceLine" id="cb53-4" data-line-number="4"><span class="kw">library</span>(margins) <span class="co"># расчет предельных эффектов</span></a>
+<a class="sourceLine" id="cb53-5" data-line-number="5"><span class="kw">library</span>(mlogit)</a>
+<a class="sourceLine" id="cb53-6" data-line-number="6"><span class="kw">library</span>(nnet)</a></code></pre></div>
 <p>Импортируем датасет.
 В нем находятся данные по клиентам пенсионных фондов.
 Нас интересует переменная <code>pctstck</code>, которая принимает три значения: 0, 50, 100 в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанным способом или в акции. ОЧЕНЬ ДЛИННОЕ ПРЕДЛОЖЕНИЕ!!!!!!</p>
-<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;data/pension.dta&quot;</span>)</code></pre>
-<pre><code>Error in import(&quot;data/pension.dta&quot;): No such file</code></pre>
+<div class="sourceCode" id="cb54"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb54-1" data-line-number="1">df =<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;../data/04_pension.dta&quot;</span>)</a></code></pre></div>
 <p>Начнем с пристального взгляда на описательные статистки.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">skim</span>(df)</code></pre>
-<pre><code>Error in as.data.frame.default(data): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</code></pre>
+<div class="sourceCode" id="cb55"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb55-1" data-line-number="1"><span class="kw">skim</span>(df)</a></code></pre></div>
+<table>
+<caption><span id="tab:skim">Table 2.1: </span>Data summary</caption>
+<tbody>
+<tr class="odd">
+<td align="left">Name</td>
+<td align="left">df</td>
+</tr>
+<tr class="even">
+<td align="left">Number of rows</td>
+<td align="left">226</td>
+</tr>
+<tr class="odd">
+<td align="left">Number of columns</td>
+<td align="left">19</td>
+</tr>
+<tr class="even">
+<td align="left">_______________________</td>
+<td align="left"></td>
+</tr>
+<tr class="odd">
+<td align="left">Column type frequency:</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">numeric</td>
+<td align="left">19</td>
+</tr>
+<tr class="odd">
+<td align="left">________________________</td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">Group variables</td>
+<td align="left">None</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Variable type: numeric</strong></p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">skim_variable</th>
+<th align="right">n_missing</th>
+<th align="right">complete_rate</th>
+<th align="right">mean</th>
+<th align="right">sd</th>
+<th align="right">p0</th>
+<th align="right">p25</th>
+<th align="right">p50</th>
+<th align="right">p75</th>
+<th align="right">p100</th>
+<th align="left">hist</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">id</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">2445.09</td>
+<td align="right">1371.27</td>
+<td align="right">38</td>
+<td align="right">1312.5</td>
+<td align="right">2377.50</td>
+<td align="right">3804.25</td>
+<td align="right">5014</td>
+<td align="left">▇▇▇▇▅</td>
+</tr>
+<tr class="even">
+<td align="left">pyears</td>
+<td align="right">8</td>
+<td align="right">0.96</td>
+<td align="right">11.39</td>
+<td align="right">9.61</td>
+<td align="right">0</td>
+<td align="right">4.0</td>
+<td align="right">9.00</td>
+<td align="right">16.00</td>
+<td align="right">45</td>
+<td align="left">▇▅▂▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">prftshr</td>
+<td align="right">20</td>
+<td align="right">0.91</td>
+<td align="right">0.21</td>
+<td align="right">0.41</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▂</td>
+</tr>
+<tr class="even">
+<td align="left">choice</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.62</td>
+<td align="right">0.49</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▅▁▁▁▇</td>
+</tr>
+<tr class="odd">
+<td align="left">female</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.60</td>
+<td align="right">0.49</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▅▁▁▁▇</td>
+</tr>
+<tr class="even">
+<td align="left">married</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.73</td>
+<td align="right">0.44</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">1.00</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▃▁▁▁▇</td>
+</tr>
+<tr class="odd">
+<td align="left">age</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">60.70</td>
+<td align="right">4.29</td>
+<td align="right">53</td>
+<td align="right">57.0</td>
+<td align="right">60.00</td>
+<td align="right">64.00</td>
+<td align="right">73</td>
+<td align="left">▇▇▇▂▁</td>
+</tr>
+<tr class="even">
+<td align="left">educ</td>
+<td align="right">7</td>
+<td align="right">0.97</td>
+<td align="right">13.52</td>
+<td align="right">2.55</td>
+<td align="right">8</td>
+<td align="right">12.0</td>
+<td align="right">12.00</td>
+<td align="right">16.00</td>
+<td align="right">18</td>
+<td align="left">▁▇▂▂▂</td>
+</tr>
+<tr class="odd">
+<td align="left">finc25</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.21</td>
+<td align="right">0.41</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▂</td>
+</tr>
+<tr class="even">
+<td align="left">finc35</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.19</td>
+<td align="right">0.39</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▂</td>
+</tr>
+<tr class="odd">
+<td align="left">finc50</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.25</td>
+<td align="right">0.43</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▂</td>
+</tr>
+<tr class="even">
+<td align="left">finc75</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.12</td>
+<td align="right">0.33</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">finc100</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.12</td>
+<td align="right">0.33</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">finc101</td>
+<td align="right">10</td>
+<td align="right">0.96</td>
+<td align="right">0.06</td>
+<td align="right">0.25</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">wealth89</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">197.91</td>
+<td align="right">242.09</td>
+<td align="right">-580</td>
+<td align="right">52.0</td>
+<td align="right">127.85</td>
+<td align="right">247.50</td>
+<td align="right">1485</td>
+<td align="left">▁▇▂▁▁</td>
+</tr>
+<tr class="even">
+<td align="left">black</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.12</td>
+<td align="right">0.33</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">0.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▁</td>
+</tr>
+<tr class="odd">
+<td align="left">stckin89</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.32</td>
+<td align="right">0.47</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.00</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▃</td>
+</tr>
+<tr class="even">
+<td align="left">irain89</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">0.50</td>
+<td align="right">0.50</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">0.50</td>
+<td align="right">1.00</td>
+<td align="right">1</td>
+<td align="left">▇▁▁▁▇</td>
+</tr>
+<tr class="odd">
+<td align="left">pctstck</td>
+<td align="right">0</td>
+<td align="right">1.00</td>
+<td align="right">46.68</td>
+<td align="right">39.44</td>
+<td align="right">0</td>
+<td align="right">0.0</td>
+<td align="right">50.00</td>
+<td align="right">100.00</td>
+<td align="right">100</td>
+<td align="left">▇▁▇▁▆</td>
+</tr>
+</tbody>
+</table>
 <p>Отсюда несложно заметить, что переменная <code>choice</code> — бинарная.
 И принимает значение <code>1</code>, если индивид в выборке имел право выбора схемы инвестирования.
 Переменнная <code>wealth98</code> — чистое богатство пенсионеров на 1989 год.
 Остальные переменные нас пока что не интересуют :)</p>
 <p>Для начала разберемся с объясняемой переменной.
 Превратим её в факторную и упорядочим категории.</p>
-<pre class="sourceCode r"><code class="sourceCode r">df =<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> <span class="kw">factor</span>(pctstck), <span class="dt">y =</span> <span class="kw">relevel</span>(y, <span class="dt">ref =</span> <span class="dv">2</span>)) </code></pre>
-<pre><code>Error in UseMethod(&quot;mutate_&quot;): no applicable method for &#39;mutate_&#39; applied to an object of class &quot;function&quot;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">levels</span>(df<span class="op">$</span>y)</code></pre>
-<pre><code>Error in df$y: object of type &#39;closure&#39; is not subsettable</code></pre>
+<div class="sourceCode" id="cb56"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb56-1" data-line-number="1">df =<span class="st"> </span><span class="kw">mutate</span>(df, <span class="dt">y =</span> <span class="kw">factor</span>(pctstck), <span class="dt">y =</span> <span class="kw">relevel</span>(y, <span class="dt">ref =</span> <span class="dv">2</span>)) </a>
+<a class="sourceLine" id="cb56-2" data-line-number="2"><span class="kw">levels</span>(df<span class="op">$</span>y)</a></code></pre></div>
+<pre><code>[1] &quot;50&quot;  &quot;0&quot;   &quot;100&quot;</code></pre>
 <p>Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">table</span>(df<span class="op">$</span>y, df<span class="op">$</span>educ)</code></pre>
-<pre><code>Error in df$y: object of type &#39;closure&#39; is not subsettable</code></pre>
+<div class="sourceCode" id="cb58"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb58-1" data-line-number="1"><span class="kw">table</span>(df<span class="op">$</span>y, df<span class="op">$</span>educ)</a></code></pre></div>
+<pre><code>     
+       8  9 10 11 12 13 14 15 16 17 18
+  50   1  1  0  3 34  4  6  2 14  5 14
+  0    5  3  0  3 31  4  7  0 11  1  7
+  100  0  2  1  1 36  1  5  4  5  4  4</code></pre>
 <p>Построим модель множественного выбора (лог-линейная модель).</p>
-<pre class="sourceCode r"><code class="sourceCode r">multmodel =<span class="st"> </span><span class="kw">multinom</span>(y <span class="op">~</span><span class="st"> </span>choice <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>wealth89 <span class="op">+</span><span class="st"> </span>prftshr, 
-                     <span class="dt">data =</span> df, <span class="dt">reflevel =</span> <span class="st">&#39;0&#39;</span>)</code></pre>
-<pre><code>Error in as.data.frame.default(data, optional = TRUE): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(multmodel)</code></pre>
-<pre><code>Error in summary(multmodel): object &#39;multmodel&#39; not found</code></pre>
+<div class="sourceCode" id="cb60"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb60-1" data-line-number="1">multmodel =<span class="st"> </span><span class="kw">multinom</span>(y <span class="op">~</span><span class="st"> </span>choice <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>wealth89 <span class="op">+</span><span class="st"> </span>prftshr, </a>
+<a class="sourceLine" id="cb60-2" data-line-number="2">                     <span class="dt">data =</span> df, <span class="dt">reflevel =</span> <span class="st">&#39;0&#39;</span>)</a></code></pre></div>
+<pre><code># weights:  21 (12 variable)
+initial  value 220.821070 
+iter  10 value 208.003694
+iter  20 value 204.508245
+final  value 204.507779 
+converged</code></pre>
+<div class="sourceCode" id="cb62"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb62-1" data-line-number="1"><span class="kw">summary</span>(multmodel)</a></code></pre></div>
+<pre><code>Call:
+multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
+    data = df, reflevel = &quot;0&quot;)
+
+Coefficients:
+    (Intercept)       choice        age       educ     wealth89   prftshr
+0    -3.7778032 -0.626950541 0.10621896 -0.1851817 3.716695e-04 0.2718066
+100   0.7155771 -0.002461399 0.01139191 -0.1387427 1.684637e-05 1.2527158
+
+Std. Errors:
+    (Intercept)    choice        age       educ     wealth89   prftshr
+0      1.577870 0.3701450 0.02706225 0.06827224 0.0007353231 0.4980872
+100    1.368662 0.3876881 0.02549556 0.06954044 0.0007948194 0.4622377
+
+Residual Deviance: 409.0156 
+AIC: 433.0156 </code></pre>
 <p>При необходимости можем построить модельку для подвыборки, например, только для замужних/женатых.</p>
-<pre class="sourceCode r"><code class="sourceCode r">multmodel_married =<span class="st"> </span><span class="kw">multinom</span>(y <span class="op">~</span><span class="st"> </span>choice <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>wealth89 <span class="op">+</span><span class="st"> </span>prftshr, 
-                             <span class="dt">subset =</span> married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> df, <span class="dt">reflevel =</span> <span class="st">&#39;0&#39;</span>)</code></pre>
-<pre><code>Error in as.data.frame.default(data, optional = TRUE): cannot coerce class &#39;&quot;function&quot;&#39; to a data.frame</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(multmodel_married)</code></pre>
-<pre><code>Error in summary(multmodel_married): object &#39;multmodel_married&#39; not found</code></pre>
+<div class="sourceCode" id="cb64"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb64-1" data-line-number="1">multmodel_married =<span class="st"> </span><span class="kw">multinom</span>(y <span class="op">~</span><span class="st"> </span>choice <span class="op">+</span><span class="st"> </span>age <span class="op">+</span><span class="st"> </span>educ <span class="op">+</span><span class="st"> </span>wealth89 <span class="op">+</span><span class="st"> </span>prftshr, </a>
+<a class="sourceLine" id="cb64-2" data-line-number="2">                             <span class="dt">subset =</span> married <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, <span class="dt">data =</span> df, <span class="dt">reflevel =</span> <span class="st">&#39;0&#39;</span>)</a></code></pre></div>
+<pre><code># weights:  21 (12 variable)
+initial  value 165.890456 
+iter  10 value 152.140783
+iter  20 value 149.611135
+final  value 149.611069 
+converged</code></pre>
+<div class="sourceCode" id="cb66"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb66-1" data-line-number="1"><span class="kw">summary</span>(multmodel_married)</a></code></pre></div>
+<pre><code>Call:
+multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
+    data = df, subset = married == 1, reflevel = &quot;0&quot;)
+
+Coefficients:
+    (Intercept)     choice       age       educ     wealth89    prftshr
+0    -4.9076771 -1.0040922 0.1279089 -0.1905437 0.0006204087 -0.1901239
+100   0.2276417 -0.5382183 0.0133528 -0.1000726 0.0004076403  1.0692773
+
+Std. Errors:
+    (Intercept)    choice        age       educ     wealth89   prftshr
+0      1.850782 0.4463254 0.03189365 0.07925101 0.0008454956 0.5621150
+100    1.603713 0.4540907 0.02965149 0.07925338 0.0008825075 0.4947089
+
+Residual Deviance: 299.2221 
+AIC: 323.2221 </code></pre>
 <p>Быстренько прикинули значимость коэффициентов.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coef</span>(multmodel)<span class="op">/</span><span class="kw">summary</span>(multmodel)<span class="op">$</span>standard.errors</code></pre>
-<pre><code>Error in coef(multmodel): object &#39;multmodel&#39; not found</code></pre>
+<div class="sourceCode" id="cb68"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb68-1" data-line-number="1"><span class="kw">coef</span>(multmodel)<span class="op">/</span><span class="kw">summary</span>(multmodel)<span class="op">$</span>standard.errors</a></code></pre></div>
+<pre><code>    (Intercept)       choice       age      educ   wealth89   prftshr
+0    -2.3942416 -1.693797014 3.9249859 -2.712401 0.50545058 0.5457008
+100   0.5228296 -0.006348915 0.4468195 -1.995136 0.02119521 2.7101114</code></pre>
 <p>Сохраним прогнозы.</p>
-<pre class="sourceCode r"><code class="sourceCode r">fit_values =<span class="st"> </span><span class="kw">fitted</span>(multmodel)</code></pre>
-<pre><code>Error in fitted(multmodel): object &#39;multmodel&#39; not found</code></pre>
+<div class="sourceCode" id="cb70"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb70-1" data-line-number="1">fit_values =<span class="st"> </span><span class="kw">fitted</span>(multmodel)</a></code></pre></div>
 <p>И посчитаем относительное изменение отношения шансов:</p>
 <p><span class="math display">\[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\]</span> показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">odds.ratio</span>(multmodel) </code></pre>
+\]</span>
+показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.</p>
+<div class="sourceCode" id="cb71"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb71-1" data-line-number="1"><span class="kw">odds.ratio</span>(multmodel) </a></code></pre></div>
 <pre><code>Error in odds.ratio(multmodel): could not find function &quot;odds.ratio&quot;</code></pre>
 <p>Можем посчитать предельные эффекты в различных квартилях.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(<span class="kw">marginal_effects</span>(multmodel))</code></pre>
-<pre><code>Error in marginal_effects(multmodel): object &#39;multmodel&#39; not found</code></pre>
+<div class="sourceCode" id="cb73"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb73-1" data-line-number="1"><span class="kw">summary</span>(<span class="kw">marginal_effects</span>(multmodel))</a></code></pre></div>
+<pre><code>  dydx_choice         dydx_age           dydx_educ      
+ Min.   :0.02341   Min.   :-0.019966   Min.   :0.01298  
+ 1st Qu.:0.05924   1st Qu.:-0.015237   1st Qu.:0.03141  
+ Median :0.07324   Median :-0.013644   Median :0.03791  
+ Mean   :0.06945   Mean   :-0.012893   Mean   :0.03468  
+ 3rd Qu.:0.08402   3rd Qu.:-0.011486   3rd Qu.:0.03905  
+ Max.   :0.11414   Max.   :-0.005686   Max.   :0.04223  
+ dydx_wealth89         dydx_prftshr     
+ Min.   :-6.855e-05   Min.   :-0.25602  
+ 1st Qu.:-5.119e-05   1st Qu.:-0.19363  
+ Median :-4.509e-05   Median :-0.16877  
+ Mean   :-4.275e-05   Mean   :-0.15863  
+ 3rd Qu.:-3.729e-05   3rd Qu.:-0.13454  
+ Max.   :-1.675e-05   Max.   :-0.03909  </code></pre>
 <p>Или при заданном значении объясняемых переменных.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">margins</span>(multmodel, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">age =</span> <span class="dv">69</span>, <span class="dt">choice =</span> <span class="dv">1</span>))</code></pre>
-<pre><code>Error in margins(multmodel, at = list(age = 69, choice = 1)): object &#39;multmodel&#39; not found</code></pre>
+<div class="sourceCode" id="cb75"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb75-1" data-line-number="1"><span class="kw">margins</span>(multmodel, <span class="dt">at =</span> <span class="kw">list</span>(<span class="dt">age =</span> <span class="dv">69</span>, <span class="dt">choice =</span> <span class="dv">1</span>))</a></code></pre></div>
+<pre><code> at(age) at(choice)  choice      age    educ   wealth89 prftshr
+      69          1 0.08024 -0.01431 0.03263 -4.857e-05 -0.1158</code></pre>
 <p>Теперь посмотрим на модель упорядоченного выбора :)
 Для нее возьмем другие данные.
 Выборку позаимствуем из опроса NLSY (National Longitudinal Survey of Youth).
 В ней представлены данные о 3705 молодых белых женщинах из США.
 Зависимая переменная tradrole — степень согласия с утверждением «Место женщины дома, а не на работе» по четырехбалльной шкале (1 – категорически не согласна, 2 – не согласна, 3 – согласна, 4 – совершенно согласна).</p>
-<pre class="sourceCode r"><code class="sourceCode r">data_nlsy =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;data/tradrole.dta&#39;</span>)</code></pre>
+<div class="sourceCode" id="cb77"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb77-1" data-line-number="1">data_nlsy =<span class="st"> </span><span class="kw">import</span>(<span class="st">&#39;data/tradrole.dta&#39;</span>)</a></code></pre></div>
 <pre><code>Error in import(&quot;data/tradrole.dta&quot;): No such file</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#skim(data_nlsy)</span></code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">qplot</span>(data_nlsy, <span class="dt">x =</span> tradrole) <span class="op">+</span><span class="st"> </span>
-<span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Ответы респонденток&#39;</span>) <span class="op">+</span>
-<span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Вот такие дела, джентельмены :)&#39;</span>)</code></pre>
+<div class="sourceCode" id="cb79"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb79-1" data-line-number="1"><span class="co"># skim(data_nlsy)</span></a></code></pre></div>
+<div class="sourceCode" id="cb80"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb80-1" data-line-number="1"><span class="kw">qplot</span>(data_nlsy, <span class="dt">x =</span> tradrole) <span class="op">+</span><span class="st"> </span></a>
+<a class="sourceLine" id="cb80-2" data-line-number="2"><span class="st">  </span><span class="kw">xlab</span>(<span class="st">&#39;Ответы респонденток&#39;</span>) <span class="op">+</span></a>
+<a class="sourceLine" id="cb80-3" data-line-number="3"><span class="st">  </span><span class="kw">ggtitle</span>(<span class="st">&#39;Вот такие дела, джентельмены :)&#39;</span>)</a></code></pre></div>
 <pre><code>Error in FUN(X[[i]], ...): object &#39;tradrole&#39; not found</code></pre>
 <p><img src="04-multinomchoice_files/figure-html/hist%20tradrole%20r-1.png" width="672" /></p>
 <p>Посмотрим, как влияет религиозное воспитание (<code>cath</code> — католичество и <code>fpro</code> — протестанство), число лет образования матери — <code>meduc</code> и проживание в крупном городе <code>urb</code> на объясняемую переменную.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="co">#сначала в факторные, потом регрессия</span>
-oprobit =<span class="st"> </span><span class="kw">polr</span>(<span class="kw">as.factor</span>(tradrole) <span class="op">~</span><span class="st">  </span><span class="kw">as.factor</span>(cath) <span class="op">+</span><span class="st"> </span><span class="kw">as.factor</span>(fpro) <span class="op">+</span><span class="st"> </span>meduc <span class="op">+</span><span class="st"> </span><span class="kw">as.factor</span>(urb), <span class="dt">data =</span> data_nlsy, <span class="dt">method =</span> <span class="st">&quot;probit&quot;</span>, <span class="dt">na.action =</span> na.omit)</code></pre>
+<div class="sourceCode" id="cb82"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb82-1" data-line-number="1"><span class="co">#сначала в факторные, потом регрессия</span></a>
+<a class="sourceLine" id="cb82-2" data-line-number="2">oprobit =<span class="st"> </span><span class="kw">polr</span>(<span class="kw">as.factor</span>(tradrole) <span class="op">~</span><span class="st">  </span><span class="kw">as.factor</span>(cath) <span class="op">+</span><span class="st"> </span><span class="kw">as.factor</span>(fpro) <span class="op">+</span><span class="st"> </span>meduc <span class="op">+</span><span class="st"> </span><span class="kw">as.factor</span>(urb), <span class="dt">data =</span> data_nlsy, <span class="dt">method =</span> <span class="st">&quot;probit&quot;</span>, <span class="dt">na.action =</span> na.omit)</a></code></pre></div>
 <pre><code>Error in polr(as.factor(tradrole) ~ as.factor(cath) + as.factor(fpro) + : could not find function &quot;polr&quot;</code></pre>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(oprobit)</code></pre>
+<div class="sourceCode" id="cb84"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb84-1" data-line-number="1"><span class="kw">summary</span>(oprobit)</a></code></pre></div>
 <pre><code>Error in summary(oprobit): object &#39;oprobit&#39; not found</code></pre>
 <p>В summary видим коэффициенты при регрессорах и коэффициенты при константах для каждой из упорядоченных альтернатив.</p>
-<pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(oprobit)</code></pre>
+<div class="sourceCode" id="cb86"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb86-1" data-line-number="1"><span class="kw">summary</span>(oprobit)</a></code></pre></div>
 <pre><code>Error in summary(oprobit): object &#39;oprobit&#39; not found</code></pre>
-</div>
-<div id="python-2" class="section level2">
-<h2><span class="header-section-number">4.2</span> python</h2>
-<pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
-<span class="im">import</span> pandas <span class="im">as</span> pd
-<span class="im">import</span> statsmodels.api <span class="im">as</span> st
-<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt
-
-plt.style.use(<span class="st">&#39;ggplot&#39;</span>)</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">df <span class="op">=</span> pd.read_stata(<span class="st">&#39;data/pension.dta&#39;</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: &#39;data/pension.dta&#39;
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 227, in read_stata
-    chunksize=chunksize,
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 1093, in __init__
-    self.path_or_buf = open(path_or_buf, &quot;rb&quot;)</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">df.describe()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">df.rename(columns <span class="op">=</span> {<span class="st">&#39;pctstck&#39;</span>:<span class="st">&#39;y&#39;</span>}, inplace <span class="op">=</span> <span class="va">True</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Подготовим данные для построения модели множественного выбора. Избавимся от пропусков в интересующих нас переменных и добавим вектор констант.</p>
-<pre class="sourceCode python"><code class="sourceCode python">sub <span class="op">=</span> df[[<span class="st">&#39;y&#39;</span>, <span class="st">&#39;choice&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;wealth89&#39;</span>, <span class="st">&#39;prftshr&#39;</span>, <span class="st">&#39;educ&#39;</span>, <span class="st">&#39;married&#39;</span>]].dropna()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;df&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">y <span class="op">=</span> sub[<span class="st">&#39;y&#39;</span>]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">X <span class="op">=</span> sub[[<span class="st">&#39;choice&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;wealth89&#39;</span>, <span class="st">&#39;prftshr&#39;</span>]]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">X <span class="op">=</span> st.add_constant(X, prepend<span class="op">=</span><span class="va">False</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;X&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Кросс - табличка для объясняемой переменной и числа лет образования.</p>
-<pre class="sourceCode python"><code class="sourceCode python">pd.crosstab(sub[<span class="st">&#39;y&#39;</span>], sub[<span class="st">&#39;educ&#39;</span>])</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Строим модель.</p>
-<pre class="sourceCode python"><code class="sourceCode python">multmodel <span class="op">=</span> st.MNLogit(y, X, )</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;y&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">mm_fit <span class="op">=</span> multmodel.fit()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;multmodel&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">mm_fit.summary() <span class="co">### сразу же можно проверить значимость коэффициентов</span></code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;mm_fit&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">fitted_values <span class="op">=</span> mm_fit.predict()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;mm_fit&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Отдельно можем извлечь параметры.</p>
-<pre class="sourceCode python"><code class="sourceCode python">mm_fit.params</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;mm_fit&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Для того, чтобы построить модельку по подвыборке, её (подвыборку) нужно создать :)</p>
-<pre class="sourceCode python"><code class="sourceCode python">data_m <span class="op">=</span> sub[(sub.married <span class="op">==</span> <span class="dv">1</span>)]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">y_m <span class="op">=</span> data_m[<span class="st">&#39;y&#39;</span>]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;data_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">X_m <span class="op">=</span> data_m[[<span class="st">&#39;choice&#39;</span>, <span class="st">&#39;age&#39;</span>, <span class="st">&#39;wealth89&#39;</span>, <span class="st">&#39;prftshr&#39;</span>]]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;data_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">X_m <span class="op">=</span> st.add_constant(X_m, prepend <span class="op">=</span> <span class="va">False</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;X_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Дальше всё аналогично :)</p>
-<pre class="sourceCode python"><code class="sourceCode python">multmodel_m <span class="op">=</span> st.MNLogit(y_m, X_m)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;y_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">mm_fit_m <span class="op">=</span> multmodel_m.fit()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;multmodel_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">mm_fit_m.summary()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;mm_fit_m&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>C пределными эффектами в питоне беда!!!!</p>
-<pre class="sourceCode python"><code class="sourceCode python">margeff <span class="op">=</span> mm_fit.get_margeff()</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;mm_fit&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">np.<span class="bu">round</span>(margeff.margeff, <span class="dv">3</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;margeff&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>Или все-таки беда с отношением шансов?</p>
-<pre class="sourceCode python"><code class="sourceCode python">y50_data <span class="op">=</span> sub[sub[<span class="st">&#39;y&#39;</span>] <span class="op">==</span> <span class="dv">50</span>][sub.columns.difference([<span class="st">&#39;y&#39;</span>, <span class="st">&#39;married&#39;</span>])]</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">y100_data <span class="op">=</span> sub[sub[<span class="st">&#39;y&#39;</span>] <span class="op">==</span> <span class="dv">100</span>][sub.columns.difference([<span class="st">&#39;y&#39;</span>, <span class="st">&#39;married&#39;</span>])]
-<span class="co">#np.exp(mm_fit.params[0]*y100_data) # кажется, это придется считать вручную :(</span>
-<span class="co">#np.exp(mm_fit.params[0]*y100_data) # не уверена, что так, но пусть пока будет</span></code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;sub&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<p>И вернемся к <del>сильным и независимым</del> моделькам упорядоченного выбора :)</p>
-<pre class="sourceCode python"><code class="sourceCode python">data_nlsy <span class="op">=</span> pd.read_stata(<span class="st">&#39;data/tradrole.dta&#39;</span>)</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: &#39;data/tradrole.dta&#39;
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 227, in read_stata
-    chunksize=chunksize,
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py&quot;, line 208, in wrapper
-    return func(*args, **kwargs)
-  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py&quot;, line 1093, in __init__
-    self.path_or_buf = open(path_or_buf, &quot;rb&quot;)</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">plt.hist(data_nlsy[<span class="st">&#39;tradrole&#39;</span>])</code></pre>
-<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;data_nlsy&#39; is not defined
-
-Detailed traceback: 
-  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
-<pre class="sourceCode python"><code class="sourceCode python">plt.title(<span class="st">&#39;&#39;</span>)
-plt.xlabel(<span class="st">&#39;Ответы респонденток&#39;</span>)
-plt.show(<span class="st">&#39;Вот такие дела, джентельмены :)&#39;</span>)</code></pre>
-<p><img src="04-multinomchoice_files/figure-html/hist tradrole py-1.png" width="672" /></p>
-<p>Дальше тоже пока печаль :(</p>
-</div>
-<div id="stata-2" class="section level2">
-<h2><span class="header-section-number">4.3</span> Stata</h2>
-<pre class="stata"><code>use data/pension.dta</code></pre>
-<pre><code>r(601);
-
-end of do-file
-r(601);</code></pre>
-<pre class="stata"><code>sum</code></pre>
-<pre><code>end of do-file</code></pre>
-<pre class="stata"><code>ren pctstck y</code></pre>
-<pre><code>r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Построим модель множественного выбора (лог-линейная модель).</p>
-<pre class="stata"><code>mlogit y choice age educ wealth89 prftshr,  baseoutcome(0) </code></pre>
-<pre><code>r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Кросс - табличка для объясняемой переменной и числа лет образования.</p>
-<pre class="stata"><code>table y educ</code></pre>
-<pre><code>r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Можем получить прогнозы вероятностей.</p>
-<pre class="stata"><code>predict p1 p2 p3, p</code></pre>
-<pre><code>r(301);
-
-end of do-file
-r(301);</code></pre>
-<p>И посчитать относительное изменение отношения шансов:</p>
-<p><span class="math display">\[
-\frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\]</span> - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу.
-В stata, в отличие от R, отношение шансов называется relative-risk ratio.</p>
-<pre class="stata"><code>mlogit, rrr</code></pre>
-<pre><code>r(301);
-
-end of do-file
-r(301);</code></pre>
-<p>Можем посчитать предельные эффекты в разных точках.</p>
-<pre class="stata"><code>margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69 choice = 0)</code></pre>
-<pre><code>r(301);
-
-end of do-file
-r(301);</code></pre>
-<p>И вернемся к <del>сильным и независимым</del> моделькам упорядоченного выбора :)</p>
-<pre class="stata"><code>use data/tradrole.dta
-
-sum</code></pre>
-<pre><code>r(601);
-
-end of do-file
-r(601);</code></pre>
-<p>!Нужно добавить название к графику</p>
-<pre class="stata"><code>hist tradrole</code></pre>
-<pre><code>r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Посмотрим, как влияет религиозное воспитание (<code>cath</code> - католичество и <code>fpro</code> - протестанство), число лет образования матери - <code>meduc</code> и проживание в крупном городе <code>urb</code> на объясняемую переменную.</p>
-<pre class="stata"><code>oprobit tradrole i.cath i.fpro meduc i.urb</code></pre>
-<pre><code>r(111);
-
-end of do-file
-r(111);</code></pre>
 
 </div>
 </div>
@@ -519,17 +635,19 @@ r(111);</code></pre>
           </div>
         </div>
       </div>
-<a href="simplereg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="binchoice.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="poisreg.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -572,8 +690,9 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:" && /^https?:/.test(src))
-      src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

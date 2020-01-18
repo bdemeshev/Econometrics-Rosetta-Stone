@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html >
-
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
 <head>
 
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>Коан 7 ARMA | Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления.">
-  <meta name="generator" content="bookdown  and GitBook 2.6.7">
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Коан 6 ARMA | Розеттский камень</title>
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
+  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
 
-  <meta property="og:title" content="Коан 7 ARMA | Розеттский камень" />
+  <meta property="og:title" content="Коан 6 ARMA | Розеттский камень" />
   <meta property="og:type" content="book" />
   
   
@@ -17,23 +16,23 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Коан 7 ARMA | Розеттский камень" />
+  <meta name="twitter:title" content="Коан 6 ARMA | Розеттский камень" />
   
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
 
-<meta name="author" content="Пуассон, фея и три мексиканских негодяя">
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
 
 
-<meta name="date" content="2020-01-16">
+<meta name="date" content="2020-01-18" />
 
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
-<link rel="prev" href="poisreg.html">
-<link rel="next" href="heterosked.html">
+<link rel="prev" href="poisreg.html"/>
+<link rel="next" href="paneldata.html"/>
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -41,6 +40,9 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
+<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
+
+
 
 
 
@@ -51,41 +53,66 @@
 
 
 <style type="text/css">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(data-line-number);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 </style>
 
 <link rel="stylesheet" href="style.css" type="text/css" />
@@ -101,49 +128,39 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
       <nav role="navigation">
 
 <ul class="summary">
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
-<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a><ul>
-<li class="chapter" data-level="2.1" data-path="installsoft.html"><a href="installsoft.html#--r"><i class="fa fa-check"></i><b>2.1</b> Язык программирования R</a><ul>
-<li class="chapter" data-level="2.1.1" data-path="installsoft.html"><a href="installsoft.html#---rstudio--windows-mac-os"><i class="fa fa-check"></i><b>2.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
-<li class="chapter" data-level="2.1.2" data-path="index.html"><a href="index.html#-"><i class="fa fa-check"></i><b>2.1.2</b> Начало работы</a></li>
-<li class="chapter" data-level="2.1.3" data-path="installsoft.html"><a href="installsoft.html#--1"><i class="fa fa-check"></i><b>2.1.3</b> Настройка программы [^1]</a></li>
-<li class="chapter" data-level="2.1.4" data-path="installsoft.html"><a href="installsoft.html#--python"><i class="fa fa-check"></i><b>2.1.4</b> Язык программирования Python</a></li>
-<li class="chapter" data-level="2.1.5" data-path="installsoft.html"><a href="installsoft.html#section-2.1.5"><i class="fa fa-check"></i><b>2.1.5</b> Установка</a></li>
-<li class="chapter" data-level="2.1.6" data-path="installsoft.html"><a href="installsoft.html#--1"><i class="fa fa-check"></i><b>2.1.6</b> Начало работы</a></li>
-<li class="chapter" data-level="2.1.7" data-path="installsoft.html"><a href="installsoft.html#-stata"><i class="fa fa-check"></i><b>2.1.7</b> Программа STATA</a></li>
-<li class="chapter" data-level="2.1.8" data-path="installsoft.html"><a href="installsoft.html#-1"><i class="fa fa-check"></i><b>2.1.8</b> Установка:</a></li>
-<li class="chapter" data-level="2.1.9" data-path="installsoft.html"><a href="installsoft.html#--2"><i class="fa fa-check"></i><b>2.1.9</b> Начало работы:</a></li>
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#начало-работы"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#настройка-программы-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
+</ul></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#язык-программирования-python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#установка"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#начало-работы-1"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
+</ul></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#программа-stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#установка-1"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#начало-работы-2"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
-<li class="chapter" data-level="3.2" data-path="simplereg.html"><a href="simplereg.html#python"><i class="fa fa-check"></i><b>3.2</b> Python</a></li>
-<li class="chapter" data-level="3.3" data-path="simplereg.html"><a href="simplereg.html#stata"><i class="fa fa-check"></i><b>3.3</b> Stata</a></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a><ul>
+<li class="chapter" data-level="2.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
 </ul></li>
-<li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модель бинарного выбора</a><ul>
-<li class="chapter" data-level="4.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
-<li class="chapter" data-level="4.2" data-path="binchoice.html"><a href="binchoice.html#python-1"><i class="fa fa-check"></i><b>4.2</b> Python</a></li>
-<li class="chapter" data-level="4.3" data-path="binchoice.html"><a href="binchoice.html#stata-1"><i class="fa fa-check"></i><b>4.3</b> Stata</a></li>
+<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a><ul>
+<li class="chapter" data-level="3.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
 </ul></li>
-<li class="chapter" data-level="5" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>5</b> Модели множественного выбора</a><ul>
-<li class="chapter" data-level="5.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
-<li class="chapter" data-level="5.2" data-path="multchoice.html"><a href="multchoice.html#python-2"><i class="fa fa-check"></i><b>5.2</b> python</a></li>
-<li class="chapter" data-level="5.3" data-path="multchoice.html"><a href="multchoice.html#stata-2"><i class="fa fa-check"></i><b>5.3</b> Stata</a></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
+<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
 </ul></li>
-<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a><ul>
-<li class="chapter" data-level="6.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
-<li class="chapter" data-level="6.2" data-path="poisreg.html"><a href="poisreg.html#python-3"><i class="fa fa-check"></i><b>6.2</b> Python</a></li>
-<li class="chapter" data-level="6.3" data-path="poisreg.html"><a href="poisreg.html#stata-3"><i class="fa fa-check"></i><b>6.3</b> Stata</a></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
+<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
 </ul></li>
-<li class="chapter" data-level="7" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>7</b> ARMA</a><ul>
-<li class="chapter" data-level="7.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>7.1</b> R</a></li>
-<li class="chapter" data-level="7.2" data-path="arma.html"><a href="arma.html#python-4"><i class="fa fa-check"></i><b>7.2</b> Python</a></li>
-<li class="chapter" data-level="7.3" data-path="arma.html"><a href="arma.html#stata-4"><i class="fa fa-check"></i><b>7.3</b> Stata</a></li>
+<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a><ul>
+<li class="chapter" data-level="6.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
 </ul></li>
+<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
 <li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
 <li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
-<li class="chapter" data-level="8.2" data-path="heterosked.html"><a href="heterosked.html#python-5"><i class="fa fa-check"></i><b>8.2</b> Python</a></li>
-<li class="chapter" data-level="8.3" data-path="heterosked.html"><a href="heterosked.html#stata-5"><i class="fa fa-check"></i><b>8.3</b> Stata</a></li>
 </ul></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
@@ -166,32 +183,33 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
             <section class="normal" id="section-">
 <div id="arma" class="section level1">
-<h1><span class="header-section-number">Коан 7</span> ARMA</h1>
+<h1><span class="header-section-number">Коан 6</span> ARMA</h1>
 <blockquote>
-<p>Достигнем просветления в анализе временных рядов вместе с нашими друзьями, Stata, R и Python! В качестве анализируемых наблюдений используем данные по стоимости акций коммапнии <code>Apple</code> c 2015-01-01 по 2015-12-31: цена открытия/ закрытия, минимальная/ максимальная цены, объём и скорректиованная цена.</p>
+<p>Достигнем просветления в анализе временных рядов вместе с нашими друзьями, Stata, R и Python!
+В качестве анализируемых наблюдений используем данные по стоимости акций коммапнии <code>Apple</code> c 2015-01-01 по 2015-12-31: цена открытия/ закрытия, минимальная/ максимальная цены, объём и скорректиованная цена.</p>
 </blockquote>
 <div id="r-4" class="section level2">
-<h2><span class="header-section-number">7.1</span> R</h2>
+<h2><span class="header-section-number">6.1</span> R</h2>
 <p>Традиционно начнём в <strong>r</strong>.</p>
 <p>Загрузим необходимые пакеты:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(xts) <span class="co"># работа с временными рядами</span>
-<span class="kw">library</span>(dplyr) <span class="co"># манипуляции с данными</span>
-<span class="kw">library</span>(ggplot2) <span class="co"># построение графиков</span>
-<span class="kw">library</span>(aTSA) <span class="co"># тест Дики-Фуллера</span>
-<span class="kw">library</span>(forecast) <span class="co"># прогнозирование ARMA-моделей</span>
-<span class="kw">library</span>(quantmod) <span class="co"># импортирование набора данных из интернета</span>
-<span class="kw">library</span>(lmtest) <span class="co"># проверка гипотез</span></code></pre></div>
+<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">library</span>(xts) <span class="co"># работа с временными рядами</span></a>
+<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="kw">library</span>(dplyr) <span class="co"># манипуляции с данными</span></a>
+<a class="sourceLine" id="cb116-3" data-line-number="3"><span class="kw">library</span>(ggplot2) <span class="co"># построение графиков</span></a>
+<a class="sourceLine" id="cb116-4" data-line-number="4"><span class="kw">library</span>(aTSA) <span class="co"># тест Дики-Фуллера</span></a>
+<a class="sourceLine" id="cb116-5" data-line-number="5"><span class="kw">library</span>(forecast) <span class="co"># прогнозирование ARMA-моделей</span></a>
+<a class="sourceLine" id="cb116-6" data-line-number="6"><span class="kw">library</span>(quantmod) <span class="co"># импортирование набора данных из интернета</span></a>
+<a class="sourceLine" id="cb116-7" data-line-number="7"><span class="kw">library</span>(lmtest) <span class="co"># проверка гипотез</span></a></code></pre></div>
 <p>Импортируем dataset <code>AAPL</code> прямо из пакета <code>quantmod</code>. Будем анализировать одномерный временной ряд от переменной <code>AAPL. Close</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">getSymbols</span>(<span class="st">&quot;AAPL&quot;</span>,<span class="dt">from =</span> <span class="st">&quot;2015-01-01&quot;</span>,<span class="dt">to =</span> <span class="st">&quot;2015-12-31&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">getSymbols</span>(<span class="st">&quot;AAPL&quot;</span>,<span class="dt">from =</span> <span class="st">&quot;2015-01-01&quot;</span>,<span class="dt">to =</span> <span class="st">&quot;2015-12-31&quot;</span>)</a></code></pre></div>
 <pre><code>[1] &quot;AAPL&quot;</code></pre>
 <p>Обозначим исследуемый набор данных как <code>apple_df</code>.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apple_df =<span class="st"> </span>AAPL<span class="op">$</span>AAPL.Close</code></pre></div>
+<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">apple_df =<span class="st"> </span>AAPL<span class="op">$</span>AAPL.Close</a></code></pre></div>
 <p>Визуализируем изучаемый временной ряд, его автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">ggtsdisplay</span>(apple_df)</code></pre></div>
+<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">ggtsdisplay</span>(apple_df)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
 <p>По графику видим, что процесс напоминает случайное блуждание: медленно убывает автокорреляционная функция, первый лаг частной автокорреляционной функции не входит в доверительный интервал, остальные - входят.</p>
 <p>Проверим стационарность ряда тестом Дики - Фуллера.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">adf.test</span>(apple_df)</code></pre></div>
+<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">adf.test</span>(apple_df)</a></code></pre></div>
 <pre><code>Augmented Dickey-Fuller Test 
 alternative: stationary 
  
@@ -220,10 +238,10 @@ Type 3: with drift and trend
 Note: in fact, p.value = 0.01 means p.value &lt;= 0.01 </code></pre>
 <p>Тест выявил нестационарность на 5% уровне значимости (основная гипотеза – о нестационарности ряда).</p>
 <p>Возьмём первую разность от ряда, чтобы сделать его стационарным (ведь только стационарные процессы могут быть описаны моделью <code>ARMA (p, q)</code> ) и снова построим автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">apple_diff =<span class="st"> </span><span class="kw">diff</span>(apple_df)
-<span class="kw">ggtsdisplay</span>(apple_diff)</code></pre></div>
+<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">apple_diff =<span class="st"> </span><span class="kw">diff</span>(apple_df)</a>
+<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">ggtsdisplay</span>(apple_diff)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">summary</span>(apple_diff)</code></pre></div>
+<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">summary</span>(apple_diff)</a></code></pre></div>
 <pre><code>     Index              AAPL.Close      
  Min.   :2015-01-02   Min.   :-6.89000  
  1st Qu.:2015-04-04   1st Qu.:-1.02500  
@@ -232,10 +250,11 @@ Note: in fact, p.value = 0.01 means p.value &lt;= 0.01 </code></pre>
  3rd Qu.:2015-09-30   3rd Qu.: 1.14499  
  Max.   :2015-12-30   Max.   : 6.17000  
                       NA&#39;s   :1         </code></pre>
-<p>Ряд похож на стационарный. Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан <code>ARIMA (0, 0, 0)</code>, что равносильно <code>ARMA(0, 0)</code>, но всё же…</p>
+<p>Ряд похож на стационарный.
+Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан <code>ARIMA (0, 0, 0)</code>, что равносильно <code>ARMA(0, 0)</code>, но всё же…</p>
 <p><code>ARIMA (0, 0, 0)</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))
-<span class="kw">summary</span>(arima_<span class="dv">000</span>)</code></pre></div>
+<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb126-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">000</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = apple_diff, order = c(0, 0, 0))
@@ -253,8 +272,8 @@ Training set 8.078552e-15 1.966425 1.495158 99.55996 99.55996 0.6825331
                     ACF1
 Training set -0.02936922</code></pre>
 <p>Построим также модель <code>ARIMA (1, 0, 0)</code> , что равносильно <code>ARMA (1, 0)</code>, для сравнения.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arima_<span class="dv">100</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))
-<span class="kw">summary</span>(arima_<span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">arima_<span class="dv">100</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
+<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>
 Call:
 arima(x = apple_diff, order = c(1, 0, 0))
@@ -271,7 +290,7 @@ Training set error measures:
 Training set -0.0003728078 1.965566 1.491983 94.09101 105.0814 0.6810838
                      ACF1
 Training set -0.002372191</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">coeftest</span>(arima_<span class="dv">100</span>)</code></pre></div>
+<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">coeftest</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <pre><code>
 z test of coefficients:
 
@@ -279,9 +298,10 @@ z test of coefficients:
 ar1       -0.0296313  0.0634712 -0.4668   0.6406
 intercept -0.0075101  0.1207545 -0.0622   0.9504</code></pre>
 <p>По информационному критерию Акаике первая модель лучше (AIC меньше), а также во второй модели коэффициент перед ar(1) незначим.</p>
-<p>Получается, что (как и ожидалось) первая модель лучше. Можно схитрить и использовать функцию автоподбора коэффициентов модели ARIMA.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">arima_auto_model =<span class="st"> </span><span class="kw">auto.arima</span>(apple_diff)
-<span class="kw">summary</span>(arima_auto_model)</code></pre></div>
+<p>Получается, что (как и ожидалось) первая модель лучше.
+Можно схитрить и использовать функцию автоподбора коэффициентов модели ARIMA.</p>
+<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1">arima_auto_model =<span class="st"> </span><span class="kw">auto.arima</span>(apple_diff)</a>
+<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">summary</span>(arima_auto_model)</a></code></pre></div>
 <pre><code>Series: apple_diff 
 ARIMA(0,0,0) with zero mean 
 
@@ -293,304 +313,33 @@ Training set error measures:
 Training set -0.008040008 1.966441 1.49548 -37.76185 445.4945 0.6841274
                     ACF1
 Training set -0.02936922</code></pre>
-<p>Такая функция автоматически минимизирует критерий Акаике. Заметим, что автоподбор выдал модель <code>ARIMA (0, 0, 0)</code> для первой разности.</p>
-<p>Теперь проверим остатки модели <code>ARIMA (0, 0, 0)</code> на белошумность. Сохраним остатки и проделаем тест Льюнг - Бокса, в котором основная гипотеза - остатки независимы.</p>
+<p>Такая функция автоматически минимизирует критерий Акаике.
+Заметим, что автоподбор выдал модель <code>ARIMA (0, 0, 0)</code> для первой разности.</p>
+<p>Теперь проверим остатки модели <code>ARIMA (0, 0, 0)</code> на белошумность.
+Сохраним остатки и проделаем тест Льюнг - Бокса, в котором основная гипотеза - остатки независимы.</p>
 <p>Сохраним остатки модели <code>ARIMA (0, 0, 0)</code> и построим тест Льюнг - Бокса (если наблюдений мало, то используем опцию <code>Box-Pierce</code>).</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">res_arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">resid</span>(arima_<span class="dv">000</span>)
-<span class="kw">Box.test</span>(res_arima_<span class="dv">000</span>, <span class="dt">lag =</span> <span class="dv">10</span>, <span class="dt">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>)</code></pre></div>
+<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">res_arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">resid</span>(arima_<span class="dv">000</span>)</a>
+<a class="sourceLine" id="cb134-2" data-line-number="2"><span class="kw">Box.test</span>(res_arima_<span class="dv">000</span>, <span class="dt">lag =</span> <span class="dv">10</span>, <span class="dt">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>)</a></code></pre></div>
 <pre><code>
     Box-Ljung test
 
 data:  res_arima_000
 X-squared = 4.2362, df = 10, p-value = 0.9361</code></pre>
 <p>Основная гипотеза об отсутствии автокорреляции остатков отвергается, следовательно, модель корректно описывает структуру автокорреляции.</p>
-<p>Время небольших фактов: Льюнг - это женщина-статистик! Поэтому правильно склонять “Льюнг - Бокса”, а не “Льюнга - Бокса”!</p>
+<p>Время небольших фактов: Льюнг - это женщина-статистик!
+Поэтому правильно склонять “Льюнг - Бокса”, а не “Льюнга - Бокса”!</p>
 <center>
-<div class="figure">
-<img src="images/Greta.jpg" />
-
-</div>
+<p><img src="images/Greta.jpg" /></p>
 </center>
-<p>Можно ещё также научиться оценивать визуально, где лежат корни AR и MA (<code>unit root test</code>). Так как для построенной модели нет AR и MA частей (<code>ARIMA (0, 0, 0)</code>), то можно применить команду к, например, <code>ARIMA (1, 0, 0)</code>:</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">autoplot</span>(arima_<span class="dv">100</span>)</code></pre></div>
+<p>Можно ещё также научиться оценивать визуально, где лежат корни AR и MA (<code>unit root test</code>).
+Так как для построенной модели нет AR и MA частей (<code>ARIMA (0, 0, 0)</code>), то можно применить команду к, например, <code>ARIMA (1, 0, 0)</code>:</p>
+<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">autoplot</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Построим прогноз на 3 периода вперёд для модели <code>arima_000</code>. Визуализируем прогноз, границы 80% и 95% доверительного интервалов.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">forecast</span>(arima_<span class="dv">000</span>, <span class="dt">h =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span>
-<span class="kw">autoplot</span>()</code></pre></div>
+<p>Построим прогноз на 3 периода вперёд для модели <code>arima_000</code>.
+Визуализируем прогноз, границы 80% и 95% доверительного интервалов.</p>
+<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">forecast</span>(arima_<span class="dv">000</span>, <span class="dt">h =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span></a>
+<a class="sourceLine" id="cb137-2" data-line-number="2"><span class="kw">autoplot</span>()</a></code></pre></div>
 <p><img src="08-arma_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-</div>
-<div id="python-4" class="section level2">
-<h2><span class="header-section-number">7.2</span> Python</h2>
-<p>Настало время <strong>python</strong>!</p>
-<p>Импортируем необходимые пакеты.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> numpy <span class="im">as</span> np
-<span class="im">import</span> pandas <span class="im">as</span> pd
-<span class="im">import</span> quandl <span class="co"># импортирование данных из Сети</span>
-<span class="im">import</span> datetime <span class="co"># работа с форматами даты и времени</span>
-<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># построение графиков</span>
-<span class="im">from</span> pandas <span class="im">import</span> Series <span class="co"># работа с временными рядами</span>
-<span class="im">import</span> statsmodels
-<span class="im">from</span> statsmodels.tsa.arima_model <span class="im">import</span> ARMA <span class="co"># ARMA-модели</span>
-<span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_acf <span class="co"># построение графика acf</span>
-<span class="im">from</span> statsmodels.graphics.tsaplots <span class="im">import</span> plot_pacf <span class="co"># построение графика pacf</span>
-<span class="im">import</span> statsmodels.api <span class="im">as</span> sm
-<span class="im">from</span> statsmodels.stats <span class="im">import</span> diagnostic <span class="im">as</span> diag <span class="co"># тесты</span>
-<span class="im">import</span> pmdarima <span class="im">as</span> pm
-<span class="im">from</span> pmdarima.arima <span class="im">import</span> auto_arima <span class="co"># автоподбор коэффициентов модели ARIMA</span>
-<span class="im">from</span> statsmodels.tsa.stattools <span class="im">import</span> adfuller <span class="co"># тест Дики-Фуллера</span></code></pre></div>
-<p>Загрузим набор данных:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">start <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">1</span>, <span class="dv">1</span>)
-end <span class="op">=</span> datetime.datetime(<span class="dv">2015</span>, <span class="dv">12</span>, <span class="dv">31</span>)
-apple <span class="op">=</span> quandl.get(<span class="st">&quot;WIKI/&quot;</span> <span class="op">+</span> <span class="st">&quot;AAPL&quot;</span>, start_date<span class="op">=</span>start, end_date<span class="op">=</span>end)</code></pre></div>
-<p>Проверим загрузку данных. Будем анализировать цену закрытия.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">apple.head()</code></pre></div>
-<pre><code>              Open    High      Low  ...    Adj. Low  Adj. Close  Adj. Volume
-Date                                 ...                                     
-2015-01-02  111.39  111.44  107.350  ...  101.982949  103.863957   53204626.0
-2015-01-05  108.29  108.65  105.410  ...  100.139941  100.937944   64285491.0
-2015-01-06  106.54  107.43  104.630  ...   99.398938  100.947444   65797116.0
-2015-01-07  107.20  108.20  106.695  ...  101.360696  102.362951   40105934.0
-2015-01-08  109.23  112.15  108.700  ...  103.265455  106.295968   59364547.0
-
-[5 rows x 12 columns]</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">apple_df <span class="op">=</span> apple[<span class="st">&quot;Close&quot;</span>]</code></pre></div>
-<p>Посмотрим на структуру временного ряда, автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">apple_df.plot(grid<span class="op">=</span><span class="va">True</span>)
-plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-22-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plot_acf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-22-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plot_pacf(apple_df, lags<span class="op">=</span><span class="dv">20</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-22-3.png" width="672" /></p>
-<p>Появились очень знакомые (и красивые) графики. Важно отметить, что на графиках есть 0 - лаг, он равен единице, в предыдущих графиках его не было.</p>
-<p>Проверим стационарность ряда тестом Дики-Фуллера.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">res <span class="op">=</span> sm.tsa.adfuller(apple_df, regression<span class="op">=</span><span class="st">&quot;ct&quot;</span>)
-<span class="co">&quot;p-value:{}&quot;</span>.<span class="bu">format</span>(res[<span class="dv">1</span>])</code></pre></div>
-<pre><code>&#39;p-value:0.23195078841554445&#39;</code></pre>
-<p>Возьмём первую разность и уберём пропущенные наблюдения.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">apple_diff <span class="op">=</span> apple_df.diff(periods<span class="op">=</span><span class="dv">1</span>).dropna()</code></pre></div>
-<p>И визуализируем структуру нового ряда.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">apple_diff.plot(grid<span class="op">=</span><span class="va">True</span>)
-plt.title(<span class="st">&quot;Структурa временного ряда&quot;</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-25-1.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plot_acf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-25-2.png" width="672" /></p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">plot_pacf(apple_diff, lags<span class="op">=</span><span class="dv">50</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-25-3.png" width="672" /></p>
-<p>Аналогично операциям в <strong>r</strong>, смоделируем данный ряд как <code>ARMA (0, 0)</code>.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arma_00 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">0</span>, <span class="dv">0</span>))</code></pre></div>
-<pre><code>C:\Users\Yuliya\AppData\Local\Programs\Python\Python37\lib\site-packages\statsmodels\tsa\base\tsa_model.py:225: ValueWarning: A date index has been provided, but it has no associated frequency information and so will be ignored when e.g. forecasting.
-  &#39; ignored when e.g. forecasting.&#39;, ValueWarning)</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arma_00_fit <span class="op">=</span> arma_00.fit(disp<span class="op">=</span><span class="va">False</span>)
-arma_00_fit.summary()</code></pre></div>
-<pre><code>&lt;class &#39;statsmodels.iolib.summary.Summary&#39;&gt;
-&quot;&quot;&quot;
-                              ARMA Model Results                              
-==============================================================================
-Dep. Variable:                  Close   No. Observations:                  251
-Model:                     ARMA(0, 0)   Log Likelihood                -525.777
-Method:                           css   S.D. of innovations              1.966
-Date:                Sat, 18 Jan 2020   AIC                           1055.555
-Time:                        00:45:59   BIC                           1062.606
-Sample:                             0   HQIC                          1058.392
-                                                                              
-==============================================================================
-                 coef    std err          z      P&gt;|z|      [0.025      0.975]
-------------------------------------------------------------------------------
-const         -0.0162      0.124     -0.131      0.896      -0.259       0.227
-==============================================================================
-&quot;&quot;&quot;</code></pre>
-<p>Смоделируем ряд как <code>ARMA (1, 0)</code>:</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arma_10 <span class="op">=</span> ARMA(apple_diff, order<span class="op">=</span>(<span class="dv">1</span>, <span class="dv">0</span>))</code></pre></div>
-<pre><code>C:\Users\Yuliya\AppData\Local\Programs\Python\Python37\lib\site-packages\statsmodels\tsa\base\tsa_model.py:225: ValueWarning: A date index has been provided, but it has no associated frequency information and so will be ignored when e.g. forecasting.
-  &#39; ignored when e.g. forecasting.&#39;, ValueWarning)</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arma_10_fit <span class="op">=</span> arma_10.fit(disp<span class="op">=</span><span class="va">False</span>)
-arma_10_fit.summary()</code></pre></div>
-<pre><code>&lt;class &#39;statsmodels.iolib.summary.Summary&#39;&gt;
-&quot;&quot;&quot;
-                              ARMA Model Results                              
-==============================================================================
-Dep. Variable:                  Close   No. Observations:                  251
-Model:                     ARMA(1, 0)   Log Likelihood                -525.704
-Method:                       css-mle   S.D. of innovations              1.965
-Date:                Sat, 18 Jan 2020   AIC                           1057.408
-Time:                        00:45:59   BIC                           1067.984
-Sample:                             0   HQIC                          1061.664
-                                                                              
-===============================================================================
-                  coef    std err          z      P&gt;|z|      [0.025      0.975]
--------------------------------------------------------------------------------
-const          -0.0157      0.121     -0.130      0.897      -0.253       0.222
-ar.L1.Close    -0.0243      0.063     -0.383      0.702      -0.149       0.100
-                                    Roots                                    
-=============================================================================
-                  Real          Imaginary           Modulus         Frequency
------------------------------------------------------------------------------
-AR.1          -41.1210           +0.0000j           41.1210            0.5000
------------------------------------------------------------------------------
-&quot;&quot;&quot;</code></pre>
-<p>Вторая модель имеет более высокое значение критерия Акаике и незначимый коэффициент перед ar(1).</p>
-<p>Отдельно можно выделить значения AIC и BIC для построенных моделей.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">np.<span class="bu">round</span>(arma_00_fit.aic, <span class="dv">2</span>)</code></pre></div>
-<pre><code>1055.55</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">np.<span class="bu">round</span>(arma_10_fit.aic, <span class="dv">2</span>)</code></pre></div>
-<pre><code>1057.41</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">np.<span class="bu">round</span>(arma_00_fit.bic, <span class="dv">2</span>)</code></pre></div>
-<pre><code>1062.61</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">np.<span class="bu">round</span>(arma_10_fit.bic, <span class="dv">2</span>)</code></pre></div>
-<pre><code>1067.98</code></pre>
-<p>Как и в <strong>r</strong>, <strong>python</strong> имеет опцию автоподбора коэффициентов модели <code>ARIMA</code>.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">auto_arima_python <span class="op">=</span> pm.auto_arima(apple_diff)</code></pre></div>
-<pre><code>C:\Users\Yuliya\AppData\Local\Programs\Python\Python37\lib\site-packages\statsmodels\tsa\statespace\representation.py:375: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
-  return matrix[[slice(None)]*(matrix.ndim-1) + [0]]
-C:\Users\Yuliya\AppData\Local\Programs\Python\Python37\lib\site-packages\statsmodels\tsa\statespace\representation.py:375: FutureWarning: Using a non-tuple sequence for multidimensional indexing is deprecated; use `arr[tuple(seq)]` instead of `arr[seq]`. In the future this will be interpreted as an array index, `arr[np.array(seq)]`, which will result either in an error or a different result.
-  return matrix[[slice(None)]*(matrix.ndim-1) + [0]]</code></pre>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">auto_arima_python.summary()</code></pre></div>
-<pre><code>&lt;class &#39;statsmodels.iolib.summary.Summary&#39;&gt;
-&quot;&quot;&quot;
-                           Statespace Model Results                           
-==============================================================================
-Dep. Variable:                      y   No. Observations:                  251
-Model:                        SARIMAX   Log Likelihood                -525.777
-Date:                Sat, 18 Jan 2020   AIC                           1055.555
-Time:                        00:46:00   BIC                           1062.606
-Sample:                             0   HQIC                          1058.392
-                                - 251                                         
-Covariance Type:                  opg                                         
-==============================================================================
-                 coef    std err          z      P&gt;|z|      [0.025      0.975]
-------------------------------------------------------------------------------
-intercept     -0.0162      0.124     -0.131      0.896      -0.260       0.227
-sigma2         3.8635      0.285     13.563      0.000       3.305       4.422
-===================================================================================
-Ljung-Box (Q):                       29.94   Jarque-Bera (JB):                 9.55
-Prob(Q):                              0.88   Prob(JB):                         0.01
-Heteroskedasticity (H):               0.88   Skew:                            -0.09
-Prob(H) (two-sided):                  0.55   Kurtosis:                         3.94
-===================================================================================
-
-Warnings:
-[1] Covariance matrix calculated using the outer product of gradients (complex-step).
-&quot;&quot;&quot;</code></pre>
-<p>В строчке <code>SARIMAX</code> нет рядом коэффициентов. Это означает, что они нулевые, как и предполагалось, то есть модель описывается <code>ARMA (0, 0)</code>. Эта функция также удобна тем, что выводит статистики.</p>
-<p>Проверим белошумность остатков тестом Льюнг - Бокса.</p>
-<p>Сохраним остатки как <code>residuals</code>. Построим тест Льюнг-Бокса (опция <code>boxpierce=False</code>) (если наблюдений мало, то используем опцию <code>Box-Pierce</code>).</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">residuals <span class="op">=</span> pd.DataFrame(arma_00_fit.resid)
-diag.acorr_ljungbox(residuals, lags<span class="op">=</span><span class="dv">10</span>, boxpierce<span class="op">=</span><span class="va">False</span>)</code></pre></div>
-<pre><code>(array([0.14719804, 2.2301318 , 2.23871226, 3.09884873, 3.18193505,
-       3.24119693, 3.68529998, 3.69140909, 4.34844736, 4.35831357]), array([0.70122752, 0.32789367, 0.52436357, 0.54142173, 0.67196005,
-       0.77802184, 0.81522682, 0.8838376 , 0.88701969, 0.92973867]))</code></pre>
-<p>Посмотрим на прогноз на 10 дней вперёд.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">forecast <span class="op">=</span> arma_00_fit.forecast(steps<span class="op">=</span><span class="dv">10</span>)[<span class="dv">0</span>]
-forecast</code></pre></div>
-<pre><code>array([-0.01621514, -0.01621514, -0.01621514, -0.01621514, -0.01621514,
-       -0.01621514, -0.01621514, -0.01621514, -0.01621514, -0.01621514])</code></pre>
-<p>И визуализируем прогнозные значения на исходном графике.</p>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">arma_00_fit.plot_predict(<span class="bu">len</span>(apple_diff)<span class="op">-</span><span class="dv">250</span>, <span class="bu">len</span>(apple_diff)<span class="op">+</span><span class="dv">10</span>)
-plt.xlabel(<span class="st">&quot;Лаги&quot;</span>)
-plt.ylabel(<span class="st">&quot;Изменение цены&quot;</span>)
-plt.title(<span class="st">&quot;Изменение цены закрытия AAPL&quot;</span>)
-plt.show()</code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-33-1.png" width="672" /></p>
-</div>
-<div id="stata-4" class="section level2">
-<h2><span class="header-section-number">7.3</span> Stata</h2>
-<p>Теперь научимся анализировать временные ряды в <strong>stata</strong>.</p>
-<p>Импортируем данные командой <code>use apple_08.dta</code>.</p>
-<p>Установим временной формат переменной <code>Date</code> и визуализируем исследуемый временной ряд, его автокорреляционную и частную автокорреляционную функции.</p>
-<pre class="stata"><code>tsset Date</code></pre>
-<pre><code>no variables defined
-r(111);
-
-end of do-file
-r(111);</code></pre>
-<pre class="stata"><code>tsline Close</code></pre>
-<center>
-<div class="figure">
-<img src="ts.png" />
-
-</div>
-</center>
-<pre class="stata"><code>ac Close</code></pre>
-<center>
-<div class="figure">
-<img src="ac.png" />
-
-</div>
-</center>
-<pre class="stata"><code>pac Close</code></pre>
-<center>
-<img src="pac.png" />
-</center>
-<p>На графиках видим отличные от предыдущих 2-х сетов графиков. Почему так происходит – хороший исследовательский вопрос!</p>
-<p><a href="https://stats.stackexchange.com/questions/169891/same-data-different-pacf-r-vs-stata/">Stackexchange</a> рекомендует приписать “, yw” после “ac/pac”, но это не работает на моём примере.</p>
-<p>Несмотря на выявленное различие, всё равно посмотрим процедуру анализа временного ряда в stata.</p>
-<p>Проверим стационарность ряда тестом Дики-Фуллера.</p>
-<pre class="stata"><code>dfuller Close, trend lags(0)</code></pre>
-<pre><code>no variables defined
-r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Тест выявил нестационарность на 5% уровне значимости (основная гипотеза - о нестационарности).</p>
-<p>Возьмём первую разность от ряда, чтобы сделать его стационарным и снова построим графики ACF и PACF.</p>
-<pre class="stata"><code>gen Close_1 = Close[_n]-Close[_n-1]</code></pre>
-<p>И визуализируем его, вместе с автокорреляционной и частной автокорреляционной функциями.</p>
-<pre class="stata"><code>tsline Close_1</code></pre>
-<center>
-<div class="figure">
-<img src="ts_1.png" />
-
-</div>
-</center>
-<pre class="stata"><code>ac Close_1</code></pre>
-<center>
-<img src="acc_1.png" />
-</center>
-<pre class="stata"><code>pac Close_1</code></pre>
-<center>
-<div class="figure">
-<img src="pacc_1.png" />
-
-</div>
-</center>
-<p>Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан <code>ARIMA (0, 0, 0)</code>, что равносильно <code>ARMA (0, 0)</code>, но всё же…</p>
-<p><code>ARIMA (0, 0, 0)</code>. Можно также отдельно вывести AIC и BIC для построенной модели. Построим также модель <code>ARIMA (1, 0, 0)</code> для сравнения.</p>
-<pre class="stata"><code>arima Close_1, arima(0, 0, 0)
-estat ic
-arima Close_1, arima(1, 0, 0)
-estat ic</code></pre>
-<pre><code>no variables defined
-r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>По информационному критерию Акаике первая модель лучше (AIC меньше), а также во второй модели коэффициент перед ar(1) незначим.</p>
-<p>Проверим остатки модели <code>ARIMA (0, 0, 0)</code> на белошумность. Сохраним остатки модели и проверим тестом Льюнг-Бокса. Основная гипотеза - остатки независимы.</p>
-<pre class="stata"><code>arima Close_1, arima(0, 0, 0)
-predict res, resid
-wntestq res</code></pre>
-<pre><code>no variables defined
-r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Теперь попробуем построить прогноз по модели <code>ARIMA (0, 0, 0)</code>:</p>
-<pre class="stata"><code>arima Close_1, arima(0, 0, 0)
-predict prognoz
-display prognoz</code></pre>
-<pre><code>no variables defined
-r(111);
-
-end of do-file
-r(111);</code></pre>
-<p>Прогноз аналогичен полученным раньше.</p>
 
 </div>
 </div>
@@ -600,16 +349,18 @@ r(111);</code></pre>
         </div>
       </div>
 <a href="poisreg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
-<a href="heterosked.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
+<a href="paneldata.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
+<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
+<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -645,6 +396,20 @@ gitbook.start({
 });
 </script>
 
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    var src = "true";
+    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
+    if (location.protocol !== "file:")
+      if (/^https?:/.test(src))
+        src = src.replace(/^https?:/, '');
+    script.src = src;
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
 </body>
 
 </html>

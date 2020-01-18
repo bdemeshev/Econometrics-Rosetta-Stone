@@ -23,11 +23,7 @@ library(nnet)
 
 
 ```r
-df = import("data/pension.dta")
-```
-
-```
-Error in import("data/pension.dta"): No such file
+df = import("../data/04_pension.dta")
 ```
 
 Начнем с пристального взгляда на описательные статистки. 
@@ -36,9 +32,45 @@ Error in import("data/pension.dta"): No such file
 skim(df)
 ```
 
-```
-Error in as.data.frame.default(data): cannot coerce class '"function"' to a data.frame
-```
+
+Table: (\#tab:skim)Data summary
+
+                                
+-------------------------  -----
+Name                       df   
+Number of rows             226  
+Number of columns          19   
+_______________________         
+Column type frequency:          
+numeric                    19   
+________________________        
+Group variables            None 
+-------------------------  -----
+
+
+**Variable type: numeric**
+
+skim_variable    n_missing   complete_rate      mean        sd     p0      p25       p50       p75   p100  hist  
+--------------  ----------  --------------  --------  --------  -----  -------  --------  --------  -----  ------
+id                       0            1.00   2445.09   1371.27     38   1312.5   2377.50   3804.25   5014  ▇▇▇▇▅ 
+pyears                   8            0.96     11.39      9.61      0      4.0      9.00     16.00     45  ▇▅▂▁▁ 
+prftshr                 20            0.91      0.21      0.41      0      0.0      0.00      0.00      1  ▇▁▁▁▂ 
+choice                   0            1.00      0.62      0.49      0      0.0      1.00      1.00      1  ▅▁▁▁▇ 
+female                   0            1.00      0.60      0.49      0      0.0      1.00      1.00      1  ▅▁▁▁▇ 
+married                  0            1.00      0.73      0.44      0      0.0      1.00      1.00      1  ▃▁▁▁▇ 
+age                      0            1.00     60.70      4.29     53     57.0     60.00     64.00     73  ▇▇▇▂▁ 
+educ                     7            0.97     13.52      2.55      8     12.0     12.00     16.00     18  ▁▇▂▂▂ 
+finc25                  10            0.96      0.21      0.41      0      0.0      0.00      0.00      1  ▇▁▁▁▂ 
+finc35                  10            0.96      0.19      0.39      0      0.0      0.00      0.00      1  ▇▁▁▁▂ 
+finc50                  10            0.96      0.25      0.43      0      0.0      0.00      0.00      1  ▇▁▁▁▂ 
+finc75                  10            0.96      0.12      0.33      0      0.0      0.00      0.00      1  ▇▁▁▁▁ 
+finc100                 10            0.96      0.12      0.33      0      0.0      0.00      0.00      1  ▇▁▁▁▁ 
+finc101                 10            0.96      0.06      0.25      0      0.0      0.00      0.00      1  ▇▁▁▁▁ 
+wealth89                 0            1.00    197.91    242.09   -580     52.0    127.85    247.50   1485  ▁▇▂▁▁ 
+black                    0            1.00      0.12      0.33      0      0.0      0.00      0.00      1  ▇▁▁▁▁ 
+stckin89                 0            1.00      0.32      0.47      0      0.0      0.00      1.00      1  ▇▁▁▁▃ 
+irain89                  0            1.00      0.50      0.50      0      0.0      0.50      1.00      1  ▇▁▁▁▇ 
+pctstck                  0            1.00     46.68     39.44      0      0.0     50.00    100.00    100  ▇▁▇▁▆ 
 
 Отсюда несложно заметить, что переменная `choice` — бинарная. 
 И принимает значение `1`, если индивид в выборке имел право выбора схемы инвестирования. 
@@ -52,18 +84,11 @@ Error in as.data.frame.default(data): cannot coerce class '"function"' to a data
 
 ```r
 df = mutate(df, y = factor(pctstck), y = relevel(y, ref = 2)) 
-```
-
-```
-Error in UseMethod("mutate_"): no applicable method for 'mutate_' applied to an object of class "function"
-```
-
-```r
 levels(df$y)
 ```
 
 ```
-Error in df$y: object of type 'closure' is not subsettable
+[1] "50"  "0"   "100"
 ```
 
 Можно взглянуть на значения объясняемой переменной в разрезе какой-то другой переменной. 
@@ -74,7 +99,11 @@ table(df$y, df$educ)
 ```
 
 ```
-Error in df$y: object of type 'closure' is not subsettable
+     
+       8  9 10 11 12 13 14 15 16 17 18
+  50   1  1  0  3 34  4  6  2 14  5 14
+  0    5  3  0  3 31  4  7  0 11  1  7
+  100  0  2  1  1 36  1  5  4  5  4  4
 ```
 
 Построим модель множественного выбора (лог-линейная модель). 
@@ -86,7 +115,12 @@ multmodel = multinom(y ~ choice + age + educ + wealth89 + prftshr,
 ```
 
 ```
-Error in as.data.frame.default(data, optional = TRUE): cannot coerce class '"function"' to a data.frame
+# weights:  21 (12 variable)
+initial  value 220.821070 
+iter  10 value 208.003694
+iter  20 value 204.508245
+final  value 204.507779 
+converged
 ```
 
 ```r
@@ -94,7 +128,22 @@ summary(multmodel)
 ```
 
 ```
-Error in summary(multmodel): object 'multmodel' not found
+Call:
+multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
+    data = df, reflevel = "0")
+
+Coefficients:
+    (Intercept)       choice        age       educ     wealth89   prftshr
+0    -3.7778032 -0.626950541 0.10621896 -0.1851817 3.716695e-04 0.2718066
+100   0.7155771 -0.002461399 0.01139191 -0.1387427 1.684637e-05 1.2527158
+
+Std. Errors:
+    (Intercept)    choice        age       educ     wealth89   prftshr
+0      1.577870 0.3701450 0.02706225 0.06827224 0.0007353231 0.4980872
+100    1.368662 0.3876881 0.02549556 0.06954044 0.0007948194 0.4622377
+
+Residual Deviance: 409.0156 
+AIC: 433.0156 
 ```
 
 При необходимости можем построить модельку для подвыборки, например, только для замужних/женатых.
@@ -106,7 +155,12 @@ multmodel_married = multinom(y ~ choice + age + educ + wealth89 + prftshr,
 ```
 
 ```
-Error in as.data.frame.default(data, optional = TRUE): cannot coerce class '"function"' to a data.frame
+# weights:  21 (12 variable)
+initial  value 165.890456 
+iter  10 value 152.140783
+iter  20 value 149.611135
+final  value 149.611069 
+converged
 ```
 
 ```r
@@ -114,7 +168,22 @@ summary(multmodel_married)
 ```
 
 ```
-Error in summary(multmodel_married): object 'multmodel_married' not found
+Call:
+multinom(formula = y ~ choice + age + educ + wealth89 + prftshr, 
+    data = df, subset = married == 1, reflevel = "0")
+
+Coefficients:
+    (Intercept)     choice       age       educ     wealth89    prftshr
+0    -4.9076771 -1.0040922 0.1279089 -0.1905437 0.0006204087 -0.1901239
+100   0.2276417 -0.5382183 0.0133528 -0.1000726 0.0004076403  1.0692773
+
+Std. Errors:
+    (Intercept)    choice        age       educ     wealth89   prftshr
+0      1.850782 0.4463254 0.03189365 0.07925101 0.0008454956 0.5621150
+100    1.603713 0.4540907 0.02965149 0.07925338 0.0008825075 0.4947089
+
+Residual Deviance: 299.2221 
+AIC: 323.2221 
 ```
 
 Быстренько прикинули значимость коэффициентов.
@@ -125,7 +194,9 @@ coef(multmodel)/summary(multmodel)$standard.errors
 ```
 
 ```
-Error in coef(multmodel): object 'multmodel' not found
+    (Intercept)       choice       age      educ   wealth89   prftshr
+0    -2.3942416 -1.693797014 3.9249859 -2.712401 0.50545058 0.5457008
+100   0.5228296 -0.006348915 0.4468195 -1.995136 0.02119521 2.7101114
 ```
 
 Сохраним прогнозы.
@@ -134,15 +205,12 @@ Error in coef(multmodel): object 'multmodel' not found
 fit_values = fitted(multmodel)
 ```
 
-```
-Error in fitted(multmodel): object 'multmodel' not found
-```
-
 И посчитаем относительное изменение отношения шансов:
 
 \[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
+\] 
+показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
 
 
 ```r
@@ -160,7 +228,20 @@ summary(marginal_effects(multmodel))
 ```
 
 ```
-Error in marginal_effects(multmodel): object 'multmodel' not found
+  dydx_choice         dydx_age           dydx_educ      
+ Min.   :0.02341   Min.   :-0.019966   Min.   :0.01298  
+ 1st Qu.:0.05924   1st Qu.:-0.015237   1st Qu.:0.03141  
+ Median :0.07324   Median :-0.013644   Median :0.03791  
+ Mean   :0.06945   Mean   :-0.012893   Mean   :0.03468  
+ 3rd Qu.:0.08402   3rd Qu.:-0.011486   3rd Qu.:0.03905  
+ Max.   :0.11414   Max.   :-0.005686   Max.   :0.04223  
+ dydx_wealth89         dydx_prftshr     
+ Min.   :-6.855e-05   Min.   :-0.25602  
+ 1st Qu.:-5.119e-05   1st Qu.:-0.19363  
+ Median :-4.509e-05   Median :-0.16877  
+ Mean   :-4.275e-05   Mean   :-0.15863  
+ 3rd Qu.:-3.729e-05   3rd Qu.:-0.13454  
+ Max.   :-1.675e-05   Max.   :-0.03909  
 ```
 
 Или при заданном значении объясняемых переменных.
@@ -170,7 +251,8 @@ margins(multmodel, at = list(age = 69, choice = 1))
 ```
 
 ```
-Error in margins(multmodel, at = list(age = 69, choice = 1)): object 'multmodel' not found
+ at(age) at(choice)  choice      age    educ   wealth89 prftshr
+      69          1 0.08024 -0.01431 0.03263 -4.857e-05 -0.1158
 ```
 
 
@@ -190,7 +272,7 @@ Error in import("data/tradrole.dta"): No such file
 ```
 
 ```r
-#skim(data_nlsy)
+# skim(data_nlsy)
 ```
 
 
@@ -204,7 +286,7 @@ qplot(data_nlsy, x = tradrole) +
 Error in FUN(X[[i]], ...): object 'tradrole' not found
 ```
 
-![](04-multinomchoice_files/figure-latex/hist tradrole r-1.pdf)<!-- --> 
+![](04-multinomchoice_files/figure-epub3/hist tradrole r-1.png)<!-- -->
 
 Посмотрим, как влияет религиозное воспитание (`cath` — католичество и `fpro` — протестанство), число лет образования матери — `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
 
@@ -238,522 +320,5 @@ Error in summary(oprobit): object 'oprobit' not found
 ```
 
 
-## python
 
-
-```python
-import numpy as np
-import pandas as pd
-import statsmodels.api as st
-import matplotlib.pyplot as plt
-
-plt.style.use('ggplot')
-```
-
-
-
-```python
-df = pd.read_stata('data/pension.dta')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: 'data/pension.dta'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py", line 227, in read_stata
-    chunksize=chunksize,
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py", line 1093, in __init__
-    self.path_or_buf = open(path_or_buf, "rb")
-```
-
-
-```python
-df.describe()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-
-
-```python
-df.rename(columns = {'pctstck':'y'}, inplace = True)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Подготовим данные для построения модели множественного выбора. Избавимся от пропусков в интересующих нас переменных и добавим вектор констант. 
-
-
-```python
-sub = df[['y', 'choice', 'age', 'wealth89', 'prftshr', 'educ', 'married']].dropna()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'df' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-y = sub['y']
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-X = sub[['choice', 'age', 'wealth89', 'prftshr']]
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-X = st.add_constant(X, prepend=False)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'X' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Кросс - табличка для объясняемой переменной и числа лет образования.
-
-```python
-pd.crosstab(sub['y'], sub['educ'])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Строим модель.
-
-```python
-multmodel = st.MNLogit(y, X, )
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'y' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mm_fit = multmodel.fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'multmodel' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mm_fit.summary() ### сразу же можно проверить значимость коэффициентов
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-
-```python
-fitted_values = mm_fit.predict()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Отдельно можем извлечь параметры.
-
-```python
-mm_fit.params
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Для того, чтобы построить модельку по подвыборке, её (подвыборку) нужно создать :)
-
-```python
-data_m = sub[(sub.married == 1)]
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-y_m = data_m['y']
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-X_m = data_m[['choice', 'age', 'wealth89', 'prftshr']]
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-X_m = st.add_constant(X_m, prepend = False)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'X_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-Дальше всё аналогично :)
-
-```python
-multmodel_m = st.MNLogit(y_m, X_m)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'y_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mm_fit_m = multmodel_m.fit()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'multmodel_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-mm_fit_m.summary()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit_m' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-C пределными эффектами в питоне беда!!!!
-
-```python
-margeff = mm_fit.get_margeff()
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'mm_fit' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-np.round(margeff.margeff, 3)
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'margeff' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
- 
-Или все-таки беда с отношением шансов?
-
-```python
-y50_data = sub[sub['y'] == 50][sub.columns.difference(['y', 'married'])]
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-y100_data = sub[sub['y'] == 100][sub.columns.difference(['y', 'married'])]
-#np.exp(mm_fit.params[0]*y100_data) # кажется, это придется считать вручную :(
-#np.exp(mm_fit.params[0]*y100_data) # не уверена, что так, но пусть пока будет
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'sub' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
-
-```python
-data_nlsy = pd.read_stata('data/tradrole.dta')
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): FileNotFoundError: [Errno 2] No such file or directory: 'data/tradrole.dta'
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py", line 227, in read_stata
-    chunksize=chunksize,
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\util\_decorators.py", line 208, in wrapper
-    return func(*args, **kwargs)
-  File "C:\Users\DNS\ANACON~1\lib\site-packages\pandas\io\stata.py", line 1093, in __init__
-    self.path_or_buf = open(path_or_buf, "rb")
-```
-
-
-```python
-plt.hist(data_nlsy['tradrole'])
-```
-
-```
-Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name 'data_nlsy' is not defined
-
-Detailed traceback: 
-  File "<string>", line 1, in <module>
-```
-
-```python
-plt.title('')
-plt.xlabel('Ответы респонденток')
-plt.show('Вот такие дела, джентельмены :)')
-```
-
-![](04-multinomchoice_files/figure-latex/hist tradrole py-1.pdf)<!-- --> 
-
-Дальше тоже пока печаль :(
-
-
-
-## Stata
-
-
-
-
-```stata
-use data/pension.dta
-```
-
-```
-r(601);
-
-end of do-file
-r(601);
-```
-
-
-```stata
-sum
-```
-
-```
-end of do-file
-```
-
-
-```stata
-ren pctstck y
-```
-
-```
-r(111);
-
-end of do-file
-r(111);
-```
-
-Построим модель множественного выбора (лог-линейная модель). 
-
-```stata
-mlogit y choice age educ wealth89 prftshr,  baseoutcome(0) 
-```
-
-```
-r(111);
-
-end of do-file
-r(111);
-```
-
-Кросс - табличка для объясняемой переменной и числа лет образования.
-
-```stata
-table y educ
-```
-
-```
-r(111);
-
-end of do-file
-r(111);
-```
-
-Можем получить прогнозы вероятностей.
-
-```stata
-predict p1 p2 p3, p
-```
-
-```
-r(301);
-
-end of do-file
-r(301);
-```
-
-И посчитать относительное изменение отношения шансов:
-
-\[
-\frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] - показывает изменение отношения шансов при выборе альтернативы j вместо альтернативы 0, если x изменился на единицу.
-В stata, в отличие от R, отношение шансов называется relative-risk ratio.
-
-
-```stata
-mlogit, rrr
-```
-
-```
-r(301);
-
-end of do-file
-r(301);
-```
-
-
-Можем посчитать предельные эффекты в разных точках.
-
-```stata
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) atmeans 
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at((p25) *)
-
-margins, predict(outcome(0)) dydx(choice age educ wealth89 prftshr) at(age = 69 choice = 0)
-```
-
-```
-r(301);
-
-end of do-file
-r(301);
-```
-
-
-
-И вернемся к ~~сильным и независимым~~ моделькам упорядоченного выбора :) 
-
-```stata
-use data/tradrole.dta
-
-sum
-```
-
-```
-r(601);
-
-end of do-file
-r(601);
-```
-
-!Нужно добавить название к графику
-
-```stata
-hist tradrole
-```
-
-```
-r(111);
-
-end of do-file
-r(111);
-```
-
-Посмотрим, как влияет религиозное воспитание (`cath` - католичество и `fpro` - протестанство), число лет образования матери - `meduc` и проживание в крупном городе `urb` на объясняемую переменную.
-
-
-```stata
-oprobit tradrole i.cath i.fpro meduc i.urb
-```
-
-```
-r(111);
-
-end of do-file
-r(111);
-```
 
