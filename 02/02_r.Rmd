@@ -17,7 +17,6 @@ library(tseries) # тест Харке – Бера
 Импортируем данные.
 
 ```{r "import data", message=FALSE, warning=FALSE}
-
 returns = import("../data/02_us_return.dta")
 ```
 
