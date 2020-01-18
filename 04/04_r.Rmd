@@ -15,7 +15,7 @@ library(nnet)
 Нас интересует переменная `pctstck`, которая принимает три значения: 0, 50, 100 в зависимоcти от ответа респондента на вопрос о предпочтительном способе инвестирования пенсионных накоплений — в облигации, смешанным способом или в акции.  ОЧЕНЬ ДЛИННОЕ ПРЕДЛОЖЕНИЕ!!!!!!
 
 ```{r "import data r", message=FALSE, warning=FALSE}
-df = import("data/pension.dta")
+df = import("../data/04_pension.dta")
 ```
 
 Начнем с пристального взгляда на описательные статистки. 
@@ -75,7 +75,8 @@ fit_values = fitted(multmodel)
 
 \[
 \frac{P(y_{i} = j)}{P(y_{i} = 1)} = exp(x_{i}\beta)
-\] показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
+\] 
+показывает изменение отношения шансов при выборе альтернативы j вместо базовой альтернативы 1, если x изменился на единицу.
 
 ```{r "or",  message=FALSE, warning=FALSE}
 odds.ratio(multmodel) 
@@ -100,7 +101,7 @@ margins(multmodel, at = list(age = 69, choice = 1))
 
 ```{r "import tradrole r",  message=FALSE, warning=FALSE}
 data_nlsy = import('data/tradrole.dta')
-#skim(data_nlsy)
+# skim(data_nlsy)
 ```
 
 ```{r "hist tradrole r",  message=FALSE, warning=FALSE}

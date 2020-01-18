@@ -16,7 +16,7 @@ library(skimr) # для описательных статистик
 Импортируем наш dataset, `flats.dta`:
 
 ```{r}
-flats = import("data/10_flats.dta")
+flats = import("../data/10_flats.dta")
 ```
 
 Рассмотрим описательные статистики загруженного датасета.

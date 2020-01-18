@@ -63,5 +63,9 @@ install.packages(c("vcd", "ggplot2", "knitr", "xtable", "texreg", "lmtest", "san
 
 Установили? Отлично. Всё готово для использования RStudio на вашем компьютере.
 
+```{r}
+cat("Рабочая папка:", getwd(), "\n")
+```
+
 
 [^1]: Источник: https://github.com/bdemeshev/em301/wiki/R
