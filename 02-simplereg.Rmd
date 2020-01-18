@@ -1,19 +1,15 @@
 # Коан о простой линейной регрессии {#simplereg}
 
 
-```{r, child='setup/setup.Rmd'}
+```{r, child=if (max(child[2, ])) 'setup/setup.Rmd'}
 ```
 
 
-```{r, child=if (child$r[2] == 1) '02/02_r.Rmd'}
+```{r, child=if (child$r[2]) '02/02_r.Rmd'}
 ```
 
-
-
-```{r, child=if (child$py[2] == 1) '02/02_py.Rmd'}
+```{r, child=if (child$py[2]) '02/02_py.Rmd'}
 ```
 
-
-
-```{r, child=if (child$stata[2] == 1) '02/02_stata.Rmd'}
+```{r, child=if (child$stata[2]) '02/02_stata.Rmd'}
 ```

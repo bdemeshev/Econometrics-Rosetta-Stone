@@ -1,14 +1,14 @@
 # Коан о панельных данных {#paneldata}
 
 
-```{r, child='setup/setup.Rmd'}
+```{r, child=if (max(child[9, ])) 'setup/setup.Rmd'}
 ```
 
-```{r, child=if (child$r[9] == 1) '09/09_r.Rmd'}
+```{r, child=if (child$r[9]) '09/09_r.Rmd'}
 ```
 
-```{r, child=if (child$py[9] == 1) '09/09_py.Rmd'}
+```{r, child=if (child$py[9]) '09/09_py.Rmd'}
 ```
 
-```{r, child=if (child$stata[9] == 1) '09/09_stata.Rmd'}
+```{r, child=if (child$stata[9]) '09/09_stata.Rmd'}
 ```

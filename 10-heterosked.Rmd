@@ -108,14 +108,14 @@ H_1: \sigma^2_i \propto X_i \\
 
 где `r` - размер первой и третьей частей отсортированного ряда.
 
-```{r, child='setup/setup.Rmd'}
+```{r, child=if (max(child[10, ]) 'setup/setup.Rmd'}
 ```
 
-```{r, child=if (child$r[10] == 1) '10/10_r.Rmd'}
+```{r, child=if (child$r[10]) '10/10_r.Rmd'}
 ```
 
-```{r, child=if (child$py[10] == 1) '10/10_py.Rmd'}
+```{r, child=if (child$py[10]) '10/10_py.Rmd'}
 ```
 
-```{r, child=if (child$stata[10] == 1) '10/10_stata.Rmd'}
+```{r, child=if (child$stata[10]) '10/10_stata.Rmd'}
 ```
