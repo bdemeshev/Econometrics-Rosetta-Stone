@@ -1,0 +1,163 @@
+## Python
+
+Попробуем повторить эти шаги, используя **python**.
+
+```{r, include=FALSE}
+library(reticulate)
+use_python("/users/yuliya/appdata/local/programs/python/python37-32")
+```
+
+Импортируем пакеты:
+
+```{python}
+import numpy as np
+import pandas as pd # чтение файлов
+import matplotlib.pyplot as plt # построение графиков
+from statsmodels.formula.api import logit, probit, ols # построение логит-, пробит- и линейной регрессий
+import statistics # описательные статистики
+import sklearn
+from sklearn import metrics # для работы с классификационными матрицами
+from sklearn.metrics import roc_curve, auc  # ROC-curve и AUC
+from scipy.stats.distributions import chi2 # хи-квадрат-статистика
+```
+
+Загрузим данные:
+
+```{python, result="hide", message=FALSE, warning=FALSE}
+data = pd.read_stata("bwght_03.dta");
+```
+
+```{python, include=FALSE}
+data = pd.read_stata("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta")
+```
+
+Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.
+
+```{python}
+data_2.describe()
+```
+У переменных `fatheduc` и `motheduc` имеются пропущенные значения.
+
+Уберём пропущенные данные и назовём новый датафрейм `data_2`. Выведем описательные статистики по новым данным.
+
+```{python}
+data_2 = data.dropna()
+data_2.describe()
+```
+
+Создадим бинарную переменную `smoke`, которая показывает, курит ли индивид: `smoke = 1`, если индивид является курильщиком (то есть количество выкуриваемых сигарет положительно), `smoke = 0` – иначе.
+
+```{python, warning=FALSE, message=FALSE, result=FALSE}
+data_2["smoke"] = 1 * (data_2["cigs"]>0)
+```
+
+Построим модель линейной вероятности. Сохраним результат под `lin_prob_model`.
+
+```{python, warning=FALSE, message=FALSE}
+lin_prob_model = ols("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white", data_2).fit()
+lin_prob_model.summary()
+```
+
+Создадим переменную `predictions_lin_prob_model`, равную прогнозным значениям модели линейной вероятности. 
+Если прогнозное значение выше 0.5 (порог отсечения, по дефолту, равный 0.5), то классифицируем наблюдаемого индивида как курильщика (`smoke_ols = 1`). 
+Посмотрим на число совпадений исходных (`data_2["smoke"]`) и прогнозных (`data_2["smoke_ols"]`) данных.
+
+```{python, warning=FALSE, message=FALSE}
+predictions_lin_prob_model = lin_prob_model.predict(data_2)
+data_2["smoke_ols"] = 1 * (predictions_lin_prob_model>0.5)
+sum(data_2["smoke"] == data_2["smoke_ols"])
+```
+
+Ввиду недостатков линейной вероятностной модели, оценим логит- и пробит- модели.
+
+Построим логит-модель:
+
+```{python, warning=FALSE, message=FALSE}
+logit_model = logit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white", data_2).fit()
+logit_model.summary()
+```
+
+Так как коэффициенты логит- и пробит- моделей плохо интерпретируются, поскольку единицы измерения латентной переменной определить сложно, посчитаем предельные эффекты, то есть изменение вероятности решения курить с изменением фактора на 1 единицу. 
+
+Посчитаем предельные эффекты в средних значениях переменных для логистической регрессии.
+
+```{python, warning=FALSE, message=FALSE}
+me_mean = logit_model.get_margeff(at="mean")
+me_mean.summary()
+```
+
+Интерпретация предельных эффектов (на примере переменной семейного дохода): при увеличении семейного дохода в среднем на 1 единицу при остальных неизменных факторах, вероятность стать курильщиком уменьшается в среднем на 0.18%.
+
+Посмотрим на точность классификации построенной логит-модели. Для этого вычислим прогнозные значения модели.
+
+```{python, warning=FALSE, message=FALSE}
+predictions_logit_pred = logit_model.predict(data_2) # прогнозирование значений
+data_2["smoke_logit_model"] = 1 * (predictions_logit_pred>0.5)
+``` 
+
+Построим классификационную матрицу.
+
+```{python}
+sklearn.metrics.confusion_matrix(data_2["smoke"], data_2["smoke_logit_model"])
+```
+
+Точность прогноза и классификации данных.
+
+```{python}
+np.round(sklearn.metrics.accuracy_score(data_2["smoke"],data_2["smoke_logit_model"]), 2)
+sklearn.metrics.classification_report(data_2["smoke"], data_2["smoke_logit_model"])
+```
+
+Качество модели также можно проанализировать с помощью ROC-кривой, отражающей зависимость доли верных положительно классифицируемых наблюдений (`sensitivity`) от доли ложных положительно классифицируемых наблюдений `(1-specifity)`. Площадь под кривой обозначается как AUC; эта метрика показывает качество классификации. Соответственно, чем выше AUC, тем лучше построенная модель.
+
+Построим ROC-кривую для логит-модели.
+
+```{python}
+fpr, tpr, thresholds = metrics.roc_curve(data_2["smoke"], predictions_logit_pred)
+auc = metrics.roc_auc_score(data_2["smoke"], predictions_logit_pred)
+plt.plot(fpr,tpr,label="auc="+str(np.round(auc, 2)))
+plt.legend(loc=4)
+plt.xlabel("1-Specifity")
+plt.ylabel("Sensitivity")
+plt.title("ROC-curve")
+plt.show()
+```
+
+Теперь проанализируем правильность спецификации логит-модели. Посмотрим, станет ли модель лучше, если уберём какую-нибудь переменную.
+
+Построим новую логит-модель (`logit_model_new`) без учёта переменной `white`.
+
+```{python}
+logit_model_new = logit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity ", data_2).fit()
+logit_model_new.summary()
+```
+
+Теперь сравним построенные модели (`logit_model` и `logit_model_new`) с помощью теста отношения правдоподобия (LR-тест).
+
+Так как на момент написания коана готовой реализации функции теста отношения правдоподобия нет, то сделаем его ручками.
+
+```{python}
+L1 = logit_model.llf
+L2 = logit_model_new.llf
+def likelihood_ratio(llmin, llmax):
+	return(2 * (max(llmax, llmin) - min(llmax, llmin)))
+LR = likelihood_ratio (L1, L2)
+np.round(chi2.sf(LR, 1), 2) # расчёт p-value для теста
+```
+
+Основная гипотеза о незначимости фактора `white` не отвергается на 5% уровне значимости, так как `p-value = 0.08` в LR-тесте. 
+
+Теперь научимся строить пробит-модель.
+
+```{python, message=FALSE}
+probit_model = probit("smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white", data_2).fit()
+probit_model.summary()
+```
+
+Расчёт предельных эффектов, точности классификации, визуализация ROC-кривой и проведение LR-теста проводятся аналогично операциям с логит-моделью.
+
+Выведем сравнительную таблицу для построенных моделей.
+
+```{python, warning=FALSE,message=FALSE}
+pd.DataFrame(dict(col1=lin_prob_model.params, col2=logit_model.params, col3=probit_model.params))
+```

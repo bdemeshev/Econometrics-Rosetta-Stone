@@ -1,0 +1,88 @@
+## Python
+
+Теперь попробуем проделать эти шаги в **python**.
+
+```{r, include=FALSE}
+library(reticulate)
+use_python("/users/yuliya/appdata/local/programs/python/python37-32")
+```
+
+Импотируем необходимые пакеты.
+
+```{python}
+import numpy as np
+import pandas as pd # чтение файлов
+import matplotlib.pyplot as plt # построение графиков
+import seaborn as sns # построение графиков
+import statsmodels.api as sm # тесты
+from statsmodels.formula.api import ols, WLS # построение регрессии
+import statsmodels
+import statsmodels.stats.diagnostic as sm_diagnostic # тест Бройша-Пагана
+```
+
+Загрузим исследуемый датасет.
+
+```{python, result=FALSE, warning=FALSE, message=FALSE}
+flats = pd.read_stata("flats_10.dta");
+```
+
+```{python, include=FALSE}
+flats = pd.read_stata("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta")
+```
+
+Построим линейную регрессионную модель.
+
+```{python, warning=FALSE}
+reg = ols("ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist", flats).fit()
+reg.summary()
+```
+
+Визуализируем зависимости регрессоров и регрессанта.
+
+```{python}
+sns.pairplot(flats, x_vars=["ln_metrdist", "ln_kitsp", "ln_livesp", "ln_dist"], y_vars=["ln_price_metr"])
+```
+
+Графики всё такие же красивые, как и в предыдущем пункте:) 
+Подозрительны переменные `ln_kitsp` и `ln_metrdist`.
+Проведём тесты на выявление гетероскедастичности в **python**.
+
+Рассмотрим тест Бройша - Пагана на всех факторах.
+
+```{python}
+resid = reg.resid
+X = flats[["ln_livesp", "ln_kitsp", "ln_dist", "ln_metrdist"]]
+sm_diagnostic.het_breuschpagan(resid=resid, exog_het=X)
+```
+
+Интерпретация результатов теста: 
+Первое из выданных значений - значение тестовой статистики теста Бройша - Пагана, второе - значение p-value для выданной тестовой статистики. 
+Третье  и четвёртое - значения тестовой статистики и её p-value для на уровне значимости 5% (табличное). 
+Гетероскедастичность присутствует.
+
+Посмотрим на тест Голдфелда - Квандта по переменной `ln_kitsp`.
+
+```{python}
+sm_diagnostic.het_goldfeldquandt(y=flats["ln_price_metr"], x=X, alternative="two-sided")
+```
+
+Значение p-value близко к 0, следовательно, основная гипотеза о гомоскедастичности отвергается.
+
+Теперь о способах борьбы с гетероскедастичностью.
+
+Способ 1. Взвешенный МНК.
+
+Взвешиваем по стандартному отклонению фактора `ln_kitsp`.
+
+```{python}
+reg_wls = statsmodels.regression.linear_model.WLS(flats["ln_price_metr"], X, weights=flats["ln_kitsp"])
+reg_wls_results = reg_wls.fit()
+reg_wls_results.summary()
+```
+
+Способ 2. Использование робастных оценок.
+
+```{python}
+reg_robust = reg.get_robustcov_results()
+reg_robust.summary()
+```

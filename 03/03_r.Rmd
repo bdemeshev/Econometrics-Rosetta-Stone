@@ -1,0 +1,169 @@
+## R
+
+Загрузим необходимы пакеты.
+
+```{r, message=FALSE, warning=FALSE}
+library(rio) # импорт и экспорт данных в разных форматах
+library(tidyverse) # графики и манипуляции с данными
+library(skimr) # описательные статистики
+library(mfx) # нахождение предельных эффектов
+library(margins) # визуализация предельных эффектов
+library(lmtest) # проведение тестов
+library(plotROC) # построение ROC-кривой
+library(caret) # confusion-матрица
+library(texreg) # вывод результатов регрессии в тех и html
+```
+
+Импортируем исследуемые данные.
+
+```{r, result="hide", message=FALSE, warning=FALSE}
+data = import("bwght_03.dta") 
+```
+
+```{r, include=FALSE}
+data = import("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta") 
+```
+
+Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.
+
+```{r, warning=FALSE, message=FALSE}
+skim(data)
+```
+
+Заметим существование пропущенных переменных у `fatheduc`, `motheduc`. 
+Будем анализировать только те значения, у которых нет пропущенных наблюдений.
+Для этого создадим новый dataframe, `data_2`, в котором отсутствуют пропущенные значения. 
+Посмотрим на его описательные статистики.
+
+```{r, warning=FALSE, message=FALSE}
+data_2 = filter(data, !is.na(fatheduc), !is.na(motheduc))
+skim(data_2)
+```
+
+Сгенерируем переменную `smoke`, отражающую состояние отдельного индивида: `smoke = 1`, если индивид курит (то есть количество выкуриваемых им сигарет положительно), `smoke = 0` – если индивид не курит.
+
+```{r}
+data = mutate(data, smoke = (cigs > 0))
+```
+
+Построим модель линейной вероятности. Сохраним результат под `lin_prob_model`. 
+
+```{r, warning=FALSE, message=FALSE}
+lin_prob_model = lm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, data = data_2)
+summary(lin_prob_model)
+```
+
+Посмотрим на число совпадений прогнозных и исходных значений. 
+Для этого оценим предсказанные значения модели линейной вероятности. Сохраним их как переменную `predictions_lin_prob_model`. 
+Если прогнозное значение выше 0.5 (порог отсечения, по дефолту, равный 0.5), то классифицируем наблюдаемого индивида как курильщика (`smoke_ols = 1`). 
+Посмотрим на число совпадений исходных и прогнозных данных.
+
+```{r, warning=FALSE, message=FALSE}
+predictions_lin_prob_model = predict(lin_prob_model)
+```
+
+Генерируем `smoke_ols` как 1, если вероятность по модели больше 0.5 и 0, если она меньше 0.5.
+
+```{r, warning=FALSE, message=FALSE}
+smoke_ols = 1 * (predictions_lin_prob_model > 0.5)
+```
+
+Число совпадений данных и прогноза модели линейной вероятности:
+
+```{r}
+sum (smoke_ols == data_2$smoke)
+```
+
+Известно, что модель линейной вероятности обладает значительными недостатками, поэтому оценим `P(smoke=1|x)`, и построим логит– и пробит– модели.
+
+Построим логит-модель и сохраним результат оцененной модели как `logit_model`.
+
+```{r, warning=FALSE}
+logit_model = glm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, x = TRUE, data = data_2, family = binomial(link = "logit"))
+summary(logit_model)
+```
+
+Так как коэффициенты логит- и пробит- моделей плохо интерпретируются, поскольку единицы измерения латентной переменной определить сложно, посчитаем предельные эффекты, то есть изменение вероятности решения курить с изменением фактора на 1 единицу. 
+
+Для предельного эффекта в средних значениях факторов:
+
+```{r, warning=FALSE, message=FALSE}
+logitmfx(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, data = data_2, atmean = TRUE)
+margins = margins(logit_model)
+plot(margins)
+```
+
+Интерпретация предельных эффектов (на примере переменной семейного дохода): при увеличении семейного дохода в среднем на 1 единицу при остальных неизменных факторах, вероятность стать курильщиком уменьшается в среднем на 0.18%. 
+
+Визуализируем предельный эффект для семейного дохода:
+
+```{r}
+cplot(logit_model, "faminc", what = "effect", main = "Average Marginal Effect of Faminc")
+```
+
+Для определения качества модели построим классификационную матрицу. 
+Для этого сначала вычислим предсказания логит-модели, `predictions_logit_model`. Так как результат не бинарный, то введём порог отсечения, равный 0.5.
+Назовём бинарный результат `smoke_logit`:
+
+```{r}
+predictions_logit_model = predict(logit_model)
+smoke_logit_model = (predictions_logit_model>0.5)
+```
+
+Построим классификационную матрицу. 
+При возникновении ошибок аргументов, в частности, при несовпадении их размера или типа, можно воспользоваться функцией `as.factor()`.
+
+```{r, warning=FALSE, message=FALSE}
+confusionMatrix(as.factor(smoke_logit_model), as.factor(data_2$smoke))
+```
+
+Качество модели также можно проанализировать с помощью ROC-кривой, отражающей зависимость доли верных положительно классифицируемых наблюдений (`sensitivity`) от доли ложных положительно классифицируемых наблюдений `(1-specifity)`. 
+
+Построим ROC-кривую для логит-модели:
+
+```{r, warning=FALSE, message=FALSE}
+basicplot = ggplot(data_2, aes(m = predictions_logit_model, d = data_2$smoke)) + geom_roc()
+basicplot + annotate("text", x = .75, y = .25, 
+           label = paste("AUC =", round(calc_auc(basicplot)$AUC, 2)))
+```
+
+Площадь под кривой обозначается как AUC. 
+Она показывает качество классификации. Соответственно, чем выше AUC, тем лучше построенная модель.
+
+Сейчас проанализируем правильность спецификации логит-модели. Может быть, лучше будет убрать какую-нибудь переменную?
+Рассмотрим логит-модель, не учитывающую переменную `white`. 
+Сохраним эту модель под названием `logit_model_new`. 
+
+```{r}
+logit_model_new = glm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity, x = TRUE, data = data_2, family = binomial(link = "logit"))
+```
+
+Сравним модели `logit_model` и `logit_model_new` с помощью теста максимального правдоподобия (likelihood ratio test).
+
+```{r}
+lrtest(logit_model,logit_model_new)
+```
+
+`p-value = 0.08` в LR-тесте. 
+Следовательно, основная гипотеза о том, что переменная `white` не влияет на решение стать курильщиком, не отвергается на 5% уровне значимости.
+
+Сейчас посмотрим на пробит-модель. Скрытая переменная в этой модели распределена стандартно нормально: 
+\[
+f(t) = \frac{1 \cdot e^{\frac{-t^2}{2}}}{\sqrt{2 \cdot \pi}}
+\]
+
+Построим пробит-модель.
+
+```{r}
+probit_model = glm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, data = data_2, family = binomial(link = "probit"))
+summary(probit_model)
+```
+
+Вычисление предельных эффектов и их интерпретация, построение классификационной матрицы и ROC-кривой и LR-тест проводятся аналогично выполненным в логит-модели.
+
+Выведем сравнительную таблицу для построенных моделей.
+
+```{r}
+screenreg(list(lin_prob_model, logit_model, probit_model), 
+             custom.model.names = c("Модель линейной   вероятности", "Логит-модель", "Пробит-модель"))
+```

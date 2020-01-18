@@ -1,0 +1,150 @@
+## Python
+
+Настало время **python**!
+
+```{r, include=FALSE}
+library(reticulate)
+use_python("/users/yuliya/appdata/local/programs/python/python37-32")
+```
+
+Импортируем необходимые пакеты.
+
+```{python}
+import numpy as np
+import pandas as pd
+import quandl # импортирование данных из Сети
+import datetime # работа с форматами даты и времени
+import matplotlib.pyplot as plt # построение графиков
+from pandas import Series # работа с временными рядами
+import statsmodels
+from statsmodels.tsa.arima_model import ARMA # ARMA-модели
+from statsmodels.graphics.tsaplots import plot_acf # построение графика acf
+from statsmodels.graphics.tsaplots import plot_pacf # построение графика pacf
+import statsmodels.api as sm
+from statsmodels.stats import diagnostic as diag # тесты
+import pmdarima as pm
+from pmdarima.arima import auto_arima # автоподбор коэффициентов модели ARIMA
+from statsmodels.tsa.stattools import adfuller # тест Дики-Фуллера
+```
+
+Загрузим набор данных:
+
+```{python}
+start = datetime.datetime(2015, 1, 1)
+end = datetime.datetime(2015, 12, 31)
+apple = quandl.get("WIKI/" + "AAPL", start_date=start, end_date=end)
+```
+
+Проверим загрузку данных. Будем анализировать цену закрытия.
+
+```{python}
+apple.head()
+apple_df = apple["Close"]
+```
+
+Посмотрим на структуру временного ряда, автокорреляционную и частную автокорреляционную функции.
+
+```{python}
+apple_df.plot(grid=True)
+plt.title("Структурa временного ряда")
+plt.show()
+plot_acf(apple_df, lags=20)
+plt.show()
+plot_pacf(apple_df, lags=20)
+plt.show()
+```
+
+Появились очень знакомые (и красивые) графики. 
+Важно отметить, что на графиках есть 0 - лаг, он равен единице, в предыдущих графиках его не было.
+
+Проверим стационарность ряда тестом Дики-Фуллера.
+
+```{python, warning=FALSE, message=FALSE}
+res = sm.tsa.adfuller(apple_df, regression="ct")
+"p-value:{}".format(res[1])
+```
+
+Возьмём первую разность и уберём пропущенные наблюдения.
+
+```{python, warning=FALSE, message=FALSE}
+apple_diff = apple_df.diff(periods=1).dropna()
+```
+
+И визуализируем структуру нового ряда.
+
+```{python}
+apple_diff.plot(grid=True)
+plt.title("Структурa временного ряда")
+plt.show()
+plot_acf(apple_diff, lags=50)
+plt.show()
+plot_pacf(apple_diff, lags=50)
+plt.show()
+```
+
+Аналогично операциям в **r**, смоделируем данный ряд как `ARMA (0, 0)`.
+
+```{python, message=FALSE, warning=FALSE}
+arma_00 = ARMA(apple_diff, order=(0, 0))
+arma_00_fit = arma_00.fit(disp=False)
+arma_00_fit.summary()
+```
+
+Смоделируем ряд как `ARMA (1, 0)`:
+
+```{python,warning=FALSE,message=FALSE}
+arma_10 = ARMA(apple_diff, order=(1, 0))
+arma_10_fit = arma_10.fit(disp=False)
+arma_10_fit.summary()
+```
+
+Вторая модель имеет более высокое значение критерия Акаике и незначимый коэффициент перед ar(1).
+
+Отдельно можно выделить значения AIC и BIC для построенных моделей.
+
+```{python}
+np.round(arma_00_fit.aic, 2)
+np.round(arma_10_fit.aic, 2)
+```
+
+```{python}
+np.round(arma_00_fit.bic, 2)
+np.round(arma_10_fit.bic, 2)
+```
+
+Как и в **r**, **python** имеет опцию автоподбора коэффициентов модели `ARIMA`.
+
+```{python, warning=FALSE,message=FALSE,result=FALSE}
+auto_arima_python = pm.auto_arima(apple_diff)
+auto_arima_python.summary()
+```
+
+В строчке `SARIMAX` нет рядом коэффициентов. 
+Это означает, что они нулевые, как и предполагалось, то есть модель описывается `ARMA (0, 0)`.
+Эта функция также удобна тем, что выводит статистики.
+
+Проверим белошумность остатков тестом Льюнг - Бокса.
+
+Сохраним остатки как `residuals`. Построим тест Льюнг-Бокса (опция `boxpierce=False`) (если наблюдений мало, то используем опцию `Box-Pierce`).
+
+```{python}
+residuals = pd.DataFrame(arma_00_fit.resid)
+diag.acorr_ljungbox(residuals, lags=10, boxpierce=False)
+```
+
+Посмотрим на прогноз на 10 дней вперёд.
+
+```{python, warning=FALSE, message=FALSE}
+forecast = arma_00_fit.forecast(steps=10)[0]
+forecast
+```
+
+И визуализируем прогнозные значения на исходном графике.
+
+```{python, warning=FALSE, message=FALSE}
+arma_00_fit.plot_predict(len(apple_diff)-250, len(apple_diff)+10)
+plt.xlabel("Лаги")
+plt.ylabel("Изменение цены")
+plt.title("Изменение цены закрытия AAPL")
+plt.show()
+```

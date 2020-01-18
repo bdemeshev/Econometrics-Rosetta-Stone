@@ -1,0 +1,14 @@
+# Коан о панельных данных {#paneldata}
+
+
+```{r, child='setup/setup.Rmd'}
+```
+
+```{r, child='09/09_r.Rmd'}
+```
+
+```{r, child='09/09_py.Rmd'}
+```
+
+```{r, child='09/09_stata.Rmd'}
+```
