@@ -1,6 +1,6 @@
 # Модели множественного выбора {#multchoice}
 
-```{r, child=if (max(child[4, ])) 'setup/setup.Rmd'}
+```{r, child='setup/setup.Rmd'}
 ```
 
 ```{r, child=if (child$r[4]) '04/04_r.Rmd'}

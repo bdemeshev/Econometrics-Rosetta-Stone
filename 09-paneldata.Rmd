@@ -1,7 +1,7 @@
 # Коан о панельных данных {#paneldata}
 
 
-```{r, child=if (max(child[9, ])) 'setup/setup.Rmd'}
+```{r, child='setup/setup.Rmd'}
 ```
 
 ```{r, child=if (child$r[9]) '09/09_r.Rmd'}

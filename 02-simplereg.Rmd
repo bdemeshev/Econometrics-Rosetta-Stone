@@ -1,7 +1,7 @@
 # Коан о простой линейной регрессии {#simplereg}
 
 
-```{r, child=if (max(child[2, ])) 'setup/setup.Rmd'}
+```{r, child='setup/setup.Rmd'}
 ```
 
 

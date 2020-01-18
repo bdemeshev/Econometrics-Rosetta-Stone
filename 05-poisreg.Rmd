@@ -1,6 +1,6 @@
 # Модели счетных данных {#poisreg}
 
-```{r, child=if (max(child[5, ])) 'setup/setup.Rmd'}
+```{r, child='setup/setup.Rmd'}
 ```
 
 ```{r, child=if (child$r[5]) '05/05_r.Rmd'}
