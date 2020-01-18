@@ -5,10 +5,11 @@ clear all
 ```
 
 Теперь научимся анализировать временные ряды в **stata**.
-Импортируем dataset.
 
-```{stata, results="hide"}
-use data/apple.dta
+Импортируем данные командой `use apple_08.dta`.
+
+```{stata, include=FALSE}
+use C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/apple_08.dta
 ```
 
 Установим временной формат переменной `Date` и визуализируем исследуемый временной ряд, его автокорреляционную и частную автокорреляционную функции.
