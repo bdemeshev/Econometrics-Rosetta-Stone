@@ -7,13 +7,16 @@ clear all
 Загружаем данные. 
 
 ```{stata}
-use data/us-return.dta
+use ../data/02_us_return.dta
 ```
 
-Любуемся и даем новые названия столбцам.
+Любуемся описательными статистиками и даем новые названия столбцам.
 
 ```{stata}
 summarize
+```
+
+```{stata "02_rename"}
 ren A n
 ren B date
 ```
@@ -22,22 +25,24 @@ ren B date
 
 ```{stata "new var"}
 drop if n == .
-gen y = MOTOR - RKFREE
-gen x = MARKET - RKFREE
+gen motor_premium = MOTOR - RKFREE
+gen market_premium = MARKET - RKFREE
 ```
 
 Строим модель и проверяем гипотезу об адекватности регрессии. Тут же получаем доверительные интервалы для коэффициентов.
 
 ```{stata "model_stata"}
-reg y x
+reg motor_premium market_premium
 ```
 
 Проверим гипотезу о равенстве коэффициента при регрессоре единице. 
+
 ```{stata "lin hyp_stata"}
 test x = 1
 ```
 
 Сделаем предсказание по выборке и сохраним остатки.
+
 ```{stata "prediction_stata"}
 predict u_hat, resid
 predict y_hat
@@ -46,18 +51,23 @@ predict y_hat
 Протестируем остатки регрессии на нормальность с помощью теста Харке-Бера.
 На самом деле, это не совсем тест Харке-Бера. 
 Оригинальный вариант ассимптотический и в нем нет поправки на размер выборки.
-А вот в Stata есть. Подробнее здесь https://www.stata.com/manuals13/rsktest.pdf
+А вот в Stata есть :) 
+Подробности зачастую можно найти в [документации] [https://www.stata.com/manuals13/rsktest.pdf]
 
 ```{stata "Jarque–Bera"}
 sktest u_hat
 ```
 
-И тест Шапиро-Уилка. Тут все аналогично R.
+И тест Шапиро-Уилка. 
+Тут все аналогично R.
+
 ```{stata "Shapiro-Wilk"}
 swilk u_hat
 ```
 
-Гипотеза о нормальности остатков не отвергается.
+Как мы уже помним (и снова видим), гипотеза о нормальности остатков не отвергается.
+
+Теперь построим графики для остатков модели.
 
 QQ - график
 

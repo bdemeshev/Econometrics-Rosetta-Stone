@@ -31,8 +31,13 @@
   <meta name="apple-mobile-web-app-status-bar-style" content="black" />
   
   
+<<<<<<< HEAD
+<link rel="prev" href="installsoft.html">
+<link rel="next" href="binchoice.html">
+=======
 <link rel="prev" href="index.html"/>
 <link rel="next" href="binchoice.html"/>
+>>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -128,6 +133,12 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
+<<<<<<< HEAD
+<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
+<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a></li>
+<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
+<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#python"><i class="fa fa-check"></i><b>3.1</b> Python</a></li>
+=======
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
 <li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
 <li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
@@ -161,7 +172,14 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
 <li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
 <li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
+>>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 </ul></li>
+<li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модель бинарного выбора</a></li>
+<li class="chapter" data-level="5" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>5</b> Модели множественного выбора</a></li>
+<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="7" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>7</b> ARMA</a></li>
+<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a></li>
+<li class="chapter" data-level="9" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>9</b> Гетероскедастичность в простой регрессии</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -183,6 +201,291 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="simplereg" class="section level1">
+<<<<<<< HEAD
+<h1><span class="header-section-number">Коан 3</span> Коан о простой линейной регрессии</h1>
+<div id="python" class="section level2">
+<h2><span class="header-section-number">3.1</span> Python</h2>
+<p>Опять начинаем с импорта пакетов.
+Почти всегда джентельменский набор включает в себя <em>pandas</em>, <em>numpy</em> и <em>matplotlib.pyplot</em>.
+Много полезных функций для статистических расчетов можно найти в модуле Statsmodels.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> pandas <span class="im">as</span> pd <span class="co"># работа с таблицами</span>
+<span class="im">import</span> numpy <span class="im">as</span> np <span class="co"># математические функции и матрицы</span>
+<span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt <span class="co"># графики</span>
+<span class="im">import</span> seaborn <span class="im">as</span> sns <span class="co"># еще более классные графики</span>
+
+<span class="im">import</span> statsmodels.api <span class="im">as</span> sm <span class="co"># стандартные регресионные модели</span>
+<span class="im">import</span> statsmodels.formula.api <span class="im">as</span> smf <span class="co"># аналогичные модели с синтаксисом в стиле R</span>
+<span class="im">import</span> statsmodels.graphics.gofplots <span class="im">as</span> gf <span class="co"># визуализация моделей</span>
+<span class="im">import</span> statsmodels.discrete.discrete_model <span class="co"># дискретные модели</span>
+
+<span class="im">from</span> statsmodels.stats.outliers_influence <span class="im">import</span> summary_table <span class="co"># работа с выбросами</span>
+<span class="im">from</span> scipy.stats <span class="im">import</span> shapiro <span class="co"># тест Шапиро – Уилка </span></code></pre>
+<p>При желании можем настроить графики по своему вкусу, изменив <a href="https://tonysyu.github.io/raw_content/matplotlib-style-gallery/gallery.html">стиль</a> и другие параметры шрифтов и графиков :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">plt.style.use(<span class="st">&#39;seaborn&#39;</span>)
+plt.rc(<span class="st">&#39;font&#39;</span>, size<span class="op">=</span><span class="dv">14</span>)
+plt.rc(<span class="st">&#39;figure&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)
+plt.rc(<span class="st">&#39;axes&#39;</span>, labelsize<span class="op">=</span><span class="dv">15</span>)
+plt.rc(<span class="st">&#39;axes&#39;</span>, titlesize<span class="op">=</span><span class="dv">15</span>)</code></pre>
+<p>Загрузим данные.</p>
+<pre class="sourceCode python"><code class="sourceCode python">returns <span class="op">=</span> pd.read_stata(<span class="st">&#39;../data/02_us_return.dta&#39;</span>)</code></pre>
+<p>Переименуем столбцы с «неговорящими» названиями :)
+Параметр <code>inplace=True</code> здесь (и во многих других функциях) позволяет изменить объект, не возвращая его копию.</p>
+<pre class="sourceCode python"><code class="sourceCode python">returns.rename(columns<span class="op">=</span>{<span class="st">&#39;A&#39;</span>:<span class="st">&#39;n&#39;</span>, <span class="st">&#39;B&#39;</span>: <span class="st">&#39;date&#39;</span>}, inplace<span class="op">=</span><span class="va">True</span>)</code></pre>
+<p>Избавимся от наблюдений с пропущенными значениями.</p>
+<pre class="sourceCode python"><code class="sourceCode python">returns.dropna(inplace<span class="op">=</span><span class="va">True</span>)</code></pre>
+<p>Как и прежде, рассмотрим CAPM модель :)
+Оценим <code>бэту</code> для компании MOTOR.
+Тогда зависимая переменная - разница доходностей акций MOTOR и безрискового актива (<code>motor_premium</code>), а регрессор - рыночная премия (<code>market_premium</code>).</p>
+<pre class="sourceCode python"><code class="sourceCode python">returns[<span class="st">&#39;motor_premium&#39;</span>] <span class="op">=</span> returns[<span class="st">&#39;MOTOR&#39;</span>] <span class="op">-</span> returns[<span class="st">&#39;RKFREE&#39;</span>]
+returns[<span class="st">&#39;market_premium&#39;</span>] <span class="op">=</span> returns[<span class="st">&#39;MARKET&#39;</span>] <span class="op">-</span> returns[<span class="st">&#39;RKFREE&#39;</span>] </code></pre>
+<p>Оценим модель и посмотрим на саммари :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">regr <span class="op">=</span> smf.ols(<span class="st">&#39;motor_premium ~ market_premium&#39;</span>, data<span class="op">=</span>returns).fit()
+regr.summary()</code></pre>
+<pre><code>&lt;class &#39;statsmodels.iolib.summary.Summary&#39;&gt;
+&quot;&quot;&quot;
+                            OLS Regression Results                            
+==============================================================================
+Dep. Variable:          motor_premium   R-squared:                       0.357
+Model:                            OLS   Adj. R-squared:                  0.351
+Method:                 Least Squares   F-statistic:                     65.48
+Date:                Sat, 18 Jan 2020   Prob (F-statistic):           5.91e-13
+Time:                        13:07:40   Log-Likelihood:                 136.18
+No. Observations:                 120   AIC:                            -268.4
+Df Residuals:                     118   BIC:                            -262.8
+Df Model:                           1                                         
+Covariance Type:            nonrobust                                         
+==================================================================================
+                     coef    std err          t      P&gt;|t|      [0.025      0.975]
+----------------------------------------------------------------------------------
+Intercept          0.0053      0.007      0.730      0.467      -0.009       0.020
+market_premium     0.8481      0.105      8.092      0.000       0.641       1.056
+==============================================================================
+Omnibus:                        2.684   Durbin-Watson:                   2.030
+Prob(Omnibus):                  0.261   Jarque-Bera (JB):                1.780
+Skew:                          -0.031   Prob(JB):                        0.411
+Kurtosis:                       2.406   Cond. No.                         14.6
+==============================================================================
+
+Warnings:
+[1] Standard Errors assume that the covariance matrix of the errors is correctly specified.
+&quot;&quot;&quot;</code></pre>
+<p>Можем посчитать прогнозное значение.</p>
+<pre class="sourceCode python"><code class="sourceCode python">returns[<span class="st">&#39;yhat&#39;</span>] <span class="op">=</span> regr.fittedvalues <span class="co"># в R добавить для исходных, а сюда для новых</span></code></pre>
+<p>Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)</p>
+<pre class="sourceCode python"><code class="sourceCode python">fig, ax <span class="op">=</span> plt.subplots()
+ax.plot(returns[<span class="st">&#39;x&#39;</span>],regr.fittedvalues, color<span class="op">=</span><span class="st">&#39;g&#39;</span>, alpha<span class="op">=</span><span class="fl">0.8</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): KeyError: &#39;x&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\frame.py&quot;, line 2975, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\indexes\base.py&quot;, line 2892, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File &quot;pandas/_libs/index.pyx&quot;, line 107, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/index.pyx&quot;, line 131, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1607, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1614, in pandas._libs.hashtable.PyObjectHashTable.get_item</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">ax.scatter(returns[<span class="st">&#39;x&#39;</span>],regr.fittedvalues <span class="op">+</span> regr.resid, color<span class="op">=</span><span class="st">&#39;g&#39;</span>, alpha<span class="op">=</span><span class="fl">0.8</span>, s<span class="op">=</span><span class="dv">40</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): KeyError: &#39;x&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\frame.py&quot;, line 2975, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\indexes\base.py&quot;, line 2892, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File &quot;pandas/_libs/index.pyx&quot;, line 107, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/index.pyx&quot;, line 131, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1607, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1614, in pandas._libs.hashtable.PyObjectHashTable.get_item</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">ax.vlines(returns[<span class="st">&#39;x&#39;</span>],regr.fittedvalues,regr.fittedvalues <span class="op">+</span> regr.resid, color<span class="op">=</span><span class="st">&#39;gray&#39;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): KeyError: &#39;x&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\frame.py&quot;, line 2975, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\indexes\base.py&quot;, line 2892, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File &quot;pandas/_libs/index.pyx&quot;, line 107, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/index.pyx&quot;, line 131, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1607, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1614, in pandas._libs.hashtable.PyObjectHashTable.get_item</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">plt.title(<span class="st">&#39;Линия регрессии и остатки&#39;</span>)
+plt.xlabel(<span class="st">&#39;RKFREE&#39;</span>)
+plt.ylabel(<span class="st">&#39;MARKET&#39;</span>)
+plt.show()</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<p>Строим <span class="math inline">\(90\%\)</span>-й доверительный интервал.</p>
+<pre class="sourceCode python"><code class="sourceCode python">regr.conf_int(alpha <span class="op">=</span> <span class="fl">0.1</span>)</code></pre>
+<pre><code>                       0         1
+Intercept      -0.006684  0.017189
+market_premium  0.674382  1.021917</code></pre>
+<p>И проведем F-test.</p>
+<pre class="sourceCode python"><code class="sourceCode python">hypotheses <span class="op">=</span> <span class="st">&#39;(x = 1)&#39;</span>
+regr.f_test(r_matrix <span class="op">=</span> hypotheses)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): PatsyError: unrecognized token in constraint
+    (x = 1)
+     ^
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\statsmodels\base\model.py&quot;, line 1648, in f_test
+    res = self.wald_test(r_matrix, cov_p=cov_p, invcov=invcov, use_f=True)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\statsmodels\base\model.py&quot;, line 1719, in wald_test
+    LC = DesignInfo(names).linear_constraint(r_matrix)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\patsy\design_info.py&quot;, line 536, in linear_constraint
+    return linear_constraint(constraint_likes, self.column_names)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\patsy\constraint.py&quot;, line 403, in linear_constraint
+    tree = parse_constraint(code, variable_names)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\patsy\constraint.py&quot;, line 237, in parse_constraint
+    return infix_parse(_tokenize_constraint(string, variable_names),
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\patsy\constraint.py&quot;, line 196, in _tokenize_constraint
+    Origin(string, offset, offset + 1))</code></pre>
+<p>Тест Шапиро - Уилка. Такой же, как и в R.</p>
+<pre class="sourceCode python"><code class="sourceCode python">W, p_value <span class="op">=</span> shapiro(regr.resid)</code></pre>
+<p>Генерируем новые данные и строим предсказание.</p>
+<pre class="sourceCode python"><code class="sourceCode python"><span class="im">import</span> random
+random.seed(<span class="dv">7</span>)
+
+new_data <span class="op">=</span> returns[<span class="st">&#39;x&#39;</span>] <span class="op">+</span> <span class="fl">0.5</span> <span class="op">*</span> np.random.normal(<span class="bu">len</span>(returns))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): KeyError: &#39;x&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\frame.py&quot;, line 2975, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\indexes\base.py&quot;, line 2892, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File &quot;pandas/_libs/index.pyx&quot;, line 107, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/index.pyx&quot;, line 131, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1607, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1614, in pandas._libs.hashtable.PyObjectHashTable.get_item</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">prediction <span class="op">=</span> regr.predict(new_data)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): NameError: name &#39;new_data&#39; is not defined
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<p>А теперь жесть! Построим графички, похожие на <code>plot()</code> R.</p>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1 <span class="op">=</span> plt.figure(<span class="dv">1</span>)
+
+fig_1.axes[<span class="dv">0</span>] <span class="op">=</span> sns.residplot(returns[<span class="st">&#39;x&#39;</span>], returns[<span class="st">&#39;y&#39;</span>],
+                                  lowess<span class="op">=</span><span class="va">True</span>,
+                                  scatter_kws<span class="op">=</span>{<span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>},
+                                  line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">2</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): KeyError: &#39;x&#39;
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\frame.py&quot;, line 2975, in __getitem__
+    indexer = self.columns.get_loc(key)
+  File &quot;C:\Users\DNS\ANACON~1\lib\site-packages\pandas\core\indexes\base.py&quot;, line 2892, in get_loc
+    return self._engine.get_loc(self._maybe_cast_indexer(key))
+  File &quot;pandas/_libs/index.pyx&quot;, line 107, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/index.pyx&quot;, line 131, in pandas._libs.index.IndexEngine.get_loc
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1607, in pandas._libs.hashtable.PyObjectHashTable.get_item
+  File &quot;pandas/_libs/hashtable_class_helper.pxi&quot;, line 1614, in pandas._libs.hashtable.PyObjectHashTable.get_item</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Fitted&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_1.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Residuals&#39;</span>)
+
+
+<span class="co"># можем добавить метки потенциальных аутлаеров</span></code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 1, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">abs_resid <span class="op">=</span> <span class="bu">abs</span>(regr.resid).sort_values(ascending<span class="op">=</span><span class="va">False</span>)
+abs_resid_top3<span class="op">=</span>abs_resid[:<span class="dv">3</span>]
+
+<span class="cf">for</span> i <span class="kw">in</span> abs_resid_top3.index:
+    fig_1.axes[<span class="dv">0</span>].annotate(i, 
+                               xy <span class="op">=</span> (regr.fittedvalues[i], 
+                                   regr.resid[i]))</code></pre>
+<pre><code>Error in py_call_impl(callable, dots$args, dots$keywords): IndexError: list index out of range
+
+Detailed traceback: 
+  File &quot;&lt;string&gt;&quot;, line 2, in &lt;module&gt;</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">norm_residuals <span class="op">=</span> regr.get_influence().resid_studentized_internal <span class="co"># сохраним стьюдентизированные остатки </span>
+
+
+QQ <span class="op">=</span> gf.ProbPlot(norm_residuals)
+fig_2 <span class="op">=</span> QQ.qqplot(line<span class="op">=</span><span class="st">&#39;45&#39;</span>, alpha<span class="op">=</span><span class="fl">0.5</span>, color<span class="op">=</span><span class="st">&#39;b&#39;</span>, lw<span class="op">=</span><span class="dv">1</span>)
+
+
+fig_2.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Normal Q-Q&#39;</span>)
+fig_2.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Theoretical Quantiles&#39;</span>)
+fig_2.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)<span class="op">;</span>
+
+<span class="co">#и снова метки</span>
+abs_norm_resid <span class="op">=</span> np.flip(np.argsort(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>)
+abs_norm_resid_top3 <span class="op">=</span> abs_norm_resid[:<span class="dv">3</span>]
+
+<span class="cf">for</span> r, i <span class="kw">in</span> <span class="bu">enumerate</span>(abs_norm_resid_top3):
+    fig_2.axes[<span class="dv">0</span>].annotate(i, 
+                               xy<span class="op">=</span>(np.flip(QQ.theoretical_quantiles, <span class="dv">0</span>)[r],
+                                   norm_residuals[i]))</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-19-1.png" width="672" /></p>
+<pre class="sourceCode python"><code class="sourceCode python">fig_3 <span class="op">=</span> plt.figure(<span class="dv">3</span>)
+
+plt.scatter(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), alpha<span class="op">=</span><span class="fl">0.5</span>)
+sns.regplot(regr.fittedvalues, np.sqrt(<span class="bu">abs</span>(norm_residuals)), 
+            scatter<span class="op">=</span><span class="va">False</span>, 
+            ci<span class="op">=</span><span class="va">False</span>, 
+            lowess<span class="op">=</span><span class="va">True</span>,
+            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.6</span>})
+
+fig_3.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Scale-Location&#39;</span>)
+fig_3.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Fitted values&#39;</span>)
+fig_3.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;$\sqrt{|Standardized Residuals|}$&#39;</span>)
+
+<span class="co"># и еще раз!)</span>
+abs_sq_norm_resid <span class="op">=</span> np.flip(np.argsort(np.sqrt(<span class="bu">abs</span>(norm_residuals)), <span class="dv">0</span>))
+abs_sq_norm_resid_top3 <span class="op">=</span> abs_sq_norm_resid[:<span class="dv">3</span>]
+
+<span class="cf">for</span> i <span class="kw">in</span> abs_sq_norm_resid_top3:
+    fig_3.axes[<span class="dv">0</span>].annotate(i, xy<span class="op">=</span>(regr.fittedvalues[i], 
+                                   np.sqrt(<span class="bu">abs</span>(norm_residuals)[i])))</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-20-1.png" width="672" /></p>
+<pre class="sourceCode python"><code class="sourceCode python">leverage <span class="op">=</span> regr.get_influence().hat_matrix_diag <span class="co"># сохраняем элементы матрицы-шляпницы</span>
+cook_dist <span class="op">=</span> regr.get_influence().cooks_distance[<span class="dv">0</span>] <span class="co"># и расстояние Кука</span>
+
+fig_4 <span class="op">=</span> plt.figure(<span class="dv">4</span>)
+
+plt.scatter(leverage, norm_residuals, alpha<span class="op">=</span><span class="fl">0.5</span>)
+sns.regplot(leverage, norm_residuals, 
+            scatter<span class="op">=</span><span class="va">False</span>, 
+            ci<span class="op">=</span><span class="va">False</span>, 
+            lowess<span class="op">=</span><span class="va">True</span>,
+            line_kws<span class="op">=</span>{<span class="st">&#39;color&#39;</span>: <span class="st">&#39;red&#39;</span>, <span class="st">&#39;lw&#39;</span>: <span class="dv">1</span>, <span class="st">&#39;alpha&#39;</span>: <span class="fl">0.8</span>})
+
+fig_4.axes[<span class="dv">0</span>].set_xlim(<span class="dv">0</span>, <span class="fl">0.20</span>)  <span class="co"># РАЗВЕСТИ НА ОТДЕЛЬНЫЕ ЧАНКИ ИЛИ MESSAGE = FALSE</span></code></pre>
+<pre><code>(0, 0.2)</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_ylim(<span class="op">-</span><span class="dv">3</span>, <span class="dv">5</span>)</code></pre>
+<pre><code>(-3, 5)</code></pre>
+<pre class="sourceCode python"><code class="sourceCode python">fig_4.axes[<span class="dv">0</span>].set_title(<span class="st">&#39;Residuals vs Leverage&#39;</span>)
+fig_4.axes[<span class="dv">0</span>].set_xlabel(<span class="st">&#39;Leverage&#39;</span>)
+fig_4.axes[<span class="dv">0</span>].set_ylabel(<span class="st">&#39;Standardized Residuals&#39;</span>)
+
+
+leverage_top3 <span class="op">=</span> np.flip(np.argsort(cook_dist), <span class="dv">0</span>)[:<span class="dv">3</span>]
+
+<span class="cf">for</span> i <span class="kw">in</span> leverage_top3:
+    fig_4.axes[<span class="dv">0</span>].annotate(i, 
+                               xy<span class="op">=</span>(leverage[i], 
+                                   norm_residuals[i]))
+plt.show()</code></pre>
+<p><img src="02-simplereg_files/figure-html/unnamed-chunk-21-1.png" width="672" /></p>
+=======
 <h1><span class="header-section-number">Коан 2</span> Коан о простой линейной регрессии</h1>
 <div id="r" class="section level2">
 <h2><span class="header-section-number">2.1</span> R</h2>
@@ -390,6 +693,7 @@ W = 0.99021, p-value = 0.5531</code></pre>
  0.207727133 -0.087769779 -0.045152029 -0.021234248 -0.068593258 
            6            7            8            9           10 
 -0.066609148  0.077187768  0.003814809  0.026682011  0.199477263 </code></pre>
+>>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 
 </div>
 </div>
@@ -399,7 +703,11 @@ W = 0.99021, p-value = 0.5531</code></pre>
           </div>
         </div>
       </div>
+<<<<<<< HEAD
+<a href="installsoft.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+=======
 <a href="index.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+>>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 <a href="binchoice.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>

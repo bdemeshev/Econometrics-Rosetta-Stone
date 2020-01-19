@@ -10,7 +10,7 @@ library(rio) # чтение .dta файлов
 library(MASS) # отрицательное биномиальное распределение
 library(lmtest) # проверка гипотез
 library(pscl) # zero-inflation function
-library(margins) # для подсчета предельных эффектов
+library(margins) # подсчет предельных эффектов
 ```
 
 
@@ -29,20 +29,20 @@ Count - количество пойманной рыбы
 Посмотрим нам описательные статистики. 
 
 ```{r "skim"}
-skim(df_fish)
+skim(fish)
 ```
 
 Переменная `camper` принимает всего два значения, поэтому превратим ее в факторную переменную.
 
 ```{r "factor"}
-df_fish = mutate(df_fish, camper = factor(camper))
+fish = mutate(fish, camper = factor(camper))
 ```
 
 Наша задача - по имеющимся данным предсказать улов. 
 Для начала посмотрим на распределение объясняемой переменной `count`.
 
 ```{r "hist"}
-ggplot(df_fish, aes(x = count)) + 
+ggplot(fish, aes(x = count)) + 
   geom_histogram(binwidth = 1) + 
   labs(x = 'count', y = 'frequency', title = 'Distribution of count variable')
 ```
@@ -54,7 +54,7 @@ P(y=k)=exp(-\lambda) \lambda^k / k!
 где $\lambda=\exp(b_1 +b_2*x)$
 
 ```{r "poisson"}
-poisson_model = glm(count ~ child + camper +  persons, family = "poisson", data = df_fish)
+poisson_model = glm(count ~ child + camper +  persons, family = "poisson", data = fish)
 summary(poisson_model)
 ```
 
@@ -72,15 +72,16 @@ plot_model(poisson_model, type = "pred", terms = c("child [0, 0, 1]", "persons [
 Однако, заметим, что дисперсия и среднее значение объясняемой переменной не равны, как это предполагает распределение Пуассона.
 
 ```{r "with"}
-df_fish %>% 
+fish %>% 
   group_by(camper) %>% 
   summarize(var = var(count), mean = mean(count))
 ```
 
-Оценим регрессию, предполагая отрицательное биномиальное распределение остатков. В этом случае, дисперсия распределения зависит от некоторого параметра и не равна среднему.
+Оценим регрессию, предполагая отрицательное биномиальное распределение остатков. 
+В этом случае дисперсия распределения зависит от некоторого параметра и не равна среднему.
 
 ```{r "nb"}
-nb1 = glm.nb(count ~ child + camper +  persons, data = df_fish)
+nb1 = glm.nb(count ~ child + camper +  persons, data = fish)
 summary(nb1)
 ```
 
@@ -96,7 +97,7 @@ waldtest(nb1, nb2)
 Они предполагают большую частоту нулевых наблюдений.
 
 ```{r "zero_infl"}
-zero_infl = zeroinfl(count ~  child + camper | persons, data = df_fish, dist = 'negbin')
+zero_infl = zeroinfl(count ~  child + camper | persons, data = fish, dist = 'negbin')
 summary(zero_infl)
 
 plot_model(zero_infl, type = 'pred')

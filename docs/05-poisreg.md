@@ -4,22 +4,12 @@
 
 
 
-## R
-
-Загрузим необходимые пакеты.
 
 
-```r
-library(tidyverse) # манипуляции с данными и построение графиков
-library(sjPlot) # визуализация моделей
-library(skimr) # симпатичное summary
-library(rio) # чтение .dta файлов
-library(MASS) # отрицательное биномиальное распределение
-library(lmtest) # проверка гипотез
-library(pscl) # zero-inflation function
-library(margins) # для подсчета предельных эффектов
-```
 
+
+<<<<<<< HEAD
+=======
 
 Импортируем данные.
 
@@ -323,3 +313,4 @@ $camper
 
 
 
+>>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734

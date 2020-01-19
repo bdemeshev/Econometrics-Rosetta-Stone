@@ -6,7 +6,7 @@ clear all
 
 Загружаем данные и смотрим описательные статистики.
 ```{stata, echo = 1:2}
-use data/fish.dta
+use ../data/05_fish.dta
 summarize
 ```
 
