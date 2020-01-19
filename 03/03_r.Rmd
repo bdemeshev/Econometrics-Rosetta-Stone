@@ -16,12 +16,8 @@ library(texreg) # вывод результатов регрессии в тех
 
 Импортируем исследуемые данные.
 
-```{r, result="hide", message=FALSE, warning=FALSE}
-data = import("bwght_03.dta") 
-```
-
-```{r, include=FALSE}
-data = import("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/bwght_03.dta") 
+```{r, "bwght import"}
+data = import("../data/03_bwght.dta") 
 ```
 
 Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.
@@ -43,13 +39,14 @@ skim(data_2)
 Сгенерируем переменную `smoke`, отражающую состояние отдельного индивида: `smoke = 1`, если индивид курит (то есть количество выкуриваемых им сигарет положительно), `smoke = 0` – если индивид не курит.
 
 ```{r}
-data = mutate(data, smoke = (cigs > 0))
+data_2 = mutate(data_2, smoke = (cigs > 0))
 ```
 
 Построим модель линейной вероятности. Сохраним результат под `lin_prob_model`. 
 
 ```{r, warning=FALSE, message=FALSE}
-lin_prob_model = lm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, data = data_2)
+lin_prob_model = lm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, 
+                    data = data_2)
 summary(lin_prob_model)
 ```
 
@@ -71,7 +68,7 @@ smoke_ols = 1 * (predictions_lin_prob_model > 0.5)
 Число совпадений данных и прогноза модели линейной вероятности:
 
 ```{r}
-sum (smoke_ols == data_2$smoke)
+sum(smoke_ols == data_2$smoke)
 ```
 
 Известно, что модель линейной вероятности обладает значительными недостатками, поэтому оценим `P(smoke=1|x)`, и построим логит– и пробит– модели.
@@ -79,7 +76,10 @@ sum (smoke_ols == data_2$smoke)
 Построим логит-модель и сохраним результат оцененной модели как `logit_model`.
 
 ```{r, warning=FALSE}
-logit_model = glm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, x = TRUE, data = data_2, family = binomial(link = "logit"))
+logit_model = glm(smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + parity + white, 
+                  x = TRUE, 
+                  data = data_2, 
+                  family = binomial(link = "logit"))
 summary(logit_model)
 ```
 
@@ -107,7 +107,7 @@ cplot(logit_model, "faminc", what = "effect", main = "Average Marginal Effect of
 
 ```{r}
 predictions_logit_model = predict(logit_model)
-smoke_logit_model = (predictions_logit_model>0.5)
+smoke_logit_model = (predictions_logit_model > 0.5)
 ```
 
 Построим классификационную матрицу. 

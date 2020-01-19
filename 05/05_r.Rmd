@@ -16,7 +16,7 @@ library(margins) # подсчет предельных эффектов
 
 Импортируем данные.
 ```{r "import data"}
-fish = import(file = "../data/05_fish.dta")
+df_fish = rio::import(file = "../data/05_fish.dta")
 ```
 Данные содержат информацию о количестве рыбы, пойманной людьми на отдыхе. 
 

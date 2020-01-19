@@ -1,6 +1,6 @@
 ## R
 
-Вызовем **r** в помощь в охоте на гетероскедастичность. Импортируем его оружейные пакеты.
+Вызовем **R** в помощь в охоте на гетероскедастичность. Импортируем его оружейные пакеты.
 
 ```{r, message=FALSE, warning=FALSE}
 library(rio) # импорт и экспорт данных в разных форматах
@@ -8,19 +8,15 @@ library(dplyr) # манипуляции с данными
 library(lmtest) # тест Бройша-Пагана
 library(sandwich) # оценка дисперсии при гетероскедастичности
 library(UStatBookABSC) # WLS
-library (estimatr) # получение робастных оценок
+library(estimatr) # получение робастных оценок
 library(ggpubr) # для графиков
 library(skimr) # для описательных статистик
 ```
 
 Импортируем наш dataset, `flats.dta`:
 
-```{r, result="hide", message=FALSE, warning=FALSE}
-flats= import("flats_10.dta")
-```
-
-```{r, include=FALSE}
-flats= import("C:/Users/Yuliya/Documents/GitHub/bdemeshev/Econometrics-Rosetta-Stone/data/flats_10.dta")
+```{r}
+flats = import("../data/10_flats.dta")
 ```
 
 Рассмотрим описательные статистики загруженного датасета.
@@ -61,9 +57,10 @@ ggarrange(kit, live, dist, metrdist, ncol = 2, nrow = 2)
 
 Начнём с теста Уайта. 
 
-Тест Уайта реализуется в **r** (ручками) как:
+Тест Уайта реализуется в **R** (ручками) как:
 ```{r}
-bptest(reg, varformula = ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist + I(ln_livesp ^ 2) + I(ln_kitsp ^ 2) + I(ln_dist ^ 2) + I(ln_metrdist ^ 2) + I(ln_livesp * ln_kitsp) + I(ln_livesp * ln_dist) + I(ln_livesp * ln_metrdist) + I(ln_kitsp * ln_dist) + I(ln_kitsp * ln_metrdist) + I(ln_dist * ln_metrdist), data = flats)
+bptest(reg, varformula = ~ (ln_livesp + ln_kitsp + ln_dist + ln_metrdist)^2 + I(ln_livesp ^ 2) + I(ln_kitsp ^ 2) + I(ln_dist ^ 2) + I(ln_metrdist ^ 2), 
+       data = flats)
 ```
 
 Тест Уайта выявил гетероскедастичность.
@@ -88,28 +85,34 @@ bptest(reg)
 
 Ещё есть тест Голдфелда - Квандта. 
 
-Данный тест в **r** реализуется по командам (предполагается, что дисперсии пропорциональны переменной `ln_kitsp`):
+Предположим, что дисперсии случайных ошибок растут с ростом площади кухни, `kitsp`.
 
 ```{r}
-flats_ordered = flats[order(flats$ln_kitsp), ]
-reg_gqtest = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats_ordered)
+flats_ordered = arrange(flats, kitsp)
+reg_gqtest = lm(ln_price_metr ~ ln_livesp + ln_kitsp + ln_dist + ln_metrdist,
+                data = flats_ordered)
 gqtest(reg_gqtest, fraction = 0.34) # посередине отсортированного ряда лежит 34% наблюдений
 ```
 
 Будет также полезным познакомиться с методами борьбы с гетероскедастичностью.
 
 Способ 1. Взвешенный МНК. 
-В **r** его можно осуществить так:
+В **R** его можно осуществить так:
 
 ```{r}
-reg_wls = lm(ln_price_metr ~ 1 + ln_livesp + ln_kitsp + ln_dist + ln_metrdist, data = flats, weights = 1 / (1 / fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2))
+reg_wls = lm(data = flats, 
+             ln_price_metr ~ ln_livesp + ln_kitsp + ln_dist + ln_metrdist, 
+             weights = fitted(lm(abs(residuals(reg)) ~ ln_kitsp)) ^ 2)
 summary(reg_wls)
 ```
+!!!! Проверить веса!!!!
 
 Способ 2. Робастные оценки Уайта.
 
 ```{r}
-coeftest(reg, vcov = vcovHC(reg, "HC0"))
+reg_hc = lm_robust(data = flats,
+  ln_price_metr ~ ln_livesp + ln_kitsp + ln_dist + ln_metrdist)
+summary(reg_hc)
 ```
 
 Робастные оценки коэффициентов регрессии получаются состоятельными. 
