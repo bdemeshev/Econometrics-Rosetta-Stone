@@ -1,0 +1,53 @@
+## Python
+
+```{r, include=FALSE}
+library(reticulate)
+use_python('/Users/Sasha/anaconda3/bin/python3')
+```
+
+Начинаем, как обычно, с обработки данных. Загружаем необходимые для работы библиотеки:
+```{python}
+import pandas as pd # работа с данными
+import seaborn as sns # визуализация
+from sklearn.decomposition import PCA # функция PCA, вычисляющая главные компоненты
+from sklearn.preprocessing import StandardScaler # стандартизация признаков 
+```
+и набор данных *auto mpg dataset*:
+```{python}
+url = 'http://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data-original'
+df = pd.read_csv(url, 
+                delim_whitespace = True, 
+                header=None,
+                names = ['mpg', 'cylinders', 'displacement',         'horsepower', 'weight', 'acceleration', 'model', 'origin', 'car_name'])  
+```
+Изучим строение данных:
+```{python}
+df.head()
+```
+Так как в наших данных, кроме прочего, также присутствуют и другие типы переменных (например, содержащиеся в переменной `car_names` названия машин), то предварительно очистим данные, оставив только численные переменные. После этого используем функцию StandartScaler для стандартизации регрессоров:
+```{python}
+df = df.dropna() # убираем пропущенные значения (NAs)
+features = ['cylinders', 'displacement', 'horsepower', 'weight', 'acceleration', 'origin'] # добавляем количественные регрессоры в отдельный список, убираем переменные car_names, model
+x = df[features] # отбираем признаки
+y = df['mpg'] # выделяем целевую переменную
+x = StandardScaler().fit_transform(x) # стандартизируем регрессоры
+```
+Создадим три главные компоненты:
+```{python}
+pca = PCA(n_components=3) # создаем 3 главные компоненты
+principalComponents = pca.fit_transform(x)
+principalDf = pd.DataFrame(data = principalComponents, columns = ['principal component 1', 'principal component 2', 'principal component 3']) # создаем таблицу, в которую сохраняем значения найденных компонент
+```
+Вычислим, какую долю дисперсии объясняют главные компоненты:
+```{python}
+pca.explained_variance_ratio_
+```
+Таким образом, три главные компоненты объясняют примерно 74 + 14 + 1 = 89% дисперсии.
+Представим это на графике:
+```{python}
+df = pd.DataFrame({'var':pca.explained_variance_ratio_, 'PC':['PC1', 'PC2', 'PC3']})
+graph = sns.barplot(x = 'PC', y = 'var', data = df, color = 'wheat')
+graph.set_title('Доля дисперсии, объясняемой главными компонентами')
+graph.set_ylabel('Доля дисперсии')
+graph.set_xlabel('Главные компоненты')
+```
