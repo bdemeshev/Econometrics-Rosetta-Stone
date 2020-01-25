@@ -1,3 +1,7 @@
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
 use_python('/Users/Sasha/anaconda3/bin/python3')
 stataexe = '/Applications/Stata/StataSE.app/Contents/MacOS/stataSE'
 
@@ -11,3 +15,5 @@ child$py[1] = 1
 child$stata[1] = 1
 
 
+
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)

@@ -1,11 +1,17 @@
 ## Python
 
-Опять начинаем с импорта пакетов.
-Почти всегда джентельменский набор включает в себя *pandas*, *numpy* и *matplotlib.pyplot*. 
+Опять начинаем с импорта библиотек.
+Почти всегда джентельменский набор включает *pandas*, *numpy* и *matplotlib.pyplot*. 
 Много полезных функций для статистических расчетов можно найти в модуле Statsmodels. 
 
+
+```{r}
+source("../setup/setup_asya.R")
+```
+
+
 ```{python}
-import pandas as pd # работа с таблицами
+import pandas as pd # работа с таблицами 
 import numpy as np # математические функции и матрицы
 import matplotlib.pyplot as plt # графики
 import seaborn as sns # еще более классные графики
@@ -67,16 +73,16 @@ regr.summary()
 Можем посчитать прогнозное значение. 
 
 ```{python}
-returns['yhat'] = regr.fittedvalues # в R добавить для исходных, а сюда для новых
+returns['yhat'] = regr.fittedvalues
 ```
 
 Красивые графики для остатков, выборосов и прочих радостей, как в R, придется строить ручками. Зато приятно поиграть с оформлением :)
 
 ```{python}
 fig, ax = plt.subplots()
-ax.plot(returns['x'],regr.fittedvalues, color='g', alpha=0.8)
-ax.scatter(returns['x'],regr.fittedvalues + regr.resid, color='g', alpha=0.8, s=40)
-ax.vlines(returns['x'],regr.fittedvalues,regr.fittedvalues + regr.resid, color='gray', alpha=0.5)
+ax.plot(returns['market_premium'],regr.fittedvalues, color='g', alpha=0.8)
+ax.scatter(returns['market_premium'],regr.fittedvalues + regr.resid, color='g', alpha=0.8, s=40)
+ax.vlines(returns['market_premium'],regr.fittedvalues,regr.fittedvalues + regr.resid, color='gray', alpha=0.5)
 plt.title('Линия регрессии и остатки')
 plt.xlabel('RKFREE')
 plt.ylabel('MARKET')
@@ -92,7 +98,7 @@ regr.conf_int(alpha = 0.1)
 И проведем F-test.
 
 ```{python}
-hypotheses = '(x = 1)'
+hypotheses = '(market_premium = 1)'
 regr.f_test(r_matrix = hypotheses)
 ```
 
@@ -109,16 +115,16 @@ W, p_value = shapiro(regr.resid)
 import random
 random.seed(7)
 
-new_data = returns['x'] + 0.5 * np.random.normal(len(returns))
+new_data = np.random.normal(loc=0.01, scale=0.1)
 prediction = regr.predict(new_data)
 ```
 
-А теперь жесть! Построим графички, похожие на `plot()` R.
+А теперь жесть! Построим графики, похожие на `plot()` R.
 
 ```{python}
 fig_1 = plt.figure(1)
 
-fig_1.axes[0] = sns.residplot(returns['x'], returns['y'],
+fig_1.axes[0] = sns.residplot(returns['market_premium'], returns['motor_premium'],
                                   lowess=True,
                                   scatter_kws={'alpha': 0.6},
                                   line_kws={'color': 'red', 'lw': 2, 'alpha': 0.8})

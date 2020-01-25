@@ -1,3 +1,8 @@
+library(knitr) # комбинирование кода и текста
+library(Statamarkdown) # взаимодействие со статой
+library(reticulate) # взаимодействие с питоном
+
+
 stataexe <- find_stata()
 
 n_chap = 16
@@ -33,6 +38,9 @@ child$stata[8] = 0
 child$r[10] = 1
 child$py[10] = 0
 child$stata[10] = 0
+
+
+knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 
 
 

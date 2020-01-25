@@ -1,7 +1,4 @@
 ```{r setup, include=FALSE}
-library(knitr) # комбинирование кода и текста
-library(Statamarkdown) # взаимодействие со статой
-library(reticulate) # взаимодействие с питоном
 
 if (Sys.getenv("USER") == "boris") {
   source("setup_boris.R")
@@ -22,6 +19,4 @@ if (Sys.getenv("USERNAME") == "Anastasia Karpova") {
 if (Sys.getenv("USERNAME") == "The_sun") {
   source("setup_matvei.R")
 }
-
-knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```

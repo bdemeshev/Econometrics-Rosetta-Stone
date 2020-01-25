@@ -1,6 +1,6 @@
 ## Python
 
-Загрузим ужные пакетики.
+Загрузим yужные пакетики.
 
 ```{python}
 import pandas as pd # работа с таблицами
@@ -83,7 +83,7 @@ mean_mef_persons = np.mean([(regr_pois.predict(data_1)[i]-regr_pois.predict(data
 ```
 
 ```{python}
-plot_model(regr_pois, type='effect', terms='camper')
+#plot_model(regr_pois, type='effect', terms='camper')
 ```
 
 
