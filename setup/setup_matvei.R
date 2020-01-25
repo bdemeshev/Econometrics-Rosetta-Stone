@@ -16,3 +16,8 @@ child$stata[1] = 1
 child$r[9] = 1
 child$py[9] = 1
 child$stata[9] = 1
+
+
+child$r[13] = 1
+child$py[13] = 1
+child$stata[13] = 1

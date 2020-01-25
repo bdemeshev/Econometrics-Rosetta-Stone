@@ -7,7 +7,7 @@
 
 
 ```{stata}
-use lwage_panel_small
+use data/09_small
 summarize
 ```
 
@@ -19,7 +19,7 @@ clear
 
 
 ```{stata}
-use lwage_panel_large
+use data/09_large
 xtset id year
 summarize
 

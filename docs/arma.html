@@ -1,20 +1,15 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html >
+
 <head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<<<<<<< HEAD
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Коан 7 ARMA | Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
-=======
-  <title>Коан 6 ARMA | Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
-  <meta property="og:title" content="Коан 6 ARMA | Розеттский камень" />
+  <meta property="og:title" content="Коан 7 ARMA | Розеттский камень" />
   <meta property="og:type" content="book" />
   
   
@@ -22,28 +17,23 @@
   
 
   <meta name="twitter:card" content="summary" />
-  <meta name="twitter:title" content="Коан 6 ARMA | Розеттский камень" />
+  <meta name="twitter:title" content="Коан 7 ARMA | Розеттский камень" />
   
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
 
-<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя">
 
 
-<meta name="date" content="2020-01-18" />
+<meta name="date" content="2020-01-25">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<<<<<<< HEAD
-<link rel="prev" href="poisreg.html">
+<link rel="prev" href="instruments.html">
 <link rel="next" href="paneldata.html">
-=======
-<link rel="prev" href="poisreg.html"/>
-<link rel="next" href="paneldata.html"/>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -51,9 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
 
 
 
@@ -64,33 +51,28 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-<<<<<<< HEAD
 div.sourceCode { margin: 1em 0; }
-=======
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-<<<<<<< HEAD
-  { content: attr(title);
-=======
-  { content: attr(data-line-number);
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -99,9 +81,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -147,53 +129,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<<<<<<< HEAD
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
-<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a></li>
-<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#python"><i class="fa fa-check"></i><b>3.1</b> Python</a></li>
-=======
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
-<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#начало-работы"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
-<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#настройка-программы-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#rstudio--windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#section"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#section-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#язык-программирования-python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#установка"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#начало-работы-1"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#section-2"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#section-3"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#программа-stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#установка-1"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#начало-работы-2"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#section-4"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#section-5"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="2.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a><ul>
-<li class="chapter" data-level="3.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
-<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
-<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a><ul>
-<li class="chapter" data-level="6.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
-<li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
-<li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
-</ul></li>
-<li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модель бинарного выбора</a></li>
-<li class="chapter" data-level="5" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>5</b> Модели множественного выбора</a></li>
-<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a></li>
+<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="6" data-path="instruments.html"><a href="instruments.html"><i class="fa fa-check"></i><b>6</b> Коан об инcтрументах для простой регрессии</a></li>
 <li class="chapter" data-level="7" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>7</b> ARMA</a></li>
-<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a></li>
+<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a><ul>
+<li class="chapter" data-level="8.1" data-path="paneldata.html"><a href="paneldata.html#r-1"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
+<li class="chapter" data-level="8.2" data-path="paneldata.html"><a href="paneldata.html#python-1"><i class="fa fa-check"></i><b>8.2</b> Python</a></li>
+<li class="chapter" data-level="8.3" data-path="paneldata.html"><a href="paneldata.html#stata-1"><i class="fa fa-check"></i><b>8.3</b> Stata</a></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>9</b> Гетероскедастичность в простой регрессии</a></li>
+<li class="chapter" data-level="10" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>10</b> Коан о методе главных компонент</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -215,188 +178,29 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="arma" class="section level1">
-<h1><span class="header-section-number">Коан 6</span> ARMA</h1>
+<h1><span class="header-section-number">Коан 7</span> ARMA</h1>
 <blockquote>
 <p>Достигнем просветления в анализе временных рядов вместе с нашими друзьями, Stata, R и Python!
 В качестве анализируемых наблюдений используем данные по стоимости акций коммапнии <code>Apple</code> c 2015-01-01 по 2015-12-31: цена открытия/ закрытия, минимальная/ максимальная цены, объём и скорректиованная цена.</p>
 </blockquote>
-<<<<<<< HEAD
 
-=======
-<div id="r-4" class="section level2">
-<h2><span class="header-section-number">6.1</span> R</h2>
-<p>Традиционно начнём в <strong>r</strong>.</p>
-<p>Загрузим необходимые пакеты:</p>
-<div class="sourceCode" id="cb116"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb116-1" data-line-number="1"><span class="kw">library</span>(xts) <span class="co"># работа с временными рядами</span></a>
-<a class="sourceLine" id="cb116-2" data-line-number="2"><span class="kw">library</span>(dplyr) <span class="co"># манипуляции с данными</span></a>
-<a class="sourceLine" id="cb116-3" data-line-number="3"><span class="kw">library</span>(ggplot2) <span class="co"># построение графиков</span></a>
-<a class="sourceLine" id="cb116-4" data-line-number="4"><span class="kw">library</span>(aTSA) <span class="co"># тест Дики-Фуллера</span></a>
-<a class="sourceLine" id="cb116-5" data-line-number="5"><span class="kw">library</span>(forecast) <span class="co"># прогнозирование ARMA-моделей</span></a>
-<a class="sourceLine" id="cb116-6" data-line-number="6"><span class="kw">library</span>(quantmod) <span class="co"># импортирование набора данных из интернета</span></a>
-<a class="sourceLine" id="cb116-7" data-line-number="7"><span class="kw">library</span>(lmtest) <span class="co"># проверка гипотез</span></a></code></pre></div>
-<p>Импортируем dataset <code>AAPL</code> прямо из пакета <code>quantmod</code>. Будем анализировать одномерный временной ряд от переменной <code>AAPL. Close</code>.</p>
-<div class="sourceCode" id="cb117"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb117-1" data-line-number="1"><span class="kw">getSymbols</span>(<span class="st">&quot;AAPL&quot;</span>,<span class="dt">from =</span> <span class="st">&quot;2015-01-01&quot;</span>,<span class="dt">to =</span> <span class="st">&quot;2015-12-31&quot;</span>)</a></code></pre></div>
-<pre><code>[1] &quot;AAPL&quot;</code></pre>
-<p>Обозначим исследуемый набор данных как <code>apple_df</code>.</p>
-<div class="sourceCode" id="cb119"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb119-1" data-line-number="1">apple_df =<span class="st"> </span>AAPL<span class="op">$</span>AAPL.Close</a></code></pre></div>
-<p>Визуализируем изучаемый временной ряд, его автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode" id="cb120"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb120-1" data-line-number="1"><span class="kw">ggtsdisplay</span>(apple_df)</a></code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
-<p>По графику видим, что процесс напоминает случайное блуждание: медленно убывает автокорреляционная функция, первый лаг частной автокорреляционной функции не входит в доверительный интервал, остальные - входят.</p>
-<p>Проверим стационарность ряда тестом Дики - Фуллера.</p>
-<div class="sourceCode" id="cb121"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb121-1" data-line-number="1"><span class="kw">adf.test</span>(apple_df)</a></code></pre></div>
-<pre><code>Augmented Dickey-Fuller Test 
-alternative: stationary 
- 
-Type 1: no drift no trend 
-     lag    ADF p.value
-[1,]   0 0.0708   0.664
-[2,]   1 0.1616   0.690
-[3,]   2 0.1670   0.692
-[4,]   3 0.1321   0.682
-[5,]   4 0.0120   0.647
-Type 2: with drift no trend 
-     lag  ADF p.value
-[1,]   0 2.15    0.99
-[2,]   1 2.06    0.99
-[3,]   2 2.24    0.99
-[4,]   3 2.35    0.99
-[5,]   4 2.65    0.99
-Type 3: with drift and trend 
-     lag  ADF p.value
-[1,]   0 1.75    0.99
-[2,]   1 1.53    0.99
-[3,]   2 1.64    0.99
-[4,]   3 1.77    0.99
-[5,]   4 2.17    0.99
----- 
-Note: in fact, p.value = 0.01 means p.value &lt;= 0.01 </code></pre>
-<p>Тест выявил нестационарность на 5% уровне значимости (основная гипотеза – о нестационарности ряда).</p>
-<p>Возьмём первую разность от ряда, чтобы сделать его стационарным (ведь только стационарные процессы могут быть описаны моделью <code>ARMA (p, q)</code> ) и снова построим автокорреляционную и частную автокорреляционную функции.</p>
-<div class="sourceCode" id="cb123"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb123-1" data-line-number="1">apple_diff =<span class="st"> </span><span class="kw">diff</span>(apple_df)</a>
-<a class="sourceLine" id="cb123-2" data-line-number="2"><span class="kw">ggtsdisplay</span>(apple_diff)</a></code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
-<div class="sourceCode" id="cb124"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb124-1" data-line-number="1"><span class="kw">summary</span>(apple_diff)</a></code></pre></div>
-<pre><code>     Index              AAPL.Close      
- Min.   :2015-01-02   Min.   :-6.89000  
- 1st Qu.:2015-04-04   1st Qu.:-1.02500  
- Median :2015-07-02   Median :-0.07500  
- Mean   :2015-07-02   Mean   :-0.00804  
- 3rd Qu.:2015-09-30   3rd Qu.: 1.14499  
- Max.   :2015-12-30   Max.   : 6.17000  
-                      NA&#39;s   :1         </code></pre>
-<p>Ряд похож на стационарный.
-Теперь построим несколько моделей, которые потенциально могут описать данный ряд, хотя уже заранее ожидается, что ряд в разностях будет описан <code>ARIMA (0, 0, 0)</code>, что равносильно <code>ARMA(0, 0)</code>, но всё же…</p>
-<p><code>ARIMA (0, 0, 0)</code>:</p>
-<div class="sourceCode" id="cb126"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb126-1" data-line-number="1">arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">0</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb126-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">000</span>)</a></code></pre></div>
-<pre><code>
-Call:
-arima(x = apple_diff, order = c(0, 0, 0))
-
-Coefficients:
-      intercept
-        -0.0080
-s.e.     0.1244
-
-sigma^2 estimated as 3.867:  log likelihood = -523.79,  aic = 1051.58
-
-Training set error measures:
-                       ME     RMSE      MAE      MPE     MAPE      MASE
-Training set 8.078552e-15 1.966425 1.495158 99.55996 99.55996 0.6825331
-                    ACF1
-Training set -0.02936922</code></pre>
-<p>Построим также модель <code>ARIMA (1, 0, 0)</code> , что равносильно <code>ARMA (1, 0)</code>, для сравнения.</p>
-<div class="sourceCode" id="cb128"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb128-1" data-line-number="1">arima_<span class="dv">100</span> =<span class="st"> </span><span class="kw">arima</span>(apple_diff, <span class="dt">order =</span> <span class="kw">c</span>(<span class="dv">1</span>, <span class="dv">0</span>, <span class="dv">0</span>))</a>
-<a class="sourceLine" id="cb128-2" data-line-number="2"><span class="kw">summary</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
-<pre><code>
-Call:
-arima(x = apple_diff, order = c(1, 0, 0))
-
-Coefficients:
-          ar1  intercept
-      -0.0296    -0.0075
-s.e.   0.0635     0.1208
-
-sigma^2 estimated as 3.863:  log likelihood = -523.68,  aic = 1053.36
-
-Training set error measures:
-                        ME     RMSE      MAE      MPE     MAPE      MASE
-Training set -0.0003728078 1.965566 1.491983 94.09101 105.0814 0.6810838
-                     ACF1
-Training set -0.002372191</code></pre>
-<div class="sourceCode" id="cb130"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb130-1" data-line-number="1"><span class="kw">coeftest</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
-<pre><code>
-z test of coefficients:
-
-            Estimate Std. Error z value Pr(&gt;|z|)
-ar1       -0.0296313  0.0634712 -0.4668   0.6406
-intercept -0.0075101  0.1207545 -0.0622   0.9504</code></pre>
-<p>По информационному критерию Акаике первая модель лучше (AIC меньше), а также во второй модели коэффициент перед ar(1) незначим.</p>
-<p>Получается, что (как и ожидалось) первая модель лучше.
-Можно схитрить и использовать функцию автоподбора коэффициентов модели ARIMA.</p>
-<div class="sourceCode" id="cb132"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb132-1" data-line-number="1">arima_auto_model =<span class="st"> </span><span class="kw">auto.arima</span>(apple_diff)</a>
-<a class="sourceLine" id="cb132-2" data-line-number="2"><span class="kw">summary</span>(arima_auto_model)</a></code></pre></div>
-<pre><code>Series: apple_diff 
-ARIMA(0,0,0) with zero mean 
-
-sigma^2 estimated as 3.867:  log likelihood=-523.79
-AIC=1049.58   AICc=1049.6   BIC=1053.1
-
-Training set error measures:
-                       ME     RMSE     MAE       MPE     MAPE      MASE
-Training set -0.008040008 1.966441 1.49548 -37.76185 445.4945 0.6841274
-                    ACF1
-Training set -0.02936922</code></pre>
-<p>Такая функция автоматически минимизирует критерий Акаике.
-Заметим, что автоподбор выдал модель <code>ARIMA (0, 0, 0)</code> для первой разности.</p>
-<p>Теперь проверим остатки модели <code>ARIMA (0, 0, 0)</code> на белошумность.
-Сохраним остатки и проделаем тест Льюнг - Бокса, в котором основная гипотеза - остатки независимы.</p>
-<p>Сохраним остатки модели <code>ARIMA (0, 0, 0)</code> и построим тест Льюнг - Бокса (если наблюдений мало, то используем опцию <code>Box-Pierce</code>).</p>
-<div class="sourceCode" id="cb134"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb134-1" data-line-number="1">res_arima_<span class="dv">000</span> =<span class="st"> </span><span class="kw">resid</span>(arima_<span class="dv">000</span>)</a>
-<a class="sourceLine" id="cb134-2" data-line-number="2"><span class="kw">Box.test</span>(res_arima_<span class="dv">000</span>, <span class="dt">lag =</span> <span class="dv">10</span>, <span class="dt">type =</span> <span class="st">&quot;Ljung-Box&quot;</span>)</a></code></pre></div>
-<pre><code>
-    Box-Ljung test
-
-data:  res_arima_000
-X-squared = 4.2362, df = 10, p-value = 0.9361</code></pre>
-<p>Основная гипотеза об отсутствии автокорреляции остатков отвергается, следовательно, модель корректно описывает структуру автокорреляции.</p>
-<p>Время небольших фактов: Льюнг - это женщина-статистик!
-Поэтому правильно склонять “Льюнг - Бокса”, а не “Льюнга - Бокса”!</p>
-<center>
-<p><img src="images/Greta.jpg" /></p>
-</center>
-<p>Можно ещё также научиться оценивать визуально, где лежат корни AR и MA (<code>unit root test</code>).
-Так как для построенной модели нет AR и MA частей (<code>ARIMA (0, 0, 0)</code>), то можно применить команду к, например, <code>ARIMA (1, 0, 0)</code>:</p>
-<div class="sourceCode" id="cb136"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb136-1" data-line-number="1"><span class="kw">autoplot</span>(arima_<span class="dv">100</span>)</a></code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-16-1.png" width="672" /></p>
-<p>Построим прогноз на 3 периода вперёд для модели <code>arima_000</code>.
-Визуализируем прогноз, границы 80% и 95% доверительного интервалов.</p>
-<div class="sourceCode" id="cb137"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb137-1" data-line-number="1"><span class="kw">forecast</span>(arima_<span class="dv">000</span>, <span class="dt">h =</span> <span class="dv">10</span>) <span class="op">%&gt;%</span></a>
-<a class="sourceLine" id="cb137-2" data-line-number="2"><span class="kw">autoplot</span>()</a></code></pre></div>
-<p><img src="08-arma_files/figure-html/unnamed-chunk-17-1.png" width="672" /></p>
-
-</div>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 </div>
             </section>
 
           </div>
         </div>
       </div>
-<a href="poisreg.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
+<a href="instruments.html" class="navigation navigation-prev " aria-label="Previous page"><i class="fa fa-angle-left"></i></a>
 <a href="paneldata.html" class="navigation navigation-next " aria-label="Next page"><i class="fa fa-angle-right"></i></a>
     </div>
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -439,14 +243,8 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-<<<<<<< HEAD
     if (location.protocol !== "file:" && /^https?:/.test(src))
       src = src.replace(/^https?:/, '');
-=======
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();

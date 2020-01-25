@@ -1,4 +1,4 @@
-##Python 
+## Python 
 
 
 ```{python "lib py", message=FALSE, warning=FALSE}
@@ -12,7 +12,7 @@ import pandas as pd
 Если её не включить, результат будет отличаться от R и STATA.
 
 ```{python "read data py" , message=FALSE, warning=FALSE}
-df = pd.read_csv('lwage_panel_large.csv')
+df = pd.read_csv('../data/09_large.csv')
 df = df.set_index(['id', 'year'])
 
 

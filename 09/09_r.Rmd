@@ -1,12 +1,7 @@
 
-##R
+## R
 
 
-
-
-<!-- Пробелы после диезов -->
-<!-- Без "для" -->
-<!-- С маленькой буквы -->
 
 Загрузим необходимые библиотеки.
 ```{r "library chunk", message=FALSE, warning=FALSE}
@@ -24,7 +19,7 @@ library(tidyverse) # Обработка данных
 Загрузим данные и преобразуем нужные переменные в факторные. В данном разделе все визуализации будут построены на подмножестве данных из шести индивидов и нескольких временных точек. Это позволит не перегружать графики. Все модели будут оценены на большом массиве данных.
 ```{r "load data", message=FALSE, warning=FALSE}
 
-panel = import('lwage_panel_small.csv')
+panel = import('../data/09_small.csv')
 panel = mutate(panel, black = factor(black), id = factor(id))
 
 ```
@@ -50,7 +45,7 @@ ggplot(data = panel) + geom_point(aes(x = year, y = lwage)) + geom_smooth(aes(x 
 
 Импортируем основной датасет.
 ```{r "import data", message=FALSE, warning=FALSE}
-Panel = import('lwage_panel_large.csv')
+Panel = import('../data/09_large.csv')
 ```
 
 Визуализируем гетерогенный эффект. Можно визуализировать по годам или по индивидам. Здесь уже можно использовать полный датасет. Так как доверительные интервалы с интервалом в год не пересекаются, можно увидеть явную гетерогенность.
@@ -138,12 +133,11 @@ fd = plm(lwage ~ hours - 1, model = "fd", data = Panel)
 summary(fd)
 ```
 
-Построим МНК-оценку с дамми-переменными по каждому индивиду (LSDV). Видим, что численно её результаты идентичны withih-регрессии, как и должно быть.
+Построим МНК-оценку с дамми-переменными по каждому индивиду (LSDV). Видим, что численно её результаты идентичны withih-регрессии, как и должно быть. Так как выдача этой регрессии слишком объёмна из-за наличиия большого окличества переменных, она здесь не приведена, однако любой желающий может воспроизвести результат и увидеть, что необходимые коэффициенты совпадают.
 <!-- Скрыть результаты -->
 
 ```{r "LSDV", message=FALSE, warning=FALSE}
 lsdv = lm(lwage ~ hours + factor(id) - 1, data = Panel)
-summary(lsdv)
 ```
 
 Построим оценку сквозного МНК. Проверим значимость коэффициентов, используя ковариационную матрицу ошибок Хубера – Уайта.
@@ -156,7 +150,7 @@ summary(fpo)
 ```
 
 ```{r "ignoring hetero", message=FALSE, warning=FALSE}
-panel = import("lwage_panel_small.csv")
+panel = import("../data/09_small.csv")
 panel = mutate(panel, black = factor(black), id = factor(id))
 
 lsdv_small = lm(lwage ~ hours + factor(id) - 1, data = panel)
