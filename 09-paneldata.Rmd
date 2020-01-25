@@ -4,6 +4,7 @@
 ```{r, child='setup/setup.Rmd'}
 ```
 
+
 ```{r, child=if (child$r[9]) '09/09_r.Rmd'}
 ```
 

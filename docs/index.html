@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html >
+
 <head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Розеттский камень" />
   <meta property="og:type" content="book" />
@@ -21,18 +22,18 @@
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
 
-<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя">
 
 
-<meta name="date" content="2020-01-18" />
+<meta name="date" content="2020-01-25">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
 
-<link rel="next" href="simplereg.html"/>
+<link rel="next" href="simplereg.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -40,9 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
 
 
 
@@ -53,25 +51,28 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-  { content: attr(data-line-number);
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -80,9 +81,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -128,53 +129,30 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<<<<<<< HEAD
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
-<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a></li>
-<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#python"><i class="fa fa-check"></i><b>3.1</b> Python</a></li>
-=======
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
-<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#начало-работы"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
-<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#настройка-программы-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#rstudio--windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#section"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#section-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#язык-программирования-python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#установка"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#начало-работы-1"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#section-2"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#section-3"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#программа-stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#установка-1"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#начало-работы-2"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#section-4"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#section-5"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="2.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a></li>
+<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a></li>
+<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a><ul>
+<li class="chapter" data-level="7.1" data-path="paneldata.html"><a href="paneldata.html#stata-1"><i class="fa fa-check"></i><b>7.1</b> Stata</a></li>
 </ul></li>
-<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a><ul>
-<li class="chapter" data-level="3.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
-<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
-<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a><ul>
-<li class="chapter" data-level="6.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
-<li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
-<li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
-</ul></li>
-<li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модель бинарного выбора</a></li>
-<li class="chapter" data-level="5" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>5</b> Модели множественного выбора</a></li>
-<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a></li>
-<li class="chapter" data-level="7" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>7</b> ARMA</a></li>
-<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a></li>
-<li class="chapter" data-level="9" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>9</b> Гетероскедастичность в простой регрессии</a></li>
+<li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -198,7 +176,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 <div id="header">
 <h1 class="title">Розеттский камень</h1>
 <p class="author"><em>Пуассон, фея и три мексиканских негодяя</em></p>
-<p class="date"><em>2020-01-18</em></p>
+<p class="date"><em>2020-01-25</em></p>
 </div>
 <div id="installsoft" class="section level1">
 <h1><span class="header-section-number">Коан 1</span> Приветственный коан</h1>
@@ -214,13 +192,13 @@ pre.python {
     background-color: #FDF2E9 !important;
 }
 </style>
-<div id="язык-программирования-r" class="section level2">
+<div id="r" class="section level2">
 <h2><span class="header-section-number">1.1</span> Язык программирования R</h2>
 <blockquote>
 <p>R — это открытая среда программирования, помогающая в работе со статистическими данными. Для программирования на R подойдет программа RStudio.</p>
 </blockquote>
 <p>Рассмотрим установку RStudio на Mac OS и Windows.</p>
-<div id="инструкция-по-установке-rstudio-для-windows-mac-os" class="section level3">
+<div id="rstudio--windows-mac-os" class="section level3">
 <h3><span class="header-section-number">1.1.1</span> Инструкция по установке RStudio для Windows / Mac OS:</h3>
 <ol style="list-style-type: decimal">
 <li>Загрузите и установите язык программирования R <a href="http://cran.cnr.berkeley.edu/">с официального сайта</a>.</li>
@@ -235,16 +213,16 @@ pre.python {
 </ol>
 <center>
 <div class="figure">
-<img src="images/RStudio.png" alt="Страница загрузки" />
+<img src="images/RStudio.png" alt="" />
 <p class="caption"><em>Страница загрузки</em></p>
 </div>
 </center>
 </div>
-<div id="начало-работы" class="section level3">
+<div id="section" class="section level3">
 <h3><span class="header-section-number">1.1.2</span> Начало работы</h3>
 <center>
 <div class="figure">
-<img src="images/RStudio_Interface.png" alt="Интерфейс программы" />
+<img src="images/RStudio_Interface.png" alt="" />
 <p class="caption"><em>Интерфейс программы</em></p>
 </div>
 </center>
@@ -258,25 +236,25 @@ pre.python {
 <li><p><strong>Viewer</strong> - Отображение введенного кода.</p></li>
 </ol>
 </div>
-<div id="настройка-программы-1" class="section level3">
-<h3><span class="header-section-number">1.1.3</span> Настройка программы<a href="#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h3>
+<div id="section-1" class="section level3">
+<h3><span class="header-section-number">1.1.3</span> Настройка программы<a href="heterosked.html#fn1" class="footnote-ref" id="fnref1"><sup>1</sup></a></h3>
 <p>Запустите RStudio. В разделе Tools — Global Options — Sweave — “Weave .Rnw files using” выберите knitr.</p>
 <p>Перед началом работы рекомендуется также установить ряд пакетов, то есть расширений, которые помогут при работе с данными.</p>
 <p>Для этого необходимо ввести в командную строку следующую команду:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;vcd&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;xtable&quot;</span>, <span class="st">&quot;texreg&quot;</span>, <span class="st">&quot;lmtest&quot;</span>, <span class="st">&quot;sandwich&quot;</span>, <span class="st">&quot;erer&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;readxl&quot;</span>, <span class="st">&quot;reshape2&quot;</span>, <span class="st">&quot;RCurl&quot;</span>, <span class="st">&quot;RSelenium&quot;</span>,<span class="st">&quot;XML&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;quantmod&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;tidyr&quot;</span>))</a></code></pre></div>
+<pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="index.html#cb1-1"></a><span class="kw">install.packages</span>(<span class="kw">c</span>(<span class="st">&quot;vcd&quot;</span>, <span class="st">&quot;ggplot2&quot;</span>, <span class="st">&quot;knitr&quot;</span>, <span class="st">&quot;xtable&quot;</span>, <span class="st">&quot;texreg&quot;</span>, <span class="st">&quot;lmtest&quot;</span>, <span class="st">&quot;sandwich&quot;</span>, <span class="st">&quot;erer&quot;</span>, <span class="st">&quot;dplyr&quot;</span>, <span class="st">&quot;readxl&quot;</span>, <span class="st">&quot;reshape2&quot;</span>, <span class="st">&quot;RCurl&quot;</span>, <span class="st">&quot;RSelenium&quot;</span>,<span class="st">&quot;XML&quot;</span>, <span class="st">&quot;jsonlite&quot;</span>, <span class="st">&quot;quantmod&quot;</span>, <span class="st">&quot;lubridate&quot;</span>, <span class="st">&quot;stringr&quot;</span>, <span class="st">&quot;tidyr&quot;</span>))</span></code></pre></div>
 <p>После выполнения команды все рекомендованные для использования пакеты установятся автоматически.</p>
 <p>При работе на Windows для установки пакетов может потребоваться запуск Rstudio от имени администратора (для этого необходимо кликнуть правой кнопкой мыши, выбрать “Запуск от имени администратора”).</p>
 <p>Установили? Отлично. Всё готово для использования RStudio на вашем компьютере.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">cat</span>(<span class="st">&quot;Рабочая папка:&quot;</span>, <span class="kw">getwd</span>(), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</a></code></pre></div>
-<pre><code>Рабочая папка: /home/boris/Documents/Econometrics-Rosetta-Stone/01 </code></pre>
+<pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="index.html#cb2-1"></a><span class="kw">cat</span>(<span class="st">&quot;Рабочая папка:&quot;</span>, <span class="kw">getwd</span>(), <span class="st">&quot;</span><span class="ch">\n</span><span class="st">&quot;</span>)</span></code></pre></div>
+<pre><code>&lt;U+0420&gt;&lt;U+0430&gt;&lt;U+0431&gt;&lt;U+043E&gt;&lt;U+0447&gt;&lt;U+0430&gt;&lt;U+044F&gt; &lt;U+043F&gt;&lt;U+0430&gt;&lt;U+043F&gt;&lt;U+043A&gt;&lt;U+0430&gt;: C:/Users/The_sun/Desktop/Current_projects/Rosetta_demeshev/01 </code></pre>
 </div>
 </div>
-<div id="язык-программирования-python" class="section level2">
+<div id="python" class="section level2">
 <h2><span class="header-section-number">1.2</span> Язык программирования Python</h2>
 <blockquote>
 <p>Python — это открытая среда программирования, помогающая в работе со статистическими данными. Для программирования на Python подойдет программа Jupyter Notebook.</p>
 </blockquote>
-<div id="установка" class="section level3">
+<div id="section-2" class="section level3">
 <h3><span class="header-section-number">1.2.1</span> Установка</h3>
 <ol style="list-style-type: decimal">
 <li><p>Загрузите и установите Anaconda <a href="https://www.anaconda.com/distribution/">с официального сайта</a>.</p></li>
@@ -284,43 +262,43 @@ pre.python {
 </ol>
 <center>
 <div class="figure">
-<img src="images/Anaconda%20Navigator.png" alt="Интерфейс Anaconda Navigator" />
+<img src="images/Anaconda%20Navigator.png" alt="" />
 <p class="caption"><em>Интерфейс Anaconda Navigator</em></p>
 </div>
 </center>
 </div>
-<div id="начало-работы-1" class="section level3">
+<div id="section-3" class="section level3">
 <h3><span class="header-section-number">1.2.2</span> Начало работы</h3>
 <p>Открыв Jupyter Notebook, вы попадете на страницу, содержащую ваши сохраненные файлы. Чтобы создать новый файл, нажмите “New” ▶ “Notebook: Python 3”.</p>
 <center>
 <div class="figure">
-<img src="images/New%20File%20in%20Jupyter.png" alt="Новый файл" />
+<img src="images/New%20File%20in%20Jupyter.png" alt="" />
 <p class="caption"><em>Новый файл</em></p>
 </div>
 </center>
 <p>Затем, в открывшемся окне, появится новый файл. Теперь все готово к работе. Вы можете вводить свой код и затем, используя комбинацию клавиш <code>&lt;Shift&gt;</code> + <code>&lt;Enter&gt;</code>, проверять его исполнение.</p>
 <center>
 <div class="figure">
-<img src="images/Code%20in%20Jupyter.png" alt="Ввод кода" />
+<img src="images/Code%20in%20Jupyter.png" alt="" />
 <p class="caption">Ввод кода</p>
 </div>
 </center>
 </div>
 </div>
-<div id="программа-stata" class="section level2">
+<div id="stata" class="section level2">
 <h2><span class="header-section-number">1.3</span> Программа STATA</h2>
 <blockquote>
 <p>Stata, в отличие от R и Python, является программой, а не языком программирования. Она также помогает в работе со статистическими данными.</p>
 </blockquote>
-<div id="установка-1" class="section level3">
+<div id="section-4" class="section level3">
 <h3><span class="header-section-number">1.3.1</span> Установка:</h3>
 <p>Для установки Stata необходимо загрузить актуальную версию <a href="https://www.stata.com/">с сайта компании-разработчика</a>. Подойдут как Stata SE, так и Stata MP.</p>
 </div>
-<div id="начало-работы-2" class="section level3">
+<div id="section-5" class="section level3">
 <h3><span class="header-section-number">1.3.2</span> Начало работы:</h3>
 <center>
 <div class="figure">
-<img src="images/Stata%20Interface.jpg" alt="Интерфейс Stata" />
+<img src="images/Stata%20Interface.jpg" alt="" />
 <p class="caption"><em>Интерфейс Stata</em></p>
 </div>
 </center>
@@ -336,12 +314,6 @@ pre.python {
 </div>
 </div>
 </div>
-<div class="footnotes">
-<hr />
-<ol start="1">
-<li id="fn1"><p>Источник: <a href="https://github.com/bdemeshev/em301/wiki/R" class="uri">https://github.com/bdemeshev/em301/wiki/R</a><a href="index.html#fnref1" class="footnote-back">↩</a></p></li>
-</ol>
-</div>
             </section>
 
           </div>
@@ -353,13 +325,11 @@ pre.python {
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -395,20 +365,6 @@ gitbook.start({
 });
 </script>
 
-<!-- dynamically load mathjax for compatibility with self-contained -->
-<script>
-  (function () {
-    var script = document.createElement("script");
-    script.type = "text/javascript";
-    var src = "true";
-    if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
-    script.src = src;
-    document.getElementsByTagName("head")[0].appendChild(script);
-  })();
-</script>
 </body>
 
 </html>
