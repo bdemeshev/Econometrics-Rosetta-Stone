@@ -1,13 +1,15 @@
 --- 
 title: "Розеттский камень"
 author: "Пуассон, фея и три мексиканских негодяя"
-date: "2020-01-18"
-site: bookdown::bookdown_site
+date: "2020-01-25"
+bibliography:
+- book.bib
+- packages.bib
+description: Сборник коанов для эконометристов, жаждущих просветления.
 documentclass: book
-bibliography: [book.bib, packages.bib]
-biblio-style: apalike
 link-citations: yes
-description: "Сборник коанов для эконометристов, жаждущих просветления."
+site: bookdown::bookdown_site
+biblio-style: apalike
 ---
 
 # Приветственный коан {#installsoft}
@@ -105,7 +107,7 @@ cat("Рабочая папка:", getwd(), "\n")
 ```
 
 ```
-Рабочая папка: /home/boris/Documents/Econometrics-Rosetta-Stone/01 
+<U+0420><U+0430><U+0431><U+043E><U+0447><U+0430><U+044F> <U+043F><U+0430><U+043F><U+043A><U+0430>: C:/Users/The_sun/Desktop/Current_projects/Rosetta_demeshev/01 
 ```
 
 
@@ -164,7 +166,7 @@ cat("Рабочая папка:", getwd(), "\n")
 
 </center> 
   
-  1. **Open File** - открыть файл.
+1. **Open File** - открыть файл.
 2. **Save** - сохранить файл.
 3. **Data Editor** - редактирование данных.
 4. **Data Browser** - просмотр данных.

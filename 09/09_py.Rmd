@@ -1,0 +1,77 @@
+## Python 
+
+
+```{python "lib py", message=FALSE, warning=FALSE}
+import numpy as np
+import pandas as pd
+```
+
+Подгрузим данные и для обозначения панельных данных присвоим соответствующие индексы.
+Зададим соответствующие зависимые и независимые переменные, а также регрессионную формулу.
+Переменная "Entity effects" (Фиксированные эффекты) обязательна для включения для корректного распознавания панельных данных. 
+Если её не включить, результат будет отличаться от R и STATA.
+
+```{python "read data py" , message=FALSE, warning=FALSE}
+df = pd.read_csv('../data/09_large.csv')
+df = df.set_index(['id', 'year'])
+
+
+formula = 'lwage ~ 1 + hours + EntityEffects'
+dependent = df.lwage
+
+regressors = df[['hours']]
+
+print(df.head())
+```
+
+Оценим FE-модель, используя within-оценку.
+```{python}
+from linearmodels import PanelOLS
+model_fe = PanelOLS.from_formula(formula, df)
+model_fe_fitted = model_fe.fit(cov_type='clustered', cluster_entity=True)
+print(model_fe_fitted)
+```
+
+Оценим RE-модель, используя FGLS-оценку.
+
+```{python}
+from linearmodels.panel import RandomEffects
+model_re = RandomEffects.from_formula(formula, df)
+model_re_fitted = model_re.fit(cov_type='clustered', cluster_entity=True)
+dir(model_re_fitted)
+print(model_re_fitted)
+```
+
+Тест Хаусмана в соответствующем пакете на данный момент не реализован.
+<!-- Поискать тест Хаусмана -->
+
+Построим оценку Pooled OLS
+
+```{python}
+from linearmodels.panel import PooledOLS
+model_pool = PooledOLS.from_formula(formula, df)
+model_pool_fitted = model_pool.fit(cov_type='clustered', cluster_entity=True)
+print(model_pool_fitted)
+```
+
+Построим LSDV-оценку.
+
+```{python, eval = FALSE}
+model_lsdv = PanelOLS.from_formula(formula, df)
+model_lsdv_fitted = model_lsdv.fit(cov_type='clustered', cluster_entity=True, use_lsdv=True)
+print(model_lsdv_fitted)
+```
+
+Построим FD-оценку. Здесь необходимо убрать константный признак, так как данная модель начинает выдавать ошибку. Логически, конечно, он автоматически должен исчезнуть по построению модели, но в данной реализации это требуется задать на уровне пользователя.
+
+```{python}
+from linearmodels.panel import FirstDifferenceOLS
+
+formula_fd = 'lwage ~ hours + EntityEffects'
+model_fd = FirstDifferenceOLS.from_formula(formula_fd, df)
+model_fd_fitted = model_fd.fit(cov_type='clustered', cluster_entity=True)
+print(model_fd_fitted)
+```
+
+
+

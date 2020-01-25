@@ -1,0 +1,70 @@
+## Stata
+
+
+Теперь то же самое в Stata
+
+Для начала подгрузим данные и посмотрим на них. Сперва визуализируем малый датасет.
+
+
+```{stata}
+use data/09_small
+summarize
+```
+
+```{stata}
+xtset id year
+xtline hours, overlay
+clear
+```
+
+
+```{stata}
+use data/09_large
+xtset id year
+summarize
+
+```
+Визуализируем данные. Если необходимо разнести линии на разные графики, следует убрать прараметр "overlay".
+
+Сгенерируем новую переменную и оценим модель с фиксированными эффектами. Последний аргумент произведёт оценку стандартных ошибок переменных в форме Хубера - Уайта
+
+```{stata}
+
+xtreg lwage hours, fe vce(robust)
+```
+
+
+Сделаем то же самое для модели со случайными эффектами.
+
+```{stata}
+xtreg lwage hours, re vce(robust)
+```
+
+Тест Хаусмана.
+
+
+```{stata}
+xtreg lwage hours, re
+estimates store b_re
+xtreg lwage hours, fe
+estimates store b_fe
+hausman b_fe b_re, sigmamore
+```
+
+<!-- Вывод -->
+Оценим FD-модель.
+```{stata}
+reg D.(lwage hours), vce(robust) nocon
+```
+
+Аналогично оцениваем модель pooled OLS.
+
+```{stata}
+reg lwage hours, vce(robust)
+```
+
+Оценим LSDV-модель.
+
+```{stata}
+areg lwage hours, absorb(id)
+```

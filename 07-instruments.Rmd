@@ -1,0 +1,13 @@
+# Коан об инcтрументах для простой регрессии {#instruments}
+
+```{r, child='setup/setup.Rmd'}
+```
+
+```{r, child=if (child$r[7]) '07/07_r.Rmd'}
+```
+
+```{r, child=if (child$py[7]) '07/07_py.Rmd'}
+```
+
+```{r, child=if (child$stata[7]) '07/07_stata.Rmd'}
+```

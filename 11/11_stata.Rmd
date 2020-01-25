@@ -1,0 +1,27 @@
+## Stata
+
+```{stata, include=FALSE}
+clear all
+```
+
+Загружаем нужные нам данные, в данном случае сведения об автомобилях, содержащиеся в пакете auto.
+```{stata}
+webuse auto
+```
+
+Для реализации МГК достаточно использовать функцию `pca`. Она принимает на вход зависимую переменную `price` и регрессоры `mpg`, `rep78`, `headroom`, `weight`, `length`, `displacement`, `foreign`:
+```{stata}
+pca price mpg rep78 headroom weight length displacement foreign
+```
+
+Построим график доли дисперсии, объясняемой каждой компонентой:
+```{stata, echo = 1, results = "hide"}
+screeplot, yline(1) ci(het) 
+graph export scr.png
+```
+![](scr.png)
+
+И получим первые две компоненты:
+```{stata}
+predict pc1 pc2, score
+```

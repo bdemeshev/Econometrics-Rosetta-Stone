@@ -1,5 +1,5 @@
 # Коан об инcтрументах для простой регрессии {#instruments}
-
+---
 <style>
 pre.r {
     background-color: #FEF9E7 !important;
@@ -13,6 +13,7 @@ pre.python {
 </style> 
 
 > Инструментальные переменные решают проблему эндогенности регрессоров. Так как эндогенность приводит к смещенности и несостоятельности МНК-оценок, коэффициенты регрессоров являются неточными. Вводя в анализ инструментальные переменные, коррелирующие с регрессором, эндогенность часто удается устранить.
+
 
 Рассмотрим, как метод инструментальных переменных реализуется на r, python и в stata.
 
@@ -63,15 +64,16 @@ knitr::opts_chunk$set(engine.path = list(stata = stataexe), collectcode = TRUE)
 ```
 Загружаем нужные пакеты:
 ```{r, warning=FALSE, message=FALSE}
-library(ggplot2) # Для построения графиков
-library(gridExtra) # Для визуализации
-library(dplyr) # Для работы с данными
-library(skimr) # Для изучения данных
-library(Ecdat) #  Для работы с IV
-library(AER) #  Для работы с IV
-library(ggcorrplot) # Для построения коррелограмы. Для установки: devtools::install_github("kassambara/ggcorrplot")
+library(ggplot2) # построение графиков
+library(gridExtra) # визуализация
+library(dplyr) # работа с данными
+library(skimr) # изучение данных
+library(Ecdat) #  работа с инструментальными переменными
+library(AER) #  работа с инструментальными переменными
+library(ggcorrplot) # построения коррелограмы. 
+# для установки ggcorrplot: devtools::install_github("kassambara/ggcorrplot")
 ```
-Загружаем данные по продаже недвижимости *Housing*, изучаем их строение, визуализируем:
+Загружаем данные по продаже недвижимости **Housing**, изучаем их строение, визуализируем:
 ```{r, warning=FALSE, message=FALSE}
 skim(Housing)
 theme_set(theme_classic())
@@ -99,8 +101,8 @@ ggplot(data = Housing) +
 
 Убедимся, что между ними есть связь, посчитав корреляцию. Заодно построим нехитрую корреляционную матрицу для всех численных переменных:
 ```{r, include=TRUE}
-cor(Housing$lotsize, Housing$bedrooms) # Считаем связь между переменной и инструментом
-housing_numeric = select_if(Housing, is.numeric) # Оставляем только численные переменные
+cor(Housing$lotsize, Housing$bedrooms) # считаем связь между переменной и инструментом
+housing_numeric = select_if(Housing, is.numeric) # оставляем только численные переменные
 cor_housing = cor(housing_numeric)
 ggcorrplot(cor_housing, hc.order = TRUE,
            type = "lower",
@@ -114,7 +116,7 @@ ggcorrplot(cor_housing, hc.order = TRUE,
 
 Действительно, между выбранными нами переменной и инструментом наблюдается корреляция, которая составляет 0.15.
 
-Построим IV-регрессию, реализующую двухшаговый МНК, с помощью функции `ivreg`:
+Построим IV-регрессию, реализующую двухшаговый МНК, с помощью функции *ivreg*:
 ```{r, include=TRUE}
 iv1 = ivreg(price ~ bedrooms | lotsize, data = Housing)
 summary(iv1)
@@ -143,7 +145,7 @@ summary(iv2, vcov = sandwich, diagnostics = TRUE)
 webuse educwages
 describe
 ```
-Проведем двухшаговый МНК с помощью функции `ivregress`. В качестве зависимой переменной примем зарплату (`wages`), в качестве регрессора - образование (`education`). В качестве инструментов для образования используем образование отца (`feducation`), образование матери (`meducation`) и участие в профсоюзе (`union`).
+Проведем двухшаговый МНК с помощью функции *ivregress*. В качестве зависимой переменной djpmмем зарплату (`wages`), в качестве регрессора - образование (`education`). В качестве инструментов для образования используем образование отца (`feducation`), образование матери (`meducation`) и участие в профсоюзе (`union`).
 ```{stata}
 ivregress 2sls wages union (education = meducation feducation) 
 ```
@@ -164,17 +166,17 @@ estat overid
 Разберем применение метода инструментальных переменных на python.
 Загружаем необходимые библиотеки:
 ```{python}
-import pandas as pd # Библиотека pandas для работы с данными
-import seaborn as sns # Библиотека seaborn для визуализации
-import matplotlib.pyplot as plt # Библиотека matplotlib для визуализации
-import statsmodels.api as sm # Для двухшагового МНК
+import pandas as pd # работы с панельными данными
+import seaborn as sns # визуализация
+import matplotlib.pyplot as plt # визуализация
+import statsmodels.api as sm # реализация двухшагового МНК
 ```
 Загружаем данные и исследуем их строение:
 ```{python}
-url = "https://raw.githubusercontent.com/arunk13/MSDA-Assignments/master/IS607Fall2015/Assignment3/student-mat.csv"
+url = 'https://raw.githubusercontent.com/arunk13/MSDA-Assignments/master/IS607Fall2015/Assignment3/student-mat.csv'
 df = pd.read_csv(url, 
                 header=0,
-                sep = ";") 
+                sep = ';') 
 print(df.head(2))
 ```
 Изучим зависимость успеваемости ученика `G3` от времени, которое он тратит на учебу `studytime` и его свободного времени `freetime`, а в качестве инструмента для свободного времени используем `traveltime`, время, которое он тратит на поездку до учебы. Логика здесь такая: чем больше времени ученик тратит на дорогу, тем меньше у него времени остается на учебу, а значит, меньше вероятность получить хорошую оценку. Преобразуем выбранные переменные:
@@ -196,7 +198,7 @@ sns.heatmap(corr,linewidths=0.1,vmax=1.0, square=True, cmap=colormap, linecolor=
 
 Корреляция между переменными составляет 0.1, а корреляция инструмента с целевой переменной -0.12, что, в принципе, нас вполне устраивает.
 
-Проведем двухшаговый МНК при помощи функции `IV2SLS` из пакета *linearmodels*. В том случае, если он еще не установлен, нужно выполнить следующую команду в командной строке: `pip install linearmodels`. Убедившись, что она установлена, импортируем нужные библиотеки и приступаем к двухшаговому МНК:
+Проведем двухшаговый МНК при помощи функции IV2SLS из пакета **linearmodels**. Чтобы использовать ее, надо установить пакет **linearmodels**. Для этого, если он еще не установлен, нужно выполнить следующую команду в командной строке: `pip install linearmodels`. Убедившись, что она установлена, импортируем нужные библиотеки и приступаем к двухшаговому МНК:
 ```{python}
 from linearmodels import IV2SLS
 ivmod = IV2SLS.from_formula('grade ~ 1 + studytime  + [freetime ~ traveltime]', df)

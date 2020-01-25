@@ -1,18 +1,13 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<html >
+
 <head>
 
-  <meta charset="utf-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-<<<<<<< HEAD
-  <title>Коан 4 Модель бинарного выбора | Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.11 and GitBook 2.6.7" />
-=======
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <title>Коан 3 Модель бинарного выбора | Розеттский камень</title>
-  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления." />
-  <meta name="generator" content="bookdown 0.14 and GitBook 2.6.7" />
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
+  <meta name="description" content="Сборник коанов для эконометристов, жаждущих просветления.">
+  <meta name="generator" content="bookdown  and GitBook 2.6.7">
 
   <meta property="og:title" content="Коан 3 Модель бинарного выбора | Розеттский камень" />
   <meta property="og:type" content="book" />
@@ -27,18 +22,18 @@
   <meta name="twitter:description" content="Сборник коанов для эконометристов, жаждущих просветления." />
   
 
-<meta name="author" content="Пуассон, фея и три мексиканских негодяя" />
+<meta name="author" content="Пуассон, фея и три мексиканских негодяя">
 
 
-<meta name="date" content="2020-01-18" />
+<meta name="date" content="2020-01-25">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
   
   
-<link rel="prev" href="simplereg.html"/>
-<link rel="next" href="multchoice.html"/>
+<link rel="prev" href="simplereg.html">
+<link rel="next" href="multchoice.html">
 <script src="libs/jquery-2.2.3/jquery.min.js"></script>
 <link href="libs/gitbook-2.6.7/css/style.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-table.css" rel="stylesheet" />
@@ -46,9 +41,6 @@
 <link href="libs/gitbook-2.6.7/css/plugin-highlight.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-search.css" rel="stylesheet" />
 <link href="libs/gitbook-2.6.7/css/plugin-fontsettings.css" rel="stylesheet" />
-<link href="libs/gitbook-2.6.7/css/plugin-clipboard.css" rel="stylesheet" />
-
-
 
 
 
@@ -59,33 +51,28 @@
 
 
 <style type="text/css">
-a.sourceLine { display: inline-block; line-height: 1.25; }
-a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
-a.sourceLine:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
 .sourceCode { overflow: visible; }
 code.sourceCode { white-space: pre; position: relative; }
-<<<<<<< HEAD
 div.sourceCode { margin: 1em 0; }
-=======
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
 code.sourceCode { white-space: pre-wrap; }
-a.sourceLine { text-indent: -1em; padding-left: 1em; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-pre.numberSource a.sourceLine
-  { position: relative; left: -4em; }
-pre.numberSource a.sourceLine::before
-<<<<<<< HEAD
-  { content: attr(title);
-=======
-  { content: attr(data-line-number);
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
     position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; pointer-events: all; display: inline-block;
+    border: none; display: inline-block;
     -webkit-touch-callout: none; -webkit-user-select: none;
     -khtml-user-select: none; -moz-user-select: none;
     -ms-user-select: none; user-select: none;
@@ -94,9 +81,9 @@ pre.numberSource a.sourceLine::before
   }
 pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
 div.sourceCode
-  {  }
+  {   }
 @media screen {
-a.sourceLine::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -142,53 +129,34 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
       <nav role="navigation">
 
 <ul class="summary">
-<<<<<<< HEAD
-<li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Напутственное слово</a></li>
-<li class="chapter" data-level="2" data-path="installsoft.html"><a href="installsoft.html"><i class="fa fa-check"></i><b>2</b> Коан об установке софта</a></li>
-<li class="chapter" data-level="3" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>3</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="3.1" data-path="simplereg.html"><a href="simplereg.html#python"><i class="fa fa-check"></i><b>3.1</b> Python</a></li>
-=======
 <li class="chapter" data-level="1" data-path="index.html"><a href="index.html"><i class="fa fa-check"></i><b>1</b> Приветственный коан</a><ul>
-<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#язык-программирования-r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
-<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#инструкция-по-установке-rstudio-для-windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
-<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#начало-работы"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
-<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#настройка-программы-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
+<li class="chapter" data-level="1.1" data-path="index.html"><a href="index.html#r"><i class="fa fa-check"></i><b>1.1</b> Язык программирования R</a><ul>
+<li class="chapter" data-level="1.1.1" data-path="index.html"><a href="index.html#rstudio--windows-mac-os"><i class="fa fa-check"></i><b>1.1.1</b> Инструкция по установке RStudio для Windows / Mac OS:</a></li>
+<li class="chapter" data-level="1.1.2" data-path="index.html"><a href="index.html#section"><i class="fa fa-check"></i><b>1.1.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.1.3" data-path="index.html"><a href="index.html#section-1"><i class="fa fa-check"></i><b>1.1.3</b> Настройка программы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#язык-программирования-python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
-<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#установка"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
-<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#начало-работы-1"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
+<li class="chapter" data-level="1.2" data-path="index.html"><a href="index.html#python"><i class="fa fa-check"></i><b>1.2</b> Язык программирования Python</a><ul>
+<li class="chapter" data-level="1.2.1" data-path="index.html"><a href="index.html#section-2"><i class="fa fa-check"></i><b>1.2.1</b> Установка</a></li>
+<li class="chapter" data-level="1.2.2" data-path="index.html"><a href="index.html#section-3"><i class="fa fa-check"></i><b>1.2.2</b> Начало работы</a></li>
 </ul></li>
-<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#программа-stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
-<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#установка-1"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
-<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#начало-работы-2"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
+<li class="chapter" data-level="1.3" data-path="index.html"><a href="index.html#stata"><i class="fa fa-check"></i><b>1.3</b> Программа STATA</a><ul>
+<li class="chapter" data-level="1.3.1" data-path="index.html"><a href="index.html#section-4"><i class="fa fa-check"></i><b>1.3.1</b> Установка:</a></li>
+<li class="chapter" data-level="1.3.2" data-path="index.html"><a href="index.html#section-5"><i class="fa fa-check"></i><b>1.3.2</b> Начало работы:</a></li>
 </ul></li>
 </ul></li>
-<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a><ul>
-<li class="chapter" data-level="2.1" data-path="simplereg.html"><a href="simplereg.html#r"><i class="fa fa-check"></i><b>2.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a><ul>
-<li class="chapter" data-level="3.1" data-path="binchoice.html"><a href="binchoice.html#r-1"><i class="fa fa-check"></i><b>3.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a><ul>
-<li class="chapter" data-level="4.1" data-path="multchoice.html"><a href="multchoice.html#r-2"><i class="fa fa-check"></i><b>4.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a><ul>
-<li class="chapter" data-level="5.1" data-path="poisreg.html"><a href="poisreg.html#r-3"><i class="fa fa-check"></i><b>5.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="6" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>6</b> ARMA</a><ul>
-<li class="chapter" data-level="6.1" data-path="arma.html"><a href="arma.html#r-4"><i class="fa fa-check"></i><b>6.1</b> R</a></li>
-</ul></li>
-<li class="chapter" data-level="7" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>7</b> Коан о панельных данных</a></li>
-<li class="chapter" data-level="8" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>8</b> Гетероскедастичность в простой регрессии</a><ul>
-<li class="chapter" data-level="8.1" data-path="heterosked.html"><a href="heterosked.html#r-5"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
-</ul></li>
-<li class="chapter" data-level="4" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>4</b> Модель бинарного выбора</a></li>
-<li class="chapter" data-level="5" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>5</b> Модели множественного выбора</a></li>
-<li class="chapter" data-level="6" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>6</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="2" data-path="simplereg.html"><a href="simplereg.html"><i class="fa fa-check"></i><b>2</b> Коан о простой линейной регрессии</a></li>
+<li class="chapter" data-level="3" data-path="binchoice.html"><a href="binchoice.html"><i class="fa fa-check"></i><b>3</b> Модель бинарного выбора</a></li>
+<li class="chapter" data-level="4" data-path="multchoice.html"><a href="multchoice.html"><i class="fa fa-check"></i><b>4</b> Модели множественного выбора</a></li>
+<li class="chapter" data-level="5" data-path="poisreg.html"><a href="poisreg.html"><i class="fa fa-check"></i><b>5</b> Модели счетных данных</a></li>
+<li class="chapter" data-level="6" data-path="instruments.html"><a href="instruments.html"><i class="fa fa-check"></i><b>6</b> Коан об инcтрументах для простой регрессии</a></li>
 <li class="chapter" data-level="7" data-path="arma.html"><a href="arma.html"><i class="fa fa-check"></i><b>7</b> ARMA</a></li>
-<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a></li>
+<li class="chapter" data-level="8" data-path="paneldata.html"><a href="paneldata.html"><i class="fa fa-check"></i><b>8</b> Коан о панельных данных</a><ul>
+<li class="chapter" data-level="8.1" data-path="paneldata.html"><a href="paneldata.html#r-1"><i class="fa fa-check"></i><b>8.1</b> R</a></li>
+<li class="chapter" data-level="8.2" data-path="paneldata.html"><a href="paneldata.html#python-1"><i class="fa fa-check"></i><b>8.2</b> Python</a></li>
+<li class="chapter" data-level="8.3" data-path="paneldata.html"><a href="paneldata.html#stata-1"><i class="fa fa-check"></i><b>8.3</b> Stata</a></li>
+</ul></li>
 <li class="chapter" data-level="9" data-path="heterosked.html"><a href="heterosked.html"><i class="fa fa-check"></i><b>9</b> Гетероскедастичность в простой регрессии</a></li>
+<li class="chapter" data-level="10" data-path="pca.html"><a href="pca.html"><i class="fa fa-check"></i><b>10</b> Коан о методе главных компонент</a></li>
 <li class="divider"></li>
 <li><a href="https://github.com/rstudio/bookdown" target="blank">Published with bookdown</a></li>
 
@@ -210,11 +178,7 @@ code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warni
 
             <section class="normal" id="section-">
 <div id="binchoice" class="section level1">
-<<<<<<< HEAD
-<h1><span class="header-section-number">Коан 4</span> Модель бинарного выбора</h1>
-=======
 <h1><span class="header-section-number">Коан 3</span> Модель бинарного выбора</h1>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 <p>Мини-теория:</p>
 <p><strong>Линейная вероятностная модель</strong>
 Можно оценить вероятность бинарной зависимой переменной принимать определённое значение (чаще, 1). Линейная вероятностная модель имеет вид:</p>
@@ -223,35 +187,17 @@ P(y_i = 1) = x_i^T \cdot \beta + \varepsilon_i
 \]</span></p>
 <p>Однако такой подход обладает существенными недостатками: нереалистичное значение оцененной вероятности, ошибки, распределённые не нормально и гетероскедастичность, поэтому есть необходимость оценивания логит- и пробит- моделей.</p>
 <p><strong>Логит - модель</strong>
-<<<<<<< HEAD
-Предполагается, что существует скрытая (латентная) переменная, для которой строится модель, <span class="math display">\[y^*_i = x_i^T \cdot \beta + \varepsilon_i\]</span>, так, что:
-<span class="math display">\[
-\begin{equation*}
-=======
 Предполагается, что существует скрытая (латентная) переменная, для которой строится модель,
 <span class="math display">\[
 y^*_i = x_i^T \cdot \beta + \varepsilon_i, 
 \]</span></p>
 <p>так, что:
 <span class="math display">\[
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 Y_i = 
  \begin{cases}
    1, &amp;\text{если ${y_i}^* \geqslant 0$}\\
    0, &amp;\text{если ${y_i}^* &lt; 0$}
  \end{cases}
-<<<<<<< HEAD
-\end{equation*}
-\]</span></p>
-<p><span class="math display">\[\varepsilon_i \sim logistic, \\f(t) = \frac{e^{-t}}{(1 + e^{-t})^2}\]</span>
-<strong>LR-тест</strong></p>
-<p>В текущем коане будем тестировать <span class="math display">\[H_0: \beta_{white} = 0\]</span> против <span class="math display">\[H_a: \beta_{white} \neq 0\]</span>.</p>
-<p>Статистика LR-теста имеет вид: <span class="math display">\[2 \cdot (\ln(L) - \ln(L_{H_0})) \sim \chi^2_r\]</span>, где <span class="math inline">\(ln(L)\)</span> - логарифм функции правдоподобия, <span class="math inline">\(ln(L_{H_0})\)</span> - логарифм функции правдоподобия со значениями параметров из основной гипотезы, r - количество ограничений в основной гипотезе.</p>
-<p><strong>Пробит-модель</strong>
-Также предполагается, что существует скрытая (латентная) переменная, для которой строится модель, <span class="math display">\[y^*_i = x_i^T \cdot \beta + \varepsilon_i\]</span>, так, что:
-<span class="math display">\[
-\begin{equation*}
-=======
 \]</span></p>
 <p><span class="math display">\[
 \varepsilon_i \sim logistic, \\f(t) = \frac{e^{-t}}{(1 + e^{-t})^2}
@@ -270,20 +216,11 @@ y^*_i = x_i^T \cdot \beta + \varepsilon_i,
 \]</span>
 так, что:
 <span class="math display">\[
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 Y_i = 
  \begin{cases}
    1, &amp;\text{если ${y_i}^* \geqslant 0$}\\
    0, &amp;\text{если ${y_i}^* &lt; 0$}
  \end{cases}
-<<<<<<< HEAD
-\end{equation*}
-\]</span></p>
-<p><span class="math display">\[\varepsilon_i \sim N(0; 1), \\ f(z) = \frac{1}{\sqrt{2 \pi}} \cdot \int_{- \infty}^{z} e^{- \frac{t^2}{2}} dt\]</span></p>
-<blockquote>
-<p>Сейчас попробуем подружиться с моделями бинарного выбора на основе данных <code>bwght.dta</code>, где зависимая переменная отражает, является индивид курильщиком или нет, а в качестве независимых переменных представлены характеристики индивида: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.</p>
-</blockquote>
-=======
 \]</span></p>
 <p><span class="math display">\[
 \varepsilon_i \sim N(0; 1), \\ f(z) = \frac{1}{\sqrt{2 \pi}} \cdot \int_{- \infty}^{z} e^{- \frac{t^2}{2}} dt
@@ -291,748 +228,6 @@ Y_i =
 <blockquote>
 <p>Сейчас попробуем подружиться с моделями бинарного выбора на основе данных <code>bwght.dta</code>, где зависимая переменная отражает, является индивид курильщиком или нет, а в качестве независимых переменных представлены характеристики индивида: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.</p>
 </blockquote>
-<div id="r-1" class="section level2">
-<h2><span class="header-section-number">3.1</span> R</h2>
-<p>Загрузим необходимы пакеты.</p>
-<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb25-1" data-line-number="1"><span class="kw">library</span>(rio) <span class="co"># импорт и экспорт данных в разных форматах</span></a>
-<a class="sourceLine" id="cb25-2" data-line-number="2"><span class="kw">library</span>(tidyverse) <span class="co"># графики и манипуляции с данными</span></a>
-<a class="sourceLine" id="cb25-3" data-line-number="3"><span class="kw">library</span>(skimr) <span class="co"># описательные статистики</span></a>
-<a class="sourceLine" id="cb25-4" data-line-number="4"><span class="kw">library</span>(mfx) <span class="co"># нахождение предельных эффектов</span></a>
-<a class="sourceLine" id="cb25-5" data-line-number="5"><span class="kw">library</span>(margins) <span class="co"># визуализация предельных эффектов</span></a>
-<a class="sourceLine" id="cb25-6" data-line-number="6"><span class="kw">library</span>(lmtest) <span class="co"># проведение тестов</span></a>
-<a class="sourceLine" id="cb25-7" data-line-number="7"><span class="kw">library</span>(plotROC) <span class="co"># построение ROC-кривой</span></a>
-<a class="sourceLine" id="cb25-8" data-line-number="8"><span class="kw">library</span>(caret) <span class="co"># confusion-матрица</span></a>
-<a class="sourceLine" id="cb25-9" data-line-number="9"><span class="kw">library</span>(texreg) <span class="co"># вывод результатов регрессии в тех и html</span></a></code></pre></div>
-<p>Импортируем исследуемые данные.</p>
-<div class="sourceCode" id="cb26"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb26-1" data-line-number="1">data =<span class="st"> </span><span class="kw">import</span>(<span class="st">&quot;../data/03_bwght.dta&quot;</span>) </a></code></pre></div>
-<p>Рассмотрим описательные статистики по всем переменным: количество выкуриваемых сигарет, семейный доход, налог на сигареты, цена сигарет, образование отца и матери, паритет, цвет кожи.</p>
-<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb27-1" data-line-number="1"><span class="kw">skim</span>(data)</a></code></pre></div>
-<table>
-<caption><span id="tab:unnamed-chunk-6">Table 3.1: </span>Data summary</caption>
-<tbody>
-<tr class="odd">
-<td align="left">Name</td>
-<td align="left">data</td>
-</tr>
-<tr class="even">
-<td align="left">Number of rows</td>
-<td align="left">1388</td>
-</tr>
-<tr class="odd">
-<td align="left">Number of columns</td>
-<td align="left">14</td>
-</tr>
-<tr class="even">
-<td align="left">_______________________</td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Column type frequency:</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">numeric</td>
-<td align="left">14</td>
-</tr>
-<tr class="odd">
-<td align="left">________________________</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Group variables</td>
-<td align="left">None</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Variable type: numeric</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-<th align="right">p0</th>
-<th align="right">p25</th>
-<th align="right">p50</th>
-<th align="right">p75</th>
-<th align="right">p100</th>
-<th align="left">hist</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">faminc</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">29.03</td>
-<td align="right">18.74</td>
-<td align="right">0.50</td>
-<td align="right">14.50</td>
-<td align="right">27.50</td>
-<td align="right">37.50</td>
-<td align="right">65.00</td>
-<td align="left">▆▇▇▃▅</td>
-</tr>
-<tr class="even">
-<td align="left">cigtax</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">19.55</td>
-<td align="right">7.80</td>
-<td align="right">2.00</td>
-<td align="right">15.00</td>
-<td align="right">20.00</td>
-<td align="right">26.00</td>
-<td align="right">38.00</td>
-<td align="left">▂▆▇▇▁</td>
-</tr>
-<tr class="odd">
-<td align="left">cigprice</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">130.56</td>
-<td align="right">10.24</td>
-<td align="right">103.80</td>
-<td align="right">122.80</td>
-<td align="right">130.80</td>
-<td align="right">137.00</td>
-<td align="right">152.50</td>
-<td align="left">▂▆▇▇▂</td>
-</tr>
-<tr class="even">
-<td align="left">bwght</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">118.70</td>
-<td align="right">20.35</td>
-<td align="right">23.00</td>
-<td align="right">107.00</td>
-<td align="right">120.00</td>
-<td align="right">132.00</td>
-<td align="right">271.00</td>
-<td align="left">▁▇▆▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">fatheduc</td>
-<td align="right">196</td>
-<td align="right">0.86</td>
-<td align="right">13.19</td>
-<td align="right">2.75</td>
-<td align="right">1.00</td>
-<td align="right">12.00</td>
-<td align="right">12.00</td>
-<td align="right">16.00</td>
-<td align="right">18.00</td>
-<td align="left">▁▁▂▇▅</td>
-</tr>
-<tr class="even">
-<td align="left">motheduc</td>
-<td align="right">1</td>
-<td align="right">1.00</td>
-<td align="right">12.94</td>
-<td align="right">2.38</td>
-<td align="right">2.00</td>
-<td align="right">12.00</td>
-<td align="right">12.00</td>
-<td align="right">14.00</td>
-<td align="right">18.00</td>
-<td align="left">▁▁▂▇▃</td>
-</tr>
-<tr class="odd">
-<td align="left">parity</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">1.63</td>
-<td align="right">0.89</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">2.00</td>
-<td align="right">6.00</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="even">
-<td align="left">male</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">0.52</td>
-<td align="right">0.50</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="left">▇▁▁▁▇</td>
-</tr>
-<tr class="odd">
-<td align="left">white</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">0.78</td>
-<td align="right">0.41</td>
-<td align="right">0.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="left">▂▁▁▁▇</td>
-</tr>
-<tr class="even">
-<td align="left">cigs</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">2.09</td>
-<td align="right">5.97</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">50.00</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">lbwght</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">4.76</td>
-<td align="right">0.19</td>
-<td align="right">3.14</td>
-<td align="right">4.67</td>
-<td align="right">4.79</td>
-<td align="right">4.88</td>
-<td align="right">5.60</td>
-<td align="left">▁▁▂▇▁</td>
-</tr>
-<tr class="even">
-<td align="left">bwghtlbs</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">7.42</td>
-<td align="right">1.27</td>
-<td align="right">1.44</td>
-<td align="right">6.69</td>
-<td align="right">7.50</td>
-<td align="right">8.25</td>
-<td align="right">16.94</td>
-<td align="left">▁▇▆▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">packs</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">0.10</td>
-<td align="right">0.30</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">2.50</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="even">
-<td align="left">lfaminc</td>
-<td align="right">0</td>
-<td align="right">1.00</td>
-<td align="right">3.07</td>
-<td align="right">0.92</td>
-<td align="right">-0.69</td>
-<td align="right">2.67</td>
-<td align="right">3.31</td>
-<td align="right">3.62</td>
-<td align="right">4.17</td>
-<td align="left">▁▁▂▆▇</td>
-</tr>
-</tbody>
-</table>
-<p>Заметим существование пропущенных переменных у <code>fatheduc</code>, <code>motheduc</code>.
-Будем анализировать только те значения, у которых нет пропущенных наблюдений.
-Для этого создадим новый dataframe, <code>data_2</code>, в котором отсутствуют пропущенные значения.
-Посмотрим на его описательные статистики.</p>
-<div class="sourceCode" id="cb28"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb28-1" data-line-number="1">data_<span class="dv">2</span> =<span class="st"> </span><span class="kw">filter</span>(data, <span class="op">!</span><span class="kw">is.na</span>(fatheduc), <span class="op">!</span><span class="kw">is.na</span>(motheduc))</a>
-<a class="sourceLine" id="cb28-2" data-line-number="2"><span class="kw">skim</span>(data_<span class="dv">2</span>)</a></code></pre></div>
-<table>
-<caption><span id="tab:unnamed-chunk-7">Table 3.2: </span>Data summary</caption>
-<tbody>
-<tr class="odd">
-<td align="left">Name</td>
-<td align="left">data_2</td>
-</tr>
-<tr class="even">
-<td align="left">Number of rows</td>
-<td align="left">1191</td>
-</tr>
-<tr class="odd">
-<td align="left">Number of columns</td>
-<td align="left">14</td>
-</tr>
-<tr class="even">
-<td align="left">_______________________</td>
-<td align="left"></td>
-</tr>
-<tr class="odd">
-<td align="left">Column type frequency:</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">numeric</td>
-<td align="left">14</td>
-</tr>
-<tr class="odd">
-<td align="left">________________________</td>
-<td align="left"></td>
-</tr>
-<tr class="even">
-<td align="left">Group variables</td>
-<td align="left">None</td>
-</tr>
-</tbody>
-</table>
-<p><strong>Variable type: numeric</strong></p>
-<table>
-<thead>
-<tr class="header">
-<th align="left">skim_variable</th>
-<th align="right">n_missing</th>
-<th align="right">complete_rate</th>
-<th align="right">mean</th>
-<th align="right">sd</th>
-<th align="right">p0</th>
-<th align="right">p25</th>
-<th align="right">p50</th>
-<th align="right">p75</th>
-<th align="right">p100</th>
-<th align="left">hist</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="left">faminc</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">32.22</td>
-<td align="right">17.96</td>
-<td align="right">0.50</td>
-<td align="right">18.50</td>
-<td align="right">27.50</td>
-<td align="right">42.50</td>
-<td align="right">65.00</td>
-<td align="left">▃▇▇▃▅</td>
-</tr>
-<tr class="even">
-<td align="left">cigtax</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">19.60</td>
-<td align="right">7.86</td>
-<td align="right">2.00</td>
-<td align="right">15.00</td>
-<td align="right">20.00</td>
-<td align="right">26.00</td>
-<td align="right">38.00</td>
-<td align="left">▂▆▇▇▂</td>
-</tr>
-<tr class="odd">
-<td align="left">cigprice</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">130.71</td>
-<td align="right">10.35</td>
-<td align="right">103.80</td>
-<td align="right">122.80</td>
-<td align="right">130.80</td>
-<td align="right">137.00</td>
-<td align="right">152.50</td>
-<td align="left">▂▆▇▇▃</td>
-</tr>
-<tr class="even">
-<td align="left">bwght</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">119.53</td>
-<td align="right">20.14</td>
-<td align="right">23.00</td>
-<td align="right">108.00</td>
-<td align="right">120.00</td>
-<td align="right">132.00</td>
-<td align="right">271.00</td>
-<td align="left">▁▇▇▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">fatheduc</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">13.19</td>
-<td align="right">2.74</td>
-<td align="right">1.00</td>
-<td align="right">12.00</td>
-<td align="right">12.00</td>
-<td align="right">16.00</td>
-<td align="right">18.00</td>
-<td align="left">▁▁▂▇▅</td>
-</tr>
-<tr class="even">
-<td align="left">motheduc</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">13.13</td>
-<td align="right">2.42</td>
-<td align="right">2.00</td>
-<td align="right">12.00</td>
-<td align="right">12.00</td>
-<td align="right">15.00</td>
-<td align="right">18.00</td>
-<td align="left">▁▁▂▇▃</td>
-</tr>
-<tr class="odd">
-<td align="left">parity</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1.61</td>
-<td align="right">0.87</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">2.00</td>
-<td align="right">6.00</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="even">
-<td align="left">male</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.52</td>
-<td align="right">0.50</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="left">▇▁▁▁▇</td>
-</tr>
-<tr class="odd">
-<td align="left">white</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.84</td>
-<td align="right">0.36</td>
-<td align="right">0.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="right">1.00</td>
-<td align="left">▂▁▁▁▇</td>
-</tr>
-<tr class="even">
-<td align="left">cigs</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">1.77</td>
-<td align="right">5.34</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">40.00</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">lbwght</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">4.77</td>
-<td align="right">0.19</td>
-<td align="right">3.14</td>
-<td align="right">4.68</td>
-<td align="right">4.79</td>
-<td align="right">4.88</td>
-<td align="right">5.60</td>
-<td align="left">▁▁▂▇▁</td>
-</tr>
-<tr class="even">
-<td align="left">bwghtlbs</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">7.47</td>
-<td align="right">1.26</td>
-<td align="right">1.44</td>
-<td align="right">6.75</td>
-<td align="right">7.50</td>
-<td align="right">8.25</td>
-<td align="right">16.94</td>
-<td align="left">▁▇▇▁▁</td>
-</tr>
-<tr class="odd">
-<td align="left">packs</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">0.09</td>
-<td align="right">0.27</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">0.00</td>
-<td align="right">2.00</td>
-<td align="left">▇▁▁▁▁</td>
-</tr>
-<tr class="even">
-<td align="left">lfaminc</td>
-<td align="right">0</td>
-<td align="right">1</td>
-<td align="right">3.28</td>
-<td align="right">0.72</td>
-<td align="right">-0.69</td>
-<td align="right">2.92</td>
-<td align="right">3.31</td>
-<td align="right">3.75</td>
-<td align="right">4.17</td>
-<td align="left">▁▁▁▅▇</td>
-</tr>
-</tbody>
-</table>
-<p>Сгенерируем переменную <code>smoke</code>, отражающую состояние отдельного индивида: <code>smoke = 1</code>, если индивид курит (то есть количество выкуриваемых им сигарет положительно), <code>smoke = 0</code> – если индивид не курит.</p>
-<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb29-1" data-line-number="1">data_<span class="dv">2</span> =<span class="st"> </span><span class="kw">mutate</span>(data_<span class="dv">2</span>, <span class="dt">smoke =</span> (cigs <span class="op">&gt;</span><span class="st"> </span><span class="dv">0</span>))</a></code></pre></div>
-<p>Построим модель линейной вероятности. Сохраним результат под <code>lin_prob_model</code>.</p>
-<div class="sourceCode" id="cb30"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb30-1" data-line-number="1">lin_prob_model =<span class="st"> </span><span class="kw">lm</span>(smoke <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>faminc <span class="op">+</span><span class="st"> </span>cigtax <span class="op">+</span><span class="st"> </span>cigprice <span class="op">+</span><span class="st"> </span>fatheduc <span class="op">+</span><span class="st"> </span>motheduc <span class="op">+</span><span class="st"> </span>parity <span class="op">+</span><span class="st"> </span>white, </a>
-<a class="sourceLine" id="cb30-2" data-line-number="2">                    <span class="dt">data =</span> data_<span class="dv">2</span>)</a>
-<a class="sourceLine" id="cb30-3" data-line-number="3"><span class="kw">summary</span>(lin_prob_model)</a></code></pre></div>
-<pre><code>
-Call:
-lm(formula = smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + 
-    motheduc + parity + white, data = data_2)
-
-Residuals:
-     Min       1Q   Median       3Q      Max 
--0.46295 -0.17696 -0.11495 -0.02127  1.01628 
-
-Coefficients:
-              Estimate Std. Error t value Pr(&gt;|t|)    
-(Intercept)  0.4297071  0.2270444   1.893   0.0587 .  
-faminc      -0.0014813  0.0006325  -2.342   0.0193 *  
-cigtax       0.0008334  0.0026320   0.317   0.7516    
-cigprice     0.0007472  0.0019954   0.374   0.7081    
-fatheduc    -0.0064880  0.0047493  -1.366   0.1722    
-motheduc    -0.0242416  0.0053373  -4.542 6.14e-06 ***
-parity       0.0019565  0.0110725   0.177   0.8598    
-white        0.0471603  0.0273790   1.723   0.0852 .  
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-Residual standard error: 0.3318 on 1183 degrees of freedom
-Multiple R-squared:  0.06448,   Adjusted R-squared:  0.05895 
-F-statistic: 11.65 on 7 and 1183 DF,  p-value: 2.184e-14</code></pre>
-<p>Посмотрим на число совпадений прогнозных и исходных значений.
-Для этого оценим предсказанные значения модели линейной вероятности. Сохраним их как переменную <code>predictions_lin_prob_model</code>.
-Если прогнозное значение выше 0.5 (порог отсечения, по дефолту, равный 0.5), то классифицируем наблюдаемого индивида как курильщика (<code>smoke_ols = 1</code>).
-Посмотрим на число совпадений исходных и прогнозных данных.</p>
-<div class="sourceCode" id="cb32"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb32-1" data-line-number="1">predictions_lin_prob_model =<span class="st"> </span><span class="kw">predict</span>(lin_prob_model)</a></code></pre></div>
-<p>Генерируем <code>smoke_ols</code> как 1, если вероятность по модели больше 0.5 и 0, если она меньше 0.5.</p>
-<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb33-1" data-line-number="1">smoke_ols =<span class="st"> </span><span class="dv">1</span> <span class="op">*</span><span class="st"> </span>(predictions_lin_prob_model <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</a></code></pre></div>
-<p>Число совпадений данных и прогноза модели линейной вероятности:</p>
-<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb34-1" data-line-number="1"><span class="kw">sum</span>(smoke_ols <span class="op">==</span><span class="st"> </span>data_<span class="dv">2</span><span class="op">$</span>smoke)</a></code></pre></div>
-<pre><code>[1] 1030</code></pre>
-<p>Известно, что модель линейной вероятности обладает значительными недостатками, поэтому оценим <code>P(smoke=1|x)</code>, и построим логит– и пробит– модели.</p>
-<p>Построим логит-модель и сохраним результат оцененной модели как <code>logit_model</code>.</p>
-<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb36-1" data-line-number="1">logit_model =<span class="st"> </span><span class="kw">glm</span>(smoke <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>faminc <span class="op">+</span><span class="st"> </span>cigtax <span class="op">+</span><span class="st"> </span>cigprice <span class="op">+</span><span class="st"> </span>fatheduc <span class="op">+</span><span class="st"> </span>motheduc <span class="op">+</span><span class="st"> </span>parity <span class="op">+</span><span class="st"> </span>white, </a>
-<a class="sourceLine" id="cb36-2" data-line-number="2">                  <span class="dt">x =</span> <span class="ot">TRUE</span>, </a>
-<a class="sourceLine" id="cb36-3" data-line-number="3">                  <span class="dt">data =</span> data_<span class="dv">2</span>, </a>
-<a class="sourceLine" id="cb36-4" data-line-number="4">                  <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</a>
-<a class="sourceLine" id="cb36-5" data-line-number="5"><span class="kw">summary</span>(logit_model)</a></code></pre></div>
-<pre><code>
-Call:
-glm(formula = smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + 
-    motheduc + parity + white, family = binomial(link = &quot;logit&quot;), 
-    data = data_2, x = TRUE)
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.5699  -0.5878  -0.4379  -0.2854   2.6434  
-
-Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  0.960628   2.083625   0.461  0.64477    
-faminc      -0.017142   0.006401  -2.678  0.00741 ** 
-cigtax       0.013859   0.024435   0.567  0.57058    
-cigprice     0.004156   0.018280   0.227  0.82014    
-fatheduc    -0.054616   0.041813  -1.306  0.19148    
-motheduc    -0.224467   0.049228  -4.560 5.12e-06 ***
-parity      -0.008435   0.097275  -0.087  0.93090    
-white        0.436632   0.260283   1.678  0.09344 .  
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 943.55  on 1190  degrees of freedom
-Residual deviance: 862.11  on 1183  degrees of freedom
-AIC: 878.11
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<p>Так как коэффициенты логит- и пробит- моделей плохо интерпретируются, поскольку единицы измерения латентной переменной определить сложно, посчитаем предельные эффекты, то есть изменение вероятности решения курить с изменением фактора на 1 единицу.</p>
-<p>Для предельного эффекта в средних значениях факторов:</p>
-<div class="sourceCode" id="cb38"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb38-1" data-line-number="1"><span class="kw">logitmfx</span>(smoke <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>faminc <span class="op">+</span><span class="st"> </span>cigtax <span class="op">+</span><span class="st"> </span>cigprice <span class="op">+</span><span class="st"> </span>fatheduc <span class="op">+</span><span class="st"> </span>motheduc <span class="op">+</span><span class="st"> </span>parity <span class="op">+</span><span class="st"> </span>white, <span class="dt">data =</span> data_<span class="dv">2</span>, <span class="dt">atmean =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
-<pre><code>Call:
-logitmfx(formula = smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + 
-    motheduc + parity + white, data = data_2, atmean = TRUE)
-
-Marginal Effects:
-               dF/dx   Std. Err.       z     P&gt;|z|    
-faminc   -0.00168111  0.00061396 -2.7382  0.006178 ** 
-cigtax    0.00135920  0.00239324  0.5679  0.570081    
-cigprice  0.00040759  0.00179294  0.2273  0.820165    
-fatheduc -0.00535620  0.00409569 -1.3078  0.190953    
-motheduc -0.02201350  0.00469099 -4.6927 2.696e-06 ***
-parity   -0.00082727  0.00953824 -0.0867  0.930885    
-white     0.03815415  0.02011210  1.8971  0.057818 .  
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-dF/dx is for discrete change for the following variables:
-
-[1] &quot;white&quot;</code></pre>
-<div class="sourceCode" id="cb40"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb40-1" data-line-number="1">margins =<span class="st"> </span><span class="kw">margins</span>(logit_model)</a>
-<a class="sourceLine" id="cb40-2" data-line-number="2"><span class="kw">plot</span>(margins)</a></code></pre></div>
-<p><img src="03-binchoice_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
-<p>Интерпретация предельных эффектов (на примере переменной семейного дохода): при увеличении семейного дохода в среднем на 1 единицу при остальных неизменных факторах, вероятность стать курильщиком уменьшается в среднем на 0.18%.</p>
-<p>Визуализируем предельный эффект для семейного дохода:</p>
-<div class="sourceCode" id="cb41"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb41-1" data-line-number="1"><span class="kw">cplot</span>(logit_model, <span class="st">&quot;faminc&quot;</span>, <span class="dt">what =</span> <span class="st">&quot;effect&quot;</span>, <span class="dt">main =</span> <span class="st">&quot;Average Marginal Effect of Faminc&quot;</span>)</a></code></pre></div>
-<p><img src="03-binchoice_files/figure-html/unnamed-chunk-15-1.png" width="672" /></p>
-<p>Для определения качества модели построим классификационную матрицу.
-Для этого сначала вычислим предсказания логит-модели, <code>predictions_logit_model</code>. Так как результат не бинарный, то введём порог отсечения, равный 0.5.
-Назовём бинарный результат <code>smoke_logit</code>:</p>
-<div class="sourceCode" id="cb42"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb42-1" data-line-number="1">predictions_logit_model =<span class="st"> </span><span class="kw">predict</span>(logit_model)</a>
-<a class="sourceLine" id="cb42-2" data-line-number="2">smoke_logit_model =<span class="st"> </span>(predictions_logit_model <span class="op">&gt;</span><span class="st"> </span><span class="fl">0.5</span>)</a></code></pre></div>
-<p>Построим классификационную матрицу.
-При возникновении ошибок аргументов, в частности, при несовпадении их размера или типа, можно воспользоваться функцией <code>as.factor()</code>.</p>
-<div class="sourceCode" id="cb43"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb43-1" data-line-number="1"><span class="kw">confusionMatrix</span>(<span class="kw">as.factor</span>(smoke_logit_model), <span class="kw">as.factor</span>(data_<span class="dv">2</span><span class="op">$</span>smoke))</a></code></pre></div>
-<pre><code>Confusion Matrix and Statistics
-
-          Reference
-Prediction FALSE TRUE
-     FALSE  1029  161
-     TRUE      1    0
-                                         
-               Accuracy : 0.864          
-                 95% CI : (0.8432, 0.883)
-    No Information Rate : 0.8648         
-    P-Value [Acc &gt; NIR] : 0.5546         
-                                         
-                  Kappa : -0.0017        
-                                         
- Mcnemar&#39;s Test P-Value : &lt;2e-16         
-                                         
-            Sensitivity : 0.9990         
-            Specificity : 0.0000         
-         Pos Pred Value : 0.8647         
-         Neg Pred Value : 0.0000         
-             Prevalence : 0.8648         
-         Detection Rate : 0.8640         
-   Detection Prevalence : 0.9992         
-      Balanced Accuracy : 0.4995         
-                                         
-       &#39;Positive&#39; Class : FALSE          
-                                         </code></pre>
-<p>Качество модели также можно проанализировать с помощью ROC-кривой, отражающей зависимость доли верных положительно классифицируемых наблюдений (<code>sensitivity</code>) от доли ложных положительно классифицируемых наблюдений <code>(1-specifity)</code>.</p>
-<p>Построим ROC-кривую для логит-модели:</p>
-<div class="sourceCode" id="cb45"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb45-1" data-line-number="1">basicplot =<span class="st"> </span><span class="kw">ggplot</span>(data_<span class="dv">2</span>, <span class="kw">aes</span>(<span class="dt">m =</span> predictions_logit_model, <span class="dt">d =</span> data_<span class="dv">2</span><span class="op">$</span>smoke)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_roc</span>()</a>
-<a class="sourceLine" id="cb45-2" data-line-number="2">basicplot <span class="op">+</span><span class="st"> </span><span class="kw">annotate</span>(<span class="st">&quot;text&quot;</span>, <span class="dt">x =</span> <span class="fl">.75</span>, <span class="dt">y =</span> <span class="fl">.25</span>, </a>
-<a class="sourceLine" id="cb45-3" data-line-number="3">           <span class="dt">label =</span> <span class="kw">paste</span>(<span class="st">&quot;AUC =&quot;</span>, <span class="kw">round</span>(<span class="kw">calc_auc</span>(basicplot)<span class="op">$</span>AUC, <span class="dv">2</span>)))</a></code></pre></div>
-<p><img src="03-binchoice_files/figure-html/unnamed-chunk-18-1.png" width="672" /></p>
-<p>Площадь под кривой обозначается как AUC.
-Она показывает качество классификации. Соответственно, чем выше AUC, тем лучше построенная модель.</p>
-<p>Сейчас проанализируем правильность спецификации логит-модели. Может быть, лучше будет убрать какую-нибудь переменную?
-Рассмотрим логит-модель, не учитывающую переменную <code>white</code>.
-Сохраним эту модель под названием <code>logit_model_new</code>.</p>
-<div class="sourceCode" id="cb46"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb46-1" data-line-number="1">logit_model_new =<span class="st"> </span><span class="kw">glm</span>(smoke <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>faminc <span class="op">+</span><span class="st"> </span>cigtax <span class="op">+</span><span class="st"> </span>cigprice <span class="op">+</span><span class="st"> </span>fatheduc <span class="op">+</span><span class="st"> </span>motheduc <span class="op">+</span><span class="st"> </span>parity, <span class="dt">x =</span> <span class="ot">TRUE</span>, <span class="dt">data =</span> data_<span class="dv">2</span>, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;logit&quot;</span>))</a></code></pre></div>
-<p>Сравним модели <code>logit_model</code> и <code>logit_model_new</code> с помощью теста максимального правдоподобия (likelihood ratio test).</p>
-<div class="sourceCode" id="cb47"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb47-1" data-line-number="1"><span class="kw">lrtest</span>(logit_model,logit_model_new)</a></code></pre></div>
-<pre><code>Likelihood ratio test
-
-Model 1: smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + 
-    parity + white
-Model 2: smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + motheduc + 
-    parity
-  #Df  LogLik Df  Chisq Pr(&gt;Chisq)  
-1   8 -431.06                       
-2   7 -432.55 -1 2.9988    0.08333 .
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1</code></pre>
-<p><code>p-value = 0.08</code> в LR-тесте.
-Следовательно, основная гипотеза о том, что переменная <code>white</code> не влияет на решение стать курильщиком, не отвергается на 5% уровне значимости.</p>
-<p>Сейчас посмотрим на пробит-модель. Скрытая переменная в этой модели распределена стандартно нормально:
-<span class="math display">\[
-f(t) = \frac{1 \cdot e^{\frac{-t^2}{2}}}{\sqrt{2 \cdot \pi}}
-\]</span></p>
-<p>Построим пробит-модель.</p>
-<div class="sourceCode" id="cb49"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb49-1" data-line-number="1">probit_model =<span class="st"> </span><span class="kw">glm</span>(smoke <span class="op">~</span><span class="st"> </span><span class="dv">1</span> <span class="op">+</span><span class="st"> </span>faminc <span class="op">+</span><span class="st"> </span>cigtax <span class="op">+</span><span class="st"> </span>cigprice <span class="op">+</span><span class="st"> </span>fatheduc <span class="op">+</span><span class="st"> </span>motheduc <span class="op">+</span><span class="st"> </span>parity <span class="op">+</span><span class="st"> </span>white, <span class="dt">data =</span> data_<span class="dv">2</span>, <span class="dt">family =</span> <span class="kw">binomial</span>(<span class="dt">link =</span> <span class="st">&quot;probit&quot;</span>))</a>
-<a class="sourceLine" id="cb49-2" data-line-number="2"><span class="kw">summary</span>(probit_model)</a></code></pre></div>
-<pre><code>
-Call:
-glm(formula = smoke ~ 1 + faminc + cigtax + cigprice + fatheduc + 
-    motheduc + parity + white, family = binomial(link = &quot;probit&quot;), 
-    data = data_2)
-
-Deviance Residuals: 
-    Min       1Q   Median       3Q      Max  
--1.5255  -0.5947  -0.4376  -0.2607   2.7564  
-
-Coefficients:
-             Estimate Std. Error z value Pr(&gt;|z|)    
-(Intercept)  0.393063   1.130957   0.348  0.72818    
-faminc      -0.008873   0.003376  -2.628  0.00858 ** 
-cigtax       0.005892   0.013245   0.445  0.65643    
-cigprice     0.003561   0.009930   0.359  0.71987    
-fatheduc    -0.034593   0.023160  -1.494  0.13527    
-motheduc    -0.125693   0.027090  -4.640 3.49e-06 ***
-parity      -0.003052   0.053610  -0.057  0.95460    
-white        0.242348   0.140052   1.730  0.08356 .  
----
-Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
-
-(Dispersion parameter for binomial family taken to be 1)
-
-    Null deviance: 943.55  on 1190  degrees of freedom
-Residual deviance: 858.93  on 1183  degrees of freedom
-AIC: 874.93
-
-Number of Fisher Scoring iterations: 5</code></pre>
-<p>Вычисление предельных эффектов и их интерпретация, построение классификационной матрицы и ROC-кривой и LR-тест проводятся аналогично выполненным в логит-модели.</p>
-<p>Выведем сравнительную таблицу для построенных моделей.</p>
-<div class="sourceCode" id="cb51"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb51-1" data-line-number="1"><span class="kw">screenreg</span>(<span class="kw">list</span>(lin_prob_model, logit_model, probit_model), </a>
-<a class="sourceLine" id="cb51-2" data-line-number="2">             <span class="dt">custom.model.names =</span> <span class="kw">c</span>(<span class="st">&quot;Модель линейной   вероятности&quot;</span>, <span class="st">&quot;Логит-модель&quot;</span>, <span class="st">&quot;Пробит-модель&quot;</span>))</a></code></pre></div>
-<pre><code>
-==========================================================================
-                Модель линейной   вероятности  Логит-модель  Пробит-модель
---------------------------------------------------------------------------
-(Intercept)        0.43                           0.96          0.39      
-                  (0.23)                         (2.08)        (1.13)     
-faminc            -0.00 *                        -0.02 **      -0.01 **   
-                  (0.00)                         (0.01)        (0.00)     
-cigtax             0.00                           0.01          0.01      
-                  (0.00)                         (0.02)        (0.01)     
-cigprice           0.00                           0.00          0.00      
-                  (0.00)                         (0.02)        (0.01)     
-fatheduc          -0.01                          -0.05         -0.03      
-                  (0.00)                         (0.04)        (0.02)     
-motheduc          -0.02 ***                      -0.22 ***     -0.13 ***  
-                  (0.01)                         (0.05)        (0.03)     
-parity             0.00                          -0.01         -0.00      
-                  (0.01)                         (0.10)        (0.05)     
-white              0.05                           0.44          0.24      
-                  (0.03)                         (0.26)        (0.14)     
---------------------------------------------------------------------------
-R^2                0.06                                                   
-Adj. R^2           0.06                                                   
-Num. obs.       1191                           1191          1191         
-RMSE               0.33                                                   
-AIC                                             878.11        874.93      
-BIC                                             918.77        915.59      
-Log Likelihood                                 -431.06       -429.46      
-Deviance                                        862.11        858.93      
-==========================================================================
-*** p &lt; 0.001, ** p &lt; 0.01, * p &lt; 0.05</code></pre>
->>>>>>> 2d5797527741ec10cca1ef2ca525a6bab26d4734
 
 </div>
             </section>
@@ -1046,13 +241,11 @@ Deviance                                        862.11        858.93
   </div>
 <script src="libs/gitbook-2.6.7/js/app.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/lunr.js"></script>
-<script src="libs/gitbook-2.6.7/js/clipboard.min.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-search.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-sharing.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-fontsettings.js"></script>
 <script src="libs/gitbook-2.6.7/js/plugin-bookdown.js"></script>
 <script src="libs/gitbook-2.6.7/js/jquery.highlight.js"></script>
-<script src="libs/gitbook-2.6.7/js/plugin-clipboard.js"></script>
 <script>
 gitbook.require(["gitbook"], function(gitbook) {
 gitbook.start({
@@ -1095,9 +288,8 @@ gitbook.start({
     script.type = "text/javascript";
     var src = "true";
     if (src === "" || src === "true") src = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML";
-    if (location.protocol !== "file:")
-      if (/^https?:/.test(src))
-        src = src.replace(/^https?:/, '');
+    if (location.protocol !== "file:" && /^https?:/.test(src))
+      src = src.replace(/^https?:/, '');
     script.src = src;
     document.getElementsByTagName("head")[0].appendChild(script);
   })();
